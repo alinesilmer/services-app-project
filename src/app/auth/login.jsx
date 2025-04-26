@@ -10,7 +10,6 @@ import { useTogglePassword } from '../../hooks/useTogglePassword';
 import CustomButton from '../../components/CustomButton';
 import { useValidation } from '../../hooks/useValidation';
 
-
 export default function Login() {
   const router = useRouter();
   const [username, setUsername] = useState('');
@@ -18,18 +17,16 @@ export default function Login() {
   const { secureTextEntry, toggleVisibility, icon } = useTogglePassword();
   const [errors, setErrors] = useState({});
 
-
   const handleLogin = () => {
-  const validationErrors = useValidation({ username, password });
-  setErrors(validationErrors);
+    const validationErrors = useValidation({ username, password });
+    setErrors(validationErrors);
 
-  if (Object.keys(validationErrors).length === 0) {
-    HomeRoute();
-  }
-};
+    if (Object.keys(validationErrors).length === 0) {
+      HomeRoute();
+    }
+  };
 
-
-  //Routes
+  // Routes
   const HomeRoute = () => {
     router.push('tabs/home');
   };
@@ -38,14 +35,14 @@ export default function Login() {
     router.push('auth/register');
   };
 
-   const RecoveryRoute = () => {
+  const RecoveryRoute = () => {
     router.push('auth/recoverypass');
   };
 
   return (
     <View style={styles.container}>
-      <StatusBar />
-      <BackButton />
+      <StatusBar barStyle="light-content" />
+      <BackButton /> 
       <Logo />
       <SlideUpCard
         title="Inicio"
@@ -61,7 +58,7 @@ export default function Login() {
         />
         <CustomInput
           label="Contraseña"
-          placeholder="Contraseña"
+          placeholder="********"
           value={password}
           onChangeText={setPassword}
           secureTextEntry={secureTextEntry}
@@ -72,17 +69,16 @@ export default function Login() {
         />
         <CustomButton text="Ingresar" onPress={handleLogin} />
         <View style={styles.linksContainer}>
-        <Pressable onPress={RegisterRoute}>
-          <Text style={styles.linkRecovery}>¿Olvidaste tu contraseña?</Text>
-        </Pressable>
-         <Pressable onPress={RegisterRoute}>
-            <Text style={styles.linkRegister}>Haz click aquí {'\n'} para registrarte</Text>
-        </Pressable>
-         <Pressable onPress={HomeRoute}>
-          <Text style={styles.linkNoRegister}>Continuar sin registrarme</Text>
+          <Pressable onPress={RecoveryRoute}>
+            <Text style={styles.linkRecovery}>¿Olvidaste tu contraseña?</Text>
           </Pressable>
-          </View>
-      
+          <Pressable onPress={RegisterRoute}>
+            <Text style={styles.linkRegister}>Haz click aquí {'\n'} para registrarte</Text>
+          </Pressable>
+          <Pressable onPress={HomeRoute}>
+            <Text style={styles.linkNoRegister}>Continuar sin registrarme</Text>
+          </Pressable>
+        </View>
       </SlideUpCard>
     </View>
   );
@@ -99,7 +95,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     width: '100%',
-    height: '73%'
+    height: '73%',
   },
   linksContainer: {
     marginTop: 20,
@@ -107,17 +103,16 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 10
-
+    gap: 10,
   },
   linkRecovery: {
-    color: Colors.blueColor
+    color: Colors.blueColor,
   },
   linkRegister: {
     color: Colors.orangeColor,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   linkNoRegister: {
-    color: Colors.dark
-  }
+    color: Colors.dark,
+  },
 });

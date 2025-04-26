@@ -28,16 +28,15 @@ const ServiceList = () => {
       keyExtractor={(item) => item.label}
       numColumns={4}
       contentContainerStyle={styles.container}
+      scrollEnabled={false}
     />
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 10,
-    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
-
 
 export default ServiceList;

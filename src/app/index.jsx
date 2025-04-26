@@ -1,7 +1,6 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, StatusBar} from 'react-native';
 import { useRouter } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
 import { Colors } from '../constants/Colors';
 
 // Components
@@ -23,7 +22,7 @@ export default function Index() {
 
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
+     <StatusBar barStyle="light-content" />
       <Logo />
       <SlideUpCard
         title="Bienvenido a Dilo"

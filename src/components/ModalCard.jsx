@@ -22,31 +22,41 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.5)',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingTop: 30, 
   },
   modalContainer: {
     backgroundColor: '#fff',
     padding: 20,
     borderRadius: 20,
     width: '80%',
-    alignItems: 'center'
+    alignItems: 'center', 
   },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 10
+    marginBottom: 10,
+    textAlign: 'center', 
   },
   content: {
-    marginBottom: 20
+    padding: 10,
+    marginBottom: 20,
+    textAlign: 'center', 
   },
   closeButton: {
-    backgroundColor: '#444',
+    backgroundColor: 'black',
     paddingHorizontal: 20,
     paddingVertical: 10,
-    borderRadius: 10
+    borderRadius: 10,
+    marginTop: 20,
+  },
+  closeButtonPressed: {
+    backgroundColor: 'orange', 
   },
   closeText: {
-    color: '#fff'
+    color: '#fff',
+    fontWeight: 'bold',
+    textAlign: 'center', 
   }
 });
 

@@ -5,10 +5,11 @@ import CustomButton from './CustomButton';
 import SlideUpCard from './SlideUpCard';
 import LongCard from './LongCard';
 import ModalPersonalizado from './ModalPersonalizado';
+import DatePicker from './DatePicker';  
 
 const Form = () => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [formData, setFormData] = useState({ nombre: '', correo: '' });
+  const [formData, setFormData] = useState({ nombre: '', correo: '', fecha: null });
 
   const handleChange = (name, value) => {
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -31,6 +32,13 @@ const Form = () => {
         keyboardType="email-address"
         required
       />
+     
+      <DatePicker
+        label="Fecha de Nacimiento"
+        value={formData.fecha}
+        onChange={(date) => handleChange('fecha', date)}
+      />
+      
       <CustomButton label="Enviar" onPress={() => setModalVisible(true)} />
 
       <SlideUpCard>
@@ -49,13 +57,12 @@ const Form = () => {
         <LongCard
           title="Formulario Enviado"
           subtitle="Gracias por su respuesta"
-          content={`Nombre: ${formData.nombre}\nCorreo: ${formData.correo}`}
+          content={`Nombre: ${formData.nombre}\nCorreo: ${formData.correo}\nFecha: ${formData.fecha ? formData.fecha.toLocaleDateString() : 'No seleccionada'}`}
         />
       </ModalPersonalizado>
     </ScrollView>
   );
-}
-
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -63,4 +70,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Form; 
+export default Form;

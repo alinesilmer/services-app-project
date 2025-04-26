@@ -1,35 +1,59 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import ProfilePic from './ProfilePic'; 
 
-const LongCard = ({ title, subtitle, content }) => {
+const LongCard = ({ profilePicUri, title, subtitle, rate }) => {
   return (
     <View style={styles.card}>
+      {profilePicUri && (
+        <ProfilePic
+          uri={profilePicUri}
+          size={70} />
+      )}
+       <View style={styles.text}>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.subtitle}>{subtitle}</Text>
-      <Text style={styles.content}>{content}</Text>
+
+      {rate && (
+        <View style={styles.rateContainer}>
+          {rate}
+        </View>
+        )}
+        </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#fff',
+    display: 'flex',
+    flexDirection: 'row',
+    backgroundColor: 'white',
     borderRadius: 16,
-    padding: 20,
+    padding: 15,
     marginVertical: 10,
-    elevation: 3
+    elevation: 3,
+    gap: 8,
+    alignItems: 'center'
   },
   title: {
     fontSize: 18,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    marginBottom: 3,
+  },
+  rateContainer: {
+    marginVertical: 3,
+    alignSelf: 'flex-start',
   },
   subtitle: {
     fontSize: 14,
     color: 'gray',
-    marginVertical: 5
+    marginVertical: 4,
+    marginLeft: 5
   },
-  content: {
-    fontSize: 16
+  text: {
+    display: 'flex',
+    flexDirection: 'column'
   }
 });
 

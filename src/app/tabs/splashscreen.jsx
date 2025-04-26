@@ -2,37 +2,41 @@ import React, { useEffect } from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
 import { MotiImage } from 'moti';
 import { useRouter } from 'expo-router';
-import { Feather } from '@expo/vector-icons';  
+import {
+  Feather,
+  FontAwesome5,       
+} from '@expo/vector-icons';
 
 const { width } = Dimensions.get('window');
+
+
 const serviceIcons = [
-  'hammer', 'broom', 'paint-roller', 'tools', 'box', 'user-cog', 
-  'tool', 'zap', 'home', 'wrench', 'truck', 'hands-helping',
+  'hammer', 'broom', 'paint-roller', 'tools',
+  'box-open', 'user-cog', 'toolbox', 'bolt',
+  'home', 'wrench', 'truck', 'hands-helping',
 ];
+
+const isFeather = icon => ['hammer', 'tool', 'home', 'truck', 'box'].includes(icon);
 
 export default function SplashScreen() {
   const router = useRouter();
 
   useEffect(() => {
-    console.log("SplashScreen is rendering...");
-    const timeout = setTimeout(() => {
-      console.log("Navigating to home...");
-      router.replace('/');
-    }, 2000); 
-    return () => clearTimeout(timeout);
+    const t = setTimeout(() => router.replace('/tabs'), 2000);
+    return () => clearTimeout(t);
   }, []);
 
   return (
     <View style={styles.container}>
+       <StatusBar barStyle="light-content" />
       <View style={styles.iconRow}>
-        {serviceIcons.slice(0, 6).map((icon, i) => (
-          <View key={i} style={styles.iconContainer}>
-            <Feather
-              name={icon}
-              size={40}  
-              color="black"  
-              style={styles.icon}
-            />
+        {serviceIcons.slice(0, 6).map(icon => (
+          <View key={icon} style={styles.iconContainer}>
+            {isFeather(icon) ? (
+              <Feather name={icon} size={40} color="black" />
+            ) : (
+              <FontAwesome5 name={icon} size={40} color="black" />
+            )}
           </View>
         ))}
       </View>
@@ -46,14 +50,13 @@ export default function SplashScreen() {
       />
 
       <View style={styles.iconRow}>
-        {serviceIcons.slice(6).map((icon, i) => (
-          <View key={i} style={styles.iconContainer}>
-            <Feather
-              name={icon}
-              size={40}  
-              color="black"  
-              style={styles.icon}
-            />
+        {serviceIcons.slice(6).map(icon => (
+          <View key={icon} style={styles.iconContainer}>
+            {isFeather(icon) ? (
+              <Feather name={icon} size={40} color="black" />
+            ) : (
+              <FontAwesome5 name={icon} size={40} color="black" />
+            )}
           </View>
         ))}
       </View>
@@ -62,29 +65,8 @@ export default function SplashScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  logo: {
-    width: width * 0.5,
-    height: width * 0.5,
-    resizeMode: 'contain',
-    marginVertical: 40,
-  },
-  icon: {
-    width: 40,
-    height: 40,
-    marginHorizontal: 6,
-  },
-  iconRow: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    flexWrap: 'wrap',
-  },
-  iconContainer: {
-    marginHorizontal: 6,
-  },
+  container  : { flex: 1, backgroundColor: '#fff', alignItems: 'center', justifyContent: 'center' },
+  logo       : { width: width * 0.5, height: width * 0.5, resizeMode: 'contain', marginVertical: 40 },
+  iconRow    : { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' },
+  iconContainer: { margin: 6 },
 });
