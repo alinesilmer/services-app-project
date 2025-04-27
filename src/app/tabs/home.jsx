@@ -9,8 +9,11 @@ import PublicityProfessional from '../../components/PublicityProfessional';
 import Notifications from '../../components/Notifications';
 import LongCard from '../../components/LongCard';
 import Rate from '../../components/Rate';
+import Ad from '../../components/Ad';
+import { useAdManager } from '../../hooks/useAdManager';
 
 const Home = () => {
+   const { showAd, triggerAd, closeAd } = useAdManager({ isPremium: false }); //TODO: MOCKDATA
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
@@ -48,7 +51,13 @@ const Home = () => {
         </LongCard>
         </ScrollView>
       </View>
-        <BottomNavBar />
+      <BottomNavBar />
+       <Ad
+        visible={showAd}
+        onClose={closeAd}
+        source={require("../../assets/videos/propaganda.mp4")}
+        type="video" 
+      />
     </View>
   );
 };

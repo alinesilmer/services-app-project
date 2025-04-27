@@ -1,1 +1,0 @@
-//component made for publicity for not premium users

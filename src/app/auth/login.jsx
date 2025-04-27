@@ -67,7 +67,7 @@ export default function Login() {
           onIconPress={toggleVisibility}
           error={errors.password}
         />
-        <CustomButton text="Ingresar" onPress={handleLogin} />
+          <CustomButton text="Ingresar" onPress={handleLogin} />
         <View style={styles.linksContainer}>
           <Pressable onPress={RecoveryRoute}>
             <Text style={styles.linkRecovery}>¿Olvidaste tu contraseña?</Text>
@@ -79,7 +79,7 @@ export default function Login() {
             <Text style={styles.linkNoRegister}>Continuar sin registrarme</Text>
           </Pressable>
         </View>
-      </SlideUpCard>
+        </SlideUpCard>
     </View>
   );
 }
@@ -96,6 +96,9 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: '100%',
     height: '73%',
+  },
+  scrollContainer: {
+    paddingBottom: 40
   },
   linksContainer: {
     marginTop: 20,
