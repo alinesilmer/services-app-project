@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal, View, Text, Pressable, StyleSheet } from 'react-native';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 const ModalCard = ({ visible, onClose, title, children }) => {
   return (
@@ -15,7 +16,7 @@ const ModalCard = ({ visible, onClose, title, children }) => {
       </View>
     </Modal>
   );
-}
+};
 
 const styles = StyleSheet.create({
   overlay: {
@@ -23,40 +24,36 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.5)',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 30, 
+    paddingTop: hp(3),
   },
   modalContainer: {
     backgroundColor: '#fff',
-    padding: 20,
-    borderRadius: 20,
-    width: '80%',
-    alignItems: 'center', 
+    padding: wp(5),
+    borderRadius: wp(5),
+    width: wp(80),
+    alignItems: 'center',
   },
   title: {
-    fontSize: 20,
+    fontSize: hp(2.5),
     fontWeight: 'bold',
-    marginBottom: 10,
-    textAlign: 'center', 
+    marginBottom: hp(1.5),
+    textAlign: 'center',
   },
   content: {
-    padding: 10,
-    marginBottom: 20,
-    textAlign: 'center', 
+    padding: wp(3),
+    marginBottom: hp(2),
   },
   closeButton: {
     backgroundColor: 'black',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 10,
-    marginTop: 20,
-  },
-  closeButtonPressed: {
-    backgroundColor: 'orange', 
+    paddingHorizontal: wp(5),
+    paddingVertical: hp(1.2),
+    borderRadius: wp(3),
+    marginTop: hp(2),
   },
   closeText: {
     color: '#fff',
     fontWeight: 'bold',
-    textAlign: 'center', 
+    textAlign: 'center',
   }
 });
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, StyleSheet, Pressable } from 'react-native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Colors } from '../constants/Colors';
 
 const CustomButton = ({ text, onPress }) => {
@@ -18,18 +19,18 @@ const CustomButton = ({ text, onPress }) => {
 
 const styles = StyleSheet.create({
   button: {
-    width: '90%',
+    width: wp('90%'),
     backgroundColor: '#000',
-    padding: 16,
-    borderRadius: 8,
+    padding: hp('2%'),
+    borderRadius: wp('2.5%'),
     alignItems: 'center',
-    marginVertical: 8,
+    marginVertical: hp('1%'),
   },
   buttonPressed: {
-    backgroundColor: Colors.orangeColor
+    backgroundColor: Colors.orangeColor,
   },
   text: {
-    fontSize: 16,
+    fontSize: wp('4%'),
     color: 'white',
     fontWeight: 'bold',
   },

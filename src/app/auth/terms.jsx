@@ -1,8 +1,12 @@
 import { Text, View, StyleSheet, StatusBar, ScrollView } from 'react-native';
+
+//Constants
+import { Colors } from '../../constants/Colors'
+
+//Components
 import SlideUpCard from '../../components/SlideUpCard';
 import BackButton from '../../components/BackButton';
 import Logo from '../../components/Logo';
-import {Colors } from '../../constants/Colors'
 
 export default function Terms() {
     return (

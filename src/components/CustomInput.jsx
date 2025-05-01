@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, TextInput, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Feather } from '@expo/vector-icons';
 import { Colors } from '../constants/Colors';
 import { Fonts } from '../constants/Fonts';
@@ -40,21 +41,23 @@ const CustomInput = ({
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 16,
-    width: '85%',
+    marginBottom: hp('2%'),
+    width: wp('85%'),
   },
   label: {
     fontFamily: Fonts.roboto,
     fontWeight: '500',
-    fontSize: 16,
-    color: Colors.dark,
-    marginBottom: 4,
+     fontSize: wp('4%'),
+    marginBottom: hp('0.5%'),
+    color: Colors.dark
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: Colors.inputGray,
-    borderRadius: 8,
+    borderRadius: wp('2%'),
+    paddingRight: wp('3%'),
+    marginBottom: hp('2%'),
     borderWidth: 1,
     borderColor: '#eee',
     paddingRight: 12,

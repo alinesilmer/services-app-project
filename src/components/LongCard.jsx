@@ -1,60 +1,45 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import ProfilePic from './ProfilePic'; 
 
-const LongCard = ({ profilePicUri, title, subtitle, rate }) => {
+const LongCard = ({ profilePicUri, title, subtitle, children }) => {
   return (
     <View style={styles.card}>
       {profilePicUri && (
-        <ProfilePic
-          uri={profilePicUri}
-          size={70} />
+        <ProfilePic uri={profilePicUri} size={70} />
       )}
-       <View style={styles.text}>
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.subtitle}>{subtitle}</Text>
-
-      {rate && (
-        <View style={styles.rateContainer}>
-          {rate}
-        </View>
-        )}
-        </View>
+      <View style={styles.text}>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.subtitle}>{subtitle}</Text>
+        {children}
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   card: {
-    display: 'flex',
     flexDirection: 'row',
     backgroundColor: 'white',
-    borderRadius: 16,
-    padding: 15,
-    marginVertical: 10,
-    elevation: 3,
-    gap: 8,
-    alignItems: 'center'
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 3,
-  },
-  rateContainer: {
-    marginVertical: 3,
-    alignSelf: 'flex-start',
-  },
-  subtitle: {
-    fontSize: 14,
-    color: 'gray',
-    marginVertical: 4,
-    marginLeft: 5
+    borderRadius: wp('4%'),
+    padding: wp('4%'),
+    marginVertical: hp('1%'),
+    alignItems: 'center',
   },
   text: {
-    display: 'flex',
-    flexDirection: 'column'
-  }
+    marginLeft: wp('4%'),
+    flex: 1,
+  },
+  title: {
+    fontSize: wp('4.5%'),
+    fontWeight: 'bold',
+    marginBottom: hp('0.5%'),
+  },
+  subtitle: {
+    fontSize: wp('3.8%'),
+    color: 'gray',
+  },
 });
 
 export default LongCard;

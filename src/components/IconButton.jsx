@@ -1,0 +1,27 @@
+import React from 'react';
+import { Pressable, StyleSheet } from 'react-native';
+import { Feather } from '@expo/vector-icons';
+
+export default function IconButton({ name, size = 24, color = '#000', onPress, style }) {
+  return (
+    <Pressable
+      onPress={onPress}
+      style={({ pressed }) => [
+        styles.button,
+        pressed && styles.pressed,
+        style,
+      ]}
+    >
+      <Feather name={name} size={size} color={color} />
+    </Pressable>
+  );
+}
+
+const styles = StyleSheet.create({
+  button: {
+    padding: 8,
+  },
+  pressed: {
+    opacity: 0.6,
+  },
+});

@@ -1,15 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TouchableOpacity, Text, StyleSheet, View } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Colors } from '../constants/Colors';
+import { useRouter } from 'expo-router';
 
-const ServiceItem = ({ label, icon, useFeather = true, onPress }) => {
+const ServiceItem = ({ label, icon, useFeather = true, route = '/' }) => {
   const IconComponent = useFeather ? Feather : FontAwesome5;
+  const router = useRouter();
+  const [pressed, setPressed] = useState(false);
+
+  const handlePress = () => {
+    setPressed(true);
+    setTimeout(() => setPressed(false), 200);
+    router.push(route); //Replace with real routes
+  };
 
   return (
     <View style={styles.wrapper}>
-      <TouchableOpacity style={styles.item} onPress={onPress}>
+      <TouchableOpacity
+        style={[
+          styles.item,
+          pressed && styles.itemPressed
+        ]}
+        activeOpacity={0.8}
+      >
         <IconComponent name={icon} size={29} color={Colors.blueColor} />
       </TouchableOpacity>
       <Text style={styles.label}>{label}</Text>
@@ -33,6 +48,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 5,
+  },
+  itemPressed: {
+    backgroundColor: Colors.lightGray, 
+    borderColor: Colors.blueColor,
   },
   label: {
     marginTop: 8,

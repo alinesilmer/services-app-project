@@ -1,11 +1,12 @@
-// screens/Register.jsx
 import React, { useState } from 'react';
 import {
-  View, StyleSheet, StatusBar, Text, Pressable, ScrollView,
-} from 'react-native';
+  View, StyleSheet, StatusBar, Text, Pressable, ScrollView, KeyboardAvoidingView, Platform} from 'react-native';
 import { useRouter } from 'expo-router';
 import CheckBox from 'expo-checkbox';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
+
+//Components
 import Logo          from '../../components/Logo';
 import SlideUpCard   from '../../components/SlideUpCard';
 import CustomInput   from '../../components/CustomInput';
@@ -14,6 +15,9 @@ import BackButton    from '../../components/BackButton';
 import ModalCard     from '../../components/ModalCard';
 import DatePicker    from '../../components/DatePicker';
 
+//Constants
+
+//Hooks
 import { useValidation } from '../../hooks/useValidation';
 import useDatePicker     from '../../hooks/useDatePicker';
 import { Colors }        from '../../constants/Colors';
@@ -56,6 +60,10 @@ export default function Register() {
   };
     
   return (
+     <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        >
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
       <BackButton />
@@ -123,11 +131,14 @@ export default function Register() {
 
          
           <DatePicker
-            label="Fecha de Nacimiento"
-            value={date}
-            onPress={openPicker}
-            show={show}
-            onChange={(e, selected) => {
+              label="Fecha de Nacimiento"
+               display={Platform.OS === 'ios' ? 'inline' : 'default'}
+              value={date}
+              onPress={openPicker}
+              show={show}
+              maximumDate={new Date()}
+              themeVariant="dark"
+              onChange={(e, selected) => {
               handleDate(e, selected);
               change('birthdate', selected);
             }}
@@ -170,31 +181,34 @@ export default function Register() {
         <Text>¡Gracias por registrarte, {formData.username}!</Text>
       </ModalCard>
     </View>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.blueColor,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+ container: {
+  flex: 1,
+  backgroundColor: Colors.blueColor,
+  alignItems: 'center',
+  justifyContent: 'center'
+},
   card: {
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
-    height: '80%',
-  },
+  position: 'absolute',
+  bottom: 0,
+  width: '100%',
+    height: hp('80%'),
+  paddingHorizontal: wp('8%')
+},
     scrollContainer: {
         paddingBottom: 40
     },
   simpleText: {
-    marginTop: 20,
-    color: Colors.textColor,
-      textAlign: 'center',
-    marginBottom: 5
-  },
+  marginTop: hp('2%'),
+  marginBottom: hp('1%'),
+  color: Colors.textColor,
+  textAlign: 'center',
+},
+
     link: {
         color: Colors.orangeColor,
         textAlign: 'center'
@@ -204,10 +218,10 @@ const styles = StyleSheet.create({
         fontSize: 16, marginBottom: 10
     },
   checkRow: {
-      flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: 20,
-  },
+  flexDirection: 'row',
+  justifyContent: 'space-around',
+  marginBottom: hp('2%'),
+},
     checkItem: {
         flexDirection: 'row',
         alignItems: 'center'
@@ -220,16 +234,17 @@ const styles = StyleSheet.create({
         color: Colors.orangeColor
     },
   checkboxContainer: {
-      flexDirection: 'row',
-    alignItems: 'center',
-    marginVertical: 10,
-  },
+  flexDirection: 'row',
+  alignItems: 'center',
+  marginVertical: hp('1.5%'),
+},
     checkboxText: {
-        color: Colors.textColor
+      color: Colors.textColor,
+      marginLeft: 10
     },
     errorText: {
-        color: 'red',
-        fontSize: 13,
-        marginBottom: 10
-    },
+  color: 'red',
+  fontSize: wp('3.5%'),
+  marginBottom: hp('1%'),
+},
 });

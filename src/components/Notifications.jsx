@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { Feather } from '@expo/vector-icons';
 
 const Notifications = () => {
@@ -30,39 +31,39 @@ const Notifications = () => {
 export default Notifications;
 
 const styles = StyleSheet.create({
-    wrapper: {
-        position: 'relative', 
-        zIndex: 999, 
-    },
-    bellIcon: {
-        marginLeft: 10,
-    },
-    dropdown: {
-        position: 'absolute',
-        top: 30,
-        right: 0,
-        backgroundColor: 'white',
-        padding: 12,
-        borderRadius: 10,
-        width: 240,
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 5,
-        elevation: 8,
-        zIndex: 1000,
-    },
-    title: {
-        fontWeight: 'bold',
-        fontSize: 19,
-        marginBottom: 20,
-        textAlign: 'center'
-    },
-    notification: {
-        fontSize: 14,
-        marginBottom: 4,
-        borderBottomWidth: 1,  
-        borderBottomColor: '#e0e0e0',  
-        paddingBottom: 4
-    },
+  wrapper: {
+    position: 'relative',
+    zIndex: 999,
+  },
+  bellIcon: {
+    marginLeft: wp(2.5),
+  },
+  dropdown: {
+    position: 'absolute',
+    top: hp(4),
+    right: 0,
+    backgroundColor: 'white',
+    padding: wp(4),
+    borderRadius: wp(3),
+    width: wp(65),
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 8,
+    zIndex: 1000,
+  },
+  title: {
+    fontWeight: 'bold',
+    fontSize: hp(2.3),
+    marginBottom: hp(2),
+    textAlign: 'center',
+  },
+  notification: {
+    fontSize: hp(1.7),
+    marginBottom: hp(0.5),
+    borderBottomWidth: 1,
+    borderBottomColor: '#e0e0e0',
+    paddingBottom: hp(0.5),
+  },
 });

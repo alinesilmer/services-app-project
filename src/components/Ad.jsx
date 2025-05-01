@@ -1,17 +1,21 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image, Modal, Pressable } from 'react-native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Feather } from '@expo/vector-icons';
 import { Video } from 'expo-av';
 import LottieView from 'lottie-react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useRouter } from 'expo-router';
 import { useAdTimer } from '../hooks/useAdTimer';
 
 const Ad = ({ visible, onClose, source, type = 'image' }) => {
   const { canClose, timer } = useAdTimer(visible);
-  const navigation = useNavigation();
+  const router = useRouter();
 
-  const handleGoPremium = () => {
-    navigation.navigate('Membership'); 
-  };
+const handleGoPremium = () => {
+  onClose();              
+  router.push('/tabs/goPremium');  
+};
+
+
 
   return (
     <Modal visible={visible} transparent animationType="fade">
@@ -35,20 +39,26 @@ const Ad = ({ visible, onClose, source, type = 'image' }) => {
           </TouchableOpacity>
 
           {type === 'image' ? (
-            <Image source={source} style={styles.media} resizeMode="cover" />
-          ) : (
-              <Video
-                source={source}
-                rate={1.0}
-                volume={1.0}
-                isMuted={false}
+  <Image
+    key={visible ? 'image-visible' : 'image-hidden'}
+    source={source}
+    style={styles.media}
+    resizeMode="cover"
+  />
+) : (
+  <Video
+    key={visible ? 'video-visible' : 'video-hidden'}
+    source={source}
+    rate={1.0}
+    volume={1.0}
+                isMuted={!visible}
                 resizeMode="cover"
-                shouldPlay
+                shouldPlay={visible}
                 isLooping
                 useNativeControls
                 style={styles.media}
-              />
-          )}
+  />
+)}
 
           <Pressable onPress={handleGoPremium} style={styles.premiumLink}>
             <Text style={styles.premiumText}>¿Cansado de anuncios? {"\n"}¡Haz click aquí!</Text>
@@ -69,26 +79,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   adContainer: {
-    width: '90%',
-    height: '80%',
+    width: wp('90%'),
+    height: hp('80%'),
     backgroundColor: 'black',
-    borderRadius: 20,
+    borderRadius: wp('5%'),
     overflow: 'hidden',
     justifyContent: 'center',
     alignItems: 'center',
   },
   closeButton: {
     position: 'absolute',
-    top: 20,
-    right: 20,
+    top: hp('3%'),
+    right: wp('5%'),
     zIndex: 2,
     backgroundColor: 'rgba(0,0,0,0.5)',
-    borderRadius: 20,
-    padding: 8,
+    borderRadius: wp('5%'),
+    padding: wp('2%'),
   },
   lottie: {
-    width: 32,
-    height: 32,
+    width: wp('8%'),
+    height: wp('8%'),
   },
   media: {
     width: '100%',
@@ -96,12 +106,12 @@ const styles = StyleSheet.create({
   },
   premiumLink: {
     position: 'absolute',
-    bottom: 20,
+    bottom: hp('2%'),
     alignSelf: 'center',
   },
   premiumText: {
     color: 'white',
-    fontSize: 16,
+    fontSize: wp('4%'),
     textDecorationLine: 'underline',
     opacity: 0.8,
     textAlign: 'center'

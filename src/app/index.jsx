@@ -1,28 +1,20 @@
 import React from 'react';
-import { View, StyleSheet, StatusBar} from 'react-native';
+import { View, StyleSheet, StatusBar } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Colors } from '../constants/Colors';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 // Components
 import Logo from '../components/Logo';
 import SlideUpCard from '../components/SlideUpCard';
 import CustomButton from '../components/CustomButton';
 
-export default function Index() {
+export default function welcome() {
   const router = useRouter();
-
-  //Routes
-  const LoginRoute = () => {
-    router.push('auth/login');
-  };
-
-  const RegisterRoute = () => {
-    router.push('auth/register');
-  };
 
   return (
     <View style={styles.container}>
-     <StatusBar barStyle="light-content" />
+      <StatusBar barStyle="light-content" />
       <Logo />
       <SlideUpCard
         title="Bienvenido a Dilo"
@@ -30,8 +22,8 @@ export default function Index() {
         style={styles.card}
       >
         <View style={styles.buttonContainer}>
-        <CustomButton text="Iniciar Sesión" onPress={LoginRoute} />
-          <CustomButton text="Registrarme" onPress={RegisterRoute} />
+          <CustomButton text="Iniciar Sesión" onPress={() => router.push('auth/login')} />
+          <CustomButton text="Registrarme" onPress={() => router.push('auth/register')} />
         </View>
       </SlideUpCard>
     </View>
@@ -41,22 +33,21 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    position: 'relative',
     backgroundColor: Colors.blueColor,
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingTop: 50,
+    paddingTop: hp('5%'),
   },
   buttonContainer: {
-    display: 'flex',
     alignItems: 'center',
     width: '100%',
-    gap: 10
+    gap: hp('1.5%'),
   },
   card: {
     position: 'absolute',
     bottom: 0,
-    height: '50%', 
-    paddingBottom: 30,
+    height: hp('50%'),
+    paddingBottom: hp('4%'),
+    width: wp('100%'),
   },
 });

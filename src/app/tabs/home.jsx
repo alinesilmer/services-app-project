@@ -1,118 +1,142 @@
 import React from 'react';
-import { View, Text, ScrollView, StyleSheet, StatusBar } from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  StatusBar,
+  Pressable,
+  SafeAreaView,
+  Platform,
+} from 'react-native';
+import { useRouter } from 'expo-router';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+
 import ProfilePicture from '../../components/ProfilePic';
 import SearchBar from '../../components/SearchBar';
 import BottomNavBar from '../../components/NavBar';
 import ServiceList from '../../components/ServiceList';
-import { Colors } from '../../constants/Colors';
 import PublicityProfessional from '../../components/PublicityProfessional';
 import Notifications from '../../components/Notifications';
 import LongCard from '../../components/LongCard';
 import Rate from '../../components/Rate';
 import Ad from '../../components/Ad';
 import { useAdManager } from '../../hooks/useAdManager';
+import { Colors } from '../../constants/Colors';
 
 const Home = () => {
-   const { showAd, triggerAd, closeAd } = useAdManager({ isPremium: false }); //TODO: MOCKDATA
-  return (
-    <View style={styles.container}>
-      <StatusBar barStyle="light-content" />
-      <View style={styles.header}>
-        <View style={styles.topRow}>
-          <View style={styles.profile}>
-            <ProfilePicture uris="https://randomuser.me/api/portraits/men/32.jpg" />
-            <View style={styles.profileText}>
-              <Text style={styles.welcome}>Bienvenido</Text>
-              <Text style={styles.username}>Usuario</Text>
-            </View>
-          </View>
-          <Notifications/>
-        </View>
-        <SearchBar />
-      </View>
+  const router = useRouter();
+  const { showAd, closeAd } = useAdManager({ isPremium: false });
 
-      
-      <View style={styles.content}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <Text style={styles.sectionTitle}>Servicios</Text>
-          <ServiceList />
-          <View>
-            <PublicityProfessional uris={[
-              'https://i.ytimg.com/vi/OWlt_26nd_M/maxresdefault.jpg',
-              'https://www.rankingbyseo.com/wp-content/uploads/2022/07/plumber-Marketing-2.jpg',
-              'https://mobilemusicdjservices.ca/wp-content/uploads/2020/07/Mobile-Music-DJ-Services-Promo-Ad-1080x675.png']} />
+  return (
+    <SafeAreaView style={styles.safeArea}>
+      <StatusBar barStyle="light-content" />
+
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <View style={styles.topRow}>
+            <Pressable
+              style={styles.profileContainer}
+              onPress={() => router.push('tabs/client/dashboard')}
+            >
+              <ProfilePicture uri="https://randomuser.me/api/portraits/men/32.jpg" />
+              <View style={styles.profileText}>
+                <Text style={styles.welcome}>Bienvenido</Text>
+                <Text style={styles.username}>Usuario</Text>
+              </View>
+            </Pressable>
+            <Notifications />
           </View>
-          <Text style={styles.sectionTitle}>Vistos Recientemente</Text>
-           <LongCard
-          title="Cecilia Molo"
-          subtitle="Pintura"
-          profilePicUri="https://img.freepik.com/free-photo/strict-young-builder-woman-uniform-gloves-holding-crossing-paint-brush-with-roller-brush-isolated-olive-green-wall_141793-86469.jpg"
-          rate={<Rate rating={4.5} />}>
-        </LongCard>
-        </ScrollView>
+          <SearchBar />
+        </View>
+
+        <View style={styles.content}>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <Text style={styles.sectionTitle}>Servicios</Text>
+            <ServiceList />
+
+            <PublicityProfessional
+              uris={[
+                'https://i.ytimg.com/vi/OWlt_26nd_M/maxresdefault.jpg',
+                'https://www.rankingbyseo.com/wp-content/uploads/2022/07/plumber-Marketing-2.jpg',
+                'https://mobilemusicdjservices.ca/wp-content/uploads/2020/07/Mobile-Music-DJ-Services-Promo-Ad-1080x675.png',
+              ]}
+            />
+
+            <Text style={styles.sectionTitle}>Vistos Recientemente</Text>
+            <LongCard
+              title="Cecilia Molo"
+              subtitle="Pintura"
+              profilePicUri="https://img.freepik.com/free-photo/strict-young-builder-woman-uniform-gloves-holding-crossing-paint-brush-with-roller-brush-isolated-olive-green-wall_141793-86469.jpg"
+              rate={<Rate rating={4.5} />}
+            />
+          </ScrollView>
+        </View>
+
+        <BottomNavBar />
+
+        <Ad
+          visible={showAd}
+          onClose={closeAd}
+          source={require('../../assets/videos/propaganda.mp4')}
+          type="video"
+        />
       </View>
-      <BottomNavBar />
-       <Ad
-        visible={showAd}
-        onClose={closeAd}
-        source={require("../../assets/videos/propaganda.mp4")}
-        type="video" 
-      />
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
     backgroundColor: Colors.blueColor,
-    paddingTop: 40,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+  },
+  container: {
+    flex: 1,
   },
   header: {
-    marginTop: 40,
-    paddingHorizontal: 35,
-    paddingBottom: 20,
+    marginTop: hp('2%'),
+    paddingHorizontal: wp('6%'),
+    paddingBottom: hp('2.5%'),
   },
   topRow: {
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 20,
+    alignItems: 'center',
+    marginBottom: hp('2%'),
   },
-  profile: {
+  profileContainer: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   profileText: {
-    marginLeft: 10,
+    marginLeft: wp('2%'),
   },
   welcome: {
-    fontSize: 18,
+    fontSize: wp('4.5%'),
     color: Colors.whiteColor,
   },
   username: {
-    fontSize: 16,
+    fontSize: wp('4.2%'),
     fontWeight: 'bold',
     color: Colors.whiteColor,
-  },
-  bellIcon: {
-    marginLeft: 10,
   },
   content: {
     flex: 1,
     backgroundColor: Colors.whiteColor,
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    paddingHorizontal: 20,
-    paddingTop: 20
+    borderTopLeftRadius: wp('8%'),
+    borderTopRightRadius: wp('8%'),
+    paddingHorizontal: wp('5%'),
+    paddingTop: hp('2.5%'),
   },
   sectionTitle: {
-    fontSize: 20,
-    fontWeight: '500',
-    marginBottom: 10,
+    fontSize: wp('5%'),
+    fontWeight: '600',
     color: Colors.orangeColor,
-    marginTop: 50,
-    paddingHorizontal: 8
+    marginTop: hp('5%'),
+    marginBottom: hp('1.5%'),
+    paddingHorizontal: wp('1%'),
   },
 });
 
