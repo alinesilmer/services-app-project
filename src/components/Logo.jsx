@@ -1,4 +1,6 @@
-// components/Logo.js
+// Logo: displays the app logo image positioned absolutely at top.
+//------------------------------------------------------------------//
+
 import React from 'react';
 import { Image, StyleSheet } from 'react-native';
 

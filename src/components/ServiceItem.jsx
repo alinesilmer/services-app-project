@@ -1,3 +1,7 @@
+// ServiceItem: icon button with label, gives feedback on press and navigates to route.
+// Props: label, icon, useFeather, route
+//------------------------------------------------------------------//
+
 import React, { useState } from 'react';
 import { TouchableOpacity, Text, StyleSheet, View } from 'react-native';
 import { Feather } from '@expo/vector-icons';
@@ -50,7 +54,7 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   itemPressed: {
-    backgroundColor: Colors.lightGray, 
+    backgroundColor: "gray", 
     borderColor: Colors.blueColor,
   },
   label: {

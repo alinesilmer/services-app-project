@@ -1,6 +1,6 @@
 export const pricingPlans = [
-  { id: "trial", label: "7-Day Free Trial", price: 0 },
-  { id: "monthly", label: "Monthly Plan", price: 9.99 },
-  { id: "annual", label: "Annual Plan", price: 99.99 },
-  { id: "enterprise", label: "Enterprise/Team Pricing", price: "Contact Us" },
+  { id: "Prueba", label: "Prueba de 7 días gratis", price: 0 },
+  { id: "Mensual", label: "Plan Mensual", price: 9.99 },
+  { id: "Anual", label: "Plan Anual", price: 99.99 },
+  { id: "Empresarial", label: "Plan de Empresa / Equipo", price: "Contáctanos" },
 ];

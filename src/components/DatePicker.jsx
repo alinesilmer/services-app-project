@@ -1,8 +1,28 @@
-// components/DatePicker.js
+// DatePicker: shows a label and formatted date (or placeholder), and opens a native date picker.
+// Manages its own date state and visibility using an internal hook.
+//------------------------------------------------------------------//
+
 import React from 'react';
 import { View, Text, Pressable, StyleSheet, Platform } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Colors } from '../constants/Colors';
+
+// Internal hook to manage date value and picker visibility
+const useDatePicker = (initialValue = null) => {
+  const [date, setDate] = useState(initialValue);
+  const [show, setShow] = useState(false);
+
+  const openPicker = () => setShow(true);
+  const closePicker = () => setShow(false);
+
+  const handleChange = (_, selected) => {
+    closePicker();
+    if (selected) setDate(selected);
+  };
+
+  return { date, show, openPicker, handleChange };
+};
+
 
 const DatePicker = ({ label, value, onChange, show, onPress }) => (
   <View style={styles.wrapper}>

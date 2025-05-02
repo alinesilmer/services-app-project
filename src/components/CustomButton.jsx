@@ -1,3 +1,8 @@
+// CustomButtom builds a button that receives text and onPress prop.
+// The pre-set style is black background, white color and orange hover
+//------------------------------------------------------------------//
+
+
 import React from 'react';
 import { Text, StyleSheet, Pressable } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';

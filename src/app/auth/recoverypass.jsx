@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, StatusBar } from 'react-native';
+import {
+  View, Text, StyleSheet, StatusBar, SafeAreaView, KeyboardAvoidingView, Platform
+} from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useRouter } from 'expo-router';
 
@@ -18,6 +20,7 @@ import { Colors } from '../../constants/Colors';
 //Hooks
 import { useValidation } from '../../hooks/useValidation';
 
+// Screen for Password Recovery
 export default function RecoveryPass() {
   const [email, setEmail] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
@@ -26,24 +29,17 @@ export default function RecoveryPass() {
   const [step, setStep] = useState('email');
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-
   const router = useRouter();
 
   const handleSubmit = () => {
     const validationErrors = useValidation({ email });
     setErrors(validationErrors);
-
-    if (Object.keys(validationErrors).length === 0) {
-      setStep('code');
-    }
+    if (Object.keys(validationErrors).length === 0) setStep('code');
   };
 
   const handleVerifyCode = () => {
-    if (verificationCode === '123456') {
-      setStep('password');
-    } else {
-      setErrors({ verificationCode: 'Código incorrecto' });
-    }
+    if (verificationCode === '123456') setStep('password');
+    else setErrors({ verificationCode: 'Código incorrecto' });
   };
 
   const handleChangePassword = () => {
@@ -60,75 +56,80 @@ export default function RecoveryPass() {
   };
 
   return (
-    <View style={styles.container}>
+    <>
       <StatusBar barStyle="light-content" />
-      <BackButton />
-      <Logo />
-      <SlideUpCard
-        title={"Recuperar\nContraseña"}
-        subtitle={"Sigue las instrucciones\npara recuperar tu contraseña"}
-        style={styles.card}
-      >
-        {step === 'email' && (
-                  <View style={styles.stepsContainer}>
-                      <View style={styles.instructionWrapper}>
-            <Text style={styles.infoText}>
-              Ingresa tu correo electrónico para recibir un código.
-                      </Text>
-                      </View>
-            <CustomInput
-              label="Correo Electrónico"
-              placeholder="ejemplo@gmail.com"
-              value={email}
-              onChangeText={setEmail}
-              error={errors.email}
-            />
-            <CustomButton text="Enviar Código" onPress={handleSubmit} />
-          </View>
-        )}
-        {step === 'code' && (
-                  <View style={styles.stepsContainer}>
-                       <View style={styles.instructionWrapper}>
-            <Text style={styles.infoText}>
-              Ingresa el código enviado a tu correo.
-                      </Text>
-                      </View>
-            <CustomInput
-              label="Código de Verificación"
-              placeholder="123456"
-              value={verificationCode}
-              onChangeText={setVerificationCode}
-              error={errors.verificationCode}
-            />
-            <CustomButton text="Verificar Código" onPress={handleVerifyCode} />
-          </View>
-        )}
-        {step === 'password' && (
-                  <View style={styles.stepsContainer}>
-                       <View style={styles.instructionWrapper}>
-                      <Text style={styles.infoText}>Ingrese su nueva contraseña.</Text>
-                      </View>
-            <CustomInput
-              label="Nueva Contraseña"
-              placeholder="********"
-              value={newPassword}
-              onChangeText={setNewPassword}
-              secureTextEntry
-            />
-            <CustomButton text="Cambiar Contraseña" onPress={handleChangePassword} />
-          </View>
-        )}
-      </SlideUpCard>
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <View style={styles.container}>
+          <BackButton />
+          <Logo />
+          <SlideUpCard
+            title={"Recuperar\nContraseña"}
+            subtitle={"Sigue las instrucciones\npara recuperar tu contraseña"}
+            style={styles.card}
+          >
+            {step === 'email' && (
+              <View style={styles.stepsContainer}>
+                <View style={styles.instructionWrapper}>
+                  <Text style={styles.infoText}>
+                    Ingresa tu correo electrónico para recibir un código.
+                  </Text>
+                </View>
+                <CustomInput
+                  label="Correo Electrónico"
+                  placeholder="ejemplo@gmail.com"
+                  value={email}
+                  onChangeText={setEmail}
+                  error={errors.email}
+                />
+                <CustomButton text="Enviar Código" onPress={handleSubmit} />
+              </View>
+            )}
+            {step === 'code' && (
+              <View style={styles.stepsContainer}>
+                <View style={styles.instructionWrapper}>
+                  <Text style={styles.infoText}>
+                    Ingresa el código enviado a tu correo.
+                  </Text>
+                </View>
+                <CustomInput
+                  label="Código de Verificación"
+                  placeholder="123456"
+                  value={verificationCode}
+                  onChangeText={setVerificationCode}
+                  error={errors.verificationCode}
+                />
+                <CustomButton text="Verificar Código" onPress={handleVerifyCode} />
+              </View>
+            )}
+            {step === 'password' && (
+              <View style={styles.stepsContainer}>
+                <View style={styles.instructionWrapper}>
+                  <Text style={styles.infoText}>Ingrese su nueva contraseña.</Text>
+                </View>
+                <CustomInput
+                  label="Nueva Contraseña"
+                  placeholder="********"
+                  value={newPassword}
+                  onChangeText={setNewPassword}
+                  secureTextEntry
+                />
+                <CustomButton text="Cambiar Contraseña" onPress={handleChangePassword} />
+              </View>
+            )}
+          </SlideUpCard>
 
-      <ModalCard visible={modalVisible} onClose={closeModal} title="Cambio de Contraseña">
-        <AnimationFeedback type={loading ? 'loading' : 'success'} />
-        <Text style={styles.modalText}>
-          {loading
-            ? 'Cambiando contraseña...'
-            : '¡Contraseña cambiada exitosamente! Haz click en "Cerrar" y serás redirigido al Inicio.'}
-        </Text>
-      </ModalCard>
-    </View>
+          <ModalCard visible={modalVisible} onClose={closeModal} title="Cambio de Contraseña">
+            <AnimationFeedback type={loading ? 'loading' : 'success'} />
+            <Text style={styles.modalText}>
+              {loading
+                ? 'Cambiando contraseña...'
+                : '¡Contraseña cambiada exitosamente! Haz click en "Cerrar" y serás redirigido al Inicio.'}
+            </Text>
+          </ModalCard>
+        </View>
+      </KeyboardAvoidingView>
+      <SafeAreaView style={{backgroundColor: Colors.whiteColor }} />
+    </>
   );
 }
 
@@ -142,33 +143,32 @@ const styles = StyleSheet.create({
   card: {
     position: 'absolute',
     bottom: 0,
-    width: '100%',
-    height: '73%',
-    },
-    instructionWrapper: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#e9e9e9',
-        borderStyle: 'solid',
-        borderWidth: wp('0.2%'),
-        borderColor: "gray",
-        height: hp('10%'),
-        width: wp('90%'),
-        borderRadius: wp('5%'),
-        marginBottom: hp('3%')
+    width: wp('100%'),
+    height: hp('68%'),
   },
   stepsContainer: {
     width: '100%',
     alignItems: 'center',
   },
+  instructionWrapper: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#e9e9e9',
+    borderWidth: wp('0.2%'),
+    borderColor: 'gray',
+    height: hp('10%'),
+    width: wp('90%'),
+    borderRadius: wp('5%'),
+    marginBottom: hp('3%'),
+  },
   infoText: {
-    fontSize: 16,
-    marginVertical: 16,
+    fontSize: hp('2%'),
+    marginVertical: hp('1%'),
     textAlign: 'center',
   },
   modalText: {
-    fontSize: 18,
+    fontSize: hp('2.2%'),
     textAlign: 'center',
+    marginTop: hp('2%'),
   },
 });

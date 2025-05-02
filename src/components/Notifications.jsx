@@ -1,3 +1,7 @@
+// Notifications: BELL ICON (home) that toggles a dropdown list of notifications on press.
+// Manages internal state isDropped.
+//------------------------------------------------------------------//
+
 import { useState } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
