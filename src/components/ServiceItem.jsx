@@ -9,7 +9,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { Colors } from '../constants/Colors';
 import { useRouter } from 'expo-router';
 
-const ServiceItem = ({ label, icon, useFeather = true, route = '/' }) => {
+const ServiceItem = ({ label, icon, useFeather = true, route = '/tabs/client/services' }) => {
   const IconComponent = useFeather ? Feather : FontAwesome5;
   const router = useRouter();
   const [pressed, setPressed] = useState(false);
@@ -27,7 +27,8 @@ const ServiceItem = ({ label, icon, useFeather = true, route = '/' }) => {
           styles.item,
           pressed && styles.itemPressed
         ]}
-        activeOpacity={0.8}
+        activeOpacity={0.5}
+        onPress={handlePress}
       >
         <IconComponent name={icon} size={29} color={Colors.blueColor} />
       </TouchableOpacity>
