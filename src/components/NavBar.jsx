@@ -1,7 +1,11 @@
+// components/NavBar.js
+// NavBar: bottom navigation bar with icons for different routes, highlights on press.
+// Uses Pressable and Feather icons; routes via useRouter.
+//------------------------------------------------------------------//
+
 import React, { useState } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, Pressable } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
-
 import { Feather } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { Colors } from '../constants/Colors';

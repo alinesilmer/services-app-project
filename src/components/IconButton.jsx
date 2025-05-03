@@ -1,8 +1,17 @@
+// IconButton: pressable icon button with feedback on press.
+// Props:
+// - name: icon name from Feather.
+// - size: icon size.
+// - color: icon color.
+// - onPress: callback.
+// - style: additional custom style.
+//------------------------------------------------------------------//
+
 import React from 'react';
 import { Pressable, StyleSheet } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
-export default function IconButton({ name, size = 24, color = '#000', onPress, style }) {
+const IconButton = ({ name, size = 24, color = '#000', onPress, style }) => {
   return (
     <Pressable
       onPress={onPress}
@@ -16,6 +25,8 @@ export default function IconButton({ name, size = 24, color = '#000', onPress, s
     </Pressable>
   );
 }
+
+export default IconButton;
 
 const styles = StyleSheet.create({
   button: {

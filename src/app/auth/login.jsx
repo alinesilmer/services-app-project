@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import {
-  View, StyleSheet, StatusBar, Text, Pressable, KeyboardAvoidingView, Platform
+  View, StyleSheet, StatusBar, Text, Pressable, KeyboardAvoidingView, Platform, SafeAreaView
 } from 'react-native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useRouter } from 'expo-router';
 
 //Components
@@ -18,6 +19,8 @@ import { Colors } from '../../constants/Colors';
 import { useTogglePassword } from '../../hooks/useTogglePassword';
 import { useValidation } from '../../hooks/useValidation';
 
+// Login screen, includes input Username and Password. Links de recovery, register and continue w/o register
+// Default user "username", password: "123456"
 export default function Login() {
   const router = useRouter();
   const [username, setUsername] = useState('');
@@ -38,49 +41,55 @@ export default function Login() {
   };
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      <View style={styles.container}>
-        <StatusBar barStyle="light-content" />
-        <BackButton />
-        <Logo />
-        <SlideUpCard
-          title="Inicio"
-          subtitle={"Por favor, ingrese su\nusuario para continuar"}
-          style={styles.card}
-        >
-          <CustomInput
-            label="Usuario"
-            placeholder="Usuario"
-            value={username}
-            onChangeText={setUsername}
-            error={errors.username}
-          />
-          <CustomInput
-            label="Contraseña"
-            placeholder="********"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry={secureTextEntry}
-            isPassword
-            icon={icon}
-            onIconPress={toggleVisibility}
-            error={errors.password}
-          />
-          <CustomButton text="Ingresar" onPress={handleLogin} />
-          <View style={styles.linksContainer}>
-            <Pressable onPress={() => router.push('auth/recoverypass')}>
-              <Text style={styles.linkRecovery}>¿Olvidaste tu contraseña?</Text>
-            </Pressable>
-            <Pressable onPress={() => router.push('auth/register')}>
-              <Text style={styles.linkRegister}>Haz click aquí {'\n'} para registrarte</Text>
-            </Pressable>
-            <Pressable onPress={() => router.push('tabs/home')}>
-              <Text style={styles.linkNoRegister}>Continuar sin registrarme</Text>
-            </Pressable>
-          </View>
-        </SlideUpCard>
-      </View>
-    </KeyboardAvoidingView>
+    <>
+      <StatusBar barStyle="light-content" />
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
+        <View style={styles.container}>
+          <BackButton />
+          <Logo />
+          <SlideUpCard
+            title="Inicio"
+            subtitle={"Por favor, ingrese su\nusuario para continuar"}
+            style={styles.card}
+          >
+            <CustomInput
+              label="Usuario"
+              placeholder="Usuario"
+              value={username}
+              onChangeText={setUsername}
+              error={errors.username}
+            />
+            <CustomInput
+              label="Contraseña"
+              placeholder="********"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry={secureTextEntry}
+              isPassword
+              icon={icon}
+              onIconPress={toggleVisibility}
+              error={errors.password}
+            />
+            <CustomButton text="Ingresar" onPress={handleLogin} />
+            <View style={styles.linksContainer}>
+              <Pressable onPress={() => router.push('auth/recoverypass')}>
+                <Text style={styles.linkRecovery}>¿Olvidaste tu contraseña?</Text>
+              </Pressable>
+              <Pressable onPress={() => router.push('auth/register')}>
+                <Text style={styles.linkRegister}>Haz click aquí {'\n'} para registrarte</Text>
+              </Pressable>
+              <Pressable onPress={() => router.push('tabs/home')}>
+                <Text style={styles.linkNoRegister}>Continuar sin registrarme</Text>
+              </Pressable>
+            </View>
+          </SlideUpCard>
+        </View>
+      </KeyboardAvoidingView>
+      <SafeAreaView style={{height: hp('1%'), backgroundColor: Colors.whiteColor}} />
+    </>
   );
 }
 
@@ -94,13 +103,13 @@ const styles = StyleSheet.create({
   card: {
     position: 'absolute',
     bottom: 0,
-    width: '100%',
-    height: '73%',
+    width: wp('100%'),
+    height: hp('71%'),
   },
   linksContainer: {
-    marginTop: 20,
+    marginTop: hp('2%'),
     alignItems: 'center',
-    gap: 10,
+    gap: hp('1.2%'),
   },
   linkRecovery: { color: Colors.blueColor },
   linkRegister: {

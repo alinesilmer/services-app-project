@@ -1,3 +1,7 @@
+// PublicityProfessional: carousel of images with prev/next controls using useCarousel hook.
+// Props: uris - array of image URIs
+//------------------------------------------------------------------//
+
 import { View, Image, Pressable, StyleSheet } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { Colors } from '../constants/Colors';

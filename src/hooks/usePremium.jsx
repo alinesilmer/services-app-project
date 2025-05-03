@@ -4,7 +4,7 @@ export function usePremium() {
   const [isPremium, setIsPremium] = useState(false);
 
   const upgradeToPremium = (planId) => {
-    // TODO: Handle API call or purchase logic
+    // TODO: Handle API call 
     setIsPremium(true);
   };
 

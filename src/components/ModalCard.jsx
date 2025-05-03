@@ -1,3 +1,11 @@
+// ModalCard: modal dialog with overlay, title, content, and close button.
+// Props:
+// - visible: boolean to show modal.
+// - onClose: callback to close modal.
+// - title: modal title.
+// - children: content inside modal.
+//------------------------------------------------------------------//
+
 import React from 'react';
 import { Modal, View, Text, Pressable, StyleSheet } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';

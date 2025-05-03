@@ -1,3 +1,6 @@
+// ProfilePic: circular avatar displaying an image from URI; size prop adjusts dimensions.
+//------------------------------------------------------------------//
+
 import React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
 

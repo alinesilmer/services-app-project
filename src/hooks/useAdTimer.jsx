@@ -1,3 +1,8 @@
+// useAdTimer: countdown timer that enables an action when it reaches 0.
+// Props: start boolean to start countdown
+// Returns: { canClose, timer }
+//------------------------------------------------------------------//
+ 
 import { useEffect, useState } from 'react';
 
 export const useAdTimer = (start) => {

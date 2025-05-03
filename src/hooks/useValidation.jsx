@@ -1,3 +1,7 @@
+// useValidation: validates fields ensuring non-boolean fields are not empty or null.
+// Props: fields object
+// Returns: errors object with messages for invalid fields
+//------------------------------------------------------------------//
 
 export const useValidation = (fields = {}) => {
   const errors = {};

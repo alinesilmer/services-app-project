@@ -1,3 +1,8 @@
+//ModalWrapper: displays a modal overlay with a title, content, and action buttons.
+// Props: visible, title, children, onCancel, onSubmit, cancelLabel, submitLabel
+//Unlike ModalCard, this component was thought to be used for cancel/save actions, like profile config
+//------------------------------------------------------------------//
+
 import React from 'react';
 import { Modal, View, Text, Pressable, StyleSheet } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';

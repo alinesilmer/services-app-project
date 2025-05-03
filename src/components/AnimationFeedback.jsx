@@ -1,9 +1,14 @@
+// AnimationFeedback is a reusable component that shows a Lottie animation based on the 'type' prop.
+// It can display a loading, success, or failure animation.
+// Used for providing user feedback with stimulating visuals.
+//------------------------------------------------------------------// 
+
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import LottieView from 'lottie-react-native'; 
 
-export default function AnimationFeedback({ type }) {
+const AnimationFeedback = ({ type }) => {
   let source;
 
   if (type === 'loading') {
@@ -25,6 +30,8 @@ export default function AnimationFeedback({ type }) {
     </View>
   );
 }
+
+export default AnimationFeedback;
 
 const styles = StyleSheet.create({
   container: {
