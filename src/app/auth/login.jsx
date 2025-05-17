@@ -31,7 +31,10 @@ export default function Login() {
   const handleLogin = () => {
     if (username == 'usuario' && password == '123456') {
        router.push('tabs/home');
+    } else if (username == 'prof' && password == '1234') {
+       router.push('tabs/professional/dashboard'); //luego seria el home del profesional
     }
+
     const validationErrors = useValidation({ username, password });
     setErrors(validationErrors);
 
@@ -104,7 +107,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     width: wp('100%'),
-    height: hp('71%'),
+    height: hp('77%'),
   },
   linksContainer: {
     marginTop: hp('2%'),

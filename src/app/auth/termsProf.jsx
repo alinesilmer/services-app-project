@@ -3,13 +3,9 @@ import { Colors } from '../../constants/Colors'
 import SlideUpCard from '../../components/SlideUpCard';
 import BackButton from '../../components/BackButton';
 import Logo from '../../components/Logo';
-import CustomButton from '../../components/CustomButton';
-import Checkbox from 'expo-checkbox';
-import { useState } from 'react';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 export default function TermsProf() {
-  const [isChecked, setChecked] = useState(false);
-
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
@@ -39,46 +35,36 @@ export default function TermsProf() {
 
             5. <Text style={styles.bold}>Modificaciones</Text>{"\n"}
             Nos reservamos el derecho de modificar estos Términos y Condiciones en cualquier momento. Los cambios serán notificados a través de la App. El uso continuado del servicio implica la aceptación de las modificaciones.{"\n\n"}
-
         </Text>
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 16 }}>
-          <Checkbox
-            value={isChecked}
-            onValueChange={setChecked}
-            color={isChecked ? '#50B0DA' : undefined}
-          />
-          <Text style={{ marginLeft: 8 }}>Acepto los términos y condiciones.</Text>
-        </View>
-        
-        <CustomButton text="SUSCRIBIRSE" onPress={() => {}} />
         </ScrollView>
       </SlideUpCard>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-  flex: 1,
-  backgroundColor: Colors.blueColor,
-  alignItems: 'center',
-  justifyContent: 'center',
-},
-card: {
-  position: 'absolute',
-  bottom: 0,
-  width: '100%',
-  height: '85%',
+  const styles = StyleSheet.create({
+    container: {
+    flex: 1,
+    backgroundColor: Colors.blueColor,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
-scrollView: {
-      paddingBottom: 100, 
+  card: {
+    width: wp('100%'),
+    marginTop: hp('30%'),
+    paddingVertical: wp('10%'),
+    height: hp('70%')
+  },
+  scrollContent: {
+    flexGrow: 1,
+    justifyContent: 'flex-start'
   },
   text: {
-      fontSize: 14,
-      color: 'black',
-      lineHeight: 22,
+    fontSize: 14,
+    color: 'black',
+    lineHeight: 22
   },
   bold: {
-      fontWeight: 'bold',
+    fontWeight: 'bold'
   },
 });

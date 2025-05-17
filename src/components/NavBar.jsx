@@ -33,12 +33,18 @@ const NavBar = () => {
     );
   };
 
+  /* TODO: crear el direccionamiento condicional segun cliente o profesional cuando este la persistencia
+  {renderItem('user', 'Perfil', () =>
+    userType === 'profesional'
+      ? router.push('tabs/professional/dashboard')
+      : router.push('tabs/client/dashboard')
+  )}*/
   return (
     <View style={styles.container}>
       {renderItem('home', 'Inicio', () => router.push('tabs/home'))}
       {renderItem('message-square', 'Chat', () => router.push('tabs/chat'))}
-      {renderItem('calendar', 'Agenda')}
-      {renderItem('user', 'Perfil', () => router.push('tabs/client/dashboard'))} 
+      {renderItem('calendar', 'Agenda', () => router.push('tabs/goPremiumProf'))}
+      {renderItem('user', 'Perfil', () => router.push('tabs/professional/dashboard'))} 
     </View>
   );
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -24,9 +25,21 @@ import Ad from '../../components/Ad';
 import { useAdManager } from '../../hooks/useAdManager';
 import { Colors } from '../../constants/Colors';
 
+const ads = [
+  require('../../assets/videos/propaganda1.mp4'),
+  require('../../assets/videos/propaganda2.mp4'),
+];
+
 const Home = () => {
   const router = useRouter();
-  const { showAd, closeAd } = useAdManager({ isPremium: false });
+  const { showAd, closeAd } = useAdManager({ isPremium: true });
+  const [randomAd, setRandomAd] = useState(null);
+
+  useEffect(() => {
+    // Elegir un video aleatorio cuando se monta el componente
+    const randomIndex = Math.floor(Math.random() * ads.length);
+    setRandomAd(ads[randomIndex]);
+  }, [showAd]);
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -78,7 +91,7 @@ const Home = () => {
         <Ad
           visible={showAd}
           onClose={closeAd}
-          source={require('../../assets/videos/propaganda.mp4')}
+          source={randomAd}
           type="video"
         />
       </View>
