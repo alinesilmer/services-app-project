@@ -49,7 +49,7 @@ export default function ProfileScreen() {
 
             <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
               <ProfilePic
-                uri="https://i.pravatar.cc/300"
+                uri="https://img.freepik.com/foto-gratis/vista-frontal-peluquero-masculino-tijeras-barberia_23-2148985744.jpg"
                 size={wp('30%')}
                 style={styles.avatar}
               />
@@ -139,6 +139,12 @@ export default function ProfileScreen() {
             editable
             onChangeText={(text) => handleFormChange('address', text)}
           />
+          <DisplayField
+            label="Disponibilidad"
+            value={form.availability}
+            editable
+            onChangeText={(text) => handleFormChange('availability', text)}
+          />
         </ScrollView>
         </ModalWrapper>
       <BottomNavBar />
@@ -177,7 +183,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     alignItems: 'center',
     marginTop: hp('16%'),
-    marginBottom: hp('2%')
+    marginBottom: hp('1%')
   },
   scrollContent: {
     alignItems: 'flex-start',

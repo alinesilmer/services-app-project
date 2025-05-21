@@ -8,7 +8,7 @@ export function useProfile() {
     province: 'Chaco',
     city: 'Resistencia',
     address: 'Av Sarmiento 1249',
-    availability: 'Lunes a Viernes de 9 a 18hs',
+    availability: 'Lunes a Viernes de 9 a 14hs',
   });
 
   // Estado del modal y del formulario interno

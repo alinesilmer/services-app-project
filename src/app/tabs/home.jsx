@@ -28,6 +28,9 @@ import { Colors } from '../../constants/Colors';
 const ads = [
   require('../../assets/videos/propaganda1.mp4'),
   require('../../assets/videos/propaganda2.mp4'),
+  require('../../assets/videos/propaganda3.mp4'),
+  require('../../assets/videos/propaganda4.mp4'),
+  require('../../assets/videos/propaganda5.mp4'),
 ];
 
 const Home = () => {

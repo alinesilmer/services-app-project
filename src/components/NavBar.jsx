@@ -43,7 +43,7 @@ const NavBar = () => {
     <View style={styles.container}>
       {renderItem('home', 'Inicio', () => router.push('tabs/home'))}
       {renderItem('message-square', 'Chat', () => router.push('tabs/chat'))}
-      {renderItem('calendar', 'Agenda', () => router.push('tabs/goPremiumProf'))}
+      {renderItem('calendar', 'Agenda', () => router.push('tabs/professional/schedule'))}
       {renderItem('user', 'Perfil', () => router.push('tabs/professional/dashboard'))} 
     </View>
   );
