@@ -7,6 +7,7 @@ const orangeColor = "#e47755";
 const whiteColor = "#f6f6f6";
 const inputGray = "#cecece";
 const subtextColor = "#8f8e8e";
+const starColor = '#FFD700';
 
 export const Colors = {
   light: {
@@ -32,4 +33,5 @@ export const Colors = {
   whiteColor,
   inputGray,
   subtextColor,
+  starColor,
 };

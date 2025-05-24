@@ -30,13 +30,13 @@ const ProfileDetail = () => {
       if (i < fullStars) {
         stars.push(
           <Text key={i} style={styles.starFilled}>
-            ⭐
+            ★
           </Text>
         );
       } else {
         stars.push(
           <Text key={i} style={styles.starEmpty}>
-            ⭐
+            ★
           </Text>
         );
       }
@@ -79,7 +79,7 @@ const ProfileDetail = () => {
             </View>
 
             <View style={styles.infoRow}>
-              <Text style={styles.infoIcon}>⭐</Text>
+              <Text style={styles.infoIcon}>★</Text>
               <Text style={styles.infoLabel}>Calificación promedio:</Text>
               <Text style={styles.infoValue}>{params.calificaciones}</Text>
             </View>
@@ -96,7 +96,7 @@ const ProfileDetail = () => {
               <View style={styles.reviewHeader}>
                 <Text style={styles.reviewerName}>María López:</Text>
                 <View style={styles.reviewStars}>
-                  <Text style={styles.starFilledComment}>⭐⭐⭐⭐</Text>
+                  <Text style={styles.starFilledComment}>★★★★</Text>
                 </View>
               </View>
               <Text style={styles.reviewText}>
@@ -105,7 +105,7 @@ const ProfileDetail = () => {
             </View>
           </View>
 
-          <TouchableOpacity style={styles.allCommentsButton}>
+          <TouchableOpacity activeOpacity={0.5} style={styles.allCommentsButton}>
             <Text style={styles.allCommentsText}>
               Ver todos los comentarios +
             </Text>
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
   },
   whiteContainer: {
     flex: 1,
-    backgroundColor: Colors.whiteColor,
+    backgroundColor: '#fff',
     marginTop: hp("3%"),
     borderTopRightRadius: 50,
     borderTopLeftRadius: 50,
@@ -207,12 +207,12 @@ const styles = StyleSheet.create({
   ratingSection: {
     alignItems: "center",
     backgroundColor: Colors.whiteColor,
-    paddingVertical: hp("2%"),
-    borderRadius: 20,
+    paddingVertical: hp("0.4%"),
+    borderRadius: 40,
     marginBottom: hp("2%"),
     elevation: 3,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
   },
@@ -222,15 +222,15 @@ const styles = StyleSheet.create({
   },
   starFilled: {
     fontSize: wp("6%"),
-    color: "#FFD700",
+    color: Colors.starColor,
   },
     starFilledComment: {
-    fontSize: wp("3%"),
-    color: "#FFD700",
+    fontSize: wp("4"),
+    color: Colors.starColor,
   },
   starEmpty: {
     fontSize: wp("6%"),
-    color: "#E0E0E0",
+    color: "#777",
   },
   ratingText: {
     fontSize: wp("2.4"),
@@ -298,17 +298,15 @@ const styles = StyleSheet.create({
     marginBottom: hp("3%"),
   },
   squareButton: {
-    backgroundColor: "#F5B5A8",
+    backgroundColor: '#fff',
     width: wp("25%"),
     height: wp("25%"),
     borderRadius: 15,
     justifyContent: "center",
     alignItems: "center",
     elevation: 2,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    borderWidth: 1,
+    borderColor: 'black',
   },
   squareButtonIcon: {
     fontSize: wp("6%"),
@@ -317,7 +315,7 @@ const styles = StyleSheet.create({
   squareButtonText: {
     fontSize: wp("3%"),
     fontWeight: "600",
-    color: "#333",
+    color: "#000",
     textAlign: "center",
   },
   mainButtonsContainer: {
