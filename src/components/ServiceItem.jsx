@@ -14,11 +14,14 @@ const ServiceItem = ({ label, icon, useFeather = true, route = '/tabs/client/ser
   const router = useRouter();
   const [pressed, setPressed] = useState(false);
 
-  const handlePress = () => {
-    setPressed(true);
-    setTimeout(() => setPressed(false), 200);
-    router.push(route); //Replace with real routes
-  };
+const handlePress = () => {
+  setPressed(true);
+  setTimeout(() => setPressed(false), 200);
+  router.push({
+    pathname: route,
+    params: { label, icon, useFeather }
+  });
+};
 
   return (
     <View style={styles.wrapper}>
@@ -27,7 +30,7 @@ const ServiceItem = ({ label, icon, useFeather = true, route = '/tabs/client/ser
           styles.item,
           pressed && styles.itemPressed
         ]}
-        activeOpacity={0.5}
+        activeOpacity={0.6}
         onPress={handlePress}
       >
         <IconComponent name={icon} size={29} color={Colors.blueColor} />
