@@ -107,6 +107,7 @@ const AddComment = () => {
     for (let i = 1; i <= 5; i++) {
       stars.push(
         <TouchableOpacity
+        activeOpacity={0.6}
           key={i}
           onPress={() => handleStarPress(i)}
           style={styles.starButton}
@@ -320,7 +321,7 @@ const styles = StyleSheet.create({
     marginBottom: hp("3%"),
   },
   ratingLabel: {
-    fontSize: wp("%"),
+    fontSize: wp("3%"),
     color: Colors.blueColor,
     marginBottom: 15,
     fontWeight: "600",
@@ -328,10 +329,8 @@ const styles = StyleSheet.create({
   starsContainer: {
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#fff",
+    backgroundColor: "#ddd",
     borderRadius: 100,
-    paddingVertical: 2,
     paddingHorizontal: 15,
   },
   starButton: {
@@ -339,6 +338,7 @@ const styles = StyleSheet.create({
   },
   starText: {
     fontSize: wp("10%"),
+    paddingBottom: wp("2%")
   },
   submitButton: {
     backgroundColor: "#4CAF50",

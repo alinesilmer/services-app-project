@@ -8,7 +8,7 @@ export default [
     calificaciones: 4.7,
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Sábado, 10:00 - 19:00",
-    avatar: "https://cdn-icons-png.flaticon.com/128/9781/9781304.png",
+    avatar: "https://randomuser.me/api/portraits/men/1.jpg",
     descripcion:
       "Soy Luis, electricista especializado en instalaciones eléctricas. Con más de 8 años de experiencia, me encargo de realizar instalaciones seguras y eficientes para tu hogar o negocio.",
   },
@@ -21,7 +21,7 @@ export default [
     calificaciones: 4.9,
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Viernes, 12:00 - 20:00",
-    avatar: "https://cdn-icons-png.flaticon.com/128/9781/9781419.png",
+    avatar: "https://randomuser.me/api/portraits/women/1.jpg",
     descripcion:
       "Soy Natalia, experta en sistemas de iluminación. Transformo espacios con soluciones lumínicas modernas y eficientes que realzan la belleza de tu hogar.",
   },
@@ -34,7 +34,7 @@ export default [
     calificaciones: 4.5,
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Sábado, 13:00 - 21:00",
-    avatar: "https://cdn-icons-png.flaticon.com/128/9781/9781501.png",
+    avatar: "https://randomuser.me/api/portraits/men/2.jpg",
     descripcion:
       "Soy Ricardo, electricista general con amplia experiencia. Resuelvo todo tipo de problemas eléctricos, desde reparaciones menores hasta instalaciones completas.",
   },
@@ -47,7 +47,7 @@ export default [
     calificaciones: 4.8,
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Sábado, 13:00 - 21:00",
-    avatar: "https://cdn-icons-png.flaticon.com/128/307/307912.png",
+    avatar: "https://randomuser.me/api/portraits/men/3.jpg",
     descripcion:
       "Soy Marcos, especialista en aberturas de madera. Creo puertas y ventanas únicas que combinan funcionalidad y diseño para embellecer tu hogar.",
   },
@@ -60,7 +60,7 @@ export default [
     calificaciones: 4.6,
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Sábados y Domingos, 08:00 - 16:00",
-    avatar: "https://cdn-icons-png.flaticon.com/128/4490/4490425.png",
+    avatar: "https://randomuser.me/api/portraits/women/2.jpg",
     descripcion:
       "Soy Andrea, carpintera especializada en muebles a medida. Diseño y construyo piezas únicas que se adaptan perfectamente a tus espacios y necesidades.",
   },
@@ -73,7 +73,7 @@ export default [
     calificaciones: 4.7,
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Jueves, 07:00 - 15:00",
-    avatar: "https://cdn-icons-png.flaticon.com/128/6036/6036744.png",
+    avatar: "https://randomuser.me/api/portraits/women/3.jpg",
     descripcion:
       "Soy Soledad, experta en machimbre y revestimientos de madera. Transformo tus paredes y techos con acabados naturales de alta calidad.",
   },
@@ -86,7 +86,7 @@ export default [
     calificaciones: 4.4,
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Viernes, 08:00 - 17:00",
-    avatar: "https://cdn-icons-png.flaticon.com/512/1935/1935624.png",
+    avatar: "https://randomuser.me/api/portraits/men/4.jpg",
     descripcion:
       "Soy Daniel, carpintero general con más de 10 años de experiencia. Realizo todo tipo de trabajos en madera, desde reparaciones hasta proyectos completos.",
   },
@@ -99,7 +99,7 @@ export default [
     calificaciones: 4.6,
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Sábados y Domingos, 08:00 - 16:00",
-    avatar: "https://cdn-icons-png.flaticon.com/128/13543/13543117.png",
+    avatar: "https://randomuser.me/api/portraits/women/4.jpg",
     descripcion:
       "Soy Carla, especialista en limpieza de alfombras y tapizados. Devuelvo la vida a tus textiles con técnicas profesionales y productos especializados.",
   },
@@ -112,7 +112,7 @@ export default [
     calificaciones: 4.9,
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Jueves, 07:00 - 15:00",
-    avatar: "https://cdn-icons-png.flaticon.com/128/4079/4079186.png",
+    avatar: "https://randomuser.me/api/portraits/men/5.jpg",
     descripcion:
       "Soy Facundo, experto en limpieza del hogar. Me encargo de mantener tu casa impecable con atención al detalle y productos de calidad.",
   },
@@ -125,7 +125,7 @@ export default [
     calificaciones: 4.8,
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Viernes, 08:00 - 17:00",
-    avatar: "https://cdn-icons-png.flaticon.com/128/13138/13138655.png",
+    avatar: "https://randomuser.me/api/portraits/women/25.jpg",
     descripcion:
       "Soy Laura, especialista en limpieza en altura. Realizo trabajos de limpieza en lugares de difícil acceso con total seguridad y profesionalismo.",
   },
@@ -138,7 +138,7 @@ export default [
     calificaciones: 4.5,
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Miércoles a Domingo, 11:00 - 19:00",
-    avatar: "https://cdn-icons-png.flaticon.com/128/9544/9544790.png",
+    avatar: "https://randomuser.me/api/portraits/men/6.jpg",
     descripcion:
       "Soy Ernesto, profesional en limpieza general. Ofrezco servicios completos de limpieza para hogares y oficinas con resultados garantizados.",
   },
@@ -151,7 +151,7 @@ export default [
     calificaciones: 4.7,
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Sábado, 10:00 - 19:00",
-    avatar: "https://cdn-icons-png.flaticon.com/128/8084/8084555.png",
+    avatar: "https://randomuser.me/api/portraits/men/7.jpg",
     descripcion:
       "Soy Guillermo, especialista en fletes y transporte. Muevo tus pertenencias con cuidado y puntualidad, garantizando que lleguen en perfectas condiciones.",
   },
@@ -164,7 +164,7 @@ export default [
     calificaciones: 4.6,
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Jueves, 07:00 - 15:00",
-    avatar: "https://cdn-icons-png.flaticon.com/128/5361/5361469.png",
+    avatar: "https://randomuser.me/api/portraits/men/8.jpg",
     descripcion:
       "Soy Martín, tu nuevo aliado en el mundo de la mudanza. Con años de experiencia, me especializo en transportar de forma ordenada y a tiempo todas las cosas.",
   },
@@ -177,7 +177,7 @@ export default [
     calificaciones: 4.8,
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Sábado, 10:00 - 19:00",
-    avatar: "https://cdn-icons-png.flaticon.com/128/2311/2311481.png",
+    avatar: "https://randomuser.me/api/portraits/women/6.jpg",
     descripcion:
       "Soy Camila, experta en mudanzas internacionales. Gestiono traslados a cualquier parte del mundo con todos los trámites y cuidados necesarios.",
   },
@@ -190,7 +190,7 @@ export default [
     calificaciones: 4.5,
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Viernes, 08:00 - 17:00",
-    avatar: "https://cdn-icons-png.flaticon.com/128/3565/3565550.png",
+    avatar: "https://randomuser.me/api/portraits/men/9.jpg",
     descripcion:
       "Soy Pablo, profesional en mudanzas generales. Realizo traslados locales y nacionales con el máximo cuidado de tus pertenencias.",
   },
@@ -203,7 +203,7 @@ export default [
     calificaciones: 4.7,
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Jueves, 07:00 - 15:00",
-    avatar: "https://cdn-icons-png.flaticon.com/128/4310/4310770.png",
+    avatar: "https://randomuser.me/api/portraits/women/7.jpg",
     descripcion:
       "Soy Eliana, especialista en sistemas de cañerías. Instalo y reparo tuberías con materiales de calidad para garantizar un funcionamiento óptimo.",
   },
@@ -216,7 +216,7 @@ export default [
     calificaciones: 4.6,
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Martes a Domingo, 09:00 - 18:00",
-    avatar: "https://cdn-icons-png.flaticon.com/128/12540/12540114.png",
+    avatar: "https://randomuser.me/api/portraits/men/10.jpg",
     descripcion:
       "Soy Matías, experto en solución de filtraciones. Identifico y reparo problemas de humedad para proteger tu hogar de daños mayores.",
   },
@@ -229,7 +229,7 @@ export default [
     calificaciones: 4.9,
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Viernes, 12:00 - 20:00",
-    avatar: "https://cdn-icons-png.flaticon.com/128/10221/10221685.png",
+    avatar: "https://randomuser.me/api/portraits/women/8.jpg",
     descripcion:
       "Soy Noelia, especialista en instalación y reparación de sanitarios. Garantizo funcionamiento perfecto de inodoros, lavabos y duchas.",
   },
@@ -242,7 +242,7 @@ export default [
     calificaciones: 4.3,
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Sábados y Domingos, 08:00 - 16:00",
-    avatar: "https://cdn-icons-png.flaticon.com/128/4325/4325419.png",
+    avatar: "https://randomuser.me/api/portraits/men/11.jpg",
     descripcion:
       "Soy Ignacio, experto en pozos sépticos y sistemas de desagüe. Mantengo y reparo sistemas de saneamiento con total profesionalismo.",
   },
@@ -255,7 +255,7 @@ export default [
     calificaciones: 4.8,
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Sábado, 10:00 - 19:00",
-    avatar: "https://cdn-icons-png.flaticon.com/128/6342/6342703.png",
+    avatar: "https://randomuser.me/api/portraits/women/9.jpg",
     descripcion:
       "Soy Patricia, plomera general con amplia experiencia. Resuelvo todo tipo de problemas de plomería, desde goteras hasta instalaciones completas.",
   },
@@ -268,7 +268,7 @@ export default [
     calificaciones: 4.7,
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Sábado, 13:00 - 21:00",
-    avatar: "https://cdn-icons-png.flaticon.com/128/14961/14961398.png",
+    avatar: "https://randomuser.me/api/portraits/men/12.jpg",
     descripcion:
       "Soy Fernando, especialista en refacción de baños. Transformo tu baño en un espacio moderno y funcional con acabados de primera calidad.",
   },
@@ -281,7 +281,7 @@ export default [
     calificaciones: 4.8,
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Miércoles a Domingo, 11:00 - 19:00",
-    avatar: "https://cdn-icons-png.flaticon.com/128/14962/14962715.png",
+    avatar: "https://randomuser.me/api/portraits/women/10.jpg",
     descripcion:
       "Soy Ayelén, experta en refacción de cocinas. Diseño y renuevo cocinas creando espacios funcionales y estéticamente perfectos.",
   },
@@ -294,7 +294,7 @@ export default [
     calificaciones: 4.5,
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Jueves, 07:00 - 15:00",
-    avatar: "https://cdn-icons-png.flaticon.com/128/14983/14983594.png",
+    avatar: "https://randomuser.me/api/portraits/men/13.jpg",
     descripcion:
       "Soy Julián, especialista en refacciones integrales. Renuevo completamente tus espacios con un enfoque integral y resultados excepcionales.",
   },
@@ -307,7 +307,7 @@ export default [
     calificaciones: 4.6,
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Jueves, 07:00 - 15:00",
-    avatar: "https://cdn-icons-png.flaticon.com/128/15622/15622473.png",
+    avatar: "https://randomuser.me/api/portraits/women/11.jpg",
     descripcion:
       "Soy Romina, profesional en refacciones generales. Modernizo y mejoro cualquier ambiente de tu hogar con calidad y buen gusto.",
   },
@@ -320,7 +320,7 @@ export default [
     calificaciones: 4.7,
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Sábado, 13:00 - 21:00",
-    avatar: "https://cdn-icons-png.flaticon.com/128/3462/3462038.png",
+    avatar: "https://randomuser.me/api/portraits/men/14.jpg",
     descripcion:
       "Soy Bruno, pintor profesional especializado en interiores y exteriores. Renuevo tus espacios con colores y acabados que reflejan tu personalidad.",
   },
@@ -333,7 +333,7 @@ export default [
     calificaciones: 4.6,
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Viernes, 12:00 - 20:00",
-    avatar: "https://cdn-icons-png.flaticon.com/128/1995/1995491.png",
+    avatar: "https://randomuser.me/api/portraits/women/12.jpg",
     descripcion:
       "Soy Leticia, experta en revestimientos decorativos. Aplico técnicas especiales que dan textura y personalidad única a tus paredes.",
   },
@@ -346,7 +346,7 @@ export default [
     calificaciones: 4.5,
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Sábados y Domingos, 08:00 - 16:00",
-    avatar: "https://cdn-icons-png.flaticon.com/128/15384/15384554.png",
+    avatar: "https://randomuser.me/api/portraits/men/15.jpg",
     descripcion:
       "Soy Sergio, especialista en tratamiento de humedad. Elimino problemas de humedad y aplico tratamientos preventivos para proteger tu hogar.",
   },
@@ -359,7 +359,7 @@ export default [
     calificaciones: 4.4,
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Miércoles a Domingo, 11:00 - 19:00",
-    avatar: "https://cdn-icons-png.flaticon.com/128/15384/15384550.png",
+    avatar: "https://randomuser.me/api/portraits/women/13.jpg",
     descripcion:
       "Soy Fabiola, pintora versátil especializada en trabajos especiales. Realizo desde murales artísticos hasta acabados decorativos únicos.",
   },
@@ -372,7 +372,7 @@ export default [
     calificaciones: 4.8,
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Miércoles a Domingo, 11:00 - 19:00",
-    avatar: "https://cdn-icons-png.flaticon.com/128/7928/7928677.png",
+    avatar: "https://randomuser.me/api/portraits/men/16.jpg",
     descripcion:
       "Soy Javier, técnico en computadoras con más de 7 años de experiencia. Reparo y optimizo equipos para que funcionen como nuevos.",
   },
@@ -385,7 +385,7 @@ export default [
     calificaciones: 4.9,
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Viernes, 08:00 - 17:00",
-    avatar: "https://cdn-icons-png.flaticon.com/128/7928/7928596.png",
+    avatar: "https://randomuser.me/api/portraits/women/14.jpg",
     descripcion:
       "Soy Sabrina, especialista en reparación de tablets y celulares. Devuelvo la vida a tus dispositivos móviles con reparaciones rápidas y efectivas.",
   },
@@ -398,7 +398,7 @@ export default [
     calificaciones: 4.7,
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Viernes, 12:00 - 20:00",
-    avatar: "https://cdn-icons-png.flaticon.com/128/11277/11277701.png",
+    avatar: "https://randomuser.me/api/portraits/men/17.jpg",
     descripcion:
       "Soy Andrés, técnico especializado en impresoras. Reparo y mantengo equipos de impresión para hogares y oficinas con resultados garantizados.",
   },
@@ -411,7 +411,7 @@ export default [
     calificaciones: 4.6,
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Sábado, 13:00 - 21:00",
-    avatar: "https://cdn-icons-png.flaticon.com/128/4635/4635720.png",
+    avatar: "https://randomuser.me/api/portraits/women/15.jpg",
     descripcion:
       "Soy Florencia, técnica en electrodomésticos. Reparo heladeras, lavarropas, microondas y más, extendiendo la vida útil de tus equipos.",
   },
@@ -424,7 +424,7 @@ export default [
     calificaciones: 4.8,
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Martes a Domingo, 09:00 - 18:00",
-    avatar: "https://cdn-icons-png.flaticon.com/128/7928/7928625.png",
+    avatar: "https://randomuser.me/api/portraits/men/18.jpg",
     descripcion:
       "Soy Tomás, técnico en tecnología general. Soluciono problemas con todo tipo de dispositivos electrónicos y sistemas tecnológicos.",
   },

@@ -88,11 +88,12 @@ const ProfileDetail = () => {
 
   const handleMessagePress = () => {
     router.push({
-      pathname: "/tabs/client/chat",
+      pathname: "/tabs/chat",
       params: {
         professionalId: params.profileId,
         professionalName: params.nombre,
         professionalAvatar: params.avatar,
+        profession: params.profesion,
       },
     });
   };
