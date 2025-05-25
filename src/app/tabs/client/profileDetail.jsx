@@ -1,48 +1,101 @@
-"use client";
-import {
-  View,
-  Text,
-  StyleSheet,
-  StatusBar,
-  Platform,
-  Image,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
-import { useLocalSearchParams } from "expo-router";
-import { Colors } from "../../../constants/Colors";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
-import Animated, { SlideInDown } from "react-native-reanimated";
-import NavBar from "../../../components/NavBar";
+"use client"
+import { View, Text, StyleSheet, StatusBar, Platform, Image, ScrollView, TouchableOpacity } from "react-native"
+import { useLocalSearchParams, router } from "expo-router"
+import { Colors } from "../../../constants/Colors"
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
+import Animated, { SlideInDown } from "react-native-reanimated"
+import NavBar from "../../../components/NavBar"
 
 const ProfileDetail = () => {
-  const params = useLocalSearchParams();
+  const params = useLocalSearchParams()
 
   // Función para renderizar las estrellas
   const renderStars = (rating) => {
-    const stars = [];
-    const fullStars = Math.floor(rating);
+    const stars = []
+    const fullStars = Math.floor(rating)
 
     for (let i = 0; i < 5; i++) {
       if (i < fullStars) {
         stars.push(
           <Text key={i} style={styles.starFilled}>
             ★
-          </Text>
-        );
+          </Text>,
+        )
       } else {
         stars.push(
           <Text key={i} style={styles.starEmpty}>
             ★
-          </Text>
-        );
+          </Text>,
+        )
       }
     }
-    return stars;
-  };
+    return stars
+  }
+
+  // Funciones de navegación
+  const handleRatingsPress = () => {
+    router.push({
+      pathname: "/tabs/client/ratings",
+      params: {
+        professionalId: params.profileId,
+        professionalName: params.nombre,
+      },
+    })
+  }
+
+  const handleCommentsPress = () => {
+    router.push({
+      pathname: "/tabs/client/comments",
+      params: {
+        professionalId: params.profileId,
+        professionalName: params.nombre,
+      },
+    })
+  }
+
+  const handleServicesPress = () => {
+    router.push({
+      pathname: "/tabs/client/professionalServices",
+      params: {
+        professionalId: params.profileId,
+        professionalName: params.nombre,
+        profession: params.profesion,
+      },
+    })
+  }
+
+  const handleGalleryPress = () => {
+    router.push({
+      pathname: "/tabs/client/gallery",
+      params: {
+        professionalId: params.profileId,
+        professionalName: params.nombre,
+      },
+    })
+  }
+
+  const handleMessagePress = () => {
+    router.push({
+      pathname: "/tabs/chat",
+      params: {
+        professionalId: params.profileId,
+        professionalName: params.nombre,
+        professionalAvatar: params.avatar,
+      },
+    })
+  }
+
+  const handleAppointmentPress = () => {
+    router.push({
+      pathname: "/tabs/client/appointment",
+      params: {
+        professionalId: params.profileId,
+        professionalName: params.nombre,
+        profession: params.profesion,
+        availability: params.disponibilidad,
+      },
+    })
+  }
 
   return (
     <View style={styles.safeArea}>
@@ -55,21 +108,18 @@ const ProfileDetail = () => {
       </View>
       <Text style={styles.profileName}>{params.nombre?.toUpperCase()}</Text>
 
-      <Animated.View
-        entering={SlideInDown.duration(700)}
-        style={styles.whiteContainer}
-      >
+      <Animated.View entering={SlideInDown.duration(700)} style={styles.whiteContainer}>
         <ScrollView
           style={styles.scrollContainer}
           contentContainerStyle={styles.scrollContent}
           showsVerticalScrollIndicator={false}
         >
-          <View style={styles.ratingSection}>
-            <View style={styles.starsContainer}>
-              {renderStars(Number.parseFloat(params.calificaciones))}
+          <TouchableOpacity activeOpacity={0.8} onPress={handleRatingsPress}>
+            <View style={styles.ratingSection}>
+              <View style={styles.starsContainer}>{renderStars(Number.parseFloat(params.calificaciones))}</View>
+              <Text style={styles.ratingText}>(Basado en 95 opiniones)</Text>
             </View>
-            <Text style={styles.ratingText}>(Basado en 95 opiniones)</Text>
-          </View>
+          </TouchableOpacity>
 
           <View style={styles.infoSection}>
             <View style={styles.infoRow}>
@@ -99,39 +149,32 @@ const ProfileDetail = () => {
                   <Text style={styles.starFilledComment}>★★★★</Text>
                 </View>
               </View>
-              <Text style={styles.reviewText}>
-                "{params.nombre} entendió exactamente lo que quería.
-              </Text>
+              <Text style={styles.reviewText}>"{params.nombre} entendió exactamente lo que quería.</Text>
             </View>
           </View>
 
-          <TouchableOpacity activeOpacity={0.5} style={styles.allCommentsButton}>
-            <Text style={styles.allCommentsText}>
-              Ver todos los comentarios +
-            </Text>
+          <TouchableOpacity activeOpacity={0.5} style={styles.allCommentsButton} onPress={handleCommentsPress}>
+            <Text style={styles.allCommentsText}>Ver todos los comentarios +</Text>
           </TouchableOpacity>
 
           <View style={styles.squareButtonsContainer}>
-            <TouchableOpacity activeOpacity={0.8} style={styles.squareButton}>
+            <TouchableOpacity activeOpacity={0.8} style={styles.squareButton} onPress={handleServicesPress}>
               <Text style={styles.squareButtonIcon}>🔧</Text>
               <Text style={styles.squareButtonText}>Servicios</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity activeOpacity={0.8} style={styles.squareButton}>
+            <TouchableOpacity activeOpacity={0.8} style={styles.squareButton} onPress={handleGalleryPress}>
               <Text style={styles.squareButtonIcon}>📷</Text>
               <Text style={styles.squareButtonText}>Galería{"\n"}De Fotos</Text>
             </TouchableOpacity>
           </View>
 
           <View style={styles.mainButtonsContainer}>
-            <TouchableOpacity activeOpacity={0.7} style={styles.messageButton}>
+            <TouchableOpacity activeOpacity={0.7} style={styles.messageButton} onPress={handleMessagePress}>
               <Text style={styles.buttonText}>Enviar mensaje</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity
-              activeOpacity={0.7}
-              style={styles.appointmentButton}
-            >
+            <TouchableOpacity activeOpacity={0.7} style={styles.appointmentButton} onPress={handleAppointmentPress}>
               <Text style={styles.buttonText}>Solicitar turno</Text>
             </TouchableOpacity>
           </View>
@@ -139,8 +182,8 @@ const ProfileDetail = () => {
       </Animated.View>
       <NavBar />
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -179,11 +222,11 @@ const styles = StyleSheet.create({
   },
   whiteContainer: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     marginTop: hp("3%"),
     borderTopRightRadius: 50,
     borderTopLeftRadius: 50,
-    paddingTop: hp("2%"),
+    paddingTop: hp("1.2%"),
     shadowColor: "#000",
     shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.3,
@@ -195,6 +238,7 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     paddingHorizontal: wp("5%"),
+    paddingVertical: wp("2%"),
   },
   profileName: {
     fontSize: wp("5%"),
@@ -207,7 +251,7 @@ const styles = StyleSheet.create({
   ratingSection: {
     alignItems: "center",
     backgroundColor: Colors.whiteColor,
-    paddingVertical: hp("0.4%"),
+    paddingVertical: hp("0.2%"),
     borderRadius: 40,
     marginBottom: hp("2%"),
     elevation: 3,
@@ -224,7 +268,7 @@ const styles = StyleSheet.create({
     fontSize: wp("6%"),
     color: Colors.starColor,
   },
-    starFilledComment: {
+  starFilledComment: {
     fontSize: wp("4"),
     color: Colors.starColor,
   },
@@ -247,6 +291,7 @@ const styles = StyleSheet.create({
   infoIcon: {
     fontSize: wp("4%"),
     marginRight: wp("2%"),
+    color: Colors.starColor,
   },
   infoLabel: {
     fontSize: wp("4%"),
@@ -255,7 +300,7 @@ const styles = StyleSheet.create({
     marginRight: wp("2%"),
   },
   infoValue: {
-    fontSize: wp("4%"),
+    fontSize: wp("3.2%"),
     color: "#666",
     flex: 1,
   },
@@ -295,10 +340,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     marginHorizontal: wp("5%"),
-    marginBottom: hp("3%"),
+    marginBottom: hp("2%"),
   },
   squareButton: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     width: wp("25%"),
     height: wp("25%"),
     borderRadius: 15,
@@ -306,7 +351,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     elevation: 2,
     borderWidth: 1,
-    borderColor: 'black',
+    borderColor: "black",
   },
   squareButtonIcon: {
     fontSize: wp("6%"),
@@ -321,7 +366,6 @@ const styles = StyleSheet.create({
   mainButtonsContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
-    marginBottom: hp("3%"),
   },
   messageButton: {
     backgroundColor: "#000",
@@ -350,6 +394,6 @@ const styles = StyleSheet.create({
     fontSize: wp("4%"),
     fontWeight: "600",
   },
-});
+})
 
-export default ProfileDetail;
+export default ProfileDetail
