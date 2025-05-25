@@ -13,6 +13,8 @@ const AnimationFeedback = ({ type }) => {
 
   if (type === 'loading') {
     source = require('../assets/animations/loading.json');
+  } else if(type === 'loadingComment') {
+    source = require('../assets/animations/loadingComment.json');
   } else if (type === 'success') {
     source = require('../assets/animations/success.json');
   } else if (type === 'failure') {
