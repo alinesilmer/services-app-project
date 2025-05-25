@@ -46,7 +46,7 @@ const AddComment = () => {
       setShowAnimation(true);
       setTimeout(() => {
         setShowAnimation(false);
-      }, 1200);
+      }, 1100);
       return;
     }
 
@@ -56,7 +56,7 @@ const AddComment = () => {
       setShowAnimation(true);
       setTimeout(() => {
         setShowAnimation(false);
-      }, 1200);
+      }, 1100);
       return;
     }
 
@@ -76,7 +76,7 @@ const AddComment = () => {
 
       opinions.unshift(newComment);
 
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 500));
 
       // Mostrar animación de éxito
       setAnimationType("success");
@@ -87,12 +87,12 @@ const AddComment = () => {
         setTimeout(() => {
           router.back();
         }, 500);
-      }, 1100);
+      }, 1000);
     } catch (error) {
       setAnimationType("failure");
       setTimeout(() => {
         setShowAnimation(false);
-      }, 1100);
+      }, 1000);
     } finally {
       setIsSubmitting(false);
     }
@@ -125,11 +125,8 @@ const AddComment = () => {
     return stars;
   };
 
-  const wordCount = comment
-    .trim()
-    .split(/\s+/)
-    .filter((word) => word.length > 0).length;
-  const maxWords = 400;
+
+  const maxWords = 100;
 
   return (
     <KeyboardAvoidingView
@@ -164,17 +161,17 @@ const AddComment = () => {
             />
             <TextInput
               style={styles.textInput}
-              placeholder="El trabajo realizado sobre mi ........."
+              placeholder="El trabajo realizado sobre mi..."
               placeholderTextColor="#999"
               multiline
               numberOfLines={6}
               value={comment}
               onChangeText={setComment}
-              maxLength={maxWords * 10}
+              maxLength={maxWords}
               editable={!isSubmitting}
             />
           </View>
-          <Text style={styles.wordCount}>{wordCount} palabras</Text>
+          <Text style={styles.wordCount}>150 caracteres</Text>
         </View>
 
         {/* Puntuación */}
