@@ -13,6 +13,7 @@ import CustomRequestButton from "../../../components/CustomRequestButton"
 import { categories } from "../../../data/mockCategories"
 import profiles from "../../../data/mockProfiles"
 import { useProfileFiltering } from "../../../hooks/useProfileFiltering"
+import AdsImage from "../../../components/AdsImage"
 
 const service = () => {
   const { label, icon, useFeather } = useLocalSearchParams()
@@ -75,6 +76,7 @@ const service = () => {
         <FilterSelector selectedFilter={selectedFilter} setSelectedFilter={setSelectedFilter} />
 
         <CustomRequestButton />
+        <AdsImage onPress={() => console.log("Click")}/>
 
         <FilterTags selectedSubcategories={getSelectedSubcategoriesArray()} />
 
