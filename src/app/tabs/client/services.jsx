@@ -10,10 +10,10 @@ import FilterSelector from "../../../components/FilterSelector"
 import FilterTags from "../../../components/FilterTags"
 import ProfileGrid from "../../../components/ProfileGrid"
 import CustomRequestButton from "../../../components/CustomRequestButton"
+import AdsImage from "../../../components/AdsImage"
 import { categories } from "../../../data/mockCategories"
 import profiles from "../../../data/mockProfiles"
 import { useProfileFiltering } from "../../../hooks/useProfileFiltering"
-import AdsImage from "../../../components/AdsImage"
 
 const service = () => {
   const { label, icon, useFeather } = useLocalSearchParams()
@@ -49,6 +49,13 @@ const service = () => {
     })
   }
 
+  const handleAdClick = () => {
+    console.log("Anuncio clickeado!")
+    router.push("/tabs/goPremium")
+  }
+
+  const isPremiumUser = false // Cambiar a true para simular usuario premium
+
   return (
     <View style={styles.safeArea}>
       <SearchBar />
@@ -76,9 +83,13 @@ const service = () => {
         <FilterSelector selectedFilter={selectedFilter} setSelectedFilter={setSelectedFilter} />
 
         <CustomRequestButton />
-        <AdsImage onPress={() => console.log("Click")}/>
 
         <FilterTags selectedSubcategories={getSelectedSubcategoriesArray()} />
+
+        {/* Otro anuncio antes de los resultados */}
+        <View style={styles.adContainer}>
+          <AdsImage isPremium={isPremiumUser} onPress={handleAdClick} />
+        </View>
 
         <ProfileGrid
           profiles={filteredProfiles}

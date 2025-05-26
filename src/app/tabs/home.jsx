@@ -26,7 +26,7 @@ import { Colors } from '../../constants/Colors';
 
 const Home = () => {
   const router = useRouter();
-  const { showAd, closeAd } = useAdManager({ isPremium: false });
+  const { showAd, closeAd } = useAdManager({ isPremium: true });
 
   return (
     <SafeAreaView style={styles.safeArea}>

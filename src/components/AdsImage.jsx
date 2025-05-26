@@ -1,69 +1,90 @@
-import { useState, useEffect } from "react";
-import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
-import { useRouter } from "expo-router";
+"use client"
 
-const AdsImage = ({ onPress, style }) => {
-  const [currentAd, setCurrentAd] = useState(null);
-  const router = useRouter();
-  const handleGoPremium = () => {
-    router.push("/tabs/goPremium");
-  };
+import { useState, useEffect } from "react"
+import { View, Image, StyleSheet, TouchableOpacity, Text } from "react-native"
 
+const AdsImage = ({ onPress, style, isPremium = false }) => {
+  const [currentAd, setCurrentAd] = useState(null)
+
+  // Array con las rutas de las imágenes de anuncios
   const adsImages = [
     require("../assets/ads/ads1.jpeg"),
     require("../assets/ads/ads2.jpeg"),
     require("../assets/ads/ads3.jpeg"),
     require("../assets/ads/ads4.jpeg"),
     require("../assets/ads/ads5.jpeg"),
-  ];
+  ]
 
+  // Función para seleccionar una imagen aleatoria
   const getRandomAd = () => {
-    const randomIndex = Math.floor(Math.random() * adsImages.length);
-    return adsImages[randomIndex];
-  };
+    const randomIndex = Math.floor(Math.random() * adsImages.length)
+    return adsImages[randomIndex]
+  }
 
+  // Seleccionar imagen aleatoria al montar el componente
   useEffect(() => {
-    setCurrentAd(getRandomAd());
-  }, []);
+    if (!isPremium) {
+      setCurrentAd(getRandomAd())
+    }
+  }, [isPremium])
 
-  const changeAd = () => {
-    setCurrentAd(getRandomAd());
-  };
-
-  if (!currentAd) {
-    return null;
+  // No mostrar nada si es premium
+  if (isPremium || !currentAd) {
+    return null
   }
 
   const AdContent = (
     <View style={[styles.container, style]}>
       <Image source={currentAd} style={styles.image} resizeMode="cover" />
-    </View>
-  );
 
+      {/* Indicador de anuncio */}
+      <View style={styles.adLabel}>
+        <Text style={styles.adLabelText}>Anuncio</Text>
+      </View>
+    </View>
+  )
+
+  // Si se proporciona onPress, envolver en TouchableOpacity
   if (onPress) {
     return (
-      <TouchableOpacity onPress={handleGoPremium} activeOpacity={0.9}>
+      <TouchableOpacity onPress={onPress} activeOpacity={0.8}>
         {AdContent}
       </TouchableOpacity>
-    );
+    )
   }
 
-  return AdContent;
-};
+  return AdContent
+}
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
-    marginBottom: 20,
     width: "100%",
     height: 70,
+    borderRadius: 8,
     overflow: "hidden",
-    backgroundColor: "#000",
+    backgroundColor: "#f0f0f0",
+    marginTop: 20,
+    marginBottom: 20, 
+    position: "relative",
   },
   image: {
     width: "100%",
     height: "100%",
   },
-});
+  adLabel: {
+    position: "absolute",
+    bottom: 4,
+    left: 4,
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
+    borderRadius: 4,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+  },
+  adLabelText: {
+    color: "white",
+    fontSize: 10,
+    fontWeight: "500",
+  },
+})
 
-export default AdsImage;
+export default AdsImage

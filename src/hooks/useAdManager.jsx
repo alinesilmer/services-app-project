@@ -7,7 +7,7 @@ export const useAdManager = ({ isPremium = false } = {}) => {
     //trigger for calling an Ad
   const triggerAd = () => {
     if (!isPremium) {
-      setShowAd(false);
+      setShowAd(true);
     }
   };
 

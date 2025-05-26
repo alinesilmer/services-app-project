@@ -7,7 +7,6 @@ export const useProfileFiltering = (profiles, initialService = null) => {
   const [selectedSubcategories, setSelectedSubcategories] = useState({})
   const [selectedFilter, setSelectedFilter] = useState("valorados")
 
-  // Resetear subcategorías cuando cambia el servicio
   useEffect(() => {
     setSelectedSubcategories({})
   }, [selectedService?.label])
@@ -19,12 +18,10 @@ export const useProfileFiltering = (profiles, initialService = null) => {
     }))
   }
 
-  // Función para obtener las subcategorías seleccionadas
   const getSelectedSubcategoriesArray = () => {
     return Object.keys(selectedSubcategories).filter((key) => selectedSubcategories[key])
   }
 
-  // Función para ordenar perfiles según el filtro seleccionado
   const sortProfiles = (profiles) => {
     switch (selectedFilter) {
       case "valorados":
@@ -38,7 +35,6 @@ export const useProfileFiltering = (profiles, initialService = null) => {
     }
   }
 
-  // Mapeo de servicios
   const serviceMapping = {
     Plomería: "Plomería",
     Refacción: "Refacción",
@@ -50,26 +46,20 @@ export const useProfileFiltering = (profiles, initialService = null) => {
     Técnico: "Técnico",
   }
 
-  // Función para filtrar perfiles
   const filteredProfiles = useMemo(() => {
     const filtered = profiles.filter((prof) => {
-      // Si no hay servicio seleccionado, mostrar todos
       if (!selectedService) return true
 
-      // Filtrar por la profesión que coincida con el servicio seleccionado
       const matchesService = prof.profesion === serviceMapping[selectedService.label]
 
       if (!matchesService) return false
 
-      // Si no hay subcategorías seleccionadas, mostrar todos los del servicio
       const selectedSubcategoriesArray = getSelectedSubcategoriesArray()
       if (selectedSubcategoriesArray.length === 0) return true
 
-      // Si hay subcategorías seleccionadas, filtrar por ellas
       return selectedSubcategoriesArray.includes(prof.categoria)
     })
 
-    // Aplicar ordenamiento según el filtro seleccionado
     return sortProfiles(filtered)
   }, [profiles, selectedService, selectedSubcategories, selectedFilter])
 
