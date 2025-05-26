@@ -1,18 +1,30 @@
 "use client"
-import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Platform, ScrollView } from "react-native"
+import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Platform, ScrollView, Alert } from "react-native"
+import { useState } from "react"
 import { useLocalSearchParams, router } from "expo-router"
 import { Colors } from "../../../constants/Colors"
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
-import { AntDesign } from "@expo/vector-icons"
+import { AntDesign, MaterialIcons } from "@expo/vector-icons"
 import AdsImage from "../../../components/AdsImage"
 import DatePicker from "../../../components/DatePicker"
 import useDatePicker from "../../../hooks/useDatePicker"
+import mockAppointments from "../../../data/mockAppointments"
 
 const Appointment = () => {
   const params = useLocalSearchParams()
+  const [showTimeSelection, setShowTimeSelection] = useState(false)
+  const [selectedTimes, setSelectedTimes] = useState([])
 
   // Usar el hook personalizado para manejar la fecha
   const { date: selectedDate, show: showDatePicker, openPicker, handleChange } = useDatePicker(new Date())
+
+  // Horarios disponibles
+  const availableTimes = [
+    { id: "A", time: "12:00", label: "A" },
+    { id: "B", time: "15:00", label: "B" },
+    { id: "C", time: "16:00", label: "C" },
+    { id: "D", time: "19:00", label: "D" },
+  ]
 
   const formatDate = (date) => {
     if (!date) return "Seleccionar fecha"
@@ -37,27 +49,145 @@ const Appointment = () => {
   }
 
   const handleBack = () => {
-    router.back()
+    if (showTimeSelection) {
+      setShowTimeSelection(false)
+    } else {
+      router.back()
+    }
   }
 
-  const handleGoBack = () => {
-    router.back()
-  }
-
-  const handleConfirmDate = () => {
+  const handleDateConfirm = () => {
     if (!selectedDate) {
-      alert("Por favor selecciona una fecha")
+      Alert.alert("Error", "Por favor selecciona una fecha")
+      return
+    }
+    setShowTimeSelection(true)
+  }
+
+  const toggleTimeSelection = (timeId) => {
+    setSelectedTimes((prev) => {
+      if (prev.includes(timeId)) {
+        return prev.filter((id) => id !== timeId)
+      } else {
+        return [...prev, timeId]
+      }
+    })
+  }
+
+  const handleConfirmAppointment = () => {
+    if (selectedTimes.length === 0) {
+      Alert.alert("Error", "Por favor selecciona al menos un horario")
       return
     }
 
-    console.log("Fecha confirmada:", selectedDate)
-    // Aquí puedes agregar la lógica para confirmar la cita
-    // Por ejemplo, navegar a una pantalla de confirmación
-    router.back()
+    // Agregar nuevas citas al array local (como en add-comment)
+    selectedTimes.forEach((timeId) => {
+      const timeSlot = availableTimes.find((t) => t.id === timeId)
+      const newAppointment = {
+        id: Date.now().toString() + Math.random().toString(36).substr(2, 9), // ID único
+        professionalName: params.professionalName,
+        profession: params.profession,
+        date: selectedDate,
+        time: timeSlot.time,
+        timeLabel: timeSlot.label,
+        availability: params.availability,
+        professionalId: params.professionalId,
+        location: "En local", // Puedes hacer esto dinámico
+        estado: "CONFIRMADO",
+        createdAt: new Date().toISOString(),
+        isNew: true, // Marcar como nuevo para identificarlo
+      }
+
+      // Agregar al inicio del array (como en add-comment)
+      mockAppointments.unshift(newAppointment)
+    })
+
+    Alert.alert(
+      "¡Éxito!",
+      `Se ${selectedTimes.length > 1 ? "han" : "ha"} confirmado ${selectedTimes.length} turno${selectedTimes.length > 1 ? "s" : ""}`,
+      [
+        {
+          text: "Ver mis turnos",
+          onPress: () => router.push("/tabs/myAppointments"),
+        },
+        {
+          text: "Volver",
+          onPress: () => router.back(),
+        },
+      ],
+    )
   }
 
   const handleAdClick = () => {
     console.log("Anuncio en appointment clickeado!")
+  }
+
+  if (showTimeSelection) {
+    return (
+      <View style={styles.container}>
+        <StatusBar backgroundColor="#f8f9fa" barStyle="dark-content" />
+
+        {/* Header */}
+        <View style={styles.header}>
+          <TouchableOpacity onPress={handleBack} style={styles.backButton}>
+            <AntDesign name="arrowleft" size={24} color="#666" />
+          </TouchableOpacity>
+        </View>
+
+        <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+          {/* Título */}
+          <Text style={styles.title}>
+            Por favor, seleccionar horarios entre las opciones{"\n"}disponibles para el turno
+          </Text>
+
+          {/* Fecha seleccionada */}
+          <View style={styles.selectedDateContainer}>
+            <Text style={styles.selectedDateLabel}>Fecha seleccionada</Text>
+            <View style={styles.dateInputStyle}>
+              <Text style={styles.dateInputText}>{selectedDate?.toLocaleDateString("es-ES") || "mm/dd/yyyy"}</Text>
+              <MaterialIcons name="calendar-today" size={20} color="#666" />
+            </View>
+          </View>
+
+          {/* Selección de horarios */}
+          <View style={styles.timeSelectionContainer}>
+            <Text style={styles.timeSelectionLabel}>Seleccionar horarios de disponibilidad</Text>
+
+            {availableTimes.map((timeSlot) => (
+              <TouchableOpacity
+                key={timeSlot.id}
+                style={styles.timeSlotContainer}
+                onPress={() => toggleTimeSelection(timeSlot.id)}
+              >
+                <View style={styles.timeSlotContent}>
+                  <Text style={styles.timeSlotLabel}>{timeSlot.label}</Text>
+                  <Text style={styles.timeSlotTime}>{timeSlot.time}</Text>
+                </View>
+                <View style={[styles.checkbox, selectedTimes.includes(timeSlot.id) && styles.checkboxSelected]}>
+                  {selectedTimes.includes(timeSlot.id) && <MaterialIcons name="check" size={16} color="white" />}
+                </View>
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          {/* Anuncio */}
+          <View style={styles.adContainer}>
+            <AdsImage onPress={handleAdClick} />
+          </View>
+
+          {/* Botones de acción */}
+          <View style={styles.actionButtons}>
+            <TouchableOpacity style={styles.backActionButton} onPress={handleBack}>
+              <Text style={styles.backButtonText}>Volver atrás</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.confirmButton} onPress={handleConfirmAppointment}>
+              <Text style={styles.confirmButtonText}>Confirmar TURNO</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </View>
+    )
   }
 
   return (
@@ -111,11 +241,11 @@ const Appointment = () => {
 
         {/* Botones de acción */}
         <View style={styles.actionButtons}>
-          <TouchableOpacity style={styles.backActionButton} onPress={handleGoBack}>
+          <TouchableOpacity style={styles.backActionButton} onPress={handleBack}>
             <Text style={styles.backButtonText}>Volver atrás</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.confirmButton} onPress={handleConfirmDate}>
+          <TouchableOpacity style={styles.confirmButton} onPress={handleDateConfirm}>
             <Text style={styles.confirmButtonText}>Confirmar fecha</Text>
           </TouchableOpacity>
         </View>
@@ -152,6 +282,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginVertical: hp("3%"),
     fontWeight: "500",
+    lineHeight: wp("6%"),
   },
   professionalInfo: {
     backgroundColor: "white",
@@ -209,6 +340,91 @@ const styles = StyleSheet.create({
     color: "#333",
     fontWeight: "500",
     textAlign: "center",
+  },
+  // Estilos para selección de horarios
+  selectedDateContainer: {
+    backgroundColor: "white",
+    borderRadius: 15,
+    padding: 20,
+    marginBottom: hp("3%"),
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+  },
+  selectedDateLabel: {
+    fontSize: wp("4%"),
+    color: "#666",
+    marginBottom: 15,
+    fontWeight: "600",
+  },
+  dateInputStyle: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#f8f9fa",
+    borderRadius: 8,
+    padding: 15,
+    borderWidth: 1,
+    borderColor: "#e9ecef",
+  },
+  dateInputText: {
+    fontSize: wp("4%"),
+    color: "#333",
+  },
+  timeSelectionContainer: {
+    backgroundColor: "white",
+    borderRadius: 15,
+    padding: 20,
+    marginBottom: hp("3%"),
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+  },
+  timeSelectionLabel: {
+    fontSize: wp("4%"),
+    color: "#666",
+    marginBottom: 20,
+    fontWeight: "600",
+  },
+  timeSlotContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: "#f0f0f0",
+  },
+  timeSlotContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
+  },
+  timeSlotLabel: {
+    fontSize: wp("4.5%"),
+    fontWeight: "bold",
+    color: "#8e44ad",
+    marginRight: 15,
+    width: 30,
+  },
+  timeSlotTime: {
+    fontSize: wp("4%"),
+    color: "#333",
+  },
+  checkbox: {
+    width: 24,
+    height: 24,
+    borderRadius: 4,
+    borderWidth: 2,
+    borderColor: "#8e44ad",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  checkboxSelected: {
+    backgroundColor: "#8e44ad",
   },
   adContainer: {
     marginVertical: hp("2%"),
