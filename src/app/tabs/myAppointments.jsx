@@ -91,7 +91,7 @@ const MyAppointments = () => {
       setShowModal(false)
       setShowDeleteAnimation(false)
       setAppointmentToDelete(null)
-    }, 2500) // Duración de la animación
+    }, 1500) // Duración de la animación
   }
 
   const handleRequestChange = () => {
@@ -123,9 +123,6 @@ const MyAppointments = () => {
     setSelectedAppointment(null)
   }
 
-  const handleAdClick = () => {
-    console.log("Anuncio en mis turnos clickeado!")
-  }
 
   const handleBack = () => {
     router.back()
@@ -204,7 +201,7 @@ const MyAppointments = () => {
 
           {/* Anuncio */}
           <View style={styles.adContainer}>
-            <AdsImage onPress={handleAdClick} />
+            <AdsImage onPress />
           </View>
         </ScrollView>
       </View>

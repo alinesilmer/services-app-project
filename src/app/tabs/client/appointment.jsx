@@ -1,6 +1,6 @@
 "use client"
 import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Platform, ScrollView, Modal } from "react-native"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useLocalSearchParams, router } from "expo-router"
 import { Colors } from "../../../constants/Colors"
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
@@ -10,12 +10,14 @@ import DatePickerAppointment from "../../../components/DatePickerAppointment"
 import AnimationFeedback from "../../../components/AnimationFeedback"
 import useDatePickerAppointment from "../../../hooks/useDatePickerAppointment"
 import mockAppointments from "../../../data/mockAppointments"
+import { generateTimeSlots } from "../../../utils/timeSlotGenerator"
 
 const Appointment = () => {
   const params = useLocalSearchParams()
   const [showTimeSelection, setShowTimeSelection] = useState(false)
   const [selectedTimes, setSelectedTimes] = useState([])
   const [showSuccessAnimation, setShowSuccessAnimation] = useState(false)
+  const [availableTimes, setAvailableTimes] = useState([])
 
   // Usar el hook específico para turnos (solo fechas futuras)
   const {
@@ -27,13 +29,13 @@ const Appointment = () => {
     getMinimumDate,
   } = useDatePickerAppointment()
 
-  // Horarios disponibles
-  const availableTimes = [
-    { id: "A", time: "12:00", label: "A" },
-    { id: "B", time: "15:00", label: "B" },
-    { id: "C", time: "16:00", label: "C" },
-    { id: "D", time: "19:00", label: "D" },
-  ]
+  // Generar horarios dinámicamente basándose en el profesional seleccionado
+  useEffect(() => {
+    if (params.professionalId) {
+      const timeSlots = generateTimeSlots(params.professionalId)
+      setAvailableTimes(timeSlots)
+    }
+  }, [params.professionalId])
 
   const formatDate = (date) => {
     if (!date) return "Seleccionar fecha"
@@ -67,12 +69,10 @@ const Appointment = () => {
 
   const handleDateConfirm = () => {
     if (!selectedDate) {
-      console.log("Por favor selecciona una fecha")
       return
     }
 
     if (!validateFutureDate(selectedDate)) {
-      console.log("Por favor selecciona una fecha futura")
       return
     }
 
@@ -90,11 +90,6 @@ const Appointment = () => {
   }
 
   const handleConfirmAppointment = () => {
-    if (selectedTimes.length === 0) {
-      console.log("Por favor selecciona al menos un horario")
-      return
-    }
-
     // Agregar nuevas citas al array local
     selectedTimes.forEach((timeId) => {
       const timeSlot = availableTimes.find((t) => t.id === timeId)
@@ -117,22 +112,18 @@ const Appointment = () => {
     })
 
     // Mostrar animación de éxito
-setShowSuccessAnimation(true)
+    setShowSuccessAnimation(true)
 
-// Ocultar animación después de 1100ms
-setTimeout(() => {
-  setShowSuccessAnimation(false)
-}, 1100)
-
-// Redirigir después de 1400ms
-setTimeout(() => {
-  router.push("/tabs/myAppointments")
-}, 1400)
+    // Ocultar animación y navegar después de 3 segundos
+    setTimeout(() => {
+      setShowSuccessAnimation(false)
+      router.push("/tabs/myAppointments")
+    }, 1400)
   }
 
-  const handleAdClick = () => {
-    console.log("Anuncio en appointment clickeado!")
-  }
+
+  // Verificar si el botón de confirmar debe estar habilitado
+  const isConfirmButtonEnabled = selectedTimes.length > 0
 
   if (showTimeSelection) {
     return (
@@ -182,9 +173,17 @@ setTimeout(() => {
             ))}
           </View>
 
+          {/* Mensaje informativo cuando no hay horarios seleccionados */}
+          {selectedTimes.length === 0 && (
+            <View style={styles.infoContainer}>
+              <MaterialIcons name="info" size={20} color="#ff9800" />
+              <Text style={styles.infoText}>Selecciona al menos un horario para continuar</Text>
+            </View>
+          )}
+
           {/* Anuncio */}
           <View style={styles.adContainer}>
-            <AdsImage onPress={handleAdClick} />
+            <AdsImage onPress />
           </View>
 
           {/* Botones de acción */}
@@ -193,8 +192,14 @@ setTimeout(() => {
               <Text style={styles.backButtonText}>Volver atrás</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.confirmButton} onPress={handleConfirmAppointment}>
-              <Text style={styles.confirmButtonText}>Confirmar TURNO</Text>
+            <TouchableOpacity
+              style={[styles.confirmButton, !isConfirmButtonEnabled && styles.confirmButtonDisabled]}
+              onPress={handleConfirmAppointment}
+              disabled={!isConfirmButtonEnabled}
+            >
+              <Text style={[styles.confirmButtonText, !isConfirmButtonEnabled && styles.confirmButtonTextDisabled]}>
+                Confirmar TURNO
+              </Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -263,7 +268,7 @@ setTimeout(() => {
 
         {/* Anuncio */}
         <View style={styles.adContainer}>
-          <AdsImage onPress={handleAdClick} />
+          <AdsImage onPress/>
         </View>
 
         {/* Botones de acción */}
@@ -453,6 +458,24 @@ const styles = StyleSheet.create({
   checkboxSelected: {
     backgroundColor: "#8e44ad",
   },
+  // Nuevo estilo para el mensaje informativo
+  infoContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff3cd",
+    borderRadius: 10,
+    padding: 15,
+    marginBottom: hp("2%"),
+    borderLeftWidth: 4,
+    borderLeftColor: "#ff9800",
+  },
+  infoText: {
+    fontSize: wp("3.8%"),
+    color: "#856404",
+    marginLeft: 10,
+    fontWeight: "500",
+    flex: 1,
+  },
   adContainer: {
     marginVertical: hp("2%"),
   },
@@ -496,6 +519,15 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: wp("4%"),
     fontWeight: "600",
+  },
+  // Nuevos estilos para el botón deshabilitado
+  confirmButtonDisabled: {
+    backgroundColor: "#e9ecef",
+    elevation: 1,
+    shadowOpacity: 0.1,
+  },
+  confirmButtonTextDisabled: {
+    color: "#6c757d",
   },
   // Estilos para la animación
   animationOverlay: {

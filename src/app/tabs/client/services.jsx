@@ -49,10 +49,6 @@ const service = () => {
     })
   }
 
-  const handleAdClick = () => {
-    console.log("Anuncio clickeado!")
-    router.push("/tabs/goPremium")
-  }
 
   const isPremiumUser = false // Cambiar a true para simular usuario premium
 
@@ -88,7 +84,7 @@ const service = () => {
 
         {/* Otro anuncio antes de los resultados */}
         <View style={styles.adContainer}>
-          <AdsImage isPremium={isPremiumUser} onPress={handleAdClick} />
+          <AdsImage onPress isPremium={isPremiumUser}/>
         </View>
 
         <ProfileGrid

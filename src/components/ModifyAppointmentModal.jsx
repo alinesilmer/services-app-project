@@ -6,6 +6,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-nat
 import { Colors } from "../constants/Colors"
 import DatePickerAppointment from "./DatePickerAppointment"
 import AnimationFeedback from "./AnimationFeedback"
+import { generateTimeSlots } from "../utils/timeSlotGenerator"
 
 const ModifyAppointmentModal = ({ visible, appointment, onClose, onSave }) => {
 
@@ -14,18 +15,19 @@ const ModifyAppointmentModal = ({ visible, appointment, onClose, onSave }) => {
   const [selectedTimes, setSelectedTimes] = useState([])
   const [showSuccessAnimation, setShowSuccessAnimation] = useState(false)
   const [hasChanges, setHasChanges] = useState(false)
+  const [availableTimes, setAvailableTimes] = useState([])
 
-  // Horarios disponibles
-  const availableTimes = [
-    { id: "A", time: "12:00", label: "A" },
-    { id: "B", time: "15:00", label: "B" },
-    { id: "C", time: "16:00", label: "C" },
-    { id: "D", time: "19:00", label: "D" },
-  ]
+  // Generar horarios dinámicamente basándose en el profesional del appointment
+  useEffect(() => {
+    if (appointment?.professionalId) {
+      const timeSlots = generateTimeSlots(appointment.professionalId)
+      setAvailableTimes(timeSlots)
+    }
+  }, [appointment?.professionalId])
 
   // Inicializar valores cuando se abre el modal
   useEffect(() => {
-    if (visible && appointment) {
+    if (visible && appointment && availableTimes.length > 0) {
 
       // Inicializar la fecha con la fecha actual del turno
       const appointmentDate = new Date(appointment.date)
@@ -38,11 +40,11 @@ const ModifyAppointmentModal = ({ visible, appointment, onClose, onSave }) => {
       }
       setHasChanges(false)
     }
-  }, [visible, appointment?.id, appointment])
+  }, [visible, appointment?.id, availableTimes])
 
   // Detectar cambios
   useEffect(() => {
-    if (appointment && selectedDate) {
+    if (appointment && selectedDate && availableTimes.length > 0) {
       const originalDate = new Date(appointment.date).toDateString()
       const newDate = selectedDate.toDateString()
       const originalTime = availableTimes.find((slot) => slot.time === appointment.time)?.id
@@ -53,7 +55,7 @@ const ModifyAppointmentModal = ({ visible, appointment, onClose, onSave }) => {
 
       setHasChanges(dateChanged || timeChanged)
     }
-  }, [selectedDate, selectedTimes, appointment?.id])
+  }, [selectedDate, selectedTimes, appointment?.id, availableTimes])
 
   const validateFutureDate = (selectedDate) => {
     const today = new Date()
@@ -143,7 +145,7 @@ const ModifyAppointmentModal = ({ visible, appointment, onClose, onSave }) => {
       onSave(updatedAppointment)
       setShowSuccessAnimation(false)
       onClose()
-    }, 1200)
+    }, 1400)
   }
 
   const handleClose = () => {
@@ -281,7 +283,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
-    height: hp("85%"), // Altura fija para asegurar que se vea
+    height: hp("85%"),
     flexDirection: "column",
   },
   header: {
@@ -401,7 +403,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
   bottomSpacer: {
-    height: 100, // Espacio para evitar que el contenido se oculte detrás de los botones
+    height: 100,
   },
   actions: {
     flexDirection: "row",
