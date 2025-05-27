@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import {
   View,
   Text,
@@ -8,56 +8,49 @@ import {
   Platform,
   ScrollView,
   Modal,
-  Alert,
   SafeAreaView,
   RefreshControl,
-} from "react-native";
-import { useState, useCallback } from "react";
-import { router, useFocusEffect } from "expo-router";
-import { Colors } from "../../constants/Colors";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
-import { AntDesign, MaterialIcons } from "@expo/vector-icons";
-import AdsImage from "../../components/AdsImage";
-import NavBar from "../../components/NavBar";
-import mockAppointments from "../../data/mockAppointments";
+} from "react-native"
+import { useState, useCallback } from "react"
+import { router, useFocusEffect } from "expo-router"
+import { Colors } from "../../constants/Colors"
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
+import { AntDesign, MaterialIcons } from "@expo/vector-icons"
+import AdsImage from "../../components/AdsImage"
+import NavBar from "../../components/NavBar"
+import AnimationFeedback from "../../components/AnimationFeedback"
+import ModifyAppointmentModal from "../../components/ModifyAppointmentModal"
+import mockAppointments from "../../data/mockAppointments"
 
 const MyAppointments = () => {
-  const [selectedAppointment, setSelectedAppointment] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-  const [refreshing, setRefreshing] = useState(false);
-  const [currentAppointments, setCurrentAppointments] = useState([]);
+  const [selectedAppointment, setSelectedAppointment] = useState(null)
+  const [showModal, setShowModal] = useState(false)
+  const [showModifyModal, setShowModifyModal] = useState(false)
+  const [refreshing, setRefreshing] = useState(false)
+  const [currentAppointments, setCurrentAppointments] = useState([])
+  const [showDeleteAnimation, setShowDeleteAnimation] = useState(false)
+  const [appointmentToDelete, setAppointmentToDelete] = useState(null)
 
   // Función para cargar citas
   const loadAppointments = useCallback(() => {
-    setCurrentAppointments([...mockAppointments]);
-  }, []);
+    setCurrentAppointments([...mockAppointments])
+  }, [])
 
   // Cargar citas cuando la pantalla se enfoca
   useFocusEffect(
     useCallback(() => {
-      loadAppointments();
-    }, [loadAppointments])
-  );
+      loadAppointments()
+    }, [loadAppointments]),
+  )
 
   const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    loadAppointments();
-    setTimeout(() => setRefreshing(false), 1000);
-  }, [loadAppointments]);
+    setRefreshing(true)
+    loadAppointments()
+    setTimeout(() => setRefreshing(false), 1000)
+  }, [loadAppointments])
 
   const formatDate = (date) => {
-    const days = [
-      "Domingo",
-      "Lunes",
-      "Martes",
-      "Miércoles",
-      "Jueves",
-      "Viernes",
-      "Sábado",
-    ];
+    const days = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
     const months = [
       "Enero",
       "Febrero",
@@ -71,65 +64,72 @@ const MyAppointments = () => {
       "Octubre",
       "Noviembre",
       "Diciembre",
-    ];
+    ]
 
-    const appointmentDate = new Date(date);
-    return `${days[appointmentDate.getDay()]} ${appointmentDate.getDate()} de ${
-      months[appointmentDate.getMonth()]
-    }`;
-  };
+    const appointmentDate = new Date(date)
+    return `${days[appointmentDate.getDay()]} ${appointmentDate.getDate()} de ${months[appointmentDate.getMonth()]}`
+  }
 
   const handleAppointmentPress = (appointment) => {
-    setSelectedAppointment(appointment);
-    setShowModal(true);
-  };
+    setSelectedAppointment(appointment)
+    setShowModal(true)
+  }
 
   const handleCancelAppointment = (appointmentId) => {
-    Alert.alert(
-      "Cancelar Turno",
-      "¿Estás seguro que deseas cancelar este turno?",
-      [
-        {
-          text: "No",
-          style: "cancel",
-        },
-        {
-          text: "Sí, cancelar",
-          style: "destructive",
-          onPress: () => {
-            // Eliminar del array local
-            const index = mockAppointments.findIndex(
-              (apt) => apt.id === appointmentId
-            );
-            if (index > -1) {
-              mockAppointments.splice(index, 1);
-            }
-            setCurrentAppointments([...mockAppointments]);
-            setShowModal(false);
-            Alert.alert(
-              "Turno cancelado",
-              "El turno ha sido cancelado exitosamente"
-            );
-          },
-        },
-      ]
-    );
-  };
+    // Mostrar modal de confirmación personalizado
+    setAppointmentToDelete(appointmentId)
+    setShowDeleteAnimation(true)
+
+    // Simular eliminación después de la animación
+    setTimeout(() => {
+      // Eliminar del array local
+      const index = mockAppointments.findIndex((apt) => apt.id === appointmentId)
+      if (index > -1) {
+        mockAppointments.splice(index, 1)
+      }
+      setCurrentAppointments([...mockAppointments])
+      setShowModal(false)
+      setShowDeleteAnimation(false)
+      setAppointmentToDelete(null)
+    }, 2500) // Duración de la animación
+  }
 
   const handleRequestChange = () => {
-    Alert.alert(
-      "Solicitar Cambio",
-      "Esta funcionalidad estará disponible próximamente"
-    );
-  };
+    // Cerrar el modal principal primero
+    setShowModal(false)
+    // Luego abrir el modal de modificación
+    setTimeout(() => {
+      setShowModifyModal(true)
+    }, 100) // Pequeño delay para asegurar que el primer modal se cierre
+  }
+
+  const handleSaveModifiedAppointment = (updatedAppointment) => {
+    // Actualizar en el array local
+    const index = mockAppointments.findIndex((apt) => apt.id === updatedAppointment.id)
+    if (index > -1) {
+      mockAppointments[index] = updatedAppointment
+      setCurrentAppointments([...mockAppointments])
+    }
+    // Cerrar ambos modales
+    setShowModifyModal(false)
+    setShowModal(false)
+    setSelectedAppointment(null)
+  }
+
+  const handleCloseModifyModal = () => {
+    setShowModifyModal(false)
+    // No reabrir el modal principal automáticamente
+    // El usuario tendrá que tocar el turno nuevamente si quiere ver los detalles
+    setSelectedAppointment(null)
+  }
 
   const handleAdClick = () => {
-    console.log("Anuncio en mis turnos clickeado!");
-  };
+    console.log("Anuncio en mis turnos clickeado!")
+  }
 
   const handleBack = () => {
-    router.back();
-  };
+    router.back()
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -153,67 +153,48 @@ const MyAppointments = () => {
         <ScrollView
           showsVerticalScrollIndicator={false}
           style={styles.scrollContainer}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         >
           {currentAppointments.length === 0 ? (
             <View style={styles.emptyContainer}>
               <MaterialIcons name="event-busy" size={80} color="#ccc" />
               <Text style={styles.emptyText}>No tienes turnos programados</Text>
-              <Text style={styles.emptySubtext}>
-                Agenda tu primera cita con un profesional
-              </Text>
+              <Text style={styles.emptySubtext}>Agenda tu primera cita con un profesional</Text>
             </View>
           ) : (
             currentAppointments.map((appointment) => (
               <TouchableOpacity
-              activeOpacity={0.8}
+                activeOpacity={0.8}
                 key={appointment.id}
-                style={[
-                  styles.appointmentCard,
-                  appointment.isNew && styles.newAppointmentCard,
-                ]}
+                style={[styles.appointmentCard, appointment.isNew && styles.newAppointmentCard]}
                 onPress={() => handleAppointmentPress(appointment)}
               >
                 {appointment.isNew && <View style={styles.newIndicator} />}
                 <View style={styles.appointmentHeader}>
-                  <MaterialIcons
-                    name="event"
-                    size={24}
-                    color={Colors.blueColor}
-                  />
+                  <MaterialIcons name="event" size={24} color={Colors.blueColor} />
                   <Text style={styles.appointmentTitle}>
                     {appointment.profession?.toUpperCase()}
-                    {appointment.isNew && (
-                      <Text style={styles.newText}> (Nuevo)</Text>
-                    )}
+                    {appointment.isNew && <Text style={styles.newText}> (Nuevo)</Text>}
                   </Text>
                 </View>
 
                 <View style={styles.appointmentDetails}>
                   <Text style={styles.appointmentDetailText}>
-                    <Text style={styles.detailLabel}>Profesional:</Text>{" "}
-                    {appointment.professionalName}
+                    <Text style={styles.detailLabel}>Profesional:</Text> {appointment.professionalName}
                   </Text>
                   <Text style={styles.appointmentDetailText}>
-                    <Text style={styles.detailLabel}>Fecha:</Text>{" "}
-                    {formatDate(appointment.date)}
+                    <Text style={styles.detailLabel}>Fecha:</Text> {formatDate(appointment.date)}
                   </Text>
                   <Text style={styles.appointmentDetailText}>
-                    <Text style={styles.detailLabel}>Hora:</Text>{" "}
-                    {appointment.time} h
+                    <Text style={styles.detailLabel}>Hora:</Text> {appointment.time} h
                   </Text>
                   <Text style={styles.appointmentDetailText}>
-                    <Text style={styles.detailLabel}>Ubicación:</Text>{" "}
-                    {appointment.location}
+                    <Text style={styles.detailLabel}>Ubicación:</Text> {appointment.location}
                   </Text>
                   <View style={styles.statusContainer}>
                     <Text style={styles.statusLabel}>Estado:</Text>
                     <View style={styles.statusBadge}>
-                      <Text style={styles.statusText}>
-                        {appointment.estado}
-                      </Text>
+                      <Text style={styles.statusText}>{appointment.estado}</Text>
                     </View>
                   </View>
                 </View>
@@ -229,12 +210,7 @@ const MyAppointments = () => {
       </View>
 
       {/* Modal de detalles */}
-      <Modal
-        visible={showModal}
-        transparent={true}
-        animationType="slide"
-        onRequestClose={() => setShowModal(false)}
-      >
+      <Modal visible={showModal} transparent={true} animationType="slide" onRequestClose={() => setShowModal(false)}>
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             {selectedAppointment && (
@@ -242,9 +218,7 @@ const MyAppointments = () => {
                 <View style={styles.modalHeader}>
                   <Text style={styles.modalTitle}>
                     {selectedAppointment.profession?.toUpperCase()}
-                    {selectedAppointment.isNew && (
-                      <Text style={styles.newText}> (Nuevo)</Text>
-                    )}
+                    {selectedAppointment.isNew && <Text style={styles.newText}> (Nuevo)</Text>}
                   </Text>
                   <TouchableOpacity onPress={() => setShowModal(false)}>
                     <AntDesign name="close" size={24} color="#666" />
@@ -253,62 +227,37 @@ const MyAppointments = () => {
 
                 <View style={styles.modalBody}>
                   <View style={styles.modalDetailRow}>
-                    <MaterialIcons
-                      name="person"
-                      size={20}
-                      color={Colors.blueColor}
-                    />
+                    <MaterialIcons name="person" size={20} color={Colors.blueColor} />
                     <Text style={styles.modalDetailText}>
-                      <Text style={styles.modalDetailLabel}>Profesional:</Text>{" "}
-                      {selectedAppointment.professionalName}
+                      <Text style={styles.modalDetailLabel}>Profesional:</Text> {selectedAppointment.professionalName}
                     </Text>
                   </View>
 
                   <View style={styles.modalDetailRow}>
-                    <MaterialIcons
-                      name="calendar-today"
-                      size={20}
-                      color={Colors.blueColor}
-                    />
+                    <MaterialIcons name="calendar-today" size={20} color={Colors.blueColor} />
                     <Text style={styles.modalDetailText}>
-                      <Text style={styles.modalDetailLabel}>Fecha:</Text>{" "}
-                      {formatDate(selectedAppointment.date)}
+                      <Text style={styles.modalDetailLabel}>Fecha:</Text> {formatDate(selectedAppointment.date)}
                     </Text>
                   </View>
 
                   <View style={styles.modalDetailRow}>
-                    <MaterialIcons
-                      name="access-time"
-                      size={20}
-                      color={Colors.blueColor}
-                    />
+                    <MaterialIcons name="access-time" size={20} color={Colors.blueColor} />
                     <Text style={styles.modalDetailText}>
-                      <Text style={styles.modalDetailLabel}>Hora:</Text>{" "}
-                      {selectedAppointment.time} h
+                      <Text style={styles.modalDetailLabel}>Hora:</Text> {selectedAppointment.time} h
                     </Text>
                   </View>
 
                   <View style={styles.modalDetailRow}>
-                    <MaterialIcons
-                      name="location-on"
-                      size={20}
-                      color={Colors.blueColor}
-                    />
+                    <MaterialIcons name="location-on" size={20} color={Colors.blueColor} />
                     <Text style={styles.modalDetailText}>
-                      <Text style={styles.modalDetailLabel}>Ubicación:</Text>{" "}
-                      {selectedAppointment.location}
+                      <Text style={styles.modalDetailLabel}>Ubicación:</Text> {selectedAppointment.location}
                     </Text>
                   </View>
 
                   <View style={styles.modalDetailRow}>
-                    <MaterialIcons
-                      name="check-circle"
-                      size={20}
-                      color="#28a745"
-                    />
+                    <MaterialIcons name="check-circle" size={20} color="#28a745" />
                     <Text style={styles.modalDetailText}>
-                      <Text style={styles.modalDetailLabel}>Estado:</Text>{" "}
-                      {selectedAppointment.estado}
+                      <Text style={styles.modalDetailLabel}>Estado:</Text> {selectedAppointment.estado}
                     </Text>
                   </View>
                 </View>
@@ -316,20 +265,13 @@ const MyAppointments = () => {
                 <View style={styles.modalActions}>
                   <TouchableOpacity
                     style={styles.cancelButton}
-                    onPress={() =>
-                      handleCancelAppointment(selectedAppointment.id)
-                    }
+                    onPress={() => handleCancelAppointment(selectedAppointment.id)}
                   >
                     <Text style={styles.cancelButtonText}>Cancelar Turno</Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity
-                    style={styles.changeButton}
-                    onPress={handleRequestChange}
-                  >
-                    <Text style={styles.changeButtonText}>
-                      Solicitar Cambio
-                    </Text>
+                  <TouchableOpacity style={styles.changeButton} onPress={handleRequestChange}>
+                    <Text style={styles.changeButtonText}>Modificar Turno</Text>
                   </TouchableOpacity>
                 </View>
               </>
@@ -338,10 +280,29 @@ const MyAppointments = () => {
         </View>
       </Modal>
 
+      {/* Modal para modificar turno */}
+      <ModifyAppointmentModal
+        visible={showModifyModal}
+        appointment={selectedAppointment}
+        onClose={handleCloseModifyModal}
+        onSave={handleSaveModifiedAppointment}
+      />
+
+      {/* Modal con animación de eliminación */}
+      <Modal visible={showDeleteAnimation} transparent={true} animationType="fade">
+        <View style={styles.animationOverlay}>
+          <View style={styles.animationContainer}>
+            <AnimationFeedback type="delete" />
+            <Text style={styles.deleteTitle}>Turno Cancelado</Text>
+            <Text style={styles.deleteMessage}>El turno ha sido cancelado exitosamente</Text>
+          </View>
+        </View>
+      </Modal>
+
       <NavBar />
     </SafeAreaView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -376,14 +337,6 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: wp("4.5%"),
     fontWeight: "bold",
-  },
-  notificationButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "rgba(255, 255, 255, 0.2)",
-    justifyContent: "center",
-    alignItems: "center",
   },
   content: {
     flex: 1,
@@ -574,6 +527,34 @@ const styles = StyleSheet.create({
     fontSize: wp("3.8%"),
     fontWeight: "600",
   },
-});
+  // Estilos para la animación de eliminación
+  animationOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  animationContainer: {
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 30,
+    alignItems: "center",
+    minWidth: wp("70%"),
+  },
+  deleteTitle: {
+    fontSize: wp("5%"),
+    fontWeight: "bold",
+    color: "#333",
+    marginTop: 15,
+    textAlign: "center",
+  },
+  deleteMessage: {
+    fontSize: wp("4%"),
+    color: "#666",
+    marginTop: 10,
+    textAlign: "center",
+    lineHeight: wp("5.5%"),
+  },
+})
 
-export default MyAppointments;
+export default MyAppointments

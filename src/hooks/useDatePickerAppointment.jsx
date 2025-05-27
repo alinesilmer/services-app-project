@@ -4,11 +4,15 @@ import { useState } from "react"
 
 const useDatePickerAppointment = (initialDate = null) => {
   // Si no hay fecha inicial, usar mañana como mínimo
-  const tomorrow = new Date()
-  tomorrow.setDate(tomorrow.getDate() + 1)
-  tomorrow.setHours(0, 0, 0, 0)
+  const getInitialDate = () => {
+    if (initialDate) return initialDate
+    const tomorrow = new Date()
+    tomorrow.setDate(tomorrow.getDate() + 1)
+    tomorrow.setHours(0, 0, 0, 0)
+    return tomorrow
+  }
 
-  const [date, setDate] = useState(initialDate || tomorrow)
+  const [date, setDate] = useState(getInitialDate)
   const [show, setShow] = useState(false)
 
   const openPicker = () => {
@@ -28,12 +32,7 @@ const useDatePickerAppointment = (initialDate = null) => {
   const handleChange = (event, selectedDate) => {
     setShow(false)
     if (selectedDate) {
-      if (validateFutureDate(selectedDate)) {
-        setDate(selectedDate)
-      } else {
-        // Opcional: mostrar mensaje de error o mantener la fecha anterior
-        console.log("Por favor selecciona una fecha futura")
-      }
+      setDate(selectedDate)
     }
   }
 
@@ -43,6 +42,10 @@ const useDatePickerAppointment = (initialDate = null) => {
     return tomorrow
   }
 
+  const setDateDirectly = (newDate) => {
+    setDate(newDate)
+  }
+
   return {
     date,
     show,
@@ -50,6 +53,7 @@ const useDatePickerAppointment = (initialDate = null) => {
     handleChange,
     validateFutureDate,
     getMinimumDate,
+    setDateDirectly,
   }
 }
 

@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
   profileImageContainer: {
     alignItems: "center",
     marginBottom: hp("2%"),
-    marginTop: hp("2%"),
+    marginTop: hp("6%"),
   },
   profileImage: {
     width: wp("30%"),
