@@ -1,22 +1,31 @@
 "use client"
-import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Platform, ScrollView, Alert } from "react-native"
+import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Platform, ScrollView, Modal } from "react-native"
 import { useState } from "react"
 import { useLocalSearchParams, router } from "expo-router"
 import { Colors } from "../../../constants/Colors"
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
 import { AntDesign, MaterialIcons } from "@expo/vector-icons"
 import AdsImage from "../../../components/AdsImage"
-import DatePicker from "../../../components/DatePicker"
-import useDatePicker from "../../../hooks/useDatePicker"
+import DatePickerAppointment from "../../../components/DatePickerAppointment"
+import AnimationFeedback from "../../../components/AnimationFeedback"
+import useDatePickerAppointment from "../../../hooks/useDatePickerAppointment"
 import mockAppointments from "../../../data/mockAppointments"
 
 const Appointment = () => {
   const params = useLocalSearchParams()
   const [showTimeSelection, setShowTimeSelection] = useState(false)
   const [selectedTimes, setSelectedTimes] = useState([])
+  const [showSuccessAnimation, setShowSuccessAnimation] = useState(false)
 
-  // Usar el hook personalizado para manejar la fecha
-  const { date: selectedDate, show: showDatePicker, openPicker, handleChange } = useDatePicker(new Date())
+  // Usar el hook específico para turnos (solo fechas futuras)
+  const {
+    date: selectedDate,
+    show: showDatePicker,
+    openPicker,
+    handleChange,
+    validateFutureDate,
+    getMinimumDate,
+  } = useDatePickerAppointment()
 
   // Horarios disponibles
   const availableTimes = [
@@ -58,9 +67,15 @@ const Appointment = () => {
 
   const handleDateConfirm = () => {
     if (!selectedDate) {
-      Alert.alert("Error", "Por favor selecciona una fecha")
+      console.log("Por favor selecciona una fecha")
       return
     }
+
+    if (!validateFutureDate(selectedDate)) {
+      console.log("Por favor selecciona una fecha futura")
+      return
+    }
+
     setShowTimeSelection(true)
   }
 
@@ -76,15 +91,15 @@ const Appointment = () => {
 
   const handleConfirmAppointment = () => {
     if (selectedTimes.length === 0) {
-      Alert.alert("Error", "Por favor selecciona al menos un horario")
+      console.log("Por favor selecciona al menos un horario")
       return
     }
 
-    // Agregar nuevas citas al array local (como en add-comment)
+    // Agregar nuevas citas al array local
     selectedTimes.forEach((timeId) => {
       const timeSlot = availableTimes.find((t) => t.id === timeId)
       const newAppointment = {
-        id: Date.now().toString() + Math.random().toString(36).substr(2, 9), // ID único
+        id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
         professionalName: params.professionalName,
         profession: params.profession,
         date: selectedDate,
@@ -92,30 +107,27 @@ const Appointment = () => {
         timeLabel: timeSlot.label,
         availability: params.availability,
         professionalId: params.professionalId,
-        location: "En local", // Puedes hacer esto dinámico
+        location: "En local",
         estado: "CONFIRMADO",
         createdAt: new Date().toISOString(),
-        isNew: true, // Marcar como nuevo para identificarlo
+        isNew: true,
       }
 
-      // Agregar al inicio del array (como en add-comment)
       mockAppointments.unshift(newAppointment)
     })
 
-    Alert.alert(
-      "¡Éxito!",
-      `Se ${selectedTimes.length > 1 ? "han" : "ha"} confirmado ${selectedTimes.length} turno${selectedTimes.length > 1 ? "s" : ""}`,
-      [
-        {
-          text: "Ver mis turnos",
-          onPress: () => router.push("/tabs/myAppointments"),
-        },
-        {
-          text: "Volver",
-          onPress: () => router.back(),
-        },
-      ],
-    )
+    // Mostrar animación de éxito
+setShowSuccessAnimation(true)
+
+// Ocultar animación después de 1100ms
+setTimeout(() => {
+  setShowSuccessAnimation(false)
+}, 1100)
+
+// Redirigir después de 1400ms
+setTimeout(() => {
+  router.push("/tabs/myAppointments")
+}, 1400)
   }
 
   const handleAdClick = () => {
@@ -186,6 +198,20 @@ const Appointment = () => {
             </TouchableOpacity>
           </View>
         </ScrollView>
+
+        {/* Modal con animación de éxito */}
+        <Modal visible={showSuccessAnimation} transparent={true} animationType="fade">
+          <View style={styles.animationOverlay}>
+            <View style={styles.animationContainer}>
+              <AnimationFeedback type="success" />
+              <Text style={styles.successTitle}>¡Éxito!</Text>
+              <Text style={styles.successMessage}>
+                Se {selectedTimes.length > 1 ? "han" : "ha"} confirmado {selectedTimes.length} turno
+                {selectedTimes.length > 1 ? "s" : ""}
+              </Text>
+            </View>
+          </View>
+        </Modal>
       </View>
     )
   }
@@ -218,19 +244,20 @@ const Appointment = () => {
           </Text>
         </View>
 
-        {/* Selector de fecha usando el DatePicker personalizado */}
+        {/* Selector de fecha usando el DatePickerAppointment */}
         <View style={styles.datePickerContainer}>
           <Text style={styles.datePickerLabel}>Fecha seleccionada:</Text>
           <View style={styles.selectedDateDisplay}>
             <Text style={styles.selectedDateText}>{formatDate(selectedDate)}</Text>
           </View>
 
-          <DatePicker
+          <DatePickerAppointment
             label="Seleccionar nueva fecha"
             value={selectedDate}
             onChange={handleChange}
             show={showDatePicker}
             onPress={openPicker}
+            minimumDate={getMinimumDate()}
           />
         </View>
 
@@ -469,6 +496,34 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: wp("4%"),
     fontWeight: "600",
+  },
+  // Estilos para la animación
+  animationOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  animationContainer: {
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 30,
+    alignItems: "center",
+    minWidth: wp("70%"),
+  },
+  successTitle: {
+    fontSize: wp("5%"),
+    fontWeight: "bold",
+    color: "#333",
+    marginTop: 15,
+    textAlign: "center",
+  },
+  successMessage: {
+    fontSize: wp("4%"),
+    color: "#666",
+    marginTop: 10,
+    textAlign: "center",
+    lineHeight: wp("5.5%"),
   },
 })
 

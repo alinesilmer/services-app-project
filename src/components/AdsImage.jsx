@@ -1,10 +1,16 @@
 "use client"
 
+import { useRouter } from "expo-router"
 import { useState, useEffect } from "react"
 import { View, Image, StyleSheet, TouchableOpacity, Text } from "react-native"
 
 const AdsImage = ({ onPress, style, isPremium = false }) => {
   const [currentAd, setCurrentAd] = useState(null)
+
+  const router = useRouter();
+  const handleAdClick = () => {
+    router.push("/tabs/goPremium")
+  }
 
   // Array con las rutas de las imágenes de anuncios
   const adsImages = [
@@ -47,7 +53,7 @@ const AdsImage = ({ onPress, style, isPremium = false }) => {
   // Si se proporciona onPress, envolver en TouchableOpacity
   if (onPress) {
     return (
-      <TouchableOpacity onPress={onPress} activeOpacity={0.8}>
+      <TouchableOpacity onPress={handleAdClick} activeOpacity={0.8}>
         {AdContent}
       </TouchableOpacity>
     )

@@ -19,6 +19,8 @@ const AnimationFeedback = ({ type }) => {
     source = require('../assets/animations/success.json');
   } else if (type === 'failure') {
     source = require('../assets/animations/failure.json');
+  } else if (type === 'delete'){
+    source = require('../assets/animations/deleted.json')
   }
 
   return (
