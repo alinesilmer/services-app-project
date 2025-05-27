@@ -68,7 +68,7 @@ const ProfileDetail = () => {
 
   const handleServicesPress = () => {
     router.push({
-      pathname: "/tabs/client/professional-services",
+      pathname: "/tabs/client/professionalServices",
       params: {
         professionalId: params.profileId,
         professionalName: params.nombre,
