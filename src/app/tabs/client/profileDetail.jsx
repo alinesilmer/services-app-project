@@ -17,6 +17,7 @@ import {
 } from "react-native-responsive-screen";
 import Animated, { SlideInDown } from "react-native-reanimated";
 import NavBar from "../../../components/NavBar";
+import BackButton from "../../../components/BackButton";
 
 const ProfileDetail = () => {
   const params = useLocalSearchParams();
@@ -113,6 +114,7 @@ const ProfileDetail = () => {
   return (
     <View style={styles.safeArea}>
       <View style={styles.header}>
+      <BackButton/>
         <Text style={styles.headerText}>{params.profesion?.toUpperCase()}</Text>
       </View>
 

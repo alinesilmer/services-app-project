@@ -241,20 +241,6 @@ const styles = StyleSheet.create({
   header: {
     marginBottom: hp("1%"),
   },
-  backButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "white",
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 15,
-    elevation: 2,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-  },
   headerContent: {
     paddingTop: 35,
     flexDirection: "row",

@@ -14,6 +14,7 @@ import AdsImage from "../../../components/AdsImage"
 import { categories } from "../../../data/mockCategories"
 import profiles from "../../../data/mockProfiles"
 import { useProfileFiltering } from "../../../hooks/useProfileFiltering"
+import BackButton from "../../../components/BackButton"
 
 const service = () => {
   const { label, icon, useFeather } = useLocalSearchParams()
@@ -54,6 +55,7 @@ const service = () => {
 
   return (
     <View style={styles.safeArea}>
+      <BackButton/>
       <SearchBar />
       <ScrollView showsVerticalScrollIndicator={false}>
         {selectedService && (

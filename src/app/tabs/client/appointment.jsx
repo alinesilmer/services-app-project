@@ -11,6 +11,7 @@ import AnimationFeedback from "../../../components/AnimationFeedback"
 import useDatePickerAppointment from "../../../hooks/useDatePickerAppointment"
 import mockAppointments from "../../../data/mockAppointments"
 import { generateTimeSlots } from "../../../utils/timeSlotGenerator"
+import BackButton from "../../../components/BackButton"
 
 const Appointment = () => {
   const params = useLocalSearchParams()
@@ -132,9 +133,7 @@ const Appointment = () => {
 
         {/* Header */}
         <View style={styles.header}>
-          <TouchableOpacity onPress={handleBack} style={styles.backButton}>
-            <AntDesign name="arrowleft" size={24} color="#666" />
-          </TouchableOpacity>
+          <BackButton/>
         </View>
 
         <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
@@ -227,9 +226,7 @@ const Appointment = () => {
 
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={handleBack} style={styles.backButton}>
-          <AntDesign name="arrowleft" size={24} color="#666" />
-        </TouchableOpacity>
+        <BackButton/>
       </View>
 
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
@@ -295,14 +292,6 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight + 10 : 50,
     paddingHorizontal: wp("5%"),
     paddingBottom: 10,
-  },
-  backButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "#e9ecef",
-    justifyContent: "center",
-    alignItems: "center",
   },
   content: {
     flex: 1,

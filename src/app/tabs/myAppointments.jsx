@@ -21,6 +21,7 @@ import NavBar from "../../components/NavBar"
 import AnimationFeedback from "../../components/AnimationFeedback"
 import ModifyAppointmentModal from "../../components/ModifyAppointmentModal"
 import mockAppointments from "../../data/mockAppointments"
+import BackButton from "../../components/BackButton"
 
 const MyAppointments = () => {
   const [selectedAppointment, setSelectedAppointment] = useState(null)
@@ -134,9 +135,7 @@ const MyAppointments = () => {
 
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={handleBack} style={styles.backButton}>
-          <AntDesign name="arrowleft" size={24} color="white" />
-        </TouchableOpacity>
+        <BackButton/>
         <View style={styles.welcomeContainer}>
           <Text style={styles.welcomeText}>Bienvenido</Text>
           <Text style={styles.usernameText}>Usuario</Text>
@@ -313,14 +312,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: wp("5%"),
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight + 10 : 10,
     paddingBottom: 20,
-  },
-  backButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "rgba(255, 255, 255, 0.2)",
-    justifyContent: "center",
-    alignItems: "center",
   },
   welcomeContainer: {
     alignItems: "center",
