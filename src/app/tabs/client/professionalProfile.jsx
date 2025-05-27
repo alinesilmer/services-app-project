@@ -148,6 +148,7 @@ const ProfessionalProfile = () => {
 
         {/* Botón agregar comentario */}
         <TouchableOpacity
+        activeOpacity={0.7}
           style={styles.addCommentButton}
           onPress={handleAddComment}
         >

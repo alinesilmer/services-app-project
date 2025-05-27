@@ -157,6 +157,7 @@ const Appointment = () => {
 
             {availableTimes.map((timeSlot) => (
               <TouchableOpacity
+              activeOpacity={0.7}
                 key={timeSlot.id}
                 style={styles.timeSlotContainer}
                 onPress={() => toggleTimeSelection(timeSlot.id)}
@@ -187,11 +188,12 @@ const Appointment = () => {
 
           {/* Botones de acción */}
           <View style={styles.actionButtons}>
-            <TouchableOpacity style={styles.backActionButton} onPress={handleBack}>
+            <TouchableOpacity activeOpacity={0.7} style={styles.backActionButton} onPress={handleBack}>
               <Text style={styles.backButtonText}>Volver atrás</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
+            activeOpacity={0.7}
               style={[styles.confirmButton, !isConfirmButtonEnabled && styles.confirmButtonDisabled]}
               onPress={handleConfirmAppointment}
               disabled={!isConfirmButtonEnabled}
@@ -270,11 +272,11 @@ const Appointment = () => {
 
         {/* Botones de acción */}
         <View style={styles.actionButtons}>
-          <TouchableOpacity style={styles.backActionButton} onPress={handleBack}>
+          <TouchableOpacity activeOpacity={0.7} style={styles.backActionButton} onPress={handleBack}>
             <Text style={styles.backButtonText}>Volver atrás</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.confirmButton} onPress={handleDateConfirm}>
+          <TouchableOpacity activeOpacity={0.7} style={styles.confirmButton} onPress={handleDateConfirm}>
             <Text style={styles.confirmButtonText}>Confirmar fecha</Text>
           </TouchableOpacity>
         </View>

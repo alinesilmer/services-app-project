@@ -168,7 +168,7 @@ const ModifyAppointmentModal = ({ visible, appointment, onClose, onSave }) => {
           {/* Header */}
           <View style={styles.header}>
             <Text style={styles.title}>Modificar Turno</Text>
-            <TouchableOpacity onPress={handleClose}>
+            <TouchableOpacity activeOpacity={0.7} onPress={handleClose}>
               <MaterialIcons name="close" size={24} color="#666" />
             </TouchableOpacity>
           </View>
@@ -214,6 +214,7 @@ const ModifyAppointmentModal = ({ visible, appointment, onClose, onSave }) => {
               <View style={styles.timeSelection}>
                 {availableTimes.map((timeSlot) => (
                   <TouchableOpacity
+                  activeOpacity={0.7}
                     key={timeSlot.id}
                     style={styles.timeSlotContainer}
                     onPress={() => toggleTimeSelection(timeSlot.id)}
@@ -244,11 +245,12 @@ const ModifyAppointmentModal = ({ visible, appointment, onClose, onSave }) => {
 
           {/* Botones de acción */}
           <View style={styles.actions}>
-            <TouchableOpacity style={styles.cancelButton} onPress={handleClose}>
+            <TouchableOpacity activeOpacity={0.7} style={styles.cancelButton} onPress={handleClose}>
               <Text style={styles.cancelButtonText}>Cancelar</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
+            activeOpacity={0.7}
               style={[styles.saveButton, !hasChanges && styles.saveButtonDisabled]}
               onPress={handleSave}
               disabled={!hasChanges}

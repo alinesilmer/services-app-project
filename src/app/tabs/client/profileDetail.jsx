@@ -194,15 +194,6 @@ const ProfileDetail = () => {
               <Text style={styles.squareButtonIcon}>🔧</Text>
               <Text style={styles.squareButtonText}>Servicios</Text>
             </TouchableOpacity>
-
-            <TouchableOpacity
-              activeOpacity={0.8}
-              style={styles.squareButton}
-              onPress={handleGalleryPress}
-            >
-              <Text style={styles.squareButtonIcon}>📷</Text>
-              <Text style={styles.squareButtonText}>Galería{"\n"}De Fotos</Text>
-            </TouchableOpacity>
           </View>
 
           <View style={styles.mainButtonsContainer}>

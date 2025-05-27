@@ -29,7 +29,7 @@ const DatePickerAppointment = ({ label = "Seleccionar fecha", value, onChange, s
 
   return (
     <View style={[styles.container, style]}>
-      <TouchableOpacity style={styles.dateButton} onPress={onPress}>
+      <TouchableOpacity activeOpacity={0.7} style={styles.dateButton} onPress={onPress}>
         <View style={styles.dateButtonContent}>
           <View style={styles.dateInfo}>
             <Text style={styles.label}>{label}</Text>

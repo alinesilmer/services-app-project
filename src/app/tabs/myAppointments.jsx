@@ -216,7 +216,7 @@ const MyAppointments = () => {
                     {selectedAppointment.profession?.toUpperCase()}
                     {selectedAppointment.isNew && <Text style={styles.newText}> (Nuevo)</Text>}
                   </Text>
-                  <TouchableOpacity onPress={() => setShowModal(false)}>
+                  <TouchableOpacity activeOpacity={0.7} onPress={() => setShowModal(false)}>
                     <AntDesign name="close" size={24} color="#666" />
                   </TouchableOpacity>
                 </View>
@@ -260,13 +260,14 @@ const MyAppointments = () => {
 
                 <View style={styles.modalActions}>
                   <TouchableOpacity
+                  activeOpacity={0.8}
                     style={styles.cancelButton}
                     onPress={() => handleCancelAppointment(selectedAppointment.id)}
                   >
                     <Text style={styles.cancelButtonText}>Cancelar Turno</Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity style={styles.changeButton} onPress={handleRequestChange}>
+                  <TouchableOpacity activeOpacity={0.8} style={styles.changeButton} onPress={handleRequestChange}>
                     <Text style={styles.changeButtonText}>Modificar Turno</Text>
                   </TouchableOpacity>
                 </View>
