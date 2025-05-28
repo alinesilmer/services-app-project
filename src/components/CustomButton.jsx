@@ -5,16 +5,16 @@
 
 import React from 'react';
 import { Text, StyleSheet, Pressable } from 'react-native';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Colors } from '../constants/Colors';
 
-const CustomButton = ({ text, onPress }) => {
+const CustomButton = ({ text, onPress, width = '90%', backgroundColor}) => {
   return (
     <Pressable
       onPress={onPress}
       style={({ pressed }) => [
-        styles.button,
-        pressed && styles.buttonPressed,
+        styles.button, backgroundColor && { backgroundColor },
+        { width}, 
+        pressed && styles.buttonPressed && { backgroundColor: Colors.orangeColor },
       ]}
     >
       <Text style={styles.text}>{text}</Text>
@@ -24,18 +24,17 @@ const CustomButton = ({ text, onPress }) => {
 
 const styles = StyleSheet.create({
   button: {
-    width: wp('90%'),
     backgroundColor: '#000',
-    padding: hp('2%'),
-    borderRadius: wp('2.5%'),
+    padding: 16,
+    borderRadius: 10,
     alignItems: 'center',
-    marginVertical: hp('1%'),
+    marginVertical: 8,
   },
   buttonPressed: {
     backgroundColor: Colors.orangeColor,
   },
   text: {
-    fontSize: wp('4%'),
+    fontSize: 16,
     color: 'white',
     fontWeight: 'bold',
   },
