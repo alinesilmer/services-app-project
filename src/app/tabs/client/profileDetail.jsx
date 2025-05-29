@@ -56,15 +56,6 @@ const ProfileDetail = () => {
     });
   };
 
-  const handleCommentsPress = () => {
-    router.push({
-      pathname: "/tabs/client/professionalProfile",
-      params: {
-        profileId: params.profileId,
-        professionalName: params.nombre,
-      },
-    });
-  };
 
   const handleServicesPress = () => {
     router.push({
@@ -77,15 +68,6 @@ const ProfileDetail = () => {
     });
   };
 
-  const handleGalleryPress = () => {
-    router.push({
-      pathname: "/tabs/client/gallery",
-      params: {
-        professionalId: params.profileId,
-        professionalName: params.nombre,
-      },
-    });
-  };
 
   const handleMessagePress = () => {
     router.push({
@@ -178,7 +160,7 @@ const ProfileDetail = () => {
           <TouchableOpacity
             activeOpacity={0.5}
             style={styles.allCommentsButton}
-            onPress={handleCommentsPress}
+            onPress={handleRatingsPress}
           >
             <Text style={styles.allCommentsText}>
               Ver todos los comentarios +
@@ -397,13 +379,7 @@ const styles = StyleSheet.create({
   squareButtonIcon: {
     fontSize: wp("6%"),
     marginBottom: hp("0.5%"),
-  },
-  squareButtonText: {
-    fontSize: wp("3%"),
-    fontWeight: "600",
-    color: "#000",
-    textAlign: "center",
-  },
+    },
   mainButtonsContainer: {
     flexDirection: "row",
     justifyContent: "space-around",

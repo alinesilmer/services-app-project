@@ -89,9 +89,16 @@ const ProfessionalServices = () => {
   }
 
   const handleSendMessage = () => {
-    console.log("Enviar mensaje a:", professional.nombre)
-    // Aquí puedes implementar la lógica para enviar mensaje
-  }
+    router.push({
+      pathname: "/tabs/chat",
+      params: {
+        professionalId: professional.id,
+        professionalName: professional.nombre,
+        professionalAvatar: professional.avatar,
+        profession: professional.profesion,
+      },
+    });
+  };
 
   const handleRequestAppointment = () => {
     router.push({
@@ -125,17 +132,6 @@ const ProfessionalServices = () => {
           <Text style={styles.servicesSubtitle}>PRECIOS ESTIMADOS</Text>
           <Text style={styles.priceNote}>(*) Los precios pueden variar según el largo del cabello.</Text>
         </View>
-
-        {/* Categorías de servicio */}
-        <View style={styles.categoriesContainer}>
-          <TouchableOpacity style={styles.categoryButton}>
-            <Text style={styles.categoryText}>{professional.profesion} a Domicilio</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.categoryButton}>
-            <Text style={styles.categoryText}>{professional.profesion} en Estudio</Text>
-          </TouchableOpacity>
-        </View>
-
         {/* Lista de servicios como botones presionables */}
         <View style={styles.servicesContainer}>
           {professional.servicios.map((service, index) => (
@@ -303,24 +299,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 10,
     fontStyle: "italic",
-  },
-  categoriesContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 30,
-    gap: 15,
-  },
-  categoryButton: {
-    flex: 1,
-    backgroundColor: "#ffb3ba",
-    borderRadius: 20,
-    paddingVertical: 15,
-    alignItems: "center",
-  },
-  categoryText: {
-    fontSize: wp("3.5%"),
-    fontWeight: "600",
-    color: "#333",
   },
   servicesContainer: {
     marginBottom: 30,

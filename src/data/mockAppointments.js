@@ -2,7 +2,7 @@ export default [
   {
     id: "1",
     professionalName: "Martin Gonzalez",
-    profession: "Peluquería",
+    profession: "Limpieza",
     date: new Date("2024-08-17"),
     time: "15:00",
     timeLabel: "B",
