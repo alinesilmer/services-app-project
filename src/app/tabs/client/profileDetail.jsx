@@ -11,7 +11,6 @@ import SlideUpCard from "../../../components/SlideUpCard"
 const ProfileDetail = () => {
   const params = useLocalSearchParams()
 
-  // Función para renderizar las estrellas
   const renderStars = (rating) => {
     const stars = []
     const fullStars = Math.floor(rating)
@@ -34,7 +33,6 @@ const ProfileDetail = () => {
     return stars
   }
 
-  // Funciones de navegación
   const handleRatingsPress = () => {
     router.push({
       pathname: "/tabs/client/professionalProfile",
@@ -200,7 +198,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.blueColor,
   },
   customCard: {
-    flex: 1,// Espacio para la imagen del perfil
+    flex: 1,
   },
   scrollContainer: {
     flex: 1,

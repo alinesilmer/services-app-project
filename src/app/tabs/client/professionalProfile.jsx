@@ -25,7 +25,6 @@ const ProfessionalProfile = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [currentOpinions, setCurrentOpinions] = useState([]);
 
-  // Encontrar el perfil por ID
   const profile = profiles.find(
     (p) => p.id === Number.parseInt(params.profileId)
   );
@@ -57,7 +56,6 @@ const ProfessionalProfile = () => {
     );
   }
 
-  // Función para renderizar las estrellas
   const renderStars = (rating, size = wp("4%")) => {
     const stars = [];
     const fullStars = Math.floor(rating);
@@ -109,12 +107,10 @@ const ProfessionalProfile = () => {
 
   return (
     <View style={styles.container}>
-      {/* Foto de perfil */}
       <View style={styles.profileImageContainer}>
         <Image source={{ uri: profile.avatar }} style={styles.profileImage} />
       </View>
 
-      {/* Contenido principal */}
       <BackButton/>
       <ScrollView
         style={styles.content}
@@ -123,7 +119,6 @@ const ProfessionalProfile = () => {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        {/* Nombre y verificación */}
         <View style={styles.nameContainer}>
           <Text style={styles.profileName}>{profile.nombre}</Text>
           <MaterialIcons
@@ -134,7 +129,6 @@ const ProfessionalProfile = () => {
           />
         </View>
 
-        {/* Calificación */}
         <View style={styles.ratingContainer}>
           <View style={styles.starsContainer}>
             {renderStars(profile.calificaciones, wp("6%"))}
@@ -142,10 +136,8 @@ const ProfessionalProfile = () => {
           <Text style={styles.ratingText}>{profile.calificaciones}</Text>
         </View>
 
-        {/* Descripción */}
         <Text style={styles.description}>{profile.descripcion}</Text>
 
-        {/* Botón agregar comentario */}
         <TouchableOpacity
         activeOpacity={0.7}
           style={styles.addCommentButton}

@@ -21,7 +21,6 @@ const Appointment = () => {
   const [showSuccessAnimation, setShowSuccessAnimation] = useState(false)
   const [availableTimes, setAvailableTimes] = useState([])
 
-  // Usar el hook específico para turnos (solo fechas futuras)
   const {
     date: selectedDate,
     show: showDatePicker,
@@ -31,7 +30,6 @@ const Appointment = () => {
     getMinimumDate,
   } = useDatePickerAppointment()
 
-  // Generar horarios dinámicamente basándose en el profesional seleccionado
   useEffect(() => {
     if (params.professionalId) {
       const timeSlots = generateTimeSlots(params.professionalId)
@@ -92,7 +90,6 @@ const Appointment = () => {
   }
 
   const handleConfirmAppointment = () => {
-    // Agregar nuevas citas al array local
     selectedTimes.forEach((timeId) => {
       const timeSlot = availableTimes.find((t) => t.id === timeId)
       const newAppointment = {
@@ -113,10 +110,8 @@ const Appointment = () => {
       mockAppointments.unshift(newAppointment)
     })
 
-    // Mostrar animación de éxito
     setShowSuccessAnimation(true)
 
-    // Ocultar animación y navegar después de 3 segundos
     setTimeout(() => {
       setShowSuccessAnimation(false)
       router.push("/tabs/myAppointments")
@@ -124,7 +119,6 @@ const Appointment = () => {
   }
 
 
-  // Verificar si el botón de confirmar debe estar habilitado
   const isConfirmButtonEnabled = selectedTimes.length > 0
 
   if (showTimeSelection) {
@@ -132,18 +126,16 @@ const Appointment = () => {
       <View style={styles.container}>
         <StatusBar backgroundColor="#f8f9fa" barStyle="dark-content" />
 
-        {/* Header */}
         <View style={styles.header}>
           <BackButton/>
         </View>
 
         <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-          {/* Título */}
+
           <Text style={styles.title}>
             Por favor, seleccionar horarios entre las opciones{"\n"}disponibles para el turno
           </Text>
 
-          {/* Fecha seleccionada */}
           <View style={styles.selectedDateContainer}>
             <Text style={styles.selectedDateLabel}>Fecha seleccionada</Text>
             <View style={styles.dateInputStyle}>
@@ -152,7 +144,6 @@ const Appointment = () => {
             </View>
           </View>
 
-          {/* Selección de horarios */}
           <View style={styles.timeSelectionContainer}>
             <Text style={styles.timeSelectionLabel}>Seleccionar horarios de disponibilidad</Text>
 
@@ -174,7 +165,6 @@ const Appointment = () => {
             ))}
           </View>
 
-          {/* Mensaje informativo cuando no hay horarios seleccionados */}
           {selectedTimes.length === 0 && (
             <View style={styles.infoContainer}>
               <MaterialIcons name="info" size={20} color="#ff9800" />
@@ -182,12 +172,11 @@ const Appointment = () => {
             </View>
           )}
 
-          {/* Anuncio */}
+
           <View style={styles.adContainer}>
             <AdsImage onPress isPremium={isPremiumUser}/>
           </View>
 
-          {/* Botones de acción */}
           <View style={styles.actionButtons}>
             <TouchableOpacity activeOpacity={0.7} style={styles.backActionButton} onPress={handleBack}>
               <Text style={styles.backButtonText}>Volver atrás</Text>
@@ -206,7 +195,6 @@ const Appointment = () => {
           </View>
         </ScrollView>
 
-        {/* Modal con animación de éxito */}
         <Modal visible={showSuccessAnimation} transparent={true} animationType="fade">
           <View style={styles.animationOverlay}>
             <View style={styles.animationContainer}>
@@ -227,16 +215,15 @@ const Appointment = () => {
     <View style={styles.container}>
       <StatusBar backgroundColor="#f8f9fa" barStyle="dark-content" />
 
-      {/* Header */}
       <View style={styles.header}>
         <BackButton/>
       </View>
 
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-        {/* Título */}
+
         <Text style={styles.title}>Por favor, seleccionar la fecha para el turno</Text>
 
-        {/* Información del profesional */}
+
         <View style={styles.professionalInfo}>
           <Text style={styles.professionalInfoText}>
             Cita con: <Text style={styles.professionalName}>{params.professionalName}</Text>
@@ -249,7 +236,6 @@ const Appointment = () => {
           </Text>
         </View>
 
-        {/* Selector de fecha usando el DatePickerAppointment */}
         <View style={styles.datePickerContainer}>
           <Text style={styles.datePickerLabel}>Fecha seleccionada:</Text>
           <View style={styles.selectedDateDisplay}>
@@ -266,12 +252,10 @@ const Appointment = () => {
           />
         </View>
 
-        {/* Anuncio */}
         <View style={styles.adContainer}>
           <AdsImage onPress isPremium={isPremiumUser}/>
         </View>
 
-        {/* Botones de acción */}
         <View style={styles.actionButtons}>
           <TouchableOpacity activeOpacity={0.7} style={styles.backActionButton} onPress={handleBack}>
             <Text style={styles.backButtonText}>Volver atrás</Text>
@@ -365,7 +349,6 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     textAlign: "center",
   },
-  // Estilos para selección de horarios
   selectedDateContainer: {
     backgroundColor: "white",
     borderRadius: 15,
@@ -450,7 +433,6 @@ const styles = StyleSheet.create({
   checkboxSelected: {
     backgroundColor: "#8e44ad",
   },
-  // Nuevo estilo para el mensaje informativo
   infoContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -512,7 +494,6 @@ const styles = StyleSheet.create({
     fontSize: wp("4%"),
     fontWeight: "600",
   },
-  // Nuevos estilos para el botón deshabilitado
   confirmButtonDisabled: {
     backgroundColor: "#e9ecef",
     elevation: 1,
@@ -521,7 +502,6 @@ const styles = StyleSheet.create({
   confirmButtonTextDisabled: {
     color: "#6c757d",
   },
-  // Estilos para la animación
   animationOverlay: {
     flex: 1,
     backgroundColor: "rgba(0, 0, 0, 0.5)",

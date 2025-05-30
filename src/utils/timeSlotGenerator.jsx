@@ -1,7 +1,6 @@
 import mockProfiles from "../data/mockProfiles"
 
 export const generateTimeSlots = (professionalId) => {
-  // Buscar el profesional por ID
   const professional = mockProfiles.find((profile) => profile.id === Number.parseInt(professionalId))
 
   if (!professional) {
@@ -13,10 +12,8 @@ export const generateTimeSlots = (professionalId) => {
     ]
   }
 
-  // Extraer el rango de horas de la disponibilidad
   const availability = professional.disponibilidad
 
-  // Buscar el patrón de horas (ej: "10:00 - 19:00")
   const timeRangeMatch = availability.match(/(\d{1,2}):(\d{2})\s*-\s*(\d{1,2}):(\d{2})/)
 
   if (!timeRangeMatch) {
@@ -35,14 +32,12 @@ export const generateTimeSlots = (professionalId) => {
 
 
 
-  // Generar slots de 2 horas
   const timeSlots = []
   let currentHour = startHour
   let slotIndex = 0
   const labels = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"]
 
   while (currentHour < endHour) {
-    // Verificar que no exceda el horario de cierre
     if (currentHour + 2 <= endHour) {
       timeSlots.push({
         id: labels[slotIndex] || `SLOT_${slotIndex}`,
@@ -54,7 +49,6 @@ export const generateTimeSlots = (professionalId) => {
     currentHour += 2
   }
 
-  // Si no hay slots generados, usar horarios por defecto
   if (timeSlots.length === 0) {
     return [
       { id: "A", time: "12:00", label: "A" },

@@ -17,7 +17,6 @@ const ModifyAppointmentModal = ({ visible, appointment, onClose, onSave }) => {
   const [hasChanges, setHasChanges] = useState(false)
   const [availableTimes, setAvailableTimes] = useState([])
 
-  // Generar horarios dinámicamente basándose en el profesional del appointment
   useEffect(() => {
     if (appointment?.professionalId) {
       const timeSlots = generateTimeSlots(appointment.professionalId)
@@ -25,15 +24,12 @@ const ModifyAppointmentModal = ({ visible, appointment, onClose, onSave }) => {
     }
   }, [appointment?.professionalId])
 
-  // Inicializar valores cuando se abre el modal
   useEffect(() => {
     if (visible && appointment && availableTimes.length > 0) {
 
-      // Inicializar la fecha con la fecha actual del turno
       const appointmentDate = new Date(appointment.date)
       setSelectedDate(appointmentDate)
 
-      // Encontrar el horario actual
       const currentTimeSlot = availableTimes.find((slot) => slot.time === appointment.time)
       if (currentTimeSlot) {
         setSelectedTimes([currentTimeSlot.id])
@@ -42,7 +38,6 @@ const ModifyAppointmentModal = ({ visible, appointment, onClose, onSave }) => {
     }
   }, [visible, appointment?.id, availableTimes])
 
-  // Detectar cambios
   useEffect(() => {
     if (appointment && selectedDate && availableTimes.length > 0) {
       const originalDate = new Date(appointment.date).toDateString()
@@ -165,7 +160,6 @@ const ModifyAppointmentModal = ({ visible, appointment, onClose, onSave }) => {
     <Modal visible={visible} transparent={true} animationType="slide" onRequestClose={onClose}>
       <View style={styles.overlay}>
         <View style={styles.container}>
-          {/* Header */}
           <View style={styles.header}>
             <Text style={styles.title}>Modificar Turno</Text>
             <TouchableOpacity activeOpacity={0.7} onPress={handleClose}>
@@ -173,9 +167,7 @@ const ModifyAppointmentModal = ({ visible, appointment, onClose, onSave }) => {
             </TouchableOpacity>
           </View>
 
-          {/* Content */}
           <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-            {/* Información del profesional */}
             <View style={styles.professionalInfo}>
               <Text style={styles.professionalInfoText}>
                 Profesional: <Text style={styles.professionalName}>{appointment.professionalName}</Text>
@@ -185,7 +177,6 @@ const ModifyAppointmentModal = ({ visible, appointment, onClose, onSave }) => {
               </Text>
             </View>
 
-            {/* Selector de fecha */}
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Nueva Fecha</Text>
               <View style={styles.currentInfo}>
@@ -203,7 +194,6 @@ const ModifyAppointmentModal = ({ visible, appointment, onClose, onSave }) => {
               />
             </View>
 
-            {/* Selector de horario */}
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Nuevo Horario</Text>
               <View style={styles.currentInfo}>
@@ -231,7 +221,6 @@ const ModifyAppointmentModal = ({ visible, appointment, onClose, onSave }) => {
               </View>
             </View>
 
-            {/* Indicador de cambios */}
             {hasChanges && (
               <View style={styles.changesIndicator}>
                 <MaterialIcons name="info" size={20} color="#ff9800" />
@@ -239,11 +228,9 @@ const ModifyAppointmentModal = ({ visible, appointment, onClose, onSave }) => {
               </View>
             )}
 
-            {/* Espacio adicional para evitar que el contenido se oculte detrás de los botones */}
             <View style={styles.bottomSpacer} />
           </ScrollView>
 
-          {/* Botones de acción */}
           <View style={styles.actions}>
             <TouchableOpacity activeOpacity={0.7} style={styles.cancelButton} onPress={handleClose}>
               <Text style={styles.cancelButtonText}>Cancelar</Text>
@@ -259,7 +246,6 @@ const ModifyAppointmentModal = ({ visible, appointment, onClose, onSave }) => {
             </TouchableOpacity>
           </View>
 
-          {/* Modal con animación de éxito */}
           <Modal visible={showSuccessAnimation} transparent={true} animationType="fade">
             <View style={styles.animationOverlay}>
               <View style={styles.animationContainer}>

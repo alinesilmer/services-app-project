@@ -32,12 +32,10 @@ const MyAppointments = () => {
   const [showDeleteAnimation, setShowDeleteAnimation] = useState(false)
   const [appointmentToDelete, setAppointmentToDelete] = useState(null)
 
-  // Función para cargar citas
   const loadAppointments = useCallback(() => {
     setCurrentAppointments([...mockAppointments])
   }, [])
 
-  // Cargar citas cuando la pantalla se enfoca
   useFocusEffect(
     useCallback(() => {
       loadAppointments()
@@ -77,13 +75,10 @@ const MyAppointments = () => {
   }
 
   const handleCancelAppointment = (appointmentId) => {
-    // Mostrar modal de confirmación personalizado
     setAppointmentToDelete(appointmentId)
     setShowDeleteAnimation(true)
 
-    // Simular eliminación después de la animación
     setTimeout(() => {
-      // Eliminar del array local
       const index = mockAppointments.findIndex((apt) => apt.id === appointmentId)
       if (index > -1) {
         mockAppointments.splice(index, 1)
@@ -92,16 +87,14 @@ const MyAppointments = () => {
       setShowModal(false)
       setShowDeleteAnimation(false)
       setAppointmentToDelete(null)
-    }, 1500) // Duración de la animación
+    }, 1500) 
   }
 
   const handleRequestChange = () => {
-    // Cerrar el modal principal primero
     setShowModal(false)
-    // Luego abrir el modal de modificación
     setTimeout(() => {
       setShowModifyModal(true)
-    }, 100) // Pequeño delay para asegurar que el primer modal se cierre
+    }, 100) 
   }
 
 
@@ -109,13 +102,11 @@ const MyAppointments = () => {
 
 
   const handleSaveModifiedAppointment = (updatedAppointment) => {
-    // Actualizar en el array local
     const index = mockAppointments.findIndex((apt) => apt.id === updatedAppointment.id)
     if (index > -1) {
       mockAppointments[index] = updatedAppointment
       setCurrentAppointments([...mockAppointments])
     }
-    // Cerrar ambos modales
     setShowModifyModal(false)
     setShowModal(false)
     setSelectedAppointment(null)
@@ -123,8 +114,6 @@ const MyAppointments = () => {
 
   const handleCloseModifyModal = () => {
     setShowModifyModal(false)
-    // No reabrir el modal principal automáticamente
-    // El usuario tendrá que tocar el turno nuevamente si quiere ver los detalles
     setSelectedAppointment(null)
   }
 
@@ -137,7 +126,6 @@ const MyAppointments = () => {
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={Colors.blueColor} barStyle="light-content" />
 
-      {/* Header */}
       <View style={styles.header}>
         <BackButton/>
         <View style={styles.welcomeContainer}>
@@ -146,7 +134,6 @@ const MyAppointments = () => {
         </View>
       </View>
 
-      {/* Content */}
       <View style={styles.content}>
         <Text style={styles.title}>MIS TURNOS</Text>
 
@@ -202,14 +189,12 @@ const MyAppointments = () => {
             ))
           )}
 
-          {/* Anuncio */}
           <View style={styles.adContainer}>
             <AdsImage onPress isPremium={isPremiumUser}/>
           </View>
         </ScrollView>
       </View>
 
-      {/* Modal de detalles */}
       <Modal visible={showModal} transparent={true} animationType="slide" onRequestClose={() => setShowModal(false)}>
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
@@ -281,7 +266,6 @@ const MyAppointments = () => {
         </View>
       </Modal>
 
-      {/* Modal para modificar turno */}
       <ModifyAppointmentModal
         visible={showModifyModal}
         appointment={selectedAppointment}
@@ -289,7 +273,6 @@ const MyAppointments = () => {
         onSave={handleSaveModifiedAppointment}
       />
 
-      {/* Modal con animación de eliminación */}
       <Modal visible={showDeleteAnimation} transparent={true} animationType="fade">
         <View style={styles.animationOverlay}>
           <View style={styles.animationContainer}>
@@ -520,7 +503,6 @@ const styles = StyleSheet.create({
     fontSize: wp("3.8%"),
     fontWeight: "600",
   },
-  // Estilos para la animación de eliminación
   animationOverlay: {
     flex: 1,
     backgroundColor: "rgba(0, 0, 0, 0.5)",

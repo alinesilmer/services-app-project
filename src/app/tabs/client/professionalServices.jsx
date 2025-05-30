@@ -29,7 +29,6 @@ const ProfessionalServices = () => {
   const [selectedService, setSelectedService] = useState(null)
   const [showServiceModal, setShowServiceModal] = useState(false)
 
-  // Buscar el profesional por ID
   const professional = mockProfiles.find((profile) => profile.id === Number.parseInt(params.professionalId))
 
   if (!professional) {
@@ -40,12 +39,10 @@ const ProfessionalServices = () => {
     )
   }
 
-  // Obtener los servicios del profesional desde mockServices
   const professionalServices = mockServices.filter(
     (service) => service.idProfesional === Number.parseInt(params.professionalId),
   )
 
-  // Generar fotos aleatorias para cada servicio
   const generateServicePhotos = (serviceName) => {
     const basePhotos = [
       "https://randomuser.me/api/portraits/men/1.jpg",
@@ -60,8 +57,7 @@ const ProfessionalServices = () => {
       "https://randomuser.me/api/portraits/women/5.jpg",
     ]
 
-    // Seleccionar 4-6 fotos aleatorias
-    const numPhotos = Math.floor(Math.random() * 3) + 4 // Entre 4 y 6 fotos
+    const numPhotos = Math.floor(Math.random() * 3) + 4
     const selectedPhotos = []
     const usedIndices = new Set()
 
@@ -78,9 +74,7 @@ const ProfessionalServices = () => {
 
   const isPremiumUser = false
 
-  // Reemplazar generateServicePrice con getServicePrice que usa mockServices
   const getServicePrice = (serviceName) => {
-    // Buscar el servicio en mockServices que coincida con el nombre y el profesional
     const service = mockServices.find(
       (s) => s.servicio === serviceName && s.idProfesional === Number.parseInt(params.professionalId),
     )
@@ -89,7 +83,6 @@ const ProfessionalServices = () => {
       return service.precio === 0 ? "Gratis" : `Desde $${service.precio.toLocaleString()}`
     }
 
-    // Fallback si no se encuentra el servicio
     return "Consultar precio"
   }
 
@@ -133,7 +126,6 @@ const ProfessionalServices = () => {
     <View style={styles.container}>
       <StatusBar backgroundColor={Colors.blueColor} barStyle="light-content" />
 
-      {/* Header */}
       <View style={styles.header}>
         <BackButton/>
         <Text style={styles.headerTitle}>Servicios</Text>
@@ -141,12 +133,10 @@ const ProfessionalServices = () => {
       </View>
 
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-        {/* Título de servicios */}
         <View style={styles.servicesHeader}>
           <Text style={styles.servicesSubtitle}>PRECIOS ESTIMADOS</Text>
           <Text style={styles.priceNote}>(*) Los precios pueden variar según el tipo de servicio.</Text>
         </View>
-        {/* Lista de servicios como botones presionables */}
         <View style={styles.servicesContainer}>
           {professionalServices.map((serviceObj, index) => (
             <TouchableOpacity
@@ -169,7 +159,6 @@ const ProfessionalServices = () => {
           ))}
         </View>
 
-        {/* Información del profesional */}
         <View style={styles.professionalInfo}>
           <Text style={styles.professionalName}>{professional.nombre}</Text>
           <Text style={styles.professionalCategory}>{professional.categoria}</Text>
@@ -180,7 +169,6 @@ const ProfessionalServices = () => {
           </View>
         </View>
 
-        {/* Botones de acción */}
         <View style={styles.actionButtons}>
           <TouchableOpacity style={styles.messageButton} onPress={handleSendMessage}>
             <Text style={styles.buttonText}>Enviar mensaje</Text>
@@ -194,13 +182,11 @@ const ProfessionalServices = () => {
         <AdsImage onPress isPremium={isPremiumUser} />
       </ScrollView>
 
-      {/* Modal de servicio */}
       <Modal visible={showServiceModal} transparent={true} animationType="slide">
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             {selectedService && (
               <>
-                {/* Header del modal */}
                 <View style={styles.modalHeader}>
                   <Text style={styles.modalTitle}>{selectedService.name}</Text>
                   <TouchableOpacity onPress={() => setShowServiceModal(false)}>
@@ -209,18 +195,15 @@ const ProfessionalServices = () => {
                 </View>
 
                 <ScrollView showsVerticalScrollIndicator={false}>
-                  {/* Precio del servicio */}
                   <View style={styles.modalPriceContainer}>
                     <Text style={styles.modalPrice}>{selectedService.price}</Text>
                     <Text style={styles.modalPriceNote}>*Precio estimado</Text>
                   </View>
 
-                  {/* Descripción */}
                   <View style={styles.modalDescriptionContainer}>
                     <Text style={styles.modalDescription}>{selectedService.description}</Text>
                   </View>
 
-                  {/* Galería de fotos */}
                   <View style={styles.photoGallery}>
                     <Text style={styles.galleryTitle}>Galería de trabajos</Text>
                     <View style={styles.photosGrid}>
@@ -232,7 +215,6 @@ const ProfessionalServices = () => {
                     </View>
                   </View>
 
-                  {/* Botón de solicitar turno en el modal */}
                   <TouchableOpacity
                     style={styles.modalAppointmentButton}
                     onPress={() => {
@@ -446,7 +428,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   photoContainer: {
-    width: (width - 60) / 2 - 5, // 2 columnas con espaciado
+    width: (width - 60) / 2 - 5, 
     marginBottom: 10,
   },
   photo: {

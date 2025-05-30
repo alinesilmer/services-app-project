@@ -30,7 +30,6 @@ const AddComment = () => {
   const [showAnimation, setShowAnimation] = useState(false);
   const [animationType, setAnimationType] = useState("loadingComment");
 
-  // Simular usuario actual (en una app real vendría del contexto de autenticación)
   const currentUser = {
     name: "Usuario Actual",
     avatar: "https://randomuser.me/api/portraits/men/32.jpg",
@@ -51,7 +50,6 @@ const AddComment = () => {
     }
 
     if (rating === 0) {
-      // Mostrar animación de error
       setAnimationType("failure");
       setShowAnimation(true);
       setTimeout(() => {
@@ -64,9 +62,8 @@ const AddComment = () => {
     setAnimationType("loadingComment");
     setShowAnimation(true);
     try {
-      // Simular envío del comentario
       const newComment = {
-        id: Date.now(), // ID temporal
+        id: Date.now(),
         nombre: currentUser.name,
         puntaje: rating.toString(),
         opinion: comment.trim(),
@@ -78,10 +75,8 @@ const AddComment = () => {
 
       await new Promise((resolve) => setTimeout(resolve, 500));
 
-      // Mostrar animación de éxito
       setAnimationType("success");
 
-      // Después de 2 segundos, ocultar animación y navegar
       setTimeout(() => {
         setShowAnimation(false);
         setTimeout(() => {
@@ -98,9 +93,6 @@ const AddComment = () => {
     }
   };
 
-  const handleBack = () => {
-    router.back();
-  };
 
   const renderStars = () => {
     const stars = [];
@@ -148,7 +140,6 @@ const AddComment = () => {
           </View>
         </View>
 
-        {/* Comentario Input */}
         <View style={styles.inputContainer}>
           <Text style={styles.inputLabel}>
             Por favor, agregar un comentario:
@@ -175,13 +166,11 @@ const AddComment = () => {
           <Text style={styles.wordCount}>150 caracteres</Text>
         </View>
 
-        {/* Puntuación */}
         <View style={styles.ratingContainer}>
           <Text style={styles.ratingLabel}>Puntuación:</Text>
           <View style={styles.starsContainer}>{renderStars()}</View>
         </View>
 
-        {/* Botón Enviar */}
         <TouchableOpacity
           activeOpacity={0.8}
           style={[
@@ -196,7 +185,6 @@ const AddComment = () => {
           </Text>
         </TouchableOpacity>
 
-        {/* Información del profesional */}
         <View style={styles.professionalInfo}>
           <Text style={styles.professionalInfoText}>
             Comentario para:{" "}

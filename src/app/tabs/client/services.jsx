@@ -51,7 +51,7 @@ const service = () => {
   }
 
 
-  const isPremiumUser = false // Cambiar a true para simular usuario premium
+  const isPremiumUser = false
 
   return (
     <View style={styles.safeArea}>
@@ -84,7 +84,6 @@ const service = () => {
 
         <FilterTags selectedSubcategories={getSelectedSubcategoriesArray()} />
 
-        {/* Otro anuncio antes de los resultados */}
         <View style={styles.adContainer}>
           <AdsImage onPress isPremium={isPremiumUser}/>
         </View>

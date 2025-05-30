@@ -12,7 +12,6 @@ const AdsImage = ({ onPress, style, isPremium = false }) => {
     router.push("/tabs/goPremium")
   }
 
-  // Array con las rutas de las imágenes de anuncios
   const adsImages = [
     require("../assets/ads/ads1.jpeg"),
     require("../assets/ads/ads2.jpeg"),
@@ -21,20 +20,17 @@ const AdsImage = ({ onPress, style, isPremium = false }) => {
     require("../assets/ads/ads5.jpeg"),
   ]
 
-  // Función para seleccionar una imagen aleatoria
   const getRandomAd = () => {
     const randomIndex = Math.floor(Math.random() * adsImages.length)
     return adsImages[randomIndex]
   }
 
-  // Seleccionar imagen aleatoria al montar el componente
   useEffect(() => {
     if (!isPremium) {
       setCurrentAd(getRandomAd())
     }
   }, [isPremium])
 
-  // No mostrar nada si es premium
   if (isPremium || !currentAd) {
     return null
   }
@@ -43,14 +39,12 @@ const AdsImage = ({ onPress, style, isPremium = false }) => {
     <View style={[styles.container, style]}>
       <Image source={currentAd} style={styles.image} resizeMode="cover" />
 
-      {/* Indicador de anuncio */}
       <View style={styles.adLabel}>
         <Text style={styles.adLabelText}>Anuncio</Text>
       </View>
     </View>
   )
 
-  // Si se proporciona onPress, envolver en TouchableOpacity
   if (onPress) {
     return (
       <TouchableOpacity onPress={handleAdClick} activeOpacity={0.8}>

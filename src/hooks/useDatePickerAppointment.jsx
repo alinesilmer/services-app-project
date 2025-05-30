@@ -3,7 +3,6 @@
 import { useState } from "react"
 
 const useDatePickerAppointment = (initialDate = null) => {
-  // Si no hay fecha inicial, usar mañana como mínimo
   const getInitialDate = () => {
     if (initialDate) return initialDate
     const tomorrow = new Date()
@@ -21,12 +20,12 @@ const useDatePickerAppointment = (initialDate = null) => {
 
   const validateFutureDate = (selectedDate) => {
     const today = new Date()
-    today.setHours(23, 59, 59, 999) // Fin del día actual
+    today.setHours(23, 59, 59, 999) 
 
     const selected = new Date(selectedDate)
     selected.setHours(0, 0, 0, 0)
 
-    return selected > today // Solo fechas futuras (no incluye hoy)
+    return selected > today 
   }
 
   const handleChange = (event, selectedDate) => {
