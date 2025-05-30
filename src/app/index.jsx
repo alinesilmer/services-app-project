@@ -20,7 +20,7 @@ export default function welcome() {
         title="Bienvenido a Dilo"
         subtitle="Donde calidad y rapidez se unen"
         style={styles.card}
-      >
+        >
         <View style={styles.buttonContainer}>
           <CustomButton text="Iniciar Sesión" onPress={() => router.push('auth/login')} />
           <CustomButton text="Registrarme" onPress={() => router.push('auth/register')} />
