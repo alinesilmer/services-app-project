@@ -104,9 +104,6 @@ const ProfessionalServices = () => {
     setShowServiceModal(true)
   }
 
-  const handleBack = () => {
-    router.back()
-  }
 
   const handleSendMessage = () => {
     router.push({

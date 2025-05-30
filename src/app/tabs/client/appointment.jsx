@@ -14,6 +14,7 @@ import { generateTimeSlots } from "../../../utils/timeSlotGenerator"
 import BackButton from "../../../components/BackButton"
 
 const Appointment = () => {
+  const isPremiumUser = false
   const params = useLocalSearchParams()
   const [showTimeSelection, setShowTimeSelection] = useState(false)
   const [selectedTimes, setSelectedTimes] = useState([])
@@ -183,7 +184,7 @@ const Appointment = () => {
 
           {/* Anuncio */}
           <View style={styles.adContainer}>
-            <AdsImage onPress />
+            <AdsImage onPress isPremium={isPremiumUser}/>
           </View>
 
           {/* Botones de acción */}
@@ -267,7 +268,7 @@ const Appointment = () => {
 
         {/* Anuncio */}
         <View style={styles.adContainer}>
-          <AdsImage onPress/>
+          <AdsImage onPress isPremium={isPremiumUser}/>
         </View>
 
         {/* Botones de acción */}
