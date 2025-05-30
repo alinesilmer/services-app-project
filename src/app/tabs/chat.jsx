@@ -118,15 +118,6 @@ export default function Chat() {
     setTimeout(() => scrollViewRef.current?.scrollToEnd({ animated: true }), 50)
   }
 
-  const handleBack = () => {
-    if (selectedChat) {
-      setSelectedChat(null)
-      setHasInitialized(false)
-      router.push('/tabs/home')
-    } else {
-      router.back()
-    }
-  }
 
   const renderChatItem = ({ item }) => (
     <TouchableOpacity
@@ -155,7 +146,7 @@ export default function Chat() {
     return (
       <SafeAreaView style={styles.container}>
         <StatusBar backgroundColor={Colors.blueColor} barStyle="light-content" />
-        <BackButton onPress={handleBack} />
+        <BackButton/>
 
         <View style={styles.headerWrapper}>
           <Text style={styles.title}>Chat</Text>
@@ -172,7 +163,7 @@ export default function Chat() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={Colors.blueColor} barStyle="light-content" />
-      <BackButton onPress={handleBack} />
+      <BackButton/>
 
       <View style={styles.headerWrapper}>
         <Text style={styles.title}>Chat</Text>

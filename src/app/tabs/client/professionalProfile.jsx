@@ -18,6 +18,7 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 import profiles from "../../../data/mockProfiles";
 import opinions from "../../../data/mockOpinions";
+import BackButton from "../../../components/BackButton"
 
 const ProfessionalProfile = () => {
   const params = useLocalSearchParams();
@@ -95,9 +96,6 @@ const ProfessionalProfile = () => {
     return stars;
   };
 
-  const handleBack = () => {
-    router.back();
-  };
 
   const handleAddComment = () => {
     router.push({
@@ -117,6 +115,7 @@ const ProfessionalProfile = () => {
       </View>
 
       {/* Contenido principal */}
+      <BackButton/>
       <ScrollView
         style={styles.content}
         showsVerticalScrollIndicator={false}

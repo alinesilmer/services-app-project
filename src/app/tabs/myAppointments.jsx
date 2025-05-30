@@ -104,6 +104,10 @@ const MyAppointments = () => {
     }, 100) // Pequeño delay para asegurar que el primer modal se cierre
   }
 
+
+  const isPremiumUser = false
+
+
   const handleSaveModifiedAppointment = (updatedAppointment) => {
     // Actualizar en el array local
     const index = mockAppointments.findIndex((apt) => apt.id === updatedAppointment.id)
@@ -200,7 +204,7 @@ const MyAppointments = () => {
 
           {/* Anuncio */}
           <View style={styles.adContainer}>
-            <AdsImage onPress />
+            <AdsImage onPress isPremium={isPremiumUser}/>
           </View>
         </ScrollView>
       </View>

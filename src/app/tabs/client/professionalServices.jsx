@@ -16,7 +16,11 @@ import { useLocalSearchParams, router } from "expo-router"
 import { Colors } from "../../../constants/Colors"
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
 import { AntDesign, MaterialIcons } from "@expo/vector-icons"
+import AdsImage from "../../../components/AdsImage"
+import BackButton from "../../../components/BackButton"
+
 import mockProfiles from "../../../data/mockProfiles"
+import mockServices from "../../../data/mockServices"
 
 const { width } = Dimensions.get("window")
 
@@ -35,6 +39,11 @@ const ProfessionalServices = () => {
       </View>
     )
   }
+
+  // Obtener los servicios del profesional desde mockServices
+  const professionalServices = mockServices.filter(
+    (service) => service.idProfesional === Number.parseInt(params.professionalId),
+  )
 
   // Generar fotos aleatorias para cada servicio
   const generateServicePhotos = (serviceName) => {
@@ -67,16 +76,27 @@ const ProfessionalServices = () => {
     return selectedPhotos
   }
 
-  // Generar precios aleatorios para los servicios
-  const generateServicePrice = (serviceName) => {
-    const basePrice = Math.floor(Math.random() * 15000) + 5000 // Entre $5,000 y $20,000
-    return `Desde $${basePrice.toLocaleString()}`
+  const isPremiumUser = false
+
+  // Reemplazar generateServicePrice con getServicePrice que usa mockServices
+  const getServicePrice = (serviceName) => {
+    // Buscar el servicio en mockServices que coincida con el nombre y el profesional
+    const service = mockServices.find(
+      (s) => s.servicio === serviceName && s.idProfesional === Number.parseInt(params.professionalId),
+    )
+
+    if (service) {
+      return service.precio === 0 ? "Gratis" : `Desde $${service.precio.toLocaleString()}`
+    }
+
+    // Fallback si no se encuentra el servicio
+    return "Consultar precio"
   }
 
   const handleServicePress = (service) => {
     const serviceData = {
       name: service,
-      price: generateServicePrice(service),
+      price: getServicePrice(service),
       photos: generateServicePhotos(service),
       description: `Servicio profesional de ${service.toLowerCase()}. Utilizamos técnicas modernas y productos de alta calidad para garantizar los mejores resultados.`,
     }
@@ -97,8 +117,8 @@ const ProfessionalServices = () => {
         professionalAvatar: professional.avatar,
         profession: professional.profesion,
       },
-    });
-  };
+    })
+  }
 
   const handleRequestAppointment = () => {
     router.push({
@@ -118,9 +138,7 @@ const ProfessionalServices = () => {
 
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={handleBack} style={styles.backButton}>
-          <AntDesign name="arrowleft" size={24} color="white" />
-        </TouchableOpacity>
+        <BackButton/>
         <Text style={styles.headerTitle}>Servicios</Text>
         <View style={styles.placeholder} />
       </View>
@@ -128,17 +146,16 @@ const ProfessionalServices = () => {
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         {/* Título de servicios */}
         <View style={styles.servicesHeader}>
-          <Text style={styles.servicesTitle}>SERVICIOS</Text>
           <Text style={styles.servicesSubtitle}>PRECIOS ESTIMADOS</Text>
-          <Text style={styles.priceNote}>(*) Los precios pueden variar según el largo del cabello.</Text>
+          <Text style={styles.priceNote}>(*) Los precios pueden variar según el tipo de servicio.</Text>
         </View>
         {/* Lista de servicios como botones presionables */}
         <View style={styles.servicesContainer}>
-          {professional.servicios.map((service, index) => (
+          {professionalServices.map((serviceObj, index) => (
             <TouchableOpacity
               key={index}
               style={styles.serviceItem}
-              onPress={() => handleServicePress(service)}
+              onPress={() => handleServicePress(serviceObj.servicio)}
               activeOpacity={0.7}
             >
               <View style={styles.serviceContent}>
@@ -146,8 +163,8 @@ const ProfessionalServices = () => {
                   <MaterialIcons name="photo-library" size={20} color={Colors.blueColor} />
                 </View>
                 <View style={styles.serviceInfo}>
-                  <Text style={styles.serviceName}>{service}</Text>
-                  <Text style={styles.servicePrice}>{generateServicePrice(service)}</Text>
+                  <Text style={styles.serviceName}>{serviceObj.servicio}</Text>
+                  <Text style={styles.servicePrice}>{getServicePrice(serviceObj.servicio)}</Text>
                 </View>
                 <MaterialIcons name="chevron-right" size={24} color="#ccc" />
               </View>
@@ -169,15 +186,15 @@ const ProfessionalServices = () => {
         {/* Botones de acción */}
         <View style={styles.actionButtons}>
           <TouchableOpacity style={styles.messageButton} onPress={handleSendMessage}>
-            <MaterialIcons name="message" size={20} color="white" />
-            <Text style={styles.messageButtonText}>Enviar mensaje</Text>
+            <Text style={styles.buttonText}>Enviar mensaje</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.appointmentButton} onPress={handleRequestAppointment}>
-            <MaterialIcons name="event" size={20} color="white" />
-            <Text style={styles.appointmentButtonText}>Solicitar turno</Text>
+            <Text style={styles.buttonText}>Solicitar turno</Text>
           </TouchableOpacity>
         </View>
+
+        <AdsImage onPress isPremium={isPremiumUser} />
       </ScrollView>
 
       {/* Modal de servicio */}
@@ -252,14 +269,6 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight + 10 : 50,
     paddingBottom: 20,
   },
-  backButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "rgba(255, 255, 255, 0.2)",
-    justifyContent: "center",
-    alignItems: "center",
-  },
   headerTitle: {
     color: "white",
     fontSize: wp("5%"),
@@ -279,12 +288,6 @@ const styles = StyleSheet.create({
   servicesHeader: {
     alignItems: "center",
     marginBottom: 30,
-  },
-  servicesTitle: {
-    fontSize: wp("6%"),
-    fontWeight: "bold",
-    color: "#333",
-    textAlign: "center",
   },
   servicesSubtitle: {
     fontSize: wp("4%"),
@@ -375,34 +378,6 @@ const styles = StyleSheet.create({
   actionButtons: {
     gap: 15,
     marginBottom: 30,
-  },
-  messageButton: {
-    backgroundColor: "#6c757d",
-    borderRadius: 25,
-    paddingVertical: 15,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 10,
-  },
-  messageButtonText: {
-    color: "white",
-    fontSize: wp("4%"),
-    fontWeight: "600",
-  },
-  appointmentButton: {
-    backgroundColor: Colors.blueColor,
-    borderRadius: 25,
-    paddingVertical: 15,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 10,
-  },
-  appointmentButtonText: {
-    color: "white",
-    fontSize: wp("4%"),
-    fontWeight: "600",
   },
   // Estilos del modal
   modalOverlay: {
@@ -497,6 +472,40 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: wp("4%"),
     fontWeight: "600",
+  },
+  messageButton: {
+    backgroundColor: "#000",
+    paddingVertical: hp("2%"),
+    paddingHorizontal: wp("8%"),
+    borderRadius: 25,
+    elevation: 3,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+  },
+  appointmentButton: {
+    backgroundColor: "#000",
+    paddingVertical: hp("2%"),
+    paddingHorizontal: wp("8%"),
+    borderRadius: 25,
+    elevation: 3,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+  },
+  buttonText: {
+    color: Colors.whiteColor,
+    fontSize: wp("4%"),
+    fontWeight: "600",
+    textAlign: "center",
   },
 })
 

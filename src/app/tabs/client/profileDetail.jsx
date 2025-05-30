@@ -1,49 +1,38 @@
-"use client";
-import {
-  View,
-  Text,
-  StyleSheet,
-  StatusBar,
-  Platform,
-  Image,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
-import { useLocalSearchParams, router } from "expo-router";
-import { Colors } from "../../../constants/Colors";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
-import Animated, { SlideInDown } from "react-native-reanimated";
-import NavBar from "../../../components/NavBar";
-import BackButton from "../../../components/BackButton";
+"use client"
+import { View, Text, StyleSheet, StatusBar, Platform, Image, ScrollView, TouchableOpacity } from "react-native"
+import { useLocalSearchParams, router } from "expo-router"
+import { Colors } from "../../../constants/Colors"
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
+import NavBar from "../../../components/NavBar"
+import BackButton from "../../../components/BackButton"
+import SlideUpCard from "../../../components/SlideUpCard"
+
 
 const ProfileDetail = () => {
-  const params = useLocalSearchParams();
+  const params = useLocalSearchParams()
 
   // Función para renderizar las estrellas
   const renderStars = (rating) => {
-    const stars = [];
-    const fullStars = Math.floor(rating);
+    const stars = []
+    const fullStars = Math.floor(rating)
 
     for (let i = 0; i < 5; i++) {
       if (i < fullStars) {
         stars.push(
           <Text key={i} style={styles.starFilled}>
             ★
-          </Text>
-        );
+          </Text>,
+        )
       } else {
         stars.push(
           <Text key={i} style={styles.starEmpty}>
             ★
-          </Text>
-        );
+          </Text>,
+        )
       }
     }
-    return stars;
-  };
+    return stars
+  }
 
   // Funciones de navegación
   const handleRatingsPress = () => {
@@ -53,9 +42,8 @@ const ProfileDetail = () => {
         profileId: params.profileId,
         professionalName: params.nombre,
       },
-    });
-  };
-
+    })
+  }
 
   const handleServicesPress = () => {
     router.push({
@@ -65,9 +53,8 @@ const ProfileDetail = () => {
         professionalName: params.nombre,
         profession: params.profesion,
       },
-    });
-  };
-
+    })
+  }
 
   const handleMessagePress = () => {
     router.push({
@@ -78,8 +65,8 @@ const ProfileDetail = () => {
         professionalAvatar: params.avatar,
         profession: params.profesion,
       },
-    });
-  };
+    })
+  }
 
   const handleAppointmentPress = () => {
     router.push({
@@ -90,13 +77,13 @@ const ProfileDetail = () => {
         profession: params.profesion,
         availability: params.disponibilidad,
       },
-    });
-  };
+    })
+  }
 
   return (
     <View style={styles.safeArea}>
-      <View style={styles.header}>
       <BackButton/>
+      <View style={styles.header}>
         <Text style={styles.headerText}>{params.profesion?.toUpperCase()}</Text>
       </View>
 
@@ -105,10 +92,7 @@ const ProfileDetail = () => {
       </View>
       <Text style={styles.profileName}>{params.nombre?.toUpperCase()}</Text>
 
-      <Animated.View
-        entering={SlideInDown.duration(700)}
-        style={styles.whiteContainer}
-      >
+      <SlideUpCard showHeader={false}  style={styles.customCard}>
         <ScrollView
           style={styles.scrollContainer}
           contentContainerStyle={styles.scrollContent}
@@ -116,9 +100,7 @@ const ProfileDetail = () => {
         >
           <TouchableOpacity activeOpacity={0.8} onPress={handleRatingsPress}>
             <View style={styles.ratingSection}>
-              <View style={styles.starsContainer}>
-                {renderStars(Number.parseFloat(params.calificaciones))}
-              </View>
+              <View style={styles.starsContainer}>{renderStars(Number.parseFloat(params.calificaciones))}</View>
               <Text style={styles.ratingText}>(Basado en 95 opiniones)</Text>
             </View>
           </TouchableOpacity>
@@ -151,56 +133,36 @@ const ProfileDetail = () => {
                   <Text style={styles.starFilledComment}>★★★★</Text>
                 </View>
               </View>
-              <Text style={styles.reviewText}>
-                "{params.nombre} entendió exactamente lo que quería.
-              </Text>
+              <Text style={styles.reviewText}>"{params.nombre} entendió exactamente lo que quería.</Text>
             </View>
           </View>
 
-          <TouchableOpacity
-            activeOpacity={0.5}
-            style={styles.allCommentsButton}
-            onPress={handleRatingsPress}
-          >
-            <Text style={styles.allCommentsText}>
-              Ver todos los comentarios +
-            </Text>
+          <TouchableOpacity activeOpacity={0.5} style={styles.allCommentsButton} onPress={handleRatingsPress}>
+            <Text style={styles.allCommentsText}>Ver todos los comentarios +</Text>
           </TouchableOpacity>
 
           <View style={styles.squareButtonsContainer}>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              style={styles.squareButton}
-              onPress={handleServicesPress}
-            >
+            <TouchableOpacity activeOpacity={0.8} style={styles.squareButton} onPress={handleServicesPress}>
               <Text style={styles.squareButtonIcon}>🔧</Text>
               <Text style={styles.squareButtonText}>Servicios</Text>
             </TouchableOpacity>
           </View>
 
           <View style={styles.mainButtonsContainer}>
-            <TouchableOpacity
-              activeOpacity={0.7}
-              style={styles.messageButton}
-              onPress={handleMessagePress}
-            >
+            <TouchableOpacity activeOpacity={0.7} style={styles.messageButton} onPress={handleMessagePress}>
               <Text style={styles.buttonText}>Enviar mensaje</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity
-              activeOpacity={0.7}
-              style={styles.appointmentButton}
-              onPress={handleAppointmentPress}
-            >
+            <TouchableOpacity activeOpacity={0.7} style={styles.appointmentButton} onPress={handleAppointmentPress}>
               <Text style={styles.buttonText}>Solicitar turno</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
-      </Animated.View>
+      </SlideUpCard>
       <NavBar />
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -237,24 +199,12 @@ const styles = StyleSheet.create({
     borderColor: Colors.whiteColor,
     backgroundColor: Colors.blueColor,
   },
-  whiteContainer: {
-    flex: 1,
-    backgroundColor: "#fff",
-    marginTop: hp("3%"),
-    borderTopRightRadius: 50,
-    borderTopLeftRadius: 50,
-    paddingTop: hp("1.2%"),
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: -2,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
-    elevation: 10,
+  customCard: {
+    flex: 1,// Espacio para la imagen del perfil
   },
   scrollContainer: {
     flex: 1,
+    width: "100%",
   },
   scrollContent: {
     paddingHorizontal: wp("5%"),
@@ -379,15 +329,20 @@ const styles = StyleSheet.create({
   squareButtonIcon: {
     fontSize: wp("6%"),
     marginBottom: hp("0.5%"),
-    },
+  },
+  squareButtonText: {
+    fontSize: wp("3%"),
+    fontWeight: "600",
+    textAlign: "center",
+  },
   mainButtonsContainer: {
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
   },
   messageButton: {
     backgroundColor: "#000",
     paddingVertical: hp("2%"),
-    paddingHorizontal: wp("8%"),
+    paddingHorizontal: wp("6%"),
     borderRadius: 25,
     elevation: 3,
     shadowColor: "#000",
@@ -397,11 +352,12 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.2,
     shadowRadius: 4,
+    justifyContent: "space-between",
   },
   appointmentButton: {
     backgroundColor: "#000",
     paddingVertical: hp("2%"),
-    paddingHorizontal: wp("8%"),
+    paddingHorizontal: wp("6%"),
     borderRadius: 25,
     elevation: 3,
     shadowColor: "#000",
@@ -411,12 +367,13 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.2,
     shadowRadius: 4,
+    justifyContent: "space-between",
   },
   buttonText: {
     color: Colors.whiteColor,
     fontSize: wp("4%"),
     fontWeight: "600",
   },
-});
+})
 
-export default ProfileDetail;
+export default ProfileDetail

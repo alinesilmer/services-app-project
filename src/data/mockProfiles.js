@@ -9,14 +9,6 @@ export default [
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Sábado, 10:00 - 19:00",
     avatar: "https://randomuser.me/api/portraits/men/1.jpg",
-    servicios: [
-      "Instalación eléctrica completa",
-      "Reemplazo de térmicas y disyuntores",
-      "Colocación de tomas y enchufes",
-      "Cableado estructurado",
-      "Revisión de cortocircuitos",
-      "Tableros eléctricos residenciales",
-    ],
     descripcion:
       "Soy Luis, electricista especializado en instalaciones eléctricas. Con más de 8 años de experiencia, me encargo de realizar instalaciones seguras y eficientes para tu hogar o negocio.",
   },
@@ -30,13 +22,6 @@ export default [
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Viernes, 12:00 - 20:00",
     avatar: "https://randomuser.me/api/portraits/women/1.jpg",
-    servicios: [
-      "Diseño de iluminación LED",
-      "Instalación de luces decorativas",
-      "Sistemas de iluminación inteligente",
-      "Iluminación exterior y jardines",
-      "Dimmers y controles de luz",
-    ],
     descripcion:
       "Soy Natalia, experta en sistemas de iluminación. Transformo espacios con soluciones lumínicas modernas y eficientes que realzan la belleza de tu hogar.",
   },
@@ -50,14 +35,6 @@ export default [
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Sábado, 13:00 - 21:00",
     avatar: "https://randomuser.me/api/portraits/men/2.jpg",
-    servicios: [
-      "Reparación de instalaciones eléctricas",
-      "Mantenimiento preventivo",
-      "Solución de problemas eléctricos",
-      "Instalación de ventiladores de techo",
-      "Conexión de electrodomésticos",
-      "Emergencias eléctricas 24hs",
-    ],
     descripcion:
       "Soy Ricardo, electricista general con amplia experiencia. Resuelvo todo tipo de problemas eléctricos, desde reparaciones menores hasta instalaciones completas.",
   },
@@ -71,13 +48,6 @@ export default [
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Sábado, 13:00 - 21:00",
     avatar: "https://randomuser.me/api/portraits/men/3.jpg",
-    servicios: [
-      "Puertas de madera maciza",
-      "Ventanas de madera con vidrio",
-      "Portones de entrada",
-      "Marcos y contramarcos",
-      "Restauración de aberturas antiguas",
-    ],
     descripcion:
       "Soy Marcos, especialista en aberturas de madera. Creo puertas y ventanas únicas que combinan funcionalidad y diseño para embellecer tu hogar.",
   },
@@ -91,14 +61,6 @@ export default [
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Sábados y Domingos, 08:00 - 16:00",
     avatar: "https://randomuser.me/api/portraits/women/2.jpg",
-    servicios: [
-      "Muebles de cocina a medida",
-      "Placares y vestidores",
-      "Escritorios y bibliotecas",
-      "Mesas y sillas de comedor",
-      "Restauración de muebles antiguos",
-      "Diseño de mobiliario personalizado",
-    ],
     descripcion:
       "Soy Andrea, carpintera especializada en muebles a medida. Diseño y construyo piezas únicas que se adaptan perfectamente a tus espacios y necesidades.",
   },
@@ -112,13 +74,6 @@ export default [
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Jueves, 07:00 - 15:00",
     avatar: "https://randomuser.me/api/portraits/women/3.jpg",
-    servicios: [
-      "Revestimiento de paredes con machimbre",
-      "Techos de madera",
-      "Deck y pisos de madera",
-      "Zócalos y molduras",
-      "Tratamiento y barnizado de madera",
-    ],
     descripcion:
       "Soy Soledad, experta en machimbre y revestimientos de madera. Transformo tus paredes y techos con acabados naturales de alta calidad.",
   },
@@ -132,14 +87,6 @@ export default [
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Viernes, 08:00 - 17:00",
     avatar: "https://randomuser.me/api/portraits/men/4.jpg",
-    servicios: [
-      "Reparación de muebles",
-      "Construcción de estructuras de madera",
-      "Instalación de estanterías",
-      "Trabajos de carpintería básica",
-      "Mantenimiento de carpintería",
-      "Presupuestos sin cargo",
-    ],
     descripcion:
       "Soy Daniel, carpintero general con más de 10 años de experiencia. Realizo todo tipo de trabajos en madera, desde reparaciones hasta proyectos completos.",
   },
@@ -153,14 +100,6 @@ export default [
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Sábados y Domingos, 08:00 - 16:00",
     avatar: "https://randomuser.me/api/portraits/women/4.jpg",
-    servicios: [
-      "Limpieza profunda de alfombras",
-      "Lavado de tapizados y sillones",
-      "Eliminación de manchas difíciles",
-      "Desinfección de textiles",
-      "Limpieza de cortinas",
-      "Tratamiento anti-ácaros",
-    ],
     descripcion:
       "Soy Carla, especialista en limpieza de alfombras y tapizados. Devuelvo la vida a tus textiles con técnicas profesionales y productos especializados.",
   },
@@ -174,14 +113,6 @@ export default [
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Jueves, 07:00 - 15:00",
     avatar: "https://randomuser.me/api/portraits/men/5.jpg",
-    servicios: [
-      "Limpieza completa del hogar",
-      "Limpieza de cocinas y baños",
-      "Aspirado y trapeado de pisos",
-      "Limpieza de ventanas y espejos",
-      "Organización de espacios",
-      "Limpieza post-obra",
-    ],
     descripcion:
       "Soy Facundo, experto en limpieza del hogar. Me encargo de mantener tu casa impecable con atención al detalle y productos de calidad.",
   },
@@ -195,13 +126,6 @@ export default [
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Viernes, 08:00 - 17:00",
     avatar: "https://randomuser.me/api/portraits/women/25.jpg",
-    servicios: [
-      "Limpieza de ventanas en altura",
-      "Limpieza de fachadas",
-      "Mantenimiento de canaletas",
-      "Limpieza de techos y terrazas",
-      "Trabajos con equipos de seguridad",
-    ],
     descripcion:
       "Soy Laura, especialista en limpieza en altura. Realizo trabajos de limpieza en lugares de difícil acceso con total seguridad y profesionalismo.",
   },
@@ -215,14 +139,6 @@ export default [
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Miércoles a Domingo, 11:00 - 19:00",
     avatar: "https://randomuser.me/api/portraits/men/6.jpg",
-    servicios: [
-      "Limpieza de oficinas",
-      "Limpieza de locales comerciales",
-      "Mantenimiento de edificios",
-      "Limpieza de escaleras y pasillos",
-      "Desinfección de espacios",
-      "Limpieza de fin de obra",
-    ],
     descripcion:
       "Soy Ernesto, profesional en limpieza general. Ofrezco servicios completos de limpieza para hogares y oficinas con resultados garantizados.",
   },
@@ -236,14 +152,6 @@ export default [
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Sábado, 10:00 - 19:00",
     avatar: "https://randomuser.me/api/portraits/men/7.jpg",
-    servicios: [
-      "Fletes urbanos y suburbanos",
-      "Transporte de muebles",
-      "Traslado de electrodomésticos",
-      "Mudanzas pequeñas",
-      "Carga y descarga",
-      "Servicio de embalaje",
-    ],
     descripcion:
       "Soy Guillermo, especialista en fletes y transporte. Muevo tus pertenencias con cuidado y puntualidad, garantizando que lleguen en perfectas condiciones.",
   },
@@ -257,14 +165,6 @@ export default [
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Jueves, 07:00 - 15:00",
     avatar: "https://randomuser.me/api/portraits/men/8.jpg",
-    servicios: [
-      "Mudanzas a todo el país",
-      "Embalaje profesional",
-      "Desmontaje y montaje de muebles",
-      "Seguro de mercadería",
-      "Coordinación logística",
-      "Seguimiento de envíos",
-    ],
     descripcion:
       "Soy Martín, tu nuevo aliado en el mundo de la mudanza. Con años de experiencia, me especializo en transportar de forma ordenada y a tiempo todas las cosas.",
   },
@@ -278,14 +178,6 @@ export default [
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Sábado, 10:00 - 19:00",
     avatar: "https://randomuser.me/api/portraits/women/6.jpg",
-    servicios: [
-      "Mudanzas internacionales",
-      "Gestión de documentación aduanera",
-      "Embalaje para exportación",
-      "Coordinación con agentes internacionales",
-      "Seguros internacionales",
-      "Asesoramiento en trámites",
-    ],
     descripcion:
       "Soy Camila, experta en mudanzas internacionales. Gestiono traslados a cualquier parte del mundo con todos los trámites y cuidados necesarios.",
   },
@@ -299,14 +191,6 @@ export default [
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Viernes, 08:00 - 17:00",
     avatar: "https://randomuser.me/api/portraits/men/9.jpg",
-    servicios: [
-      "Mudanzas locales",
-      "Mudanzas de oficinas",
-      "Guardamuebles temporario",
-      "Limpieza post-mudanza",
-      "Desarme y armado de muebles",
-      "Presupuestos gratuitos",
-    ],
     descripcion:
       "Soy Pablo, profesional en mudanzas generales. Realizo traslados locales y nacionales con el máximo cuidado de tus pertenencias.",
   },
@@ -320,14 +204,6 @@ export default [
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Jueves, 07:00 - 15:00",
     avatar: "https://randomuser.me/api/portraits/women/7.jpg",
-    servicios: [
-      "Instalación de cañerías nuevas",
-      "Reparación de tuberías rotas",
-      "Cambio de caños de agua",
-      "Instalación de termotanques",
-      "Conexiones de gas",
-      "Detección de pérdidas",
-    ],
     descripcion:
       "Soy Eliana, especialista en sistemas de cañerías. Instalo y reparo tuberías con materiales de calidad para garantizar un funcionamiento óptimo.",
   },
@@ -341,14 +217,6 @@ export default [
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Martes a Domingo, 09:00 - 18:00",
     avatar: "https://randomuser.me/api/portraits/men/10.jpg",
-    servicios: [
-      "Detección de filtraciones",
-      "Reparación de goteras",
-      "Impermeabilización de techos",
-      "Sellado de juntas",
-      "Tratamiento de humedad",
-      "Prevención de filtraciones",
-    ],
     descripcion:
       "Soy Matías, experto en solución de filtraciones. Identifico y reparo problemas de humedad para proteger tu hogar de daños mayores.",
   },
@@ -362,14 +230,6 @@ export default [
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Viernes, 12:00 - 20:00",
     avatar: "https://randomuser.me/api/portraits/women/8.jpg",
-    servicios: [
-      "Instalación de inodoros",
-      "Reparación de grifería",
-      "Instalación de bidets",
-      "Cambio de canillas",
-      "Reparación de cisternas",
-      "Instalación de duchas",
-    ],
     descripcion:
       "Soy Noelia, especialista en instalación y reparación de sanitarios. Garantizo funcionamiento perfecto de inodoros, lavabos y duchas.",
   },
@@ -383,14 +243,6 @@ export default [
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Sábados y Domingos, 08:00 - 16:00",
     avatar: "https://randomuser.me/api/portraits/men/11.jpg",
-    servicios: [
-      "Construcción de pozos sépticos",
-      "Limpieza de pozos",
-      "Mantenimiento de sistemas cloacales",
-      "Destapación de desagües",
-      "Instalación de bombas",
-      "Inspección de sistemas",
-    ],
     descripcion:
       "Soy Ignacio, experto en pozos sépticos y sistemas de desagüe. Mantengo y reparo sistemas de saneamiento con total profesionalismo.",
   },
@@ -404,14 +256,6 @@ export default [
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Sábado, 10:00 - 19:00",
     avatar: "https://randomuser.me/api/portraits/women/9.jpg",
-    servicios: [
-      "Reparaciones generales de plomería",
-      "Destapación de cañerías",
-      "Cambio de flotantes",
-      "Reparación de pérdidas",
-      "Mantenimiento preventivo",
-      "Emergencias 24 horas",
-    ],
     descripcion:
       "Soy Patricia, plomera general con amplia experiencia. Resuelvo todo tipo de problemas de plomería, desde goteras hasta instalaciones completas.",
   },
@@ -425,14 +269,6 @@ export default [
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Sábado, 13:00 - 21:00",
     avatar: "https://randomuser.me/api/portraits/men/12.jpg",
-    servicios: [
-      "Refacción completa de baños",
-      "Colocación de cerámicos",
-      "Instalación de mamparas",
-      "Cambio de sanitarios",
-      "Instalación de grifería moderna",
-      "Diseño de baños",
-    ],
     descripcion:
       "Soy Fernando, especialista en refacción de baños. Transformo tu baño en un espacio moderno y funcional con acabados de primera calidad.",
   },
@@ -446,14 +282,6 @@ export default [
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Miércoles a Domingo, 11:00 - 19:00",
     avatar: "https://randomuser.me/api/portraits/women/10.jpg",
-    servicios: [
-      "Refacción integral de cocinas",
-      "Instalación de muebles de cocina",
-      "Colocación de mesadas",
-      "Instalación de electrodomésticos",
-      "Diseño de cocinas modernas",
-      "Optimización de espacios",
-    ],
     descripcion:
       "Soy Ayelén, experta en refacción de cocinas. Diseño y renuevo cocinas creando espacios funcionales y estéticamente perfectos.",
   },
@@ -467,14 +295,6 @@ export default [
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Jueves, 07:00 - 15:00",
     avatar: "https://randomuser.me/api/portraits/men/13.jpg",
-    servicios: [
-      "Refacciones completas de viviendas",
-      "Remodelación de ambientes",
-      "Ampliaciones de casas",
-      "Renovación de pisos",
-      "Pintura interior y exterior",
-      "Coordinación de oficios",
-    ],
     descripcion:
       "Soy Julián, especialista en refacciones integrales. Renuevo completamente tus espacios con un enfoque integral y resultados excepcionales.",
   },
@@ -488,14 +308,6 @@ export default [
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Jueves, 07:00 - 15:00",
     avatar: "https://randomuser.me/api/portraits/women/11.jpg",
-    servicios: [
-      "Reparaciones generales del hogar",
-      "Mantenimiento de viviendas",
-      "Pequeñas refacciones",
-      "Arreglos varios",
-      "Mejoras en el hogar",
-      "Presupuestos sin cargo",
-    ],
     descripcion:
       "Soy Romina, profesional en refacciones generales. Modernizo y mejoro cualquier ambiente de tu hogar con calidad y buen gusto.",
   },
@@ -509,14 +321,6 @@ export default [
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Sábado, 13:00 - 21:00",
     avatar: "https://randomuser.me/api/portraits/men/14.jpg",
-    servicios: [
-      "Pintura de interiores",
-      "Pintura de exteriores",
-      "Pintura de fachadas",
-      "Aplicación de esmaltes",
-      "Pintura decorativa",
-      "Asesoramiento en colores",
-    ],
     descripcion:
       "Soy Bruno, pintor profesional especializado en interiores y exteriores. Renuevo tus espacios con colores y acabados que reflejan tu personalidad.",
   },
@@ -530,14 +334,6 @@ export default [
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Viernes, 12:00 - 20:00",
     avatar: "https://randomuser.me/api/portraits/women/12.jpg",
-    servicios: [
-      "Revestimientos texturados",
-      "Técnicas decorativas especiales",
-      "Estuco y envejecidos",
-      "Murales artísticos",
-      "Efectos de pintura",
-      "Restauración de paredes",
-    ],
     descripcion:
       "Soy Leticia, experta en revestimientos decorativos. Aplico técnicas especiales que dan textura y personalidad única a tus paredes.",
   },
@@ -551,14 +347,6 @@ export default [
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Sábados y Domingos, 08:00 - 16:00",
     avatar: "https://randomuser.me/api/portraits/men/15.jpg",
-    servicios: [
-      "Tratamiento de humedad en paredes",
-      "Aplicación de pinturas anti-humedad",
-      "Impermeabilización de muros",
-      "Eliminación de hongos y moho",
-      "Sellado de fisuras",
-      "Prevención de humedad",
-    ],
     descripcion:
       "Soy Sergio, especialista en tratamiento de humedad. Elimino problemas de humedad y aplico tratamientos preventivos para proteger tu hogar.",
   },
@@ -572,14 +360,6 @@ export default [
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Miércoles a Domingo, 11:00 - 19:00",
     avatar: "https://randomuser.me/api/portraits/women/13.jpg",
-    servicios: [
-      "Pintura de muebles",
-      "Restauración de objetos",
-      "Pintura artística",
-      "Trabajos especiales de pintura",
-      "Acabados personalizados",
-      "Proyectos creativos",
-    ],
     descripcion:
       "Soy Fabiola, pintora versátil especializada en trabajos especiales. Realizo desde murales artísticos hasta acabados decorativos únicos.",
   },
@@ -593,14 +373,6 @@ export default [
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Miércoles a Domingo, 11:00 - 19:00",
     avatar: "https://randomuser.me/api/portraits/men/16.jpg",
-    servicios: [
-      "Reparación de computadoras",
-      "Instalación de software",
-      "Limpieza y mantenimiento de PC",
-      "Recuperación de datos",
-      "Instalación de redes",
-      "Soporte técnico a domicilio",
-    ],
     descripcion:
       "Soy Javier, técnico en computadoras con más de 7 años de experiencia. Reparo y optimizo equipos para que funcionen como nuevos.",
   },
@@ -614,14 +386,6 @@ export default [
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Viernes, 08:00 - 17:00",
     avatar: "https://randomuser.me/api/portraits/women/14.jpg",
-    servicios: [
-      "Reparación de pantallas",
-      "Cambio de baterías",
-      "Reparación de conectores de carga",
-      "Liberación de equipos",
-      "Instalación de protectores",
-      "Diagnóstico gratuito",
-    ],
     descripcion:
       "Soy Sabrina, especialista en reparación de tablets y celulares. Devuelvo la vida a tus dispositivos móviles con reparaciones rápidas y efectivas.",
   },
@@ -635,14 +399,6 @@ export default [
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Viernes, 12:00 - 20:00",
     avatar: "https://randomuser.me/api/portraits/men/17.jpg",
-    servicios: [
-      "Reparación de impresoras",
-      "Mantenimiento preventivo",
-      "Recarga de cartuchos",
-      "Instalación de drivers",
-      "Configuración de redes de impresión",
-      "Venta de repuestos",
-    ],
     descripcion:
       "Soy Andrés, técnico especializado en impresoras. Reparo y mantengo equipos de impresión para hogares y oficinas con resultados garantizados.",
   },
@@ -656,14 +412,6 @@ export default [
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Lunes a Sábado, 13:00 - 21:00",
     avatar: "https://randomuser.me/api/portraits/women/15.jpg",
-    servicios: [
-      "Reparación de heladeras",
-      "Reparación de lavarropas",
-      "Reparación de microondas",
-      "Mantenimiento de aires acondicionados",
-      "Reparación de hornos",
-      "Servicio técnico a domicilio",
-    ],
     descripcion:
       "Soy Florencia, técnica en electrodomésticos. Reparo heladeras, lavarropas, microondas y más, extendiendo la vida útil de tus equipos.",
   },
@@ -677,14 +425,6 @@ export default [
     ubicacion: "Resistencia, Chaco",
     disponibilidad: "Martes a Domingo, 09:00 - 18:00",
     avatar: "https://randomuser.me/api/portraits/men/18.jpg",
-    servicios: [
-      "Soporte técnico general",
-      "Instalación de sistemas",
-      "Configuración de equipos",
-      "Resolución de problemas técnicos",
-      "Asesoramiento tecnológico",
-      "Capacitación en uso de tecnología",
-    ],
     descripcion:
       "Soy Tomás, técnico en tecnología general. Soluciono problemas con todo tipo de dispositivos electrónicos y sistemas tecnológicos.",
   },
