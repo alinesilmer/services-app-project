@@ -63,7 +63,7 @@ export default function Login() {
 
       if (isValid) {
         await saveUserLogin(username)
-        router.push("tabs/home")
+        router.push("tabs/client/home")
       } else {
         setLoginErrorMessage("Usuario o contraseña incorrectos")
         setShowLoginError(true)
@@ -112,7 +112,7 @@ export default function Login() {
               <Pressable
                 onPress={async () => {
                   await saveUserLogin("guest")
-                  router.push("tabs/home")
+                  router.push("tabs/client/home")
                 }}
               >
                 <Text style={styles.linkNoRegister}>Continuar sin registrarme</Text>
