@@ -47,7 +47,7 @@ export default function Login() {
     const checkLoginStatus = async () => {
       const loggedIn = await isUserLoggedIn()
       if (loggedIn) {
-        router.push("tabs/home")
+        router.push("tabs/client/home")
       }
     }
 

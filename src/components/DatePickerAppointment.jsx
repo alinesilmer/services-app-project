@@ -1,7 +1,7 @@
 "use client"
 import { View, Text, TouchableOpacity, StyleSheet, Platform } from "react-native"
 import DateTimePicker from "@react-native-community/datetimepicker"
-import { MaterialIcons } from "@expo/vector-icons"
+import { Feather } from "@expo/vector-icons"
 import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 const DatePickerAppointment = ({ label = "Seleccionar fecha", value, onChange, show, onPress, minimumDate, style }) => {
@@ -35,7 +35,7 @@ const DatePickerAppointment = ({ label = "Seleccionar fecha", value, onChange, s
             <Text style={styles.label}>{label}</Text>
             <Text style={styles.dateText}>{value ? formatDate(value) : "Seleccionar fecha"}</Text>
           </View>
-          <MaterialIcons name="calendar-today" size={24} color="#8e44ad" />
+          <Feather name="calendar" size={24} color="#8e44ad" />
         </View>
       </TouchableOpacity>
 

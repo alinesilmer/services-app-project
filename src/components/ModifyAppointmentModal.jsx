@@ -1,7 +1,7 @@
 "use client"
 import { useState, useEffect } from "react"
 import { View, Text, StyleSheet, TouchableOpacity, Modal, ScrollView, Alert } from "react-native"
-import { MaterialIcons } from "@expo/vector-icons"
+import { Feather } from "@expo/vector-icons"
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
 import { Colors } from "../constants/Colors"
 import DatePickerAppointment from "./DatePickerAppointment"
@@ -163,7 +163,7 @@ const ModifyAppointmentModal = ({ visible, appointment, onClose, onSave }) => {
           <View style={styles.header}>
             <Text style={styles.title}>Modificar Turno</Text>
             <TouchableOpacity activeOpacity={0.7} onPress={handleClose}>
-              <MaterialIcons name="close" size={24} color="#666" />
+              <Feather name="x" size={24} color="#666" />
             </TouchableOpacity>
           </View>
 
@@ -214,7 +214,7 @@ const ModifyAppointmentModal = ({ visible, appointment, onClose, onSave }) => {
                       <Text style={styles.timeSlotTime}>{timeSlot.time}</Text>
                     </View>
                     <View style={[styles.checkbox, selectedTimes.includes(timeSlot.id) && styles.checkboxSelected]}>
-                      {selectedTimes.includes(timeSlot.id) && <MaterialIcons name="check" size={16} color="white" />}
+                      {selectedTimes.includes(timeSlot.id) && <Feather name="check" size={16} color="white" />}
                     </View>
                   </TouchableOpacity>
                 ))}
@@ -223,7 +223,7 @@ const ModifyAppointmentModal = ({ visible, appointment, onClose, onSave }) => {
 
             {hasChanges && (
               <View style={styles.changesIndicator}>
-                <MaterialIcons name="info" size={20} color="#ff9800" />
+                <Feather name="info" size={20} color="#ff9800" />
                 <Text style={styles.changesText}>Tienes cambios sin guardar</Text>
               </View>
             )}

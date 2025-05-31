@@ -15,7 +15,7 @@ import { useState } from "react"
 import { useLocalSearchParams, router } from "expo-router"
 import { Colors } from "../../../constants/Colors"
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
-import { AntDesign, MaterialIcons } from "@expo/vector-icons"
+import {  Feather } from "@expo/vector-icons"
 import AdsImage from "../../../components/AdsImage"
 import BackButton from "../../../components/BackButton"
 
@@ -147,13 +147,13 @@ const ProfessionalServices = () => {
             >
               <View style={styles.serviceContent}>
                 <View style={styles.serviceIcon}>
-                  <MaterialIcons name="photo-library" size={20} color={Colors.blueColor} />
+                  <Feather name="image" size={20} color={Colors.blueColor} />
                 </View>
                 <View style={styles.serviceInfo}>
                   <Text style={styles.serviceName}>{serviceObj.servicio}</Text>
                   <Text style={styles.servicePrice}>{getServicePrice(serviceObj.servicio)}</Text>
                 </View>
-                <MaterialIcons name="chevron-right" size={24} color="#ccc" />
+                <Feather name="chevron-right" size={24} color="#ccc" />
               </View>
             </TouchableOpacity>
           ))}
@@ -163,7 +163,7 @@ const ProfessionalServices = () => {
           <Text style={styles.professionalName}>{professional.nombre}</Text>
           <Text style={styles.professionalCategory}>{professional.categoria}</Text>
           <View style={styles.ratingContainer}>
-            <MaterialIcons name="star" size={16} color="#ffd700" />
+            <Text style={{color: Colors.orangeColor, fontSize: 20, marginBottom: 6}}>★</Text>
             <Text style={styles.rating}>{professional.calificaciones}</Text>
             <Text style={styles.location}>• {professional.ubicacion}</Text>
           </View>
@@ -190,7 +190,7 @@ const ProfessionalServices = () => {
                 <View style={styles.modalHeader}>
                   <Text style={styles.modalTitle}>{selectedService.name}</Text>
                   <TouchableOpacity onPress={() => setShowServiceModal(false)}>
-                    <AntDesign name="close" size={24} color="#666" />
+                    <Feather name="x" size={24} color="#666" />
                   </TouchableOpacity>
                 </View>
 
@@ -222,7 +222,7 @@ const ProfessionalServices = () => {
                       handleRequestAppointment()
                     }}
                   >
-                    <MaterialIcons name="event" size={20} color="white" />
+                    <Feather name="calendar" size={20} color="white" />
                     <Text style={styles.modalAppointmentButtonText}>Solicitar turno para este servicio</Text>
                   </TouchableOpacity>
                 </ScrollView>

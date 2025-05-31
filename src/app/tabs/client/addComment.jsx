@@ -18,7 +18,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { MaterialIcons, AntDesign } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 import opinions from "../../../data/mockOpinions";
 import AnimationFeedback from "../../../components/AnimationFeedback";
 
@@ -145,7 +145,7 @@ const AddComment = () => {
             Por favor, agregar un comentario:
           </Text>
           <View style={styles.textInputContainer}>
-            <MaterialIcons
+            <Feather
               name="search"
               size={20}
               color="#999"
