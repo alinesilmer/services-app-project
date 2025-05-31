@@ -1,53 +1,25 @@
-import React from 'react';
-import { View, StyleSheet, StatusBar } from 'react-native';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'expo-router';
+import { View } from 'react-native';
 import { Colors } from '../constants/Colors';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-// Components
-import Logo from '../components/Logo';
-import SlideUpCard from '../components/SlideUpCard';
-import CustomButton from '../components/CustomButton';
-
-export default function welcome() {
+export default function Index() {
   const router = useRouter();
+  const [isReady, setIsReady] = useState(false);
 
-  return (
-    <View style={styles.container}>
-      <StatusBar barStyle="light-content" />
-      <Logo />
-      <SlideUpCard
-        title="Bienvenido a Dilo"
-        subtitle="Donde calidad y rapidez se unen"
-        style={styles.card}
-      >
-        <View style={styles.buttonContainer}>
-          <CustomButton text="Iniciar Sesión" onPress={() => router.push('auth/login')} />
-          <CustomButton text="Registrarme" onPress={() => router.push('auth/register')} />
-        </View>
-      </SlideUpCard>
-    </View>
-  );
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsReady(true);
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (isReady) {
+      router.replace('/tabs/splashScreen');
+    }
+  }, [isReady, router]);
+
+  return <View style={{ flex: 1, backgroundColor: Colors.blueColor }} />;
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.blueColor,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    paddingTop: hp('5%'),
-  },
-  buttonContainer: {
-    alignItems: 'center',
-    width: '100%',
-    gap: hp('1.5%'),
-  },
-  card: {
-    position: 'absolute',
-    bottom: 0,
-    height: hp('50%'),
-    paddingBottom: hp('4%'),
-    width: wp('100%'),
-  },
-});

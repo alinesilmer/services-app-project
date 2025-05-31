@@ -39,9 +39,14 @@ const Home = () => {
   const [randomAd, setRandomAd] = useState(null);
 
   useEffect(() => {
-    // Elegir un video aleatorio cuando se monta el componente
-    const randomIndex = Math.floor(Math.random() * ads.length);
-    setRandomAd(ads[randomIndex]);
+    if (showAd && !randomAd) {
+      const randomIndex = Math.floor(Math.random() * ads.length);
+      setRandomAd(ads[randomIndex]);
+    }
+
+    if (!showAd) {
+      setRandomAd(null);
+    }
   }, [showAd]);
 
   return (
@@ -91,12 +96,14 @@ const Home = () => {
 
         <BottomNavBar />
 
-        <Ad
-          visible={showAd}
-          onClose={closeAd}
-          source={randomAd}
-          type="video"
-        />
+        {randomAd && (
+          <Ad
+            visible={showAd}
+            onClose={closeAd}
+            source={randomAd}
+            type="video"
+          />
+        )}
       </View>
     </SafeAreaView>
   );
