@@ -1,47 +1,78 @@
 import { useState, useEffect } from 'react';
+import { getUserProfile, saveUserProfile, getCompleteUserData } from '../utils/storage';
 
-export function useProfile() {
-  // Datos permanentes
+export const useProfile = () => {
   const [data, setData] = useState({
-    fullName: 'Mirta Gaona',
-    email: 'mirgaona@gmail.com',
-    province: 'Chaco',
-    department: 'Resistencia',
-    address: 'Av Sarmiento 1249',
+    fullName: 'Usuario',
+    email: '',
+    province: '',
+    department: '',
+    address: '',
   });
 
-  // Estado del modal y del formulario interno
-  const [isModalVisible, setModalVisible] = useState(false);
-  const [form, setForm] = useState(data);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [formData, setFormData] = useState(data);
 
-  // Cada vez que cambien los datos “oficiales”, reseteamos el form
   useEffect(() => {
-    setForm(data);
-  }, [data]);
+    const loadProfile = async () => {
+      try {
+        const completeUserData = await getCompleteUserData();
+        if (completeUserData) {
+          const profileData = {
+            fullName: completeUserData.username || completeUserData.fullName || 'Usuario',
+            email: completeUserData.email || '',
+            province: completeUserData.province || '',
+            department: completeUserData.department || '',
+            address: completeUserData.address || '',
+          };
+          setData(profileData);
+          setFormData(profileData);
+        }
+      } catch (error) {
+        console.error('Error loading profile:', error);
+      }
+    };
 
-  function openModal() {
-    setModalVisible(true);
-  }
-  function closeModal() {
-    setModalVisible(false);
-  }
+    loadProfile();
+  }, []);
 
-  function handleFormChange(key, value) {
-    setForm(prev => ({ ...prev, [key]: value }));
-  }
+  const openModal = () => {
+    setFormData(data);
+    setIsModalVisible(true);
+  };
 
-  function saveForm() {
-    setData(form);
-    closeModal();
-  }
+  const closeModal = () => {
+    setIsModalVisible(false);
+    setFormData(data); 
+  };
+
+  const saveForm = async () => {
+    try {
+      await saveUserProfile(formData);
+      
+      setData(formData);
+      setIsModalVisible(false);
+      
+      console.log('Profile saved successfully');
+    } catch (error) {
+      console.error('Error saving profile:', error);
+    }
+  };
+
+  const updateFormData = (field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
 
   return {
     data,
-    form,
+    formData,
     isModalVisible,
     openModal,
     closeModal,
-    handleFormChange,
     saveForm,
+    updateFormData
   };
-}
+};
