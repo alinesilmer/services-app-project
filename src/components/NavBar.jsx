@@ -35,9 +35,9 @@ const NavBar = () => {
 
   return (
     <View style={styles.container}>
-      {renderItem('home', 'Inicio', () => router.push('tabs/home'))}
+      {renderItem('home', 'Inicio', () => router.push('tabs/client/home'))}
       {renderItem('message-square', 'Chat', () => router.push('tabs/chat'))}
-      {renderItem('calendar', 'Agenda', () => router.push('tabs/myAppointments'))}
+      {renderItem('calendar', 'Agenda', () => router.push('tabs/client/myAppointments'))}
       {renderItem('user', 'Perfil', () => router.push('tabs/client/dashboard'))} 
     </View>
   );
