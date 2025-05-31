@@ -7,7 +7,7 @@ import { View, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import CustomInput from './CustomInput';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-const PaymentForm = ({ onValidityChange }) => {
+const PaymentForm = ({ onValidityChange, onPaymentDataChange }) => {
   const [card, setCard] = useState('');
   const [cvv, setCvv] = useState('');
   const [expiry, setExpiry] = useState('');
@@ -19,7 +19,17 @@ const PaymentForm = ({ onValidityChange }) => {
       cvv.length >= 3 &&
       expiry.length >= 4 &&
       name.trim().length > 2;
+    
     onValidityChange(isValid);
+    
+    if (onPaymentDataChange) {
+      onPaymentDataChange({
+        number: card,
+        cvv: cvv,
+        expiry: expiry,
+        name: name
+      });
+    }
   }, [card, cvv, expiry, name]);
 
   const handleCardChange = text => {
@@ -28,38 +38,58 @@ const PaymentForm = ({ onValidityChange }) => {
     setCard(parts ? parts.join(' ') : cleaned);
   };
 
+  const handleExpiryChange = text => {
+    const cleaned = text.replace(/\D/g, '');
+    if (cleaned.length >= 2) {
+      setExpiry(`${cleaned.substring(0, 2)}/${cleaned.substring(2, 4)}`);
+    } else {
+      setExpiry(cleaned);
+    }
+  };
+
+  const handleCvvChange = text => {
+    const cleaned = text.replace(/\D/g, '');
+    setCvv(cleaned.substring(0, 4)); 
+  };
+
   return (
     <View style={styles.container}>
       <KeyboardAvoidingView>
-      <CustomInput
-        label="Número de Tarjeta"
-        placeholder="xxxx xxxx xxxx xxxx"
-        value={card}
-        onChangeText={handleCardChange}
-        style={styles.input}
-      />
-      <CustomInput
-        label="CVV"
-        placeholder="123"
-        value={cvv}
-        onChangeText={setCvv}
-        style={styles.input}
-      />
-      <CustomInput
-        label="Vencimiento"
-        placeholder="MM/YY"
-        value={expiry}
-        onChangeText={setExpiry}
-        style={styles.input}
-      />
-      <CustomInput
-        label="Nombre Completo"
-        placeholder="Nombre y Apellido"
-        value={name}
-        onChangeText={setName}
-        style={styles.input}
+        <CustomInput
+          label="Número de Tarjeta"
+          placeholder="xxxx xxxx xxxx xxxx"
+          value={card}
+          onChangeText={handleCardChange}
+          style={styles.input}
+          keyboardType="numeric"
+          maxLength={19}
         />
-        </KeyboardAvoidingView>
+        <CustomInput
+          label="CVV"
+          placeholder="123"
+          value={cvv}
+          onChangeText={handleCvvChange}
+          style={styles.input}
+          keyboardType="numeric"
+          maxLength={4}
+        />
+        <CustomInput
+          label="Vencimiento"
+          placeholder="MM/YY"
+          value={expiry}
+          onChangeText={handleExpiryChange}
+          style={styles.input}
+          keyboardType="numeric"
+          maxLength={5}
+        />
+        <CustomInput
+          label="Nombre Completo"
+          placeholder="Nombre y Apellido"
+          value={name}
+          onChangeText={setName}
+          style={styles.input}
+        />
+      </KeyboardAvoidingView>
     </View>
   );
 };

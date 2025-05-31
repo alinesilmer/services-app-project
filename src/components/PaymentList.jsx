@@ -8,7 +8,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import PaymentForm from './PaymentForm';
 import { Colors } from '../constants/Colors';
 
-const PaymentList = ({ methods, selected, onSelect, onValidityChange }) => {
+const PaymentList = ({ methods, selected, onSelect, onValidityChange, onPaymentDataChange }) => {
   const [saveDetails, setSaveDetails] = useState(false);
 
   return (
@@ -36,7 +36,10 @@ const PaymentList = ({ methods, selected, onSelect, onValidityChange }) => {
 
             {isOpen && (
               <View style={styles.formWrapper}>
-                <PaymentForm onValidityChange={onValidityChange} />
+                <PaymentForm 
+                  onValidityChange={onValidityChange} 
+                  onPaymentDataChange={onPaymentDataChange}
+                />
 
                 <View style={styles.saveRow}>
                   <Switch
