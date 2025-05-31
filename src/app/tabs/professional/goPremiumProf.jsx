@@ -6,21 +6,32 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { Feather } from '@expo/vector-icons';
 import CheckBox from 'expo-checkbox';
 
-import BackButton from '../../components/BackButton';
-import Logo from '../../components/Logo';
-import SlideUpCard from '../../components/SlideUpCard';
-import CustomButton from '../../components/CustomButton';
-import PricingComparisonTable from '../../components/PricingComparisonTable';
+import BackButton from '../../../components/BackButton';
+import Logo from '../../../components/Logo';
+import SlideUpCard from '../../../components/SlideUpCard';
+import CustomButton from '../../../components/CustomButton';
+import PricingComparisonTable from '../../../components/PricingComparisonTable';
 
-import { useValidation } from '../../hooks/useValidation';
-import { professionalPlans } from '../../utils/professionalPlans';
-import { Colors } from '../../constants/Colors';
+import { useValidation } from '../../../hooks/useValidation';
+import { professionalPlans } from '../../../utils/professionalPlans';
+import { Colors } from '../../../constants/Colors';
+import { setPremiumProfStatus, isPremiumProf, validateCreditCard } from "../../../utils/storage"
 
 export default function GoPremiumProf() {
   const router = useRouter();
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [formData, setFormData] = useState({ acceptTerms: false });
   const [errors, setErrors] = useState({});
+  const [alreadyPremium, setAlreadyPremium] = useState(false)
+
+  useEffect(() => {
+      const checkPremiumStatus = async () => {
+        const isPremium = await isPremiumProf()
+        setAlreadyPremium(isPremium)
+      }
+  
+      checkPremiumStatus()
+    }, [])
 
   const TermRoute = () => {
     router.push('auth/termsProf');
@@ -29,12 +40,11 @@ export default function GoPremiumProf() {
   const change = (name, value) =>
     setFormData((p) => ({ ...p, [name]: value }));
 
-  const handleSubscribe = (selectedPlan) => {
+  const handleSubscribe = async (selectedPlan) => {
     const validationErrors = useValidation(formData);
     
       if (!formData.acceptTerms) {
-        validationErrors.acceptTerms =
-          'Debes aceptar los términos y condiciones';
+        validationErrors.acceptTerms = 'Debes aceptar los términos y condiciones';
       }
     
     setErrors(validationErrors);
@@ -43,6 +53,8 @@ export default function GoPremiumProf() {
     }
 
     if (selectedPlan) {
+      await setPremiumProfStatus(true);
+
       router.push({
         pathname: '/tabs/subscriptionFlow',
         params: { planType: selectedPlan.toUpperCase() },

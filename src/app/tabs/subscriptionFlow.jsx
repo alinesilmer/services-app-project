@@ -14,6 +14,7 @@ import AnimationFeedback from '../../components/AnimationFeedback';
 
 import { Colors } from '../../constants/Colors';
 import { paymentMethods } from '../../utils/paymentMethods';
+import { setPremiumStatus, isPremiumUser, validateCreditCard } from "../../../utils/storage"
 
 export default function SubscriptionFlow() {
   const router = useRouter();
@@ -23,12 +24,30 @@ export default function SubscriptionFlow() {
   const [isFormValid, setIsFormValid] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showFailure, setShowFailure] = useState(false);
+  const [alreadyPremium, setAlreadyPremium] = useState(false)
 
-  const handlePayment = () => {
+  useEffect(() => {
+    const checkPremiumStatus = async () => {
+      const isPremium = await isPremiumUser()
+      setAlreadyPremium(isPremium)
+    }
+
+    checkPremiumStatus()
+  }, [])
+
+  const handlePayment = async () => {
     if (!isFormValid) {
       setShowFailure(true);
     } else {
       setShowSuccess(true);
+      const premiumSaved = await setPremiumStatus(true)
+
+      if (premiumSaved) {
+        setShowSuccess(true)
+      } else {
+        setPaymentError("Error al procesar el pago. Inténtelo de nuevo.")
+        setShowFailure(true)
+      }
     }
   };
 
@@ -68,8 +87,7 @@ export default function SubscriptionFlow() {
         title="¡Felicidades!"
         onClose={() => {
           setShowSuccess(false);
-            // Aquí podrías guardar el estado premium del usuario en algún contexto o backend
-          router.push('tabs/home');
+          router.push('tabs/professional/home');
         }}
       >
         <AnimationFeedback type="success" />

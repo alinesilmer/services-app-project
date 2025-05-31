@@ -1,4 +1,3 @@
-// components/NavBar.js
 // NavBar: bottom navigation bar with icons for different routes, highlights on press.
 // Uses Pressable and Feather icons; routes via useRouter.
 //------------------------------------------------------------------//
@@ -9,10 +8,20 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 import { Feather } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { Colors } from '../constants/Colors';
+import { getUserProfile } from '../utils/storage';
 
 const NavBar = () => {
   const [pressedIcon, setPressedIcon] = useState(null);
+  const [userType, setUserType] = useState(null);
   const router = useRouter(); 
+
+  useEffect(() => {
+    const fetchUserType = async () => {
+      const profile = await getUserProfile();
+      setUserType(profile?.userType || 'client');
+    };
+    fetchUserType();
+  }, []);
 
   const renderItem = (icon, label, onPress) => {
     const isPressed = pressedIcon === icon;
@@ -33,18 +42,14 @@ const NavBar = () => {
     );
   };
 
-  /* TODO: crear el direccionamiento condicional segun cliente o profesional cuando este la persistencia
-  {renderItem('user', 'Perfil', () =>
-    userType === 'profesional'
-      ? router.push('tabs/professional/dashboard')
-      : router.push('tabs/client/dashboard')
-  )}*/
+  const basePath = userType === 'professional' ? 'professional' : 'client';
+
   return (
     <View style={styles.container}>
-      {renderItem('home', 'Inicio', () => router.push('tabs/home'))}
-      {renderItem('message-square', 'Chat', () => router.push('tabs/chat'))}
-      {renderItem('calendar', 'Agenda', () => router.push('tabs/myAppointments'))}
-      {renderItem('user', 'Perfil', () => router.push('tabs/client/dashboard'))} 
+      {renderItem('home', 'Inicio', () => router.push(`tabs/${basePath}/home`))}
+      {renderItem('message-square', 'Chat', () => router.push(`tabs/chat`))}
+      {renderItem('calendar', 'Agenda', () => router.push(`tabs/${basePath}/myAppointments`))}
+      {renderItem('user', 'Perfil', () => router.push(`tabs/${basePath}/dashboard`))}
     </View>
   );
 };

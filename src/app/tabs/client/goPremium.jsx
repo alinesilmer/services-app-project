@@ -6,19 +6,19 @@ import { StatusBar } from "expo-status-bar"
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
 import { useRouter } from "expo-router"
 
-import BackButton from "../../components/BackButton"
-import Logo from "../../components/Logo"
-import SlideUpCard from "../../components/SlideUpCard"
-import CustomButton from "../../components/CustomButton"
-import PricingPlanSelector from "../../components/PricingPlanSelector"
-import PaymentList from "../../components/PaymentList"
-import ModalCard from "../../components/ModalCard"
-import AnimationFeedback from "../../components/AnimationFeedback"
+import BackButton from "../../../components/BackButton"
+import Logo from "../../../components/Logo"
+import SlideUpCard from "../../../components/SlideUpCard"
+import CustomButton from "../../../components/CustomButton"
+import PricingPlanSelector from "../../../components/PricingPlanSelector"
+import PaymentList from "../../../components/PaymentList"
+import ModalCard from "../../../components/ModalCard"
+import AnimationFeedback from "../../../components/AnimationFeedback"
 
-import { pricingPlans } from "../../utils/pricingPlans"
-import { paymentMethods } from "../../utils/paymentMethods"
-import { Colors } from "../../constants/Colors"
-import { setPremiumStatus, isPremiumUser, validateCreditCard } from "../../utils/storage"
+import { pricingPlans } from "../../../utils/pricingPlans"
+import { paymentMethods } from "../../../utils/paymentMethods"
+import { Colors } from "../../../constants/Colors"
+import { setPremiumStatus, isPremiumUser, validateCreditCard } from "../../../utils/storage"
 
 export default function GoPremium() {
   const router = useRouter()
@@ -103,7 +103,7 @@ export default function GoPremium() {
                 </Text>
                 <CustomButton
                   text="Volver al inicio"
-                  onPress={() => router.push("tabs/home")}
+                  onPress={() => router.push("tabs/client/home")}
                   style={styles.subscribeBtn}
                 />
               </>

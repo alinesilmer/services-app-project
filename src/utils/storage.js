@@ -1,10 +1,29 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+//MOCKS
+const MOCK_USERS = [
+  {
+    username: "usuario",
+    password: "123456",
+    userType: "client",
+    email: "usuario@example.com",
+    birthdate: "1990-01-01",
+  },
+  {
+    username: "profesional",
+    password: "654321",
+    userType: "professional",
+    email: "profesional@example.com",
+    birthdate: "1985-05-10",
+  },
+];
+
 // KEYS
 const STORAGE_KEYS = {
   USER_DATA: "user_data",
   IS_LOGGED_IN: "is_logged_in",
-  IS_PREMIUM: "is_premium",
+  IS_PREMIUM: "is_premium", // Flujo sin publicidad para clientes
+  IS_PREMIUM_PROF: "is_premium_prof", // Flujo con publicidad personalizada para profesionales
   REGISTERED_USERS: "registered_users",
   USER_PROFILE: "user_profile",
 };
@@ -85,6 +104,16 @@ export const getCompleteUserData = async () => {
   }
 };
 
+export const getUserType = async () => {
+  try {
+    const profileData = await getUserProfile();
+    return profileData?.userType || null;
+  } catch (error) {
+    console.error("Error getting user type:", error);
+    return null;
+  }
+};
+
 export const logoutUser = async () => {
   try {
     await AsyncStorage.removeItem(STORAGE_KEYS.IS_LOGGED_IN);
@@ -146,16 +175,19 @@ export const checkLoginCredentials = async (username, password) => {
     const existingUsersJSON = await AsyncStorage.getItem(
       STORAGE_KEYS.REGISTERED_USERS
     );
-    if (!existingUsersJSON) {
-      return username === "usuario" && password === "123456";
-    }
 
-    const existingUsers = JSON.parse(existingUsersJSON);
-    const user = existingUsers.find(
+    const existingUsers = existingUsersJSON
+      ? JSON.parse(existingUsersJSON)
+      : [];
+
+    const allUsers = [...existingUsers, ...MOCK_USERS];
+
+    const user = allUsers.find(
       (user) => user.username === username && user.password === password
     );
 
-    return !!user;
+    if (!user) return false;
+    return true;
   } catch (error) {
     console.error("Error checking credentials:", error);
     return false;
@@ -182,6 +214,30 @@ export const isPremiumUser = async () => {
     return value === "true";
   } catch (error) {
     console.error("Error checking premium status:", error);
+    return false;
+  }
+};
+
+export const setPremiumProfStatus = async (isPremiumProf) => {
+  try {
+    await AsyncStorage.setItem(
+      STORAGE_KEYS.IS_PREMIUM_PROF,
+      isPremiumProf ? "true" : "false"
+    );
+    console.log("Professional premium status updated successfully");
+    return true;
+  } catch (error) {
+    console.error("Error updating professional premium status:", error);
+    return false;
+  }
+};
+
+export const isPremiumProf = async () => {
+  try {
+    const value = await AsyncStorage.getItem(STORAGE_KEYS.IS_PREMIUM_PROF);
+    return value === "true";
+  } catch (error) {
+    console.error("Error checking professional premium status:", error);
     return false;
   }
 };
