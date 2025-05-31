@@ -12,17 +12,17 @@ import {
 import { useRouter } from 'expo-router';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-import ProfilePicture from '../../components/ProfilePic';
-import SearchBar from '../../components/SearchBar';
-import BottomNavBar from '../../components/NavBar';
-import ServiceList from '../../components/ServiceList';
-import PublicityProfessional from '../../components/PublicityProfessional';
-import Notifications from '../../components/Notifications';
-import LongCard from '../../components/LongCard';
-import Rate from '../../components/Rate';
-import Ad from '../../components/Ad';
-import { useAdManager } from '../../hooks/useAdManager';
-import { Colors } from '../../constants/Colors';
+import ProfilePicture from '../../../components/ProfilePic';
+import SearchBar from '../../../components/SearchBar';
+import BottomNavBar from '../../../components/NavBar';
+import ServiceList from '../../../components/ServiceList';
+import PublicityProfessional from '../../../components/PublicityProfessional';
+import Notifications from '../../../components/Notifications';
+import LongCard from '../../../components/LongCard';
+import Rate from '../../../components/Rate';
+import Ad from '../../../components/Ad';
+import { useAdManager } from '../../../hooks/useAdManager';
+import { Colors } from '../../../constants/Colors';
 
 const Home = () => {
   const router = useRouter();
@@ -78,7 +78,7 @@ const Home = () => {
         <Ad
           visible={showAd}
           onClose={closeAd}
-          source={require('../../assets/videos/propaganda.mp4')}
+          source={require('../../../assets/videos/propaganda.mp4')}
           type="video"
         />
       </View>

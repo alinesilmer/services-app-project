@@ -30,13 +30,13 @@ export default function Login() {
 
   const handleLogin = () => {
     if (username == 'usuario' && password == '123456') {
-       router.push('tabs/home');
+      router.push('tabs/client/home');
     }
     const validationErrors = useValidation({ username, password });
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
-      router.push('tabs/home');
+      router.push('tabs/client/home');
     }
   };
 
@@ -81,7 +81,7 @@ export default function Login() {
               <Pressable onPress={() => router.push('auth/register')}>
                 <Text style={styles.linkRegister}>Haz click aquí {'\n'} para registrarte</Text>
               </Pressable>
-              <Pressable onPress={() => router.push('tabs/home')}>
+              <Pressable onPress={() => router.push('tabs/client/home')}>
                 <Text style={styles.linkNoRegister}>Continuar sin registrarme</Text>
               </Pressable>
             </View>

@@ -13,15 +13,15 @@ import {
 } from "react-native"
 import { useState, useCallback } from "react"
 import { router, useFocusEffect } from "expo-router"
-import { Colors } from "../../constants/Colors"
+import { Colors } from "../../../constants/Colors"
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
-import { AntDesign, MaterialIcons } from "@expo/vector-icons"
-import AdsImage from "../../components/AdsImage"
-import NavBar from "../../components/NavBar"
-import AnimationFeedback from "../../components/AnimationFeedback"
-import ModifyAppointmentModal from "../../components/ModifyAppointmentModal"
-import mockAppointments from "../../data/mockAppointments"
-import BackButton from "../../components/BackButton"
+import { Feather } from "@expo/vector-icons"
+import AdsImage from "../../../components/AdsImage"
+import NavBar from "../../../components/NavBar"
+import AnimationFeedback from "../../../components/AnimationFeedback"
+import ModifyAppointmentModal from "../../../components/ModifyAppointmentModal"
+import mockAppointments from "../../../data/mockAppointments"
+import BackButton from "../../../components/BackButton"
 
 const MyAppointments = () => {
   const [selectedAppointment, setSelectedAppointment] = useState(null)
@@ -144,7 +144,7 @@ const MyAppointments = () => {
         >
           {currentAppointments.length === 0 ? (
             <View style={styles.emptyContainer}>
-              <MaterialIcons name="event-busy" size={80} color="#ccc" />
+              <Feather name="x" size={80} color="#ccc" />
               <Text style={styles.emptyText}>No tienes turnos programados</Text>
               <Text style={styles.emptySubtext}>Agenda tu primera cita con un profesional</Text>
             </View>
@@ -158,7 +158,7 @@ const MyAppointments = () => {
               >
                 {appointment.isNew && <View style={styles.newIndicator} />}
                 <View style={styles.appointmentHeader}>
-                  <MaterialIcons name="event" size={24} color={Colors.blueColor} />
+                  <Feather name="calendar" size={24} color={Colors.blueColor} />
                   <Text style={styles.appointmentTitle}>
                     {appointment.profession?.toUpperCase()}
                     {appointment.isNew && <Text style={styles.newText}> (Nuevo)</Text>}
@@ -206,41 +206,41 @@ const MyAppointments = () => {
                     {selectedAppointment.isNew && <Text style={styles.newText}> (Nuevo)</Text>}
                   </Text>
                   <TouchableOpacity activeOpacity={0.7} onPress={() => setShowModal(false)}>
-                    <AntDesign name="close" size={24} color="#666" />
+                    <Feather name="x" size={24} color="#666" />
                   </TouchableOpacity>
                 </View>
 
                 <View style={styles.modalBody}>
                   <View style={styles.modalDetailRow}>
-                    <MaterialIcons name="person" size={20} color={Colors.blueColor} />
+                    <Feather name="user" size={20} color={Colors.blueColor} />
                     <Text style={styles.modalDetailText}>
                       <Text style={styles.modalDetailLabel}>Profesional:</Text> {selectedAppointment.professionalName}
                     </Text>
                   </View>
 
                   <View style={styles.modalDetailRow}>
-                    <MaterialIcons name="calendar-today" size={20} color={Colors.blueColor} />
+                    <Feather name="calendar" size={20} color={Colors.blueColor} />
                     <Text style={styles.modalDetailText}>
                       <Text style={styles.modalDetailLabel}>Fecha:</Text> {formatDate(selectedAppointment.date)}
                     </Text>
                   </View>
 
                   <View style={styles.modalDetailRow}>
-                    <MaterialIcons name="access-time" size={20} color={Colors.blueColor} />
+                    <Feather name="clock" size={20} color={Colors.blueColor} />
                     <Text style={styles.modalDetailText}>
                       <Text style={styles.modalDetailLabel}>Hora:</Text> {selectedAppointment.time} h
                     </Text>
                   </View>
 
                   <View style={styles.modalDetailRow}>
-                    <MaterialIcons name="location-on" size={20} color={Colors.blueColor} />
+                    <Feather name="map-pin" size={20} color={Colors.blueColor} />
                     <Text style={styles.modalDetailText}>
                       <Text style={styles.modalDetailLabel}>Ubicación:</Text> {selectedAppointment.location}
                     </Text>
                   </View>
 
                   <View style={styles.modalDetailRow}>
-                    <MaterialIcons name="check-circle" size={20} color="#28a745" />
+                    <Feather name="check-circle" size={20} color="#28a745" />
                     <Text style={styles.modalDetailText}>
                       <Text style={styles.modalDetailLabel}>Estado:</Text> {selectedAppointment.estado}
                     </Text>
