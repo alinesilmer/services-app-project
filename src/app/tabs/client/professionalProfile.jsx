@@ -15,7 +15,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { MaterialIcons } from "@expo/vector-icons";
+import { Feather, MaterialIcons } from "@expo/vector-icons";
 import profiles from "../../../data/mockProfiles";
 import opinions from "../../../data/mockOpinions";
 import BackButton from "../../../components/BackButton"
@@ -143,7 +143,7 @@ const ProfessionalProfile = () => {
           style={styles.addCommentButton}
           onPress={handleAddComment}
         >
-          <MaterialIcons name="add-comment" size={20} color="#666" />
+          <Feather name="plus" size={20} color="#666" />
           <Text style={styles.addCommentText}>Agregar comentario</Text>
         </TouchableOpacity>
 

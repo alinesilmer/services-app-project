@@ -1,31 +1,21 @@
 "use client"
-
 import { useEffect, useState, useCallback } from "react"
 import { View, Text, ScrollView, StyleSheet, StatusBar, Pressable, SafeAreaView, Platform } from "react-native"
 import { useRouter, useFocusEffect } from "expo-router"
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
 
-import ProfilePicture from "../../components/ProfilePic"
-import SearchBar from "../../components/SearchBar"
-import BottomNavBar from "../../components/NavBar"
-import ServiceList from "../../components/ServiceList"
-import PublicityProfessional from "../../components/PublicityProfessional"
-import Notifications from "../../components/Notifications"
-import LongCard from "../../components/LongCard"
-import Rate from "../../components/Rate"
-import Ad from "../../components/Ad"
-import { useAdManager } from "../../hooks/useAdManager"
-import { Colors } from "../../constants/Colors"
-import { getUserData, isPremiumUser } from "../../utils/storage"
-
-const ads = [
-  require('../../assets/videos/propaganda1.mp4'),
-  require('../../assets/videos/propaganda2.mp4'),
-  require('../../assets/videos/propaganda3.mp4'),
-  require('../../assets/videos/propaganda4.mp4'),
-  require('../../assets/videos/propaganda5.mp4'),
-];
-
+import ProfilePicture from '../../../components/ProfilePic';
+import SearchBar from '../../../components/SearchBar';
+import BottomNavBar from '../../../components/NavBar';
+import ServiceList from '../../../components/ServiceList';
+import PublicityProfessional from '../../../components/PublicityProfessional';
+import Notifications from '../../../components/Notifications';
+import LongCard from '../../../components/LongCard';
+import Rate from '../../../components/Rate';
+import Ad from '../../../components/Ad';
+import { useAdManager } from '../../../hooks/useAdManager';
+import { Colors } from '../../../constants/Colors';
+import { getUserData, isPremiumUser } from "../../../utils/storage"
 const Home = () => {
   const router = useRouter()
   const [username, setUsername] = useState("Usuario")
@@ -101,7 +91,7 @@ const Home = () => {
         <BottomNavBar />
 
         {!premium && (
-          <Ad visible={showAd} onClose={closeAd} source={require("../../assets/videos/propaganda.mp4")} type="video" />
+          <Ad visible={showAd} onClose={closeAd} source={require("../../../assets/videos/propaganda.mp4")} type="video" />
         )}
       </View>
     </SafeAreaView>

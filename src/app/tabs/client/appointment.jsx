@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { useLocalSearchParams, router } from "expo-router"
 import { Colors } from "../../../constants/Colors"
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
-import { AntDesign, MaterialIcons } from "@expo/vector-icons"
+import {  Feather } from "@expo/vector-icons"
 import AdsImage from "../../../components/AdsImage"
 import DatePickerAppointment from "../../../components/DatePickerAppointment"
 import AnimationFeedback from "../../../components/AnimationFeedback"
@@ -114,7 +114,7 @@ const Appointment = () => {
 
     setTimeout(() => {
       setShowSuccessAnimation(false)
-      router.push("/tabs/myAppointments")
+      router.push("/tabs/client/myAppointments")
     }, 1400)
   }
 
@@ -140,7 +140,7 @@ const Appointment = () => {
             <Text style={styles.selectedDateLabel}>Fecha seleccionada</Text>
             <View style={styles.dateInputStyle}>
               <Text style={styles.dateInputText}>{selectedDate?.toLocaleDateString("es-ES") || "mm/dd/yyyy"}</Text>
-              <MaterialIcons name="calendar-today" size={20} color="#666" />
+              <Feather name="calendar" size={20} color="#666" />
             </View>
           </View>
 
@@ -159,7 +159,7 @@ const Appointment = () => {
                   <Text style={styles.timeSlotTime}>{timeSlot.time}</Text>
                 </View>
                 <View style={[styles.checkbox, selectedTimes.includes(timeSlot.id) && styles.checkboxSelected]}>
-                  {selectedTimes.includes(timeSlot.id) && <MaterialIcons name="check" size={16} color="white" />}
+                  {selectedTimes.includes(timeSlot.id) && <Feather name="check" size={16} color="white" />}
                 </View>
               </TouchableOpacity>
             ))}
@@ -167,7 +167,7 @@ const Appointment = () => {
 
           {selectedTimes.length === 0 && (
             <View style={styles.infoContainer}>
-              <MaterialIcons name="info" size={20} color="#ff9800" />
+              <Feather name="info" size={20} color="#ff9800" />
               <Text style={styles.infoText}>Selecciona al menos un horario para continuar</Text>
             </View>
           )}
