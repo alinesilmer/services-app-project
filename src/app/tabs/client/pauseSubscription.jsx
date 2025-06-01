@@ -8,62 +8,59 @@ import CustomButton from "../../../components/CustomButton";
 import BackButton from "../../../components/BackButton";
 
 export default function PauseSubscription() {
-    const router = useRouter();
+  const router = useRouter();
 
-    return (
-        <>
-            <StatusBar barStyle="light-content" backgroundColor="#1a2f68" />
-            <View style={styles.container}>
-                <BackButton onPress={() => router.back()} />
+  return (
+    <>
+      <StatusBar barStyle="light-content" backgroundColor="#1a2f68" />
+      <View style={styles.container}>
+        <BackButton onPress={() => router.back()} />
 
-                {/* Estrellas arriba a la derecha */}
-                <View style={styles.starsTriangle}>
-                    <Feather
-                        name="star"
-                        style={styles.topStar}
-                        size={45}
-                        color={"#fffde8"}
-                    />
-                    <Feather
-                        name="star"
-                        style={styles.leftStar}
-                        size={45}
-                        color={"#fffde8"}
-                    />
-                    <Feather
-                        name="star"
-                        style={styles.rightStar}
-                        size={45}
-                        color={"#fffde8"}
-                    />
-                </View>
+        {/* Estrellas arriba a la derecha */}
+        <View style={styles.starsTriangle}>
+          <Feather
+            name="star"
+            style={styles.topStar}
+            size={45}
+            color={"#fffde8"}
+          />
+          <Feather
+            name="star"
+            style={styles.leftStar}
+            size={45}
+            color={"#fffde8"}
+          />
+          <Feather
+            name="star"
+            style={styles.rightStar}
+            size={45}
+            color={"#fffde8"}
+          />
+        </View>
 
-                {/* Logo */}
-                <View style={styles.logoContainer}>
-                    <Image source={logoIma} style={styles.logo} />
-                    <Text style={styles.Title}>PRUEBA DILO{"\n"}PREMIUM</Text>
-                </View>
-                <View style={styles.containerContent}>
-                    <Text style={styles.text}>
-                    SUSCRIPCIÓN PAUSADA
-                    </Text>
-                    <Text style={styles.textTwo}>
-                    ¡Gracias por usar nuestro servicio!
-                    Recuerda que puedes reanudar{"\n"} tu suscripción{"\n"} en cualquier momento.
-                    </Text>
-                    <View style={styles.button}>
-                    <CustomButton
-                    text="Reanudar Suscripción"
-                    onPress={() => router.push("/tabs/client/cancelation")}
-                    backgroundColor="#198754"
-                    width="90%"
-                    />  
-                    </View>
-                </View>
-                
-            </View>
-        </>
-    );
+        {/* Logo */}
+        <View style={styles.logoContainer}>
+          <Image source={logoIma} style={styles.logo} />
+          <Text style={styles.Title}>PRUEBA DILO{"\n"}PREMIUM</Text>
+        </View>
+        <View style={styles.containerContent}>
+          <Text style={styles.text}>SUSCRIPCIÓN PAUSADA</Text>
+          <Text style={styles.textTwo}>
+            ¡Gracias por usar nuestro servicio! Recuerda que puedes reanudar
+            {"\n"} tu suscripción{"\n"} en cualquier momento.
+          </Text>
+          <View style={styles.button}>
+            <CustomButton
+              text="Reanudar Suscripción"
+              onPress={() => router.push("/tabs/client/cancelation")}
+              backgroundColor="#198754"
+              width="90%"
+            />
+          </View>
+        </View>
+      </View>
+    </>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -107,10 +104,10 @@ const styles = StyleSheet.create({
     marginTop: 40,
     alignSelf: "flex-start",
   },
-   logoContainer: {
+  logoContainer: {
     flexDirection: "row",
-    alignItems: "center", 
-    justifyContent: "flex-start", 
+    alignItems: "center",
+    justifyContent: "flex-start",
     alignSelf: "flex-start",
   },
   logo: {
@@ -138,7 +135,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   text: {
-    fontSize: 25,
+    fontSize: 22,
     fontFamily: "Montserrat_400Regular",
     fontWeight: "bold",
     color: "#000",
@@ -147,7 +144,7 @@ const styles = StyleSheet.create({
   },
   textTwo: {
     marginTop: 40,
-    fontSize: 20,
+    fontSize: 18,
     fontFamily: "Montserrat_400Regular",
     color: "#000",
     textAlign: "center",

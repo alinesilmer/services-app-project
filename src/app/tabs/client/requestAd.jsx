@@ -1,11 +1,18 @@
 import React from "react";
-import { View, Text, Platform, TextInput, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Platform,
+  TextInput,
+  StyleSheet,
+  Image,
+} from "react-native";
 import { StatusBar } from "react-native";
 import { useRouter } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 import CustomButton from "../../../components/CustomButton";
 import { KeyboardAvoidingView } from "react-native";
-
+const AdIma = require("../../../assets/images/Ad1.png");
 export default function request() {
   const router = useRouter();
 
@@ -55,10 +62,13 @@ export default function request() {
           <View>
             <CustomButton
               text="Confirmar solicitud personalizada"
-              onPress={() => router.push("tabs/client/secondRequest")}
+              onPress={() => router.push("tabs/client/secondRequestAd")}
               backgroundColor="#198754"
               width="90%"
             />
+          </View>
+          <View style={styles.imageContainer}>
+            <Image source={AdIma} style={{ width: "360", height: "95" }} />
           </View>
         </View>
       </View>
@@ -79,7 +89,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontFamily: "Montserrat_400Regular",
     fontWeight: "bold",
-    marginTop:-10,
+    marginTop: -10,
   },
   description: {
     marginTop: 10,
@@ -87,7 +97,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#B55A3E",
     textAlign: "center",
-    width:330,
+    width: 330,
   },
   rectangle: {
     width: 310,
@@ -120,7 +130,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#f6f6f6",
-    borderTopLeftRadius:120,
+    borderTopLeftRadius: 120,
   },
-   
 });

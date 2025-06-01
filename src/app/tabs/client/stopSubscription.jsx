@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   text: {
-    fontSize: 25,
+    fontSize: 22,
     fontFamily: "Montserrat_400Regular",
     fontWeight: "bold",
     color: "#000",
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
   },
   textTwo: {
     marginTop: 10,
-    fontSize: 20,
+    fontSize: 18,
     fontFamily: "Montserrat_400Regular",
     color: "#000",
     textAlign: "center",
