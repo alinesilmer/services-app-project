@@ -14,7 +14,7 @@ import AnimationFeedback from '../../components/AnimationFeedback';
 
 import { Colors } from '../../constants/Colors';
 import { paymentMethods } from '../../utils/paymentMethods';
-import { setPremiumStatus, isPremiumUser, validateCreditCard } from "../../../utils/storage"
+import { setPremiumStatus, isPremiumUser } from "../../utils/storage"
 
 export default function SubscriptionFlow() {
   const router = useRouter();

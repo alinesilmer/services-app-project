@@ -1,16 +1,6 @@
 "use client"
-
 import { useState, useEffect } from "react"
-import {
-  View,
-  StyleSheet,
-  StatusBar,
-  Text,
-  Pressable,
-  KeyboardAvoidingView,
-  Platform,
-  SafeAreaView,
-} from "react-native"
+import { View, StyleSheet, StatusBar, Text, Pressable, KeyboardAvoidingView, Platform, SafeAreaView } from "react-native"
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
 import { useRouter } from "expo-router"
 
@@ -29,25 +19,32 @@ import { Colors } from "../../constants/Colors"
 //Hooks
 import { useTogglePassword } from "../../hooks/useTogglePassword"
 import { useValidation } from "../../hooks/useValidation"
-import { saveUserLogin, checkLoginCredentials, isUserLoggedIn } from "../../utils/storage"
+import { saveUserLogin, getUserType, checkLoginCredentials, isUserLoggedIn, logoutUser } from "../../utils/storage"
 
 // Login screen, includes input Username and Password. Links de recovery, register and continue w/o register
 export default function Login() {
   const router = useRouter()
-  const [username, setUsername] = useState("")
+  const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const { secureTextEntry, toggleVisibility, icon } = useTogglePassword()
   const [errors, setErrors] = useState({})
   const [loading, setLoading] = useState(false)
-  const validationErrors = useValidation({ username, password })
+  const validationErrors = useValidation({ email, password })
   const [showLoginError, setShowLoginError] = useState(false)
   const [loginErrorMessage, setLoginErrorMessage] = useState("")
 
   useEffect(() => {
     const checkLoginStatus = async () => {
+      await logoutUser();
       const loggedIn = await isUserLoggedIn()
+
       if (loggedIn) {
-        router.push("tabs/client/home")
+        const userType = await getUserType()
+        if (userType === "professional") {
+          router.push("tabs/professional/dashboard")   // TODO: Cambiar a la ruta del home del profesional
+        } else {
+          router.push("tabs/client/home")
+        }
       }
     }
 
@@ -59,11 +56,18 @@ export default function Login() {
     setErrors(validationErrors)
 
     if (Object.keys(validationErrors).length === 0) {
-      const isValid = await checkLoginCredentials(username, password)
+      const loginResult = await checkLoginCredentials(email, password)
 
-      if (isValid) {
-        await saveUserLogin(username)
-        router.push("tabs/client/home")
+      if (loginResult.success && loginResult.user) {
+        await saveUserLogin(loginResult.user)
+        const userType = loginResult.user.userType;
+
+        if (userType === "professional") {
+          router.push("tabs/professional/dashboard") // TODO: Cambiar a la ruta del home del profesional
+        } else {
+          router.push("tabs/client/home")
+        }
+
       } else {
         setLoginErrorMessage("Usuario o contraseña incorrectos")
         setShowLoginError(true)
@@ -82,13 +86,13 @@ export default function Login() {
         <View style={styles.container}>
           <BackButton />
           <Logo />
-          <SlideUpCard title="Inicio" subtitle={"Por favor, ingrese su\nusuario para continuar"} style={styles.card}>
+          <SlideUpCard title="Inicio" subtitle={"Por favor, ingrese su\ncorreo para continuar"} style={styles.card}>
             <CustomInput
-              label="Usuario"
-              placeholder="Usuario"
-              value={username}
-              onChangeText={setUsername}
-              error={errors.username}
+              label="Email"
+              placeholder="Email"
+              value={email}
+              onChangeText={setEmail}
+              error={errors.email}
             />
             <CustomInput
               label="Contraseña"
@@ -111,7 +115,7 @@ export default function Login() {
               </Pressable>
               <Pressable
                 onPress={async () => {
-                  await saveUserLogin("guest")
+                  //await saveUserLogin("guest")
                   router.push("tabs/client/home")
                 }}
               >
@@ -142,7 +146,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     width: wp("100%"),
-    height: hp("71%"),
+    height: hp("72%"),
   },
   linksContainer: {
     marginTop: hp("2%"),

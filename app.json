@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "fakin-services",
-    "slug": "fakin-services",
+    "name": "Dilo",
+    "slug": "Dilo",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "splash": {
       "image": "./assets/images/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "1a2f68"
+      "backgroundColor": "#1a2f68"
     },
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
@@ -18,8 +18,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "1a2f68"
+        "foregroundImage": "./assets/images/logo-service-app.png",
+        "backgroundColor": "#1a2f68"
       }
     },
     "web": {

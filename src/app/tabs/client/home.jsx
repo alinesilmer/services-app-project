@@ -16,34 +16,56 @@ import Ad from '../../../components/Ad';
 import { useAdManager } from '../../../hooks/useAdManager';
 import { Colors } from '../../../constants/Colors';
 import { getUserData, isPremiumUser } from "../../../utils/storage"
+
+const ads = [
+  require('../../../assets/videos/propaganda1.mp4'),
+  require('../../../assets/videos/propaganda2.mp4'),
+  require('../../../assets/videos/propaganda3.mp4'),
+  require('../../../assets/videos/propaganda4.mp4'),
+  require('../../../assets/videos/propaganda5.mp4'),
+];
+
 const Home = () => {
   const router = useRouter()
   const [username, setUsername] = useState("Usuario")
   const [premium, setPremium] = useState(false)
   const { showAd, closeAd } = useAdManager({ isPremium: premium })
+  const [randomAd, setRandomAd] = useState(null);
 
   const loadUserData = useCallback(async () => {
     try {
       const userData = await getUserData()
-      if (userData && userData.username) {
-        setUsername(userData.username)
+      if (userData && userData.fullName) {
+        setUsername(userData.fullName)
       }
-      const userIsPremium = await isPremiumUser()
-      console.log("Home: Premium status check:", userIsPremium)
-      setPremium(userIsPremium)
+      const premium = await isPremiumUser()
+      console.log("Home: Premium status check:", premium)
+      setPremium(premium)
     } catch (error) {
       console.error("Error loading user data:", error)
     }
-  }, [])
+  }, []);
+
   useEffect(() => {
     loadUserData()
-  }, [loadUserData])
+  }, [loadUserData]);
+
+  useEffect(() => {
+    if (showAd && !randomAd) {
+      const randomIndex = Math.floor(Math.random() * ads.length);
+      setRandomAd(ads[randomIndex]);
+    }
+
+    if (!showAd) {
+      setRandomAd(null);
+    }
+  }, [showAd]);
 
   useFocusEffect(
     useCallback(() => {
       loadUserData()
     }, [loadUserData]),
-  )
+  );
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -53,7 +75,7 @@ const Home = () => {
         <View style={styles.header}>
           <View style={styles.topRow}>
             <Pressable style={styles.profileContainer} onPress={() => router.push("tabs/client/dashboard")}>
-              <ProfilePicture uri="https://randomuser.me/api/portraits/men/32.jpg" />
+              <ProfilePicture uri="https://image.freepik.com/foto-gratis/hermosa-mujer-sobre-fondo-blanco_144627-2849.jpg" />
               <View style={styles.profileText}>
                 <Text style={styles.welcome}>Bienvenido</Text>
                 <Text style={styles.username}>{username}</Text>
@@ -90,8 +112,13 @@ const Home = () => {
 
         <BottomNavBar />
 
-        {!premium && (
-          <Ad visible={showAd} onClose={closeAd} source={require("../../../assets/videos/propaganda.mp4")} type="video" />
+        {!premium && randomAd && (
+          <Ad 
+            visible={showAd} 
+            onClose={closeAd} 
+            source={randomAd}
+            type="video" 
+          />
         )}
       </View>
     </SafeAreaView>

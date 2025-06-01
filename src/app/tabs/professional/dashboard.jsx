@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useRouter } from 'expo-router';
@@ -15,11 +15,27 @@ import { useProfile } from '../../../hooks/useProfessionalProfile';
 import { Colors } from '../../../constants/Colors';
 import BottomNavBar from '../../../components/NavBar';
 import ModalWrapper from '../../../components/ModalWrapper';
+import { getUserData, isPremiumProf, logoutUser } from "../../../utils/storage"
 
 export default function ProfileScreen() {
   const router = useRouter();
-  const { data, form, isModalVisible, openModal, closeModal, saveForm, handleFormChange } = useProfile();
+  const { data, formData, isModalVisible, openModal, closeModal, saveForm, updateFormData } = useProfile();
   const [selectedIndex, setSelectedIndex] = useState(null);
+  const [isPremium, setIsPremium] = useState(false)
+
+  useEffect(() => {
+    getUserData()
+    const loadPremiumStatus = async () => {
+      try {
+        const premiumStatus = await isPremiumProf()
+        setIsPremium(premiumStatus)
+      } catch (error) {
+        console.error("Error loading premium status:", error)
+      }
+    }
+
+    loadPremiumStatus()
+  }, [])
 
   /* TODO: Cambiar direccionamientos a pestañas reales:
   <CustomButton text="Ver Servicios" onPress={router.push('tabs/professional/services')} />
@@ -27,10 +43,10 @@ export default function ProfileScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <View style={styles.mainContent}>
-        <StatusBar style="light" backgroundColor={Colors.primary} />
-        <BackButton style={styles.backButton} />
+      <StatusBar style="light" backgroundColor={Colors.primary} />
+       <BackButton style={styles.backButton} />
         <View style={styles.container}>
+          <View style={styles.mainContent}>
           <SlideUpCard title="Mi Perfil"  style={styles.card}>
             <IconButton
               name="edit"
@@ -44,7 +60,7 @@ export default function ProfileScreen() {
               size={24}
               color={Colors.textColor}
               style={styles.chatButton}
-              onPress={() => router.push('tabs/chat')}
+              onPress={() => router.push('../tabs/chat')}
             />
 
             <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
@@ -54,22 +70,25 @@ export default function ProfileScreen() {
                 style={styles.avatar}
               />
 
-              <Text style={styles.name}>{data.fullName}</Text>
+              <Text style={styles.name}>
+                {data.fullName}
+                {isPremium && <Text style={styles.premiumBadge}> Premium</Text>}
+                </Text>
 
               <View style={styles.fieldWrapper}>
-                <DisplayField label="Email" value={data.email} />
+                <DisplayField label="Email" value={data.email || "No especificado"} />
               </View>
               <View style={styles.fieldWrapper}>
-                <DisplayField label="Provincia" value={data.province} />
+                <DisplayField label="Provincia" value={data.province || "No especificado"} />
               </View>
               <View style={styles.fieldWrapper}>
-                <DisplayField label="Ciudad" value={data.city} />
+                <DisplayField label="Ciudad" value={data.department || "No especificado"} />
               </View>
               <View style={styles.fieldWrapper}>
-                <DisplayField label="Dirección" value={data.address} />
+                <DisplayField label="Dirección" value={data.address || "No especificado"} />
               </View>
               <View style={styles.fieldWrapper}>
-                <DisplayField label="Disponibilidad" value={data.availability} />
+                <DisplayField label="Disponibilidad" value={data.availability || "No especificado"} />
               </View>
             </ScrollView>
 
@@ -93,7 +112,11 @@ export default function ProfileScreen() {
 
             <CustomButton 
               text="Cerrar Sesión" 
-              onPress={() => console.log('Cerrando sesión...')}
+              onPress={() => {
+                  console.log('Cerrando sesión...')
+                  logoutUser()
+                  router.replace('../welcome')
+                }}
               style={styles.customBotton}
             />
 
@@ -111,39 +134,39 @@ export default function ProfileScreen() {
         <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
           <DisplayField
             label="Nombre completo"
-            value={form.fullName}
+            value={formData.fullName}
             editable
-            onChangeText={(text) => handleFormChange('fullName', text)}
+            onChangeText={(text) => updateFormData('fullName', text)}
           />
           <DisplayField
             label="Email"
-            value={form.email}
+            value={formData.email}
             editable
-            onChangeText={(text) => handleFormChange('email', text)}
+            onChangeText={(text) => updateFormData('email', text)}
           />
           <DisplayField
             label="Provincia"
-            value={form.province}
+            value={formData.province}
             editable
-            onChangeText={(text) => handleFormChange('province', text)}
+            onChangeText={(text) => updateFormData('province', text)}
           />
           <DisplayField
             label="Ciudad"
-            value={form.city}
+            value={formData.department}
             editable
-            onChangeText={(text) => handleFormChange('city', text)}
+            onChangeText={(text) => updateFormData('department', text)}
           />
           <DisplayField
             label="Dirección"
-            value={form.address}
+            value={formData.address}
             editable
-            onChangeText={(text) => handleFormChange('address', text)}
+            onChangeText={(text) => updateFormData('address', text)}
           />
           <DisplayField
             label="Disponibilidad"
-            value={form.availability}
+            value={formData.availability}
             editable
-            onChangeText={(text) => handleFormChange('availability', text)}
+            onChangeText={(text) => updateFormData('availability', text)}
           />
         </ScrollView>
         </ModalWrapper>
@@ -204,6 +227,11 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: 'black',
     textAlign: 'center'
+  },
+  premiumBadge: {
+    fontSize: wp("4%"),
+    color: Colors.orangeColor,
+    fontWeight: "bold",
   },
   fieldWrapper: {
     width: '100%',

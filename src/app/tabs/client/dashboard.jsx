@@ -1,5 +1,4 @@
 "use client"
-
 import { useState, useEffect } from "react"
 import { View, Text, StyleSheet, ScrollView, SafeAreaView } from "react-native"
 import { StatusBar } from "expo-status-bar"
@@ -11,117 +10,139 @@ import DisplayField from "../../../components/DisplayField"
 import IconButton from "../../../components/IconButton"
 import SlideUpCard from "../../../components/SlideUpCard"
 import BackButton from "../../../components/BackButton"
+import CustomButton from '../../../components/CustomButton';
 import { useProfile } from "../../../hooks/useProfile"
 import { Colors } from "../../../constants/Colors"
 import BottomNavBar from "../../../components/NavBar"
 import ModalWrapper from "../../../components/ModalWrapper"
-import { getUserData, isPremiumUser } from "../../../utils/storage"
+import { getUserData, isPremiumUser, logoutUser } from "../../../utils/storage"
 
 export default function ProfileScreen() {
   const router = useRouter()
-  const { data, isModalVisible, openModal, closeModal, saveForm } = useProfile()
-
-  const [userProfile, setUserProfile] = useState({
-    fullName: "Usuario",
-    email: "",
-    province: "",
-    department: "",
-    address: "",
-    isPremium: false,
-  })
+  const { data, formData, isModalVisible, openModal, closeModal, saveForm, updateFormData } = useProfile()
+  const [isPremium, setIsPremium] = useState(false)
 
   useEffect(() => {
-    const loadUserProfile = async () => {
+    getUserData()
+    const loadPremiumStatus = async () => {
       try {
-        const userData = await getUserData()
         const premiumStatus = await isPremiumUser()
-
-        if (userData) {
-          setUserProfile((prevProfile) => ({
-            ...prevProfile,
-            fullName: userData.username || "Usuario",
-            email: userData.email || data.email || "",
-            province: data.province || "",
-            department: data.department || "",
-            address: data.address || "",
-            isPremium: premiumStatus,
-          }))
-        } else {
-          setUserProfile((prevProfile) => ({
-            ...prevProfile,
-            fullName: data.fullName || "Usuario",
-            isPremium: premiumStatus,
-          }))
-        }
+        setIsPremium(premiumStatus)
       } catch (error) {
-        console.error("Error loading user profile:", error)
-        setUserProfile((prevProfile) => ({
-          ...prevProfile,
-          fullName: data.fullName || "Usuario",
-        }))
+        console.error("Error loading premium status:", error)
       }
     }
 
-    loadUserProfile()
-  }, [data])
+    loadPremiumStatus()
+  }, [])
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar style="light" backgroundColor={Colors.primary} />
       <BackButton style={styles.backButton} />
-      <View style={styles.container}>
-        <View style={styles.mainContent}>
-          <SlideUpCard title="Mi Perfil" style={styles.card}>
-            <IconButton name="edit" size={24} color={Colors.textColor} style={styles.editButton} onPress={openModal} />
-            <IconButton
-              name="message-circle"
-              size={24}
-              color={Colors.textColor}
-              style={styles.chatButton}
-              onPress={() => router.push("tabs/chat")}
-            />
+        <View style={styles.container}>
+          <View style={styles.mainContent}>
+            <SlideUpCard title="Mi Perfil" style={styles.card}>
+              <IconButton 
+                name="edit" 
+                size={24} 
+                color={Colors.textColor} 
+                style={styles.editButton} 
+                onPress={openModal} 
+              />
+              <IconButton
+                name="message-circle"
+                size={24}
+                color={Colors.textColor}
+                style={styles.chatButton}
+                onPress={() => router.push("../tabs/chat")}
+              />
 
-            <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-              <ProfilePic uri="https://randomuser.me/api/portraits/men/32.jpg" size={wp("25%")} style={styles.avatar} />
+              <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+                <ProfilePic 
+                uri="https://image.freepik.com/foto-gratis/hermosa-mujer-sobre-fondo-blanco_144627-2849.jpg" 
+                size={wp("30%")} 
+                style={styles.avatar} />
 
-              <View style={styles.usernameView}>
-              <Text style={styles.name}>
-                {userProfile.fullName}
-                {userProfile.isPremium && <Text style={styles.premiumBadge}> Premium</Text>}
-                </Text>
+                <View style={styles.usernameView}>
+                <Text style={styles.name}>
+                  {data.fullName}
+                  {isPremium && <Text style={styles.premiumBadge}> Premium</Text>}
+                  </Text>
+                  </View>
+
+                <View style={styles.fieldWrapper}>
+                  <DisplayField label="Email" value={data.email || "No especificado"} />
                 </View>
+                <View style={styles.fieldWrapper}>
+                  <DisplayField label="Provincia" value={data.province || "No especificado"} />
+                </View>
+                <View style={styles.fieldWrapper}>
+                  <DisplayField label="Ciudad" value={data.department || "No especificado"} />
+                </View>
+                <View style={styles.fieldWrapper}>
+                  <DisplayField label="Dirección" value={data.address || "No especificado"} />
+                </View>
+              </ScrollView>
 
-              <View style={styles.fieldWrapper}>
-                <DisplayField label="Email" value={userProfile.email || "No especificado"} />
-              </View>
-              <View style={styles.fieldWrapper}>
-                <DisplayField label="Provincia" value={userProfile.province || "No especificado"} />
-              </View>
-              <View style={styles.fieldWrapper}>
-                <DisplayField label="Departamento" value={userProfile.department || "No especificado"} />
-              </View>
-              <View style={styles.fieldWrapper}>
-                <DisplayField label="Dirección" value={userProfile.address || "No especificado"} />
-              </View>
-            </ScrollView>
-          </SlideUpCard>
-        </View>
+              <CustomButton 
+                text="Cerrar Sesión" 
+                onPress={() => {
+                  console.log('Cerrando sesión...')
+                  logoutUser()
+                  router.replace('../welcome')
+                }}
+                style={styles.customBotton}
+              />
 
-        <View style={styles.navWrapper}>
-          <BottomNavBar />
-        </View>
+            </SlideUpCard>
+          </View>
+
+        <ModalWrapper
+          visible={isModalVisible}
+          title="Editar perfil"
+          onCancel={closeModal}
+          onSubmit={saveForm}
+          cancelLabel="Cancelar"
+          submitLabel="Guardar"
+        >
+        <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
+          <DisplayField
+            label="Nombre completo"
+            value={formData.fullName}
+            editable
+            onChangeText={(text) => updateFormData('fullName', text)}
+          />
+          <DisplayField
+            label="Email"
+            value={formData.email}
+            editable
+            onChangeText={(text) => updateFormData('email', text)}
+          />
+          <DisplayField
+            label="Provincia"
+            value={formData.province}
+            editable
+            onChangeText={(text) => updateFormData('province', text)}
+          />
+          <DisplayField
+            label="Ciudad"
+            value={formData.department}
+            editable
+            onChangeText={(text) => updateFormData('city', text)}
+          />
+          <DisplayField
+            label="Dirección"
+            value={formData.address}
+            editable
+            onChangeText={(text) => updateFormData('address', text)}
+          />
+        </ScrollView>
+        </ModalWrapper>
+      <BottomNavBar />
       </View>
-
-      <ModalWrapper
-        visible={isModalVisible}
-        title="Editar perfil"
-        onCancel={closeModal}
-        onSubmit={saveForm}
-        cancelLabel="Cancelar"
-        submitLabel="Guardar"
-      />
     </SafeAreaView>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -203,5 +224,9 @@ const styles = StyleSheet.create({
     top: hp("3%"),
     left: wp("6%"),
     zIndex: 10,
+  },
+  customBotton: {
+    marginTop: hp('20%'),
+    width: '100%'
   },
 })

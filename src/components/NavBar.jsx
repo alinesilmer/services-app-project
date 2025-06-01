@@ -2,7 +2,7 @@
 // Uses Pressable and Feather icons; routes via useRouter.
 //------------------------------------------------------------------//
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, Pressable } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { Feather } from '@expo/vector-icons';
@@ -43,13 +43,15 @@ const NavBar = () => {
   };
 
   const basePath = userType === 'professional' ? 'professional' : 'client';
+  // TODO: Cambiar estas lineas cuando esten listas la ruta del home de profesionales
+  //{renderItem('home', 'Inicio', () => router.push(`tabs/${basePath}/home`))}
 
   return (
     <View style={styles.container}>
-      {renderItem('home', 'Inicio', () => router.push('tabs/client/home'))}
-      {renderItem('message-square', 'Chat', () => router.push('tabs/chat'))}
-      {renderItem('calendar', 'Agenda', () => router.push('tabs/client/myAppointments'))}
-      {renderItem('user', 'Perfil', () => router.push('tabs/client/dashboard'))} 
+      {renderItem('home', 'Inicio', () => router.push(`tabs/client/home`))}
+      {renderItem('message-square', 'Chat', () => router.push(`tabs/chat`))}
+      {renderItem('calendar', 'Agenda', () => router.push(`tabs/${basePath}/myAppointments`))}
+      {renderItem('user', 'Perfil', () => router.push(`tabs/${basePath}/dashboard`))}
     </View>
   );
 };

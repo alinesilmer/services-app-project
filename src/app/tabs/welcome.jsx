@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet, StatusBar } from 'react-native';
 import { useRouter } from 'expo-router';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { Colors } from '../constants/Colors';
+import { Colors } from '../../constants/Colors';
 
 // Components
 import Logo from '../../components/Logo';
@@ -22,8 +22,8 @@ export default function welcome() {
         style={styles.card}
       >
         <View style={styles.buttonContainer}>
-          <CustomButton text="Iniciar Sesión" onPress={() => router.push('auth/login')} />
-          <CustomButton text="Registrarme" onPress={() => router.push('auth/register')} />
+          <CustomButton text="Iniciar Sesión" onPress={() => router.push('/auth/login')} />
+          <CustomButton text="Registrarme" onPress={() => router.push('/auth/register')} />
         </View>
       </SlideUpCard>
     </View>
@@ -45,9 +45,9 @@ const styles = StyleSheet.create({
   },
   card: {
     position: 'absolute',
-    bottom: 0,
+    bottom: -10,
     height: hp('50%'),
-    paddingBottom: hp('4%'),
+    paddingBottom: hp('2%'),
     width: wp('100%'),
   },
 });
