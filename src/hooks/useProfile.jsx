@@ -1,47 +1,111 @@
 import { useState, useEffect } from 'react';
+import { getUserProfile, saveUserProfile, getCompleteUserData } from '../utils/storage';
 
-export function useProfile() {
-  // Datos permanentes
+export const useProfile = () => {
   const [data, setData] = useState({
     fullName: 'Mirta Gaona',
-    email: 'mirgaona@gmail.com',
+    email: 'usuario@example.com',
     province: 'Chaco',
     department: 'Resistencia',
-    address: 'Av Sarmiento 1249',
+    address: 'Av. Sarmiento 1249',
   });
 
-  // Estado del modal y del formulario interno
-  const [isModalVisible, setModalVisible] = useState(false);
-  const [form, setForm] = useState(data);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [formData, setFormData] = useState(data);
 
-  // Cada vez que cambien los datos “oficiales”, reseteamos el form
   useEffect(() => {
-    setForm(data);
-  }, [data]);
+    const loadProfile = async () => {
+      try {
+        let profileData = await getCompleteUserData();
+        if (!profileData || !profileData.fullName) {
+          const userData = await getUserProfile();
 
-  function openModal() {
-    setModalVisible(true);
-  }
-  function closeModal() {
-    setModalVisible(false);
-  }
+          profileData = {
+            fullName: userData.fullName || 'Usuario',
+            email: userData.email || '',
+            province: userData.province || '',
+            department: userData.department || '',
+            address: userData.address || '',
+          };
+        } else {
+        // Si hay datos completos, formatearlos correctamente
+        profileData = {
+          fullName: profileData.fullName || 'Usuario',
+          email: profileData.email || '',
+          province: profileData.province || '',
+          department: profileData.department || '',
+          address: profileData.address || '',
+        };
+      }
+      
+      setData(profileData);
+      setFormData(profileData);
 
-  function handleFormChange(key, value) {
-    setForm(prev => ({ ...prev, [key]: value }));
-  }
+      } catch (error) {
+        console.error('Error loading profile:', error);
+        // En caso de error, mantener valores por defecto
+        const defaultData = {
+          fullName: 'Usuario',
+          email: '',
+          province: '',
+          department: '',
+          address: '',
+        };
+        setData(defaultData);
+        setFormData(defaultData);
+      }
+    };
 
-  function saveForm() {
-    setData(form);
-    closeModal();
-  }
+    loadProfile();
+  }, []);
+
+  const openModal = () => {
+    setFormData(data);
+    setIsModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+    setFormData(data); 
+  };
+
+  const saveForm = async () => {
+    try {
+      // Guardar el perfil con la estructura correcta
+      const profileToSave = {
+        fullName: formData.fullName,
+        email: formData.email,
+        province: formData.province,
+        department: formData.department,
+        address: formData.address,
+        userType: 'client', // Asegurar que tenga un tipo de usuario
+      };
+      
+      await saveUserProfile(profileToSave);
+      
+      setData(formData);
+      setIsModalVisible(false);
+      
+      console.log('Profile saved successfully:', profileToSave);
+    } catch (error) {
+      console.error('Error saving profile:', error);
+    }
+  };
+
+  const updateFormData = (field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
 
   return {
     data,
-    form,
+    formData,
     isModalVisible,
     openModal,
     closeModal,
-    handleFormChange,
     saveForm,
+    updateFormData
   };
-}
+};

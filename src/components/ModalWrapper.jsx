@@ -4,7 +4,11 @@
 //------------------------------------------------------------------//
 
 import React from 'react';
-import { Modal, View, Text, Pressable, StyleSheet } from 'react-native';
+import { Modal, View, Text, Pressable, StyleSheet, ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 import { Colors } from '../constants/Colors';
@@ -20,23 +24,37 @@ const ModalWrapper = ({
 }) => {
   return (
     <Modal visible={visible} transparent animationType="slide">
-      <View style={styles.overlay}>
-        <View style={styles.container}>
-          {!!title && <Text style={styles.title}>{title}</Text>}
-          <View style={styles.content}>{children}</View>
-          <View style={styles.actions}>
-            <Pressable style={[styles.btn, styles.cancel]} onPress={onCancel}>
-              <Text style={styles.cancelText}>{cancelLabel}</Text>
-            </Pressable>
-            <Pressable style={[styles.btn, styles.submit]} onPress={onSubmit}>
-              <Text style={styles.submitText}>{submitLabel}</Text>
-            </Pressable>
-          </View>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.overlay}>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={styles.keyboardView}
+          >
+            <View style={styles.container}>
+              {!!title && <Text style={styles.title}>{title}</Text>}
+
+              <ScrollView
+                contentContainerStyle={styles.scrollContent}
+                keyboardShouldPersistTaps="handled"
+              >
+                <View style={styles.content}>{children}</View>
+              </ScrollView>
+
+              <View style={styles.actions}>
+                <Pressable style={[styles.btn, styles.cancel]} onPress={onCancel}>
+                  <Text style={styles.cancelText}>{cancelLabel}</Text>
+                </Pressable>
+                <Pressable style={[styles.btn, styles.submit]} onPress={onSubmit}>
+                  <Text style={styles.submitText}>{submitLabel}</Text>
+                </Pressable>
+              </View>
+            </View>
+          </KeyboardAvoidingView>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     </Modal>
   );
-}
+};
 
 export default ModalWrapper;
 
@@ -44,14 +62,16 @@ const styles = StyleSheet.create({
   overlay: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.5)',
-    justifyContent: 'center',
-    padding: wp(5),
+    justifyContent: 'center'
+  },
+  keyboardView: {
+    flex: 1,
   },
   container: {
     backgroundColor: 'white',
-    borderRadius: wp(3),
-    maxHeight: '90%',
-    padding: wp(4),
+    borderRadius: wp('5%'),
+    maxHeight: hp('80%'),
+    padding: wp('5%'),
   },
   title: {
     fontSize: hp(2.3),
@@ -59,11 +79,15 @@ const styles = StyleSheet.create({
     marginBottom: hp(1.5),
   },
   content: {
-    marginBottom: hp(2),
+    paddingBottom: hp('1%'),
+  },
+  scrollContent: {
+    paddingBottom: hp('2%'),
   },
   actions: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
+    marginTop: hp('2%'),
   },
   btn: {
     paddingVertical: hp(1.2),

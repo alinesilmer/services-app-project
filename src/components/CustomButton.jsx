@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 10,
     alignItems: 'center',
-    marginVertical: 8,
+    marginVertical: hp('0,5%'),
   },
   buttonPressed: {
     backgroundColor: Colors.orangeColor,
