@@ -24,7 +24,7 @@ const CustomRequestButton = () => {
         useNativeDriver: true,
       }),
     ]).start(() => {
-      router.push("/custom-request")
+      router.push("/tabs/client/requestAd")
     })
   }
 

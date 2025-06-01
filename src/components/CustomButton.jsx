@@ -6,6 +6,7 @@
 import React from 'react';
 import { Text, StyleSheet, Pressable } from 'react-native';
 import { Colors } from '../constants/Colors';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
 
 const CustomButton = ({ text, onPress, width = '90%', backgroundColor}) => {
   return (

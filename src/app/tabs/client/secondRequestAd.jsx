@@ -1,20 +1,40 @@
 import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { useRouter } from "expo-router";
 import { StatusBar } from "react-native";
 import CustomButton from "../../../components/CustomButton";
-const Ad2Ima = require("../../../assets/images/Ad2.png");
 // Icons
 import { Feather } from "@expo/vector-icons";
+import AdsImage from "../../../components/AdsImage";
+import { getUserData, isPremiumUser } from "../../../utils/storage";
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
 
 export default function SecondRequest() {
   const router = useRouter();
+  const [premium, setPremium] = useState(false);
+
+  useEffect(() => {
+    const loadPremiumStatus = async () => {
+      try {
+        getUserData()
+        const premium = await isPremiumUser();
+        console.log("Premium status:", premium);
+        
+        setPremium(premium);
+      } catch (error) {
+        console.error("Error loading premium status:", error);
+      }
+    };
+
+    loadPremiumStatus();
+  }, []);
 
   return (
     <>
       <StatusBar barStyle="light-content" backgroundColor="#1a2f68" />
       <View style={styles.containerRequest}>
         <View style={styles.containerContent}>
+          <ScrollView showsVerticalScrollIndicator={false}>
           <View>
             <Text style={styles.title}>SOLICITUDES</Text>
           </View>
@@ -90,6 +110,7 @@ export default function SecondRequest() {
               backgroundColor="#198754"
             />
           </View>
+          </ScrollView>
         </View>
       </View>
     </>

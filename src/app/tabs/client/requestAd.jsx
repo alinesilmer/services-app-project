@@ -1,29 +1,52 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
   Platform,
   TextInput,
   StyleSheet,
-  Image,
+  ScrollView
 } from "react-native";
 import { StatusBar } from "react-native";
 import { useRouter } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 import CustomButton from "../../../components/CustomButton";
 import { KeyboardAvoidingView } from "react-native";
-const AdIma = require("../../../assets/images/Ad1.png");
+import { Colors } from "../../../constants/Colors";
+import { Fonts } from "../../../constants/Fonts";
+import { getUserData, isPremiumUser } from "../../../utils/storage";
+import AdsImage from "../../../components/AdsImage";
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
+
 export default function request() {
   const router = useRouter();
+  const [premium, setPremium] = useState(false);
+
+  useEffect(() => {
+    const loadPremiumStatus = async () => {
+      try {
+        getUserData()
+        const premium = await isPremiumUser();
+        console.log("Premium status:", premium);
+        
+        setPremium(premium);
+      } catch (error) {
+        console.error("Error loading premium status:", error);
+      }
+    };
+
+    loadPremiumStatus();
+  }, []);
 
   return (
     <>
-      <StatusBar barStyle="light-content" backgroundColor="#1a2f68" />
+    <View style={styles.container}>
+      <StatusBar barStyle="light-content" />
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       ></KeyboardAvoidingView>
-      <View style={styles.containerRequest}>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.containerContent}>
           <View>
             <Text style={styles.title}>Crear Solicitud Personalizada</Text>
@@ -52,84 +75,87 @@ export default function request() {
               ]}
             />
           </View>
-          <View>
+          <View style={styles.buttonContainer}>
             <CustomButton
               text="Tomar foto"
               onPress={() => router.push("tabs/client/photoGallery")}
-              width="90%"
+              style={styles.customBotton}
             />
           </View>
-          <View>
+          <View style={styles.buttonContainer}>
             <CustomButton
               text="Confirmar solicitud personalizada"
               onPress={() => router.push("tabs/client/secondRequestAd")}
               backgroundColor="#198754"
-              width="90%"
+              style={styles.customBotton}
             />
           </View>
           <View style={styles.imageContainer}>
-            <Image source={AdIma} style={{ width: "360", height: "95" }} />
+            <AdsImage onPress isPremium={premium} />
           </View>
         </View>
+      </ScrollView>
       </View>
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  containerRequest: {
-    width: "100%",
-    height: "100%",
-    backgroundColor: "#1a2f68",
+  container: {
+    width: wp('100%'),
+    height: hp('100%'),
+    backgroundColor: Colors.blueColor,
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "column",
   },
+  containerContent: {
+    flexGrow: 1,
+    marginTop: hp('30%'),
+    width: wp('100%'),
+    height: hp('100%'),
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: Colors.whiteColor,
+    borderTopLeftRadius: 120,
+  },
   title: {
     fontSize: 30,
-    fontFamily: "Montserrat_400Regular",
+    fontFamily: Fonts.montserrat,
     fontWeight: "bold",
-    marginTop: -10,
+    marginTop: 10,
+    textAlign: "center",
   },
   description: {
     marginTop: 10,
-    fontFamily: "Roboto_400Regular",
+    fontFamily: Fonts.roboto,
     fontSize: 16,
-    color: "#B55A3E",
+    color: Colors.orangeColor,
     textAlign: "center",
     width: 330,
   },
   rectangle: {
     width: 310,
     height: 160,
-    backgroundColor: "#f0f0f0",
-    borderColor: "#1a2f68",
+    backgroundColor: Colors.inputGray,
+    borderColor: Colors.blueColor,
     borderWidth: 3,
     justifyContent: "flex-start",
     alignItems: "flex-start",
-    marginTop: 10,
+    marginTop: hp('5%'),
+    marginBottom: hp('5%'),
   },
   text: {
     fontSize: 18,
     marginLeft: 10,
     marginTop: 10,
   },
-  dark: {
-    text: "#ECEDEE",
-    background: "#151718",
-    //tint: tintColorDark,
-    icon: "#9BA1A6",
-    tabIconDefault: "#9BA1A6",
-    //tabIconSelected: tintColorDark,
+  buttonContainer: {
+    marginTop: hp('1%'),
+    marginBottom: hp('1%'),
   },
-  containerContent: {
-    flexGrow: 1,
-    marginTop: 50,
-    width: "100%",
-    height: "70%",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#f6f6f6",
-    borderTopLeftRadius: 120,
-  },
+  customBotton: {
+    marginTop: hp('20%'),
+    width: '100%'
+  }
 });

@@ -4,12 +4,12 @@ import { useRouter } from "expo-router"
 import { useState, useEffect } from "react"
 import { View, Image, StyleSheet, TouchableOpacity, Text } from "react-native"
 
-const AdsImage = ({ onPress, style, isPremium = false }) => {
+const AdsImage = ({ onPress, style, isPremium }) => {
   const [currentAd, setCurrentAd] = useState(null)
 
   const router = useRouter();
   const handleAdClick = () => {
-    router.push("/tabs/goPremium")
+    router.push("/tabs/client/goPremium")
   }
 
   const adsImages = [
