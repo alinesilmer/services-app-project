@@ -1,21 +1,58 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+//MOCKS
+const MOCK_USERS = [
+  {
+    fullName: "Mirta Gaona",
+    password: "123456",
+    userType: "client",
+    email: "usuario@example.com",
+    birthdate: "1990-01-01",
+    province: 'Chaco',
+    department: 'Resistencia',
+    address: 'Av. Sarmiento 1249',
+  },
+  {
+    fullName: "Martin Gonzalez",
+    password: "123456",
+    userType: "professional",
+    email: "profesional@example.com",
+    birthdate: "1985-05-10",
+    province: 'Chaco',
+    department: 'Resistencia',
+    address: 'Av Sarmiento 1249',
+    availability: 'Lunes a Viernes de 9 a 14hs',
+  },
+];
+
 // KEYS
 const STORAGE_KEYS = {
   USER_DATA: "user_data",
   IS_LOGGED_IN: "is_logged_in",
-  IS_PREMIUM: "is_premium",
+  IS_PREMIUM: "is_premium", // Flujo sin publicidad para clientes
+  IS_PREMIUM_PROF: "is_premium_prof", // Flujo con publicidad personalizada para profesionales
   REGISTERED_USERS: "registered_users",
   USER_PROFILE: "user_profile",
 };
 
-export const saveUserLogin = async (username) => {
+export const saveUserLogin = async (userData) => {
   try {
     await AsyncStorage.setItem(STORAGE_KEYS.IS_LOGGED_IN, "true");
     await AsyncStorage.setItem(
       STORAGE_KEYS.USER_DATA,
-      JSON.stringify({ username })
+      JSON.stringify({ email: userData.email })
     );
+
+    await saveUserProfile({
+      fullName: userData.username || userData.fullName || 'Usuario',
+      email: userData.email,
+      province: userData.province || '',
+      department: userData.department || '',
+      address: userData.address || '',
+      userType: userData.userType,
+      birthdate: userData.birthdate || '',
+    });
+
     console.log("User login saved successfully");
     return true;
   } catch (error) {
@@ -85,6 +122,20 @@ export const getCompleteUserData = async () => {
   }
 };
 
+export const getUserType = async () => {
+  try {
+    const profileData = await getUserProfile();
+    return profileData?.userType || null;
+  } catch (error) {
+    console.error("Error getting user type:", error);
+    return null;
+  }
+};
+
+export const saveUserType = async (type) => {
+  await AsyncStorage.setItem("userType", type)
+};
+
 export const logoutUser = async () => {
   try {
     await AsyncStorage.removeItem(STORAGE_KEYS.IS_LOGGED_IN);
@@ -122,7 +173,7 @@ export const registerUser = async (userData) => {
       JSON.stringify(existingUsers)
     );
 
-    await saveUserLogin(userData.username);
+    await saveUserLogin(userData.email);
 
     await saveUserProfile({
       fullName: userData.username,
@@ -141,24 +192,27 @@ export const registerUser = async (userData) => {
   }
 };
 
-export const checkLoginCredentials = async (username, password) => {
+export const checkLoginCredentials = async (email, password) => {
   try {
     const existingUsersJSON = await AsyncStorage.getItem(
       STORAGE_KEYS.REGISTERED_USERS
     );
-    if (!existingUsersJSON) {
-      return username === "usuario" && password === "123456";
-    }
 
-    const existingUsers = JSON.parse(existingUsersJSON);
-    const user = existingUsers.find(
-      (user) => user.username === username && user.password === password
+    const existingUsers = existingUsersJSON
+      ? JSON.parse(existingUsersJSON)
+      : [];
+
+    const allUsers = [...existingUsers, ...MOCK_USERS];
+
+    const user = allUsers.find(
+      (user) => user.email === email && user.password === password
     );
 
-    return !!user;
+    if (!user) return { success: false, user: null };
+    return { success: true, user: user };
   } catch (error) {
     console.error("Error checking credentials:", error);
-    return false;
+    return { success: false, user: null };
   }
 };
 
@@ -182,6 +236,30 @@ export const isPremiumUser = async () => {
     return value === "true";
   } catch (error) {
     console.error("Error checking premium status:", error);
+    return false;
+  }
+};
+
+export const setPremiumProfStatus = async (isPremiumProf) => {
+  try {
+    await AsyncStorage.setItem(
+      STORAGE_KEYS.IS_PREMIUM_PROF,
+      isPremiumProf ? "true" : "false"
+    );
+    console.log("Professional premium status updated successfully");
+    return true;
+  } catch (error) {
+    console.error("Error updating professional premium status:", error);
+    return false;
+  }
+};
+
+export const isPremiumProf = async () => {
+  try {
+    const value = await AsyncStorage.getItem(STORAGE_KEYS.IS_PREMIUM_PROF);
+    return value === "true";
+  } catch (error) {
+    console.error("Error checking professional premium status:", error);
     return false;
   }
 };

@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     padding: hp('2%'),
     borderRadius: wp('2.5%'),
     alignItems: 'center',
-    marginVertical: hp('1%'),
+    marginVertical: hp('0,5%'),
   },
   buttonPressed: {
     backgroundColor: Colors.orangeColor,

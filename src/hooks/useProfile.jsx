@@ -3,11 +3,11 @@ import { getUserProfile, saveUserProfile, getCompleteUserData } from '../utils/s
 
 export const useProfile = () => {
   const [data, setData] = useState({
-    fullName: 'Usuario',
-    email: '',
-    province: '',
-    department: '',
-    address: '',
+    fullName: 'Mirta Gaona',
+    email: 'usuario@example.com',
+    province: 'Chaco',
+    department: 'Resistencia',
+    address: 'Av. Sarmiento 1249',
   });
 
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -16,20 +16,43 @@ export const useProfile = () => {
   useEffect(() => {
     const loadProfile = async () => {
       try {
-        const completeUserData = await getCompleteUserData();
-        if (completeUserData) {
-          const profileData = {
-            fullName: completeUserData.username || completeUserData.fullName || 'Usuario',
-            email: completeUserData.email || '',
-            province: completeUserData.province || '',
-            department: completeUserData.department || '',
-            address: completeUserData.address || '',
+        let profileData = await getCompleteUserData();
+        if (!profileData || !profileData.fullName) {
+          const userData = await getUserProfile();
+
+          profileData = {
+            fullName: userData.fullName || 'Usuario',
+            email: userData.email || '',
+            province: userData.province || '',
+            department: userData.department || '',
+            address: userData.address || '',
           };
-          setData(profileData);
-          setFormData(profileData);
-        }
+        } else {
+        // Si hay datos completos, formatearlos correctamente
+        profileData = {
+          fullName: profileData.fullName || 'Usuario',
+          email: profileData.email || '',
+          province: profileData.province || '',
+          department: profileData.department || '',
+          address: profileData.address || '',
+        };
+      }
+      
+      setData(profileData);
+      setFormData(profileData);
+
       } catch (error) {
         console.error('Error loading profile:', error);
+        // En caso de error, mantener valores por defecto
+        const defaultData = {
+          fullName: 'Usuario',
+          email: '',
+          province: '',
+          department: '',
+          address: '',
+        };
+        setData(defaultData);
+        setFormData(defaultData);
       }
     };
 
@@ -48,12 +71,22 @@ export const useProfile = () => {
 
   const saveForm = async () => {
     try {
-      await saveUserProfile(formData);
+      // Guardar el perfil con la estructura correcta
+      const profileToSave = {
+        fullName: formData.fullName,
+        email: formData.email,
+        province: formData.province,
+        department: formData.department,
+        address: formData.address,
+        userType: 'client', // Asegurar que tenga un tipo de usuario
+      };
+      
+      await saveUserProfile(profileToSave);
       
       setData(formData);
       setIsModalVisible(false);
       
-      console.log('Profile saved successfully');
+      console.log('Profile saved successfully:', profileToSave);
     } catch (error) {
       console.error('Error saving profile:', error);
     }
