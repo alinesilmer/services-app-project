@@ -12,10 +12,14 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { ScrollView } from 'react-native';
 import { Feather, FontAwesome5 } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import { useState } from 'react';
+
 
 export default function HomeScreen() {
-    const {username, email, birthdate, userType } = useLocalSearchParams();
+    const {username, email, birthdate, userType, publicitado } = useLocalSearchParams();
     const birth = birthdate ? new Date(birthdate) : null;
+    const params = useLocalSearchParams();
+    const [isPublicitado, setIsPublicitado] = useState(publicitado === 'true');
 
     const Boton = ({ texto, onPress }) => (
         <Pressable onPress={onPress} style={({ pressed }) => [
@@ -64,7 +68,16 @@ export default function HomeScreen() {
                 <Text style={{textAlign: 'center', color: '#bbb'}}>Peluquería</Text>
             </View>
         </View>
-        <CustomButton text="Publicitate" onPress={() => router.push('#')} />
+        
+        {isPublicitado ? (
+        <CustomButton text="Ya estás publicitado" disabled />
+        ) : (
+        <CustomButton
+            text="Publicitate"
+            onPress={() => router.push('/tabs/professional/autopublicitacion')}
+        />
+        )}
+
         <SlideUpCard style={styles.slideUpCard}>
             <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
                 <View style={styles.buttonContainer}>                    
