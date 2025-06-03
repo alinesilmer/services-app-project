@@ -24,6 +24,7 @@ export default function welcome() {
         <View style={styles.buttonContainer}>
           <CustomButton text="Iniciar Sesión" onPress={() => router.push('/auth/login')} />
           <CustomButton text="Registrarme" onPress={() => router.push('/auth/register')} />
+          <CustomButton text="Atajo" onPress={() => router.push('/tabs/professional/home')} />
         </View>
       </SlideUpCard>
     </View>
