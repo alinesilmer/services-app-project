@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  ScrollView,
+  SafeAreaView,
+} from "react-native";
 import { useRouter } from "expo-router";
 import { StatusBar } from "react-native";
-import CustomButton from "../../../components/CustomButton";
-import SlideUpCard from "../../../components/SlideUpCard";
-import AdsImage from "../../../components/AdsImage";
 import { getUserData, isPremiumUser } from "../../../utils/storage";
 import { Colors } from "../../../constants/Colors";
 import { Fonts } from "../../../constants/Fonts";
@@ -12,6 +16,12 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+
+import AdsImage from "../../../components/AdsImage";
+import Logo from "../../../components/Logo";
+import BackButton from "../../../components/BackButton";
+import CustomButton from "../../../components/CustomButton";
+import SlideUpCard from "../../../components/SlideUpCard";
 
 const image = require("../../../assets/images/aireVentana.png");
 
@@ -37,53 +47,55 @@ export default function ThirdRequest() {
     <>
       <View style={styles.containerRequest}>
         <StatusBar barStyle="light-content" />
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <SafeAreaView style={styles.safeArea}>
+          <BackButton />
+          <Logo />
           <SlideUpCard
             title="Reparacion de aire acondicionado"
             style={styles.card}
           >
-            <View>
-              <Text style={styles.text}>Problema/s identificado/s.</Text>
-              <View style={{ alignSelf: "flex-start", paddingHorizontal: 20 }}>
-                <Text style={styles.list}>• No enfría, solo ventila</Text>
-                <Text style={styles.list}>
-                  • Botón de encendido, no funciona
+            <ScrollView showsVerticalScrollIndicator={false}>
+              <View>
+                <Text style={styles.textTitle}>Problema/s identificado/s.</Text>
+                <View style={styles.text}>
+                  <Text style={styles.list}>• No enfría, solo ventila</Text>
+                  <Text style={styles.list}>
+                    • Botón de encendido, no funciona
+                  </Text>
+                </View>
+              </View>
+
+              <View>
+                <Text style={styles.textTitle}>
+                  Detalles del aire acondicionado
                 </Text>
               </View>
-            </View>
-            <View>
-              <Text style={styles.text}>Detalles del aire acondicionado</Text>
-            </View>
-            <View style={{ alignSelf: "flex-start", paddingHorizontal: 20 }}>
-              <Text style={styles.list}>• Marca: Hitachi</Text>
-              <Text style={styles.list}>• tipo:ventana</Text>
-              <Text style={styles.list}>• frigorías:3000</Text>
-              <Text style={styles.list}>• solo frío</Text>
-            </View>
-            <View>
-              <Image
-                source={image}
-                style={{
-                  width: 170,
-                  height: 170,
-                  marginTop: -10,
-                  alignItems: "center",
-                }}
-              />
-            </View>
-            <View style={styles.button}>
-              <CustomButton
-                text="Cancelar solicitud"
-                onPress={() => router.push("tabs/client/secondRequestAd")}
-                backgroundColor="#DC3545"
-                width="100%"
-              />
-            </View>
-            <View>
-              <AdsImage onPress isPremium={premium} />
-            </View>
+              <View style={styles.text}>
+                <Text style={styles.list}>• Marca: Hitachi</Text>
+                <Text style={styles.list}>• Tipo:ventana</Text>
+                <Text style={styles.list}>• Frigorías:3000</Text>
+                <Text style={styles.list}>• Solo frío</Text>
+              </View>
+
+              <View>
+                <Image source={image} style={styles.image} />
+              </View>
+
+              <View style={styles.buttonContainer}>
+                <CustomButton
+                  text="Cancelar solicitud"
+                  onPress={() => router.push("tabs/client/secondRequestAd")}
+                  backgroundColor="#DC3545"
+                  style={styles.customBotton}
+                />
+              </View>
+
+              <View>
+                <AdsImage onPress isPremium={premium} />
+              </View>
+            </ScrollView>
           </SlideUpCard>
-        </ScrollView>
+        </SafeAreaView>
       </View>
     </>
   );
@@ -92,30 +104,30 @@ export default function ThirdRequest() {
 export const styles = StyleSheet.create({
   containerRequest: {
     flex: 1,
-    width: wp("100%"),
-    height: hp("100%"),
     backgroundColor: Colors.blueColor,
   },
- card: {
+  safeArea: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: Colors.blueColor,
+  },
+  card: {
+    position: "absolute",
+    bottom: 0,
+    backgroundColor: Colors.whiteColor,
+    width: wp("100%"),
+    height: hp("90%"),
     paddingTop: hp("4%"),
     paddingHorizontal: wp("5%"),
     paddingBottom: hp("2%"),
-    shadowColor: "black",
-    shadowOffset: { width: 0, height: -4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 10,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     alignItems: "center",
-    marginTop: hp("10%"),
+    justifyContent: "center",
   },
-   headerContainer: {
+  headerContainer: {
     alignItems: "center",
-    marginBottom: hp ("2%"),
-    marginTop: hp ("2%"),
+    marginBottom: hp("2%"),
+    marginTop: hp("2%"),
   },
   title: {
     marginTop: 10,
@@ -123,29 +135,43 @@ export const styles = StyleSheet.create({
     fontFamily: Fonts.montserrat,
     fontWeight: "bold",
     textAlign: "center",
-    width: "80%",
+    width: wp("80%"),
     paddingLeft: 40,
   },
-  text: {
-    fontSize: 18,
+  textTitle: {
+    marginTop: 20,
+    fontSize: 20,
     fontFamily: Fonts.montserrat,
-    marginTop: hp("1%"),
     fontWeight: "bold",
     textAlign: "center",
+    color: Colors.orangeColor,
+  },
+  text: {
+    alignSelf: "flex-start",
+    paddingHorizontal: 20,
   },
   list: {
-    color: "#e47755",
+    color: Colors.textColor,
     fontSize: 18,
     fontFamily: Fonts.montserrat,
     marginTop: 10,
   },
-  button: {
-    backgroundColor: "#red",
-    marginTop: -20,
-    width: "90%",
+  buttonContainer: {
+    width: wp("90%"),
+    marginTop: hp("0.5%"),
+    marginBottom: hp("0.5%"),
     alignItems: "center",
   },
+  customBotton: {
+    width: wp("90%"),
+  },
   imageContainer: {
-    width: "100%",
+    width: wp("90%"),
+  },
+  image: {
+    width: 170,
+    height: 170,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
