@@ -83,18 +83,31 @@ export default function ProfileScreen() {
                 <View style={styles.fieldWrapper}>
                   <DisplayField label="Dirección" value={data.address || "No especificado"} />
                 </View>
-              </ScrollView>
+              
 
-              <CustomButton 
-                text="Cerrar Sesión" 
-                onPress={() => {
-                  console.log('Cerrando sesión...')
-                  logoutUser()
-                  router.replace('../welcome')
-                }}
-                style={styles.customBotton}
-              />
+              <View style={styles.buttonContainer}>
+                <CustomButton 
+                  text="Cerrar Sesión" 
+                  onPress={() => {
+                    console.log('Cerrando sesión...')
+                    logoutUser()
+                    router.replace('../welcome')
+                  }}
+                  backgroundColor="#DC3545"
+                  style={styles.customBotton}
+                />
+              </View>
 
+              <View style={styles.buttonContainer}>
+                <CustomButton 
+                  text="Cancelar Suscripción" 
+                  onPress={() => {
+                    router.replace('../cancelation')
+                  }}
+                  style={styles.customBotton}
+                />
+              </View>
+            </ScrollView>
             </SlideUpCard>
           </View>
 
@@ -179,7 +192,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingBottom: hp("6%"),
     paddingHorizontal: wp("2%"),
-    width: "100%",
+    width: wp("90%"),
     flexGrow: 1,
   },
   avatar: {
@@ -228,5 +241,11 @@ const styles = StyleSheet.create({
   customBotton: {
     marginTop: hp('20%'),
     width: '100%'
+  },
+  buttonContainer: {
+    width: wp('90%'),
+    alignItems: 'center',
+    marginTop: hp('1%'),
+    marginBottom: hp('1%'),
   },
 })

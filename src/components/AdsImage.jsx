@@ -18,6 +18,9 @@ const AdsImage = ({ onPress, style, isPremium }) => {
     require("../assets/ads/ads3.jpeg"),
     require("../assets/ads/ads4.jpeg"),
     require("../assets/ads/ads5.jpeg"),
+    require("../assets/ads/ads6.png"),
+    require("../assets/ads/ads7.png"),
+    require("../assets/ads/ads8.png"),
   ]
 
   const getRandomAd = () => {

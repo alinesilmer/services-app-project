@@ -98,9 +98,7 @@ const service = () => {
 
         <FilterTags selectedSubcategories={getSelectedSubcategoriesArray()} />
 
-        <View style={styles.adContainer}>
-          <AdsImage onPress isPremium={premium}/>
-        </View>
+        <AdsImage onPress isPremium={premium}/>
 
         <ProfileGrid
           profiles={filteredProfiles}
