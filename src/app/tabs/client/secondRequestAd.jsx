@@ -66,7 +66,7 @@ export default function SecondRequest() {
                   text="Ver detalles de la solicitud"
                   onPress={() => router.push("tabs/client/thirdRequestAd")}
                   backgroundColor={Colors.inputGray}
-                  width="80%"
+                  width="90%"
                 />
               </View>
 
@@ -90,7 +90,7 @@ export default function SecondRequest() {
                   text="Ver detalles de la solicitud"
                   onPress={() => router.push("tabs/client/thirdRequestAd")}
                   backgroundColor={Colors.inputGray}
-                  width="80%"
+                  width="90%"
                 />
               </View>
 
@@ -98,7 +98,7 @@ export default function SecondRequest() {
                 <CustomButton
                   text="Agregar solicitud personalizada"
                   onPress={() => router.push("tabs/client/requestAd")}
-                  backgroundColor="#198754"
+                  backgroundColor="#e47755"
                   width="90%"
                 />
               </View>
@@ -127,15 +127,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     width: wp("100%"),
-    height: hp("80%"),
-    backgroundColor: Colors.whiteColor,
-    paddingTop: hp("4%"),
-    paddingHorizontal: wp("5%"),
-    paddingBottom: hp("2%"),
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    alignItems: "center",
-    justifyContent: "center",
+    height: hp("72%"),
   },
   headerContainer: {
     alignItems: "center",

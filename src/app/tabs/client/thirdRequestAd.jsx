@@ -85,7 +85,6 @@ export default function ThirdRequest() {
                 <CustomButton
                   text="Cancelar solicitud"
                   onPress={() => router.push("tabs/client/secondRequestAd")}
-                  backgroundColor="#DC3545"
                   style={styles.customBotton}
                 />
               </View>
@@ -113,16 +112,8 @@ export const styles = StyleSheet.create({
   card: {
     position: "absolute",
     bottom: 0,
-    backgroundColor: Colors.whiteColor,
     width: wp("100%"),
-    height: hp("90%"),
-    paddingTop: hp("4%"),
-    paddingHorizontal: wp("5%"),
-    paddingBottom: hp("2%"),
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    alignItems: "center",
-    justifyContent: "center",
+    height: hp("72%"),
   },
   headerContainer: {
     alignItems: "center",

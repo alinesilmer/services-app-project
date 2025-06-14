@@ -95,7 +95,7 @@ export default function request() {
                   <CustomButton
                     text="Confirmar solicitud"
                     onPress={() => router.push("tabs/client/secondRequestAd")}
-                    backgroundColor="#198754"
+                    backgroundColor="#e47755"
                     width="90%"
                     style={styles.customBotton}
                   />
@@ -125,15 +125,8 @@ const styles = StyleSheet.create({
   card: {
     position: "absolute",
     bottom: 0,
-    backgroundColor: Colors.whiteColor,
     width: wp("100%"),
-    minHeight: hp("90%"),
-    paddingBottom: hp("2%"),
-    paddingTop: hp("4%"),
-    paddingHorizontal: wp("5%"),
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    alignItems: "center",
+    height: hp("72%"),
   },
   headerContainer: {
     alignItems: "center",
@@ -152,13 +145,13 @@ const styles = StyleSheet.create({
   },
   description: {
     fontFamily: Fonts.roboto,
-    fontSize: wp("3%"),
+    fontSize: wp("5%"),
     color: Colors.orangeColor,
     textAlign: "center",
     width: wp("80%"),
   },
   rectangle: {
-    width: wp("90%"),
+    width: wp("80%"),
     height: hp("20%"),
     backgroundColor: Colors.inputGray,
     borderColor: Colors.blueColor,
@@ -167,6 +160,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     marginTop: hp("0.5%"),
     marginBottom: hp("0.5%"),
+    marginLeft: wp("5%"),
   },
   buttonContainer: {
     width: wp("90%"),
