@@ -5,8 +5,8 @@ import { View, StyleSheet, StatusBar, Text, Pressable, ScrollView, KeyboardAvoid
 import { useRouter } from "expo-router"
 import CheckBox from "expo-checkbox"
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
-
-// Components
+import useAppDispatch from '../../hooks/useAppDispatch'
+import { loginSuccess } from '../../redux/slices/authSlice'
 import Logo from "../../components/Logo"
 import SlideUpCard from "../../components/SlideUpCard"
 import CustomInput from "../../components/CustomInput"
@@ -15,8 +15,6 @@ import BackButton from "../../components/BackButton"
 import ModalCard from "../../components/ModalCard"
 import DatePicker from "../../components/DatePicker"
 import AnimationFeedback from "../../components/AnimationFeedback"
-
-// Hooks
 import { useValidation } from "../../hooks/useValidation"
 import useDatePicker from "../../hooks/useDatePicker"
 import { Colors } from "../../constants/Colors"
@@ -24,6 +22,7 @@ import { registerUser } from "../../utils/storage"
 
 export default function Register() {
   const router = useRouter()
+  const dispatch = useAppDispatch()
 
   const [formData, setFormData] = useState({
     username: "",
@@ -39,7 +38,6 @@ export default function Register() {
   const [modalVisible, setMV] = useState(false)
   const [modalSuccess, setSuccess] = useState(true)
   const [loading, setLoading] = useState(false)
-
 
   const validationErrors = useValidation(formData)
 
@@ -65,15 +63,17 @@ export default function Register() {
       setMV(true)
 
       if (result.success) {
+        dispatch(loginSuccess(result.user))
         setTimeout(() => {
           setMV(false)
-          router.push("tabs/home")
+          router.push("auth/login")
         }, 2000)
       }
     } else {
       setSuccess(false)
       setMV(true)
     }
+
     setLoading(false)
   }
 
@@ -189,8 +189,8 @@ export default function Register() {
             {modalSuccess
               ? `¡Gracias por registrarte, ${formData.username}!`
               : Object.keys(errors).length > 0
-                ? "Por favor corrige los errores en el formulario."
-                : `El nombre de usuario o correo ya están registrados.`}
+              ? "Por favor corrige los errores en el formulario."
+              : `El nombre de usuario o correo ya están registrados.`}
           </Text>
         </ModalCard>
       </View>
