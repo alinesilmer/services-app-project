@@ -4,12 +4,12 @@ import { useRouter } from "expo-router"
 import { useState, useEffect } from "react"
 import { View, Image, StyleSheet, TouchableOpacity, Text } from "react-native"
 
-const AdsImage = ({ onPress, style, isPremium = false }) => {
+const AdsImage = ({ onPress, style, isPremium }) => {
   const [currentAd, setCurrentAd] = useState(null)
 
   const router = useRouter();
   const handleAdClick = () => {
-    router.push("/tabs/goPremium")
+    router.push("/tabs/client/goPremium")
   }
 
   const adsImages = [
@@ -18,6 +18,9 @@ const AdsImage = ({ onPress, style, isPremium = false }) => {
     require("../assets/ads/ads3.jpeg"),
     require("../assets/ads/ads4.jpeg"),
     require("../assets/ads/ads5.jpeg"),
+    require("../assets/ads/ads6.png"),
+    require("../assets/ads/ads7.png"),
+    require("../assets/ads/ads8.png"),
   ]
 
   const getRandomAd = () => {

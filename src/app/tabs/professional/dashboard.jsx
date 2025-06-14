@@ -90,7 +90,6 @@ export default function ProfileScreen() {
               <View style={styles.fieldWrapper}>
                 <DisplayField label="Disponibilidad" value={data.availability || "No especificado"} />
               </View>
-            </ScrollView>
 
             <ButtonGroup
               buttons={['Ver Servicios', 'Ver Calificaciones']}
@@ -110,16 +109,29 @@ export default function ProfileScreen() {
               selectedTextStyle={styles.buttonGroupSelectedText}
             />
 
-            <CustomButton 
-              text="Cerrar Sesión" 
-              onPress={() => {
-                  console.log('Cerrando sesión...')
-                  logoutUser()
-                  router.replace('../welcome')
-                }}
-              style={styles.customBotton}
-            />
+            <View style={styles.buttonContainer}>
+              <CustomButton 
+                text="Cerrar Sesión" 
+                onPress={() => {
+                    console.log('Cerrando sesión...')
+                    logoutUser()
+                    router.replace('../welcome')
+                  }}
+                backgroundColor="#DC3545"
+                style={styles.customBotton}
+              />
+            </View>
 
+            <View style={styles.buttonContainer}>
+              <CustomButton 
+                text="Cancelar Suscripción" 
+                onPress={() => {
+                    router.replace('../cancelation')
+                  }}
+                style={styles.customBotton}
+              />
+            </View>
+          </ScrollView>
           </SlideUpCard>
         </View>
 
@@ -262,8 +274,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: Colors.blueColor,
     borderWidth: 1,
-    width: '100%',
-    maxWidth: 400,
+    width: wp('80%'),
+    maxWidth: wp('100%'),
     alignSelf: 'center',
     backgroundColor: Colors.whiteColor,
   },
@@ -282,5 +294,10 @@ const styles = StyleSheet.create({
     color: Colors.whiteColor,
     fontWeight: 'bold',
   },
-
+  buttonContainer: {
+    width: wp('90%'),
+    alignItems: 'center',
+    marginTop: hp('1%'),
+    marginBottom: hp('1%'),
+  },
 });
