@@ -27,12 +27,12 @@ export default function welcome() {
           <CustomButton text="AtajoProfesional" onPress={ async () => {
             
             await saveUserProfile(MOCK_USERS[1]);
-            router.push('/tabs/professional/services')}
+            router.push('/tabs/professional/home')}
           } />
           <CustomButton text="AtajoCliente" onPress={ async () => {
             
             await saveUserProfile(MOCK_USERS[0]);
-            router.push('/tabs/client/services')}
+            router.push('/tabs/client/home')}
           } />
         </View>
       </SlideUpCard>
