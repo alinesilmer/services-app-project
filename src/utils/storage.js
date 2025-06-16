@@ -25,6 +25,7 @@ export const MOCK_USERS = [
     availability: 'Lunes a Viernes de 9 a 14hs',
     avatar: 'https://randomuser.me/api/portraits/men/73.jpg',
     descripcion: 'Pulse el lápiz para agregar una descripción sobre usted.',
+    profesion: 'Belleza'
   },
 ];
 
@@ -57,6 +58,7 @@ export const saveUserLogin = async (userData) => {
       birthdate: userData.birthdate || '',
       avatar: userData.avatar || '',
       descripcion: userData.descripcion || '',
+      profesion: userData.profesion || '',
     });
 
     console.log("User login saved successfully");

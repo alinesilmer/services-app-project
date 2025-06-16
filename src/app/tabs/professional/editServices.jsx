@@ -18,11 +18,10 @@ import { categoriesIcons } from "../../../data/mockCategories";
 import mockServices from "../../../data/mockServices";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { getCompleteUserData } from "../../../utils/storage"; 
-import ServiceItem from "../../../components/ServiceItem";
+import ProfilePic from "../../../components/ProfilePic";
 import BackButton from "../../../components/BackButton";
 import { Feather } from "@expo/vector-icons";
 import { ScrollView } from "react-native";
-import { router } from "expo-router";
 
 
 export default function ProfessionalServices() {
@@ -68,20 +67,21 @@ export default function ProfessionalServices() {
         <StatusBar barStyle='light-content'/>
         <BackButton />
 
-        <SlideUpCard title={`Servicios\nPrecios`} style={styles.slideUpCard}>
-            <IconButton
-                name="edit"
-                size={24}
-                color={Colors.textColor}
-                style={styles.editButton}
-                onPress={() => console.log("EDIT BUTTON")}
-            />
-            
-            <View style={styles.squareButtonsContainer}>
-                <TouchableOpacity activeOpacity={0.8} style={styles.squareButton} onPress={router.push('/tabs/professional/editServices')}>
-                    <Text style={styles.squareButtonIcon}>{categoriesIcons[usuario.profesion]}</Text>
-                    <Text style={styles.squareButtonText}>{usuario.profesion}</Text>
-                </TouchableOpacity>
+        <Text style={styles.editTitle}>EDITAR SERVICIOS</Text>
+        <SlideUpCard style={styles.slideUpCard}>
+            <View style={styles.profileContainer}>
+                <View style={styles.profilePhoto}>
+                    <ProfilePic uri={usuario?.avatar} size='130'/>
+                </View>
+                <View>
+                    <Text style={styles.userProfile}>
+                        {usuario
+                            ? usuario.fullName.toUpperCase() || 'Profesional'
+                            : 'cargando...'
+                        }
+                    </Text>
+                    <Text style= {styles.userAddress}>📍 Ubicación: {usuario.address}</Text>
+                </View>
             </View>
 
             <ScrollView showsVerticalScrollIndicator={false} style={ styles.scroll}>
@@ -101,6 +101,14 @@ export default function ProfessionalServices() {
                                     <Text style={styles.serviceName}>{serviceObj.servicio}</Text>
                                     <Text style={styles.servicePrice}>{getServicePrice(serviceObj.servicio)}</Text>
                                 </View>
+                                <View style={styles.editIcons}>
+                                    <TouchableOpacity>
+                                        <Feather name="edit-3" size={24} color="black" />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity>
+                                        <Feather name="trash-2" size={24} color="red" />
+                                    </TouchableOpacity>
+                                </View>
                             </View>
                         </TouchableOpacity>
                     ))}
@@ -116,46 +124,37 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: Colors.blueColor
     },
+    editTitle: {
+        marginTop: hp('4%'),
+        marginHorizontal: 'auto',
+        fontSize: wp('8%'),
+        fontWeight: 900
+    },
+    profileContainer: {
+        flexDirection: 'row',
+        width: wp('100%'),
+        justifyContent: 'space-evenly',
+        marginBottom: hp('5%'),
+    },
+    profilePhoto: {
+        borderColor: '#000',
+        borderWidth: wp('1%'),
+        borderStyle: 'solid',
+        borderRadius: '50%',
+    },
+    userProfile: {
+        fontSize: wp('5%'),
+        fontWeight: 700,
+        marginVertical: 'auto',
+    },
+    userAddress: {
+        fontSize: wp('4%'),
+    },
     slideUpCard: {
         borderTopLeftRadius: wp('40%'),
         borderTopRightRadius: wp('0'),
         marginTop: hp('10'),
-        maxHeight: hp('88'),
-    },
-    editButton: {
-        marginTop: '-25%',
-        marginLeft: '80%',
-    },
-    squareButtonsContainer: {
-        flexDirection: "row",
-        flexWrap: 'wrap',
-        justifyContent: "space-around",
-        alignItems: 'center',
-        marginTop: wp('17%'),
-        marginHorizontal: wp("5%"),
-        marginBottom: hp("2%"),
-        gap: wp('2%'),
-        width: wp(80),
-    },
-    squareButton: {
-        backgroundColor: "#fff",
-        width: wp("25%"),
-        height: wp("25%"),
-        borderRadius: 15,
-        justifyContent: "center",
-        alignItems: "center",
-        elevation: 2,
-        borderWidth: 1,
-        borderColor: "black",
-    },
-    squareButtonIcon: {
-        fontSize: wp("6%"),
-        marginBottom: hp("0.5%"),
-    },
-    squareButtonText: {
-        fontSize: wp("3%"),
-        fontWeight: "600",
-        textAlign: "center",
+        height: hp('80%'),
     },
     servicesContainer: {
         marginBottom: 0,
@@ -188,6 +187,11 @@ const styles = StyleSheet.create({
     serviceInfo: {
         flex: 1,
     },
+    editIcons: {
+        width: wp('17%'),
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+    },
     serviceName: {
         fontSize: wp("4%"),
         fontWeight: "600",
@@ -200,5 +204,6 @@ const styles = StyleSheet.create({
     },
     scroll: { 
         paddingHorizontal: wp('1%'),
+        width: wp('85%'),
     }
 });

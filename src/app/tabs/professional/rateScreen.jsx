@@ -1,26 +1,20 @@
 "use client";
 import {
-  KeyboardAvoidingView,
   View,
   Text,
   StyleSheet,
-  Image,
-  Platform,
-  Pressable,
   ScrollView,
   TouchableOpacity,
   RefreshControl,
 } from "react-native";
 import { useState, useCallback, useEffect } from "react";
-import { useLocalSearchParams, router, useFocusEffect } from "expo-router";
+import { useLocalSearchParams, } from "expo-router";
 import { Colors } from "../../../constants/Colors";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { Feather, MaterialIcons } from "@expo/vector-icons";
-import CustomButton from "../../../components/CustomButton";
-import profiles from "../../../data/mockProfiles";
 import opinions from "../../../data/mockOpinions";
 import BackButton from "../../../components/BackButton";
 import ProfilePic from '../../../components/ProfilePic';
