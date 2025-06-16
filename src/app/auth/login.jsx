@@ -63,7 +63,7 @@ export default function Login() {
         const userType = loginResult.user.userType;
 
         if (userType === "professional") {
-          router.push("tabs/professional/dashboard") // TODO: Cambiar a la ruta del home del profesional
+          router.push("tabs/professional/home")
         } else {
           router.push("tabs/client/home")
         }

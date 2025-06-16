@@ -1,5 +1,13 @@
 import { useLocalSearchParams } from 'expo-router';
-import { Pressable, StatusBar, StyleSheet, Text, View } from "react-native";
+import {
+    Alert,
+    Pressable,
+    ScrollView,
+    StatusBar,
+    StyleSheet,
+    Text,
+    View
+} from "react-native";
 import { Colors } from '../../../constants/Colors';
 import BackButton from '../../../components/BackButton';
 import ProfilePic from '../../../components/ProfilePic';
@@ -9,17 +17,32 @@ import NavBar from '../../../components/NavBar';
 import Rate from '../../../components/Rate';
 import ServiceItem from '../../../components/ServiceItem';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { ScrollView } from 'react-native';
 import { Feather, FontAwesome5 } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getUserProfile } from '../../../utils/storage';
 
 
 export default function HomeScreen() {
-    const {username, email, birthdate, userType, publicitado } = useLocalSearchParams();
-    const birth = birthdate ? new Date(birthdate) : null;
-    const params = useLocalSearchParams();
+    const [userProfile, setUserProfile] = useState(null);
+
+    const { publicitado } = useLocalSearchParams();
     const [isPublicitado, setIsPublicitado] = useState(publicitado === 'true');
+
+    useEffect(() => {
+        const fetchUserProfile = async () => {
+            try {
+                const profile = await getUserProfile();
+                console.log('Perfil cargado: ', profile);
+                if (profile) {
+                    setUserProfile(profile);
+                }
+            } catch (error) {
+                console.log('Error al cargar el perfil: ', error);
+            }
+        };
+        fetchUserProfile();
+    }, []);
 
     const Boton = ({ texto, onPress }) => (
         <Pressable onPress={onPress} style={({ pressed }) => [
@@ -51,10 +74,23 @@ export default function HomeScreen() {
         <StatusBar barStyle='auto'/>
         <BackButton />
         <View style={styles.profileContainer}>
-            <ProfilePic uri={'https://randomuser.me/api/portraits/men/73.jpg'} size='100'/>
+            <ProfilePic uri={userProfile?.avatar} size='100'/>
             <View style={styles.titleRateContainer}>
-                <Text style={styles.title}>HOLA, MARTÍN GONZALEZ</Text>
-                <Rate rating={3} reviews={95}/>
+                <Text style={styles.title}>
+                    HOLA, {userProfile
+                            ? userProfile.fullName.toUpperCase() || 'Profesional'
+                            : 'cargando...'
+                    }
+                </Text>
+                <Pressable onPress={() => router.push({
+                    pathname: '/tabs/professional/rateScreen',
+                    params: {
+                        rating:3,
+                        reviews: 95
+                    }
+                })}>
+                    <Rate rating={3} reviews={95}/>
+                </Pressable>
             </View>
         </View>
         <View style={styles.iconsContainer}>
@@ -79,7 +115,11 @@ export default function HomeScreen() {
         )}
 
         <SlideUpCard style={styles.slideUpCard}>
-            <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
+            <ScrollView
+                style={styles.scroll}
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{ paddingBottom: hp(9) }}    
+            >
                 <View style={styles.buttonContainer}>                    
                     <Boton texto='Trabajos completados: 22' onPress={() => alert('¡Presionado!')} />
                     <Boton texto='Valoración de clientes: 95' onPress={() => alert('¡Presionado!')} />
@@ -144,7 +184,7 @@ const styles = StyleSheet.create({
         flex: 1,
         borderTopRightRadius: wp('30%'),
         borderTopLeftRadius: 0,
-        marginTop: hp('1%'),
+        marginTop: hp('2%'),
         justifyContent: 'flex-start',
         paddingBottom: 0
     },

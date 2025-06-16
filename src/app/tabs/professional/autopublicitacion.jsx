@@ -12,15 +12,17 @@ import {
 } from "react-native";
 import { Colors } from '../../../constants/Colors';
 import BackButton from '../../../components/BackButton';
+import CustomButtom from '../../../components/CustomButton';
 import ProfilePic from '../../../components/ProfilePic';
 import SlideUpCard from '../../../components/SlideUpCard';
 import NavBar from '../../../components/NavBar';
 import Rate from '../../../components/Rate';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { ScrollView } from 'react-native';
+import { Alert, ScrollView } from 'react-native';
 import { Feather, FontAwesome5 } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getUserProfile } from '../../../utils/storage';
 
 const Inputs = ({ nombre, setNombre, profesion, setProfesion, descripcion, setDescripcion }) => (
   <View style={styles.contenedor}>
@@ -76,23 +78,56 @@ export default function HomeScreen() {
     const [profesion, setProfesion] = useState('');
     const [descripcion, setDescripcion] = useState('');
     const [colorFondo, setColorFondo] = useState('darkseagreen');
+    const [userProfile, setUserProfile] = useState(null);
 
     const coloresDisponibles = [
     'darkseagreen', 'lightblue', 'lightpink', 'khaki', 'lightgray', 'plum'
     ];
 
+    useEffect(() => {
+        const loadUserProfile = async () => {
+        try {
+            const profile = await getUserProfile();
+            if (profile) {
+                setUserProfile(profile);
+            }
+        } catch (error) {
+            console.error('Error loading profile:', error);
+        }
+        };
+        loadUserProfile();
+    }, []);
+
     const finalizarEdicion = () => {
+        const camposVacios = [];
+        if(nombre.trim() === '') camposVacios.push('Nombre');
+        if(profesion.trim() === '') camposVacios.push('Profesión');
+        if(descripcion.trim() === '') camposVacios.push('Descripción');
+        
+        if(camposVacios.length > 0) {
+            Alert.alert(
+                'Campos vacíos',
+                `Por favor, completá los siguientes campos: ${camposVacios.join(', ')}`,
+                [{ text: 'OK' }]
+            );
+            return;
+        }
         router.replace('/tabs/professional/home?publicitado=true');
-    };
+    }
 
     return (
         <View style={styles.container}>
             <StatusBar barStyle="auto" />
             <BackButton />
             <View style={styles.profileContainer}>
-            <ProfilePic uri={'https://randomuser.me/api/portraits/men/73.jpg'} size="100" />
+            <ProfilePic uri={userProfile?.avatar} size="100" />
             <View style={styles.titleRateContainer}>
-                <Text style={styles.title}>AUTOPUBLICITACION</Text>
+                <Text style={styles.title}>
+                    HOLA, { userProfile
+                            ? userProfile.fullName.toUpperCase() || 'Profesional'
+                            : 'cargando...'
+                    }
+                </Text>
                 <Rate rating={3} reviews={95} />
             </View>
             </View>
@@ -153,7 +188,10 @@ export default function HomeScreen() {
                         descripcion={descripcion}
                         setDescripcion={setDescripcion}
                     />
-                    <Button title="Finalizar edición" onPress={finalizarEdicion} />
+                    <CustomButtom
+                        text="Finalizar edición"
+                        onPress={finalizarEdicion}
+                    />
                 </ScrollView>
             </KeyboardAvoidingView>
             </SlideUpCard>
@@ -298,6 +336,7 @@ const styles = StyleSheet.create({
         padding: 10,
         fontSize: 16,
         backgroundColor: '#fff',
+        marginBottom: 10
     },
     textArea: {
         height: 100,
