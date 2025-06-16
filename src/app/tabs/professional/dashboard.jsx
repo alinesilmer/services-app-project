@@ -54,10 +54,6 @@
       loadPremiumStatus()
     }, [])
 
-    /* TODO: Cambiar direccionamientos a pestañas reales:
-    <CustomButton text="Ver Servicios" onPress={router.push('tabs/professional/services')} />
-    <CustomButton text="Ver Calificaciones" onPress={router.push('tabs/professional/comments')} />*/
-
     if (!userProfile) {
       return (
         <SafeAreaView style={styles.safeArea}>
@@ -128,7 +124,7 @@
                   if (index === 0) {
                     <CustomButton text="Ver Servicios" onPress={router.push('tabs/professional/services')} />
                   } else if (index === 1) {
-                    console.log('Redirigir a calificaciones...');
+                    <CustomButton text="Ver Calificaciones" onPress={router.push('tabs/professional/rateScreen')} />
                   }
                 }}
                 containerStyle={styles.buttonGroupContainer}

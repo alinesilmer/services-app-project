@@ -74,11 +74,11 @@ export default function ProfessionalServices() {
                 size={24}
                 color={Colors.textColor}
                 style={styles.editButton}
-                onPress={() => console.log("EDIT BUTTON")}
+                onPress={() => router.push('/tabs/professional/editServices')}
             />
             
             <View style={styles.squareButtonsContainer}>
-                <TouchableOpacity activeOpacity={0.8} style={styles.squareButton} onPress={router.push('/tabs/professional/editServices')}>
+                <TouchableOpacity activeOpacity={0.8} style={styles.squareButton}>
                     <Text style={styles.squareButtonIcon}>{categoriesIcons[usuario.profesion]}</Text>
                     <Text style={styles.squareButtonText}>{usuario.profesion}</Text>
                 </TouchableOpacity>

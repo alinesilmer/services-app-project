@@ -27,7 +27,7 @@ export default function welcome() {
           <CustomButton text="AtajoProfesional" onPress={ async () => {
             
             await saveUserProfile(MOCK_USERS[1]);
-            router.push('/tabs/professional/editServices')}
+            router.push('/tabs/professional/services')}
           } />
           <CustomButton text="AtajoCliente" onPress={ async () => {
             
