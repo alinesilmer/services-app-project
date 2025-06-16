@@ -86,7 +86,7 @@ export default function request() {
                 <View style={styles.buttonContainer}>
                   <CustomButton
                     text="Adjuntar foto"
-                    onPress={() => router.push("tabs/client/secondRequestAd")}
+                    onPress={() => router.push("tabs/client/camera")}
                     width="90%"
                     style={styles.customBotton}
                   />
