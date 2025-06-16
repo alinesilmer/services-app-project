@@ -4,28 +4,50 @@ import {
     StatusBar,
     StyleSheet,
     Text,
+    TextInput,
     TouchableOpacity,
     View
 } from "react-native";
-import { getUserProfile, saveUserProfile } from "../../../utils/storage";
 import { useState, useEffect } from "react";
 import { Colors } from "../../../constants/Colors";
 import NavBar from "../../../components/NavBar";
-import IconButton from "../../../components/IconButton";
 import SlideUpCard from "../../../components/SlideUpCard";
 import Services from "../../../data/mockServices";
-import { categoriesIcons } from "../../../data/mockCategories";
 import mockServices from "../../../data/mockServices";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { getCompleteUserData } from "../../../utils/storage"; 
 import ProfilePic from "../../../components/ProfilePic";
 import BackButton from "../../../components/BackButton";
+import ModalWrapper from "../../../components/ModalWrapper";
 import { Feather } from "@expo/vector-icons";
 import { ScrollView } from "react-native";
 
 
 export default function ProfessionalServices() {
     const [usuario, setUsuario] = useState(null);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [editingService, setEditingService] = useState(null);
+    const [serviceName, setServiceName] = useState('');
+    const [servicePrice, setServicePrice] = useState('');
+    
+    const [services, setServices] = useState([]);
+    const [professionalServices, setProfessionalServices] = useState([]);
+
+    useEffect(() => {
+    const cargarDatosUsuario = async () => {
+        const datos = await getCompleteUserData();
+        setUsuario(datos);
+
+        if (datos) {
+        const filtrados = mockServices.filter(
+            (service) => service.idProfesional === Number.parseInt(datos.id)
+        );
+        setServices(filtrados);
+        setProfessionalServices(filtrados);
+        }
+    };
+    cargarDatosUsuario();
+    }, []);
     
     useEffect(() => {
         const cargarDatosUsuario = async () => {
@@ -46,9 +68,7 @@ export default function ProfessionalServices() {
       );
     }
     
-    const professionalServices = mockServices.filter(
-        (service) => service.idProfesional === Number.parseInt(usuario.id),
-    )
+    
 
     const getServicePrice = (serviceName) => {
         const service = mockServices.find(
@@ -62,6 +82,47 @@ export default function ProfessionalServices() {
         return "Consultar precio"
     }
     
+    const openServiceModal = (service = null) => {
+        setEditingService(service);
+        setModalVisible(true);
+    }
+
+    const handleSaveService = (servicio, precio) => {
+        if (!servicio || !precio) return;
+
+        if (editingService) {
+            
+            const serviciosActualizados = services.map((s) =>
+            s.id === editingService.id ? { ...s, servicio, precio } : s
+            );
+            setServices(serviciosActualizados);
+            setProfessionalServices(serviciosActualizados);
+        } else {
+            
+            const nuevoID = services.length > 0 ? Math.max(...services.map(s => s.id)) + 1 : 1;
+
+            const nuevoServicio = {
+            id: nuevoID,
+            servicio,
+            precio,
+            idProfesional: Number(usuario.id),
+            };
+
+            const serviciosActualizados = [...services, nuevoServicio];
+            setServices(serviciosActualizados);
+            setProfessionalServices(serviciosActualizados);
+        }
+
+        setModalVisible(false);
+        setEditingService(null);
+        setServiceName('');
+        setServicePrice('');
+    };
+
+    const handleDeleteService = (id) => {
+        setServices( prev => prev.filter(s => s.id !== id))
+    }
+
     const SERVICES = Services.filter(serv => serv.idProfesional === usuario.id);
     return(<View style={styles.container}>
         <StatusBar barStyle='light-content'/>
@@ -83,7 +144,9 @@ export default function ProfessionalServices() {
                     <Text style= {styles.userAddress}>📍 Ubicación: {usuario.address}</Text>
                 </View>
             </View>
+            
 
+            <Text style={[styles.userProfile, { marginLeft: wp('-40%')}]}>Servicios que Ofrezco{'\n'}</Text>
             <ScrollView showsVerticalScrollIndicator={false} style={ styles.scroll}>
                 <View style={styles.servicesContainer}>
                     {professionalServices.map((serviceObj, index) => (
@@ -102,19 +165,54 @@ export default function ProfessionalServices() {
                                     <Text style={styles.servicePrice}>{getServicePrice(serviceObj.servicio)}</Text>
                                 </View>
                                 <View style={styles.editIcons}>
-                                    <TouchableOpacity>
+                                    <TouchableOpacity onPress={() => openServiceModal(serviceObj)}>
                                         <Feather name="edit-3" size={24} color="black" />
                                     </TouchableOpacity>
-                                    <TouchableOpacity>
+                                    <TouchableOpacity onPress={() => handleDeleteService(serviceObj.id)}>
                                         <Feather name="trash-2" size={24} color="red" />
                                     </TouchableOpacity>
                                 </View>
                             </View>
                         </TouchableOpacity>
                     ))}
+                    <TouchableOpacity
+                        style={styles.serviceItem}
+                        onPress={() => openServiceModal(null)}
+                        activeOpacity={0.7}
+                    >
+                        <View style={styles.serviceContent}>
+                            <View style={styles.serviceInfo}>
+                                <Text style={[styles.serviceName, {marginHorizontal: 'auto'}]}>Agregar un nuevo servicio</Text>
+                            </View>
+                        </View>
+                    </TouchableOpacity>
                 </View>
             </ScrollView>
-            </SlideUpCard>
+        </SlideUpCard>
+
+        <ModalWrapper
+            visible={modalVisible}
+            title={editingService ? 'Editar servicio' : 'Agregar servicio'}
+            onCancel={() => {
+                setModalVisible(false);
+                setEditingService(null);
+            }}
+            onSubmit={() => handleSaveService(serviceName, Number(servicePrice))}
+        >
+            <TextInput
+                placeholder='Nombre del servicio'
+                value={serviceName}
+                onChangeText={setServiceName}
+                style= {{ borderBottomWidth: 1, marginBottom: 10 }}
+            />
+            <TextInput
+                placeholder='Precio del servicio'
+                value={servicePrice}
+                onChangeText={setServicePrice}
+                keyboardType="numeric"
+                style= {{ borderBottomWidth: 1, marginBottom: 10 }}
+            />
+        </ModalWrapper>
         <NavBar />
     </View>);
 }
@@ -128,7 +226,8 @@ const styles = StyleSheet.create({
         marginTop: hp('4%'),
         marginHorizontal: 'auto',
         fontSize: wp('8%'),
-        fontWeight: 900
+        fontWeight: 900,
+        color: 'white',
     },
     profileContainer: {
         flexDirection: 'row',
