@@ -116,6 +116,7 @@ export default function Register() {
             </View>
 
             <CustomInput
+              style={styles.inputs}
               label="Usuario"
               placeholder="Usuario"
               value={formData.username}
@@ -124,6 +125,7 @@ export default function Register() {
               required
             />
             <CustomInput
+              style={styles.inputs}
               label="Correo electrónico"
               placeholder="sucorreo@gmail.com"
               value={formData.email}
@@ -133,6 +135,7 @@ export default function Register() {
               required
             />
             <CustomInput
+              style={styles.inputs}
               label="Contraseña"
               placeholder="********"
               value={formData.password}
@@ -210,7 +213,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: "100%",
     height: hp("80%"),
-    paddingHorizontal: wp("8%"),
   },
   scrollContainer: {
     paddingBottom: 40,
@@ -243,7 +245,7 @@ const styles = StyleSheet.create({
   },
   checkboxContainer: {
     flexDirection: "row",
-    alignItems: "center",
+    justifyContent: "center",
     marginVertical: hp("1.5%"),
   },
   checkboxText: {
@@ -255,4 +257,7 @@ const styles = StyleSheet.create({
     fontSize: wp("3.5%"),
     marginBottom: hp("1%"),
   },
+  inputs: {
+    width: '100%',
+  }
 })

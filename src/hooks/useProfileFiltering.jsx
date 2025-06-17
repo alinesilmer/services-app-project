@@ -39,6 +39,7 @@ export const useProfileFiltering = (profiles, initialService = null) => {
     Plomería: "Plomería",
     Refacción: "Refacción",
     Electricista: "Electricista",
+    Belleza: 'Belleza',
     Carpintería: "Carpintería",
     Limpieza: "Limpieza",
     Pintura: "Pintura",

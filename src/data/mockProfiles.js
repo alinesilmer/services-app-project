@@ -428,4 +428,43 @@ export default [
     descripcion:
       "Soy Tomás, técnico en tecnología general. Soluciono problemas con todo tipo de dispositivos electrónicos y sistemas tecnológicos.",
   },
+  {
+    id: 35,
+    nombre: "Jerónimo Tomás Ramirez",
+    correo: "jero.ramirez@printertech.com",
+    profesion: "Entrenador",
+    categoria: "MMA",
+    calificaciones: 4.2,
+    ubicacion: "Resistencia, Chaco",
+    disponibilidad: "Lunes a Viernes, 7:00 - 12:00",
+    avatar: "https://randomuser.me/api/portraits/men/40.jpg",
+    descripcion:
+      "Jerónimo Tomás, he estado por más de 15 años en este maravilloso mundo de las Artes Marciales Mixtas. Mis alumnos han adquirido aquellos valores que le he legado, al igual, que mis maestros me legaron a mi. Si deseas aprender defensa personal, a reaccionar como corresponde y estar listo en momentos de suma urgencia, te espero en mi Gimnasio, que se encuentra por calle PIO XXII, Resistencia.",
+  },
+  {
+    id: 36,
+    nombre: "Fernando de la Cuna",
+    correo: "fer.cuna@electrofix.com",
+    profesion: "Técnico",
+    categoria: "Celulares",
+    calificaciones: 4.8,
+    ubicacion: "Resistencia, Chaco",
+    disponibilidad: "Lunes a Viernes, 7:00 - 12:00 y de 17:00 - 22:00",
+    avatar: "https://randomuser.me/api/portraits/men/47.jpg",
+    descripcion:
+      "Me dedico a la reparación de celulares ya pertenezcan a las nuevas generaciones como aquellos que pertenecen a las generaciones pasadas. La reparación de celulares, implica que, mientras no se haya dañado algún componente esencial (como la memoria), puedo garantizar la recuperación de sus datos.",
+  },
+  {
+    id: 37,
+    nombre: "Carlos Saúl Estevez",
+    correo: "charly.este@techgeneral.com",
+    profesion: "Mecánico",
+    categoria: "Autos de Carreras",
+    calificaciones: 4.9,
+    ubicacion: "Resistencia, Chaco",
+    disponibilidad: "Lunes a Sábado, 07:00 - 14:00",
+    avatar: "https://randomuser.me/api/portraits/men/92.jpg",
+    descripcion:
+      "Soy Carlos, me desempeño desde toda mi vida en el mundo de la mecánica, en donde nací y crecí. He participado en la reparación, armado, recuperación de autos en distintos estados, y de distintos años, incluso, distintas decadas.",
+  },
 ]

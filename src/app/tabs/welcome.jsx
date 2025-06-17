@@ -8,7 +8,7 @@ import { Colors } from '../../constants/Colors';
 import Logo from '../../components/Logo';
 import SlideUpCard from '../../components/SlideUpCard';
 import CustomButton from '../../components/CustomButton';
-
+import { saveUserProfile, MOCK_USERS } from '../../utils/storage';
 export default function welcome() {
   const router = useRouter();
 
@@ -24,6 +24,16 @@ export default function welcome() {
         <View style={styles.buttonContainer}>
           <CustomButton text="Iniciar Sesión" onPress={() => router.push('/auth/login')} />
           <CustomButton text="Registrarme" onPress={() => router.push('/auth/register')} />
+          {/*<CustomButton text="AtajoProfesional" onPress={ async () => {
+            
+            await saveUserProfile(MOCK_USERS[1]);
+            router.push('/tabs/professional/home')}
+          } />
+          <CustomButton text="AtajoCliente" onPress={ async () => {
+            
+            await saveUserProfile(MOCK_USERS[0]);
+            router.push('/tabs/client/home')}
+          } />*/}
         </View>
       </SlideUpCard>
     </View>

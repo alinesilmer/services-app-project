@@ -757,4 +757,27 @@ export default [
     opinion: "Soluciona cualquier problema tecnológico. Muy confiable.",
     idProfesional: 33,
   },
+
+  // Opiniones para Martín Gonzalez (ID: 34)
+  {
+    id: 100,
+    nombre: "Jerónimo Tomás Ramirez",
+    puntaje: "3.1",
+    opinion: "Cumpliste con mis espectativas, te felicito y se que puedes más.",
+    idProfesional: 34,
+  },
+  {
+    id: 101,
+    nombre: "Fernando del Valle",
+    puntaje: "3.7",
+    opinion: "Gracias Martín por la atención tan respetuosa, serás recomendado.",
+    idProfesional: 34,
+  },
+  {
+    id: 102,
+    nombre: "Carlos Saul Estevez",
+    puntaje: "4.1",
+    opinion: "Tienes el talento para triunfar, no decaigas por la ahora falta de espacio, tendrás tu propio Salón de belleza, grande y acogedor. Sigue así.",
+    idProfesional: 34,
+  }
 ]

@@ -1228,4 +1228,62 @@ export default [
     precio: 8500,
     idProfesional: 33,
   },
+
+  // Servicios de Belleza - Martín Gonzalez (ID: 34)
+  {
+    id: 195,
+    servicio: "Teñido",
+    precio: 4800,
+    idProfesional: 34,
+  },
+  {
+    id: 196,
+    servicio: "Corte damas",
+    precio: 6000,
+    idProfesional: 34,
+  },
+  {
+    id: 197,
+    servicio: "Corte caballeros",
+    precio: 5500,
+    idProfesional: 34,
+  },
+  {
+    id: 198,
+    servicio: "Corte niños",
+    precio: 5000,
+    idProfesional: 34,
+  },
+  {
+    id: 199,
+    servicio: "Cuidado capilar",
+    precio: 8500,
+    idProfesional: 34,
+  },
+  {
+    id: 200,
+    servicio: "Hidratación capilar",
+    precio: 7000,
+    idProfesional: 34,
+  },
+
+  // Servicios de Artes Marciales - Jerónimo Tomás Ramirez (ID: 34)
+  {
+    id: 201,
+    servicio: "Introducción a las Artes Marciales",
+    precio: 5000,
+    idProfesional: 35,
+  },
+  {
+    id: 202,
+    servicio: "Especialización en sumisión",
+    precio: 9000,
+    idProfesional: 35,
+  },
+  {
+    id: 203,
+    servicio: "Práctica de velocidad",
+    precio: 12000,
+    idProfesional: 35,
+  }
 ]

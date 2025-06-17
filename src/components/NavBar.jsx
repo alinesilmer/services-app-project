@@ -63,7 +63,7 @@ const renderItem = (icon, label, route, isHome = false) => {
 
   return (
     <View style={styles.container}>
-      {renderItem('home', 'Inicio', 'home', true)}
+      {renderItem('home', 'Inicio', 'home')}
       {renderItem('message-square', 'Chat', 'chat')}
       {renderItem('calendar', 'Agenda', 'myAppointments')}
       {renderItem('user', 'Perfil', 'dashboard')}

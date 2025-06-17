@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 //MOCKS
-const MOCK_USERS = [
+export const MOCK_USERS = [
   {
     fullName: "Mirta Gaona",
     password: "123456",
@@ -13,6 +13,7 @@ const MOCK_USERS = [
     address: 'Av. Sarmiento 1249',
   },
   {
+    id: 34,
     fullName: "Martin Gonzalez",
     password: "123456",
     userType: "professional",
@@ -22,6 +23,9 @@ const MOCK_USERS = [
     department: 'Resistencia',
     address: 'Av Sarmiento 1249',
     availability: 'Lunes a Viernes de 9 a 14hs',
+    avatar: 'https://randomuser.me/api/portraits/men/73.jpg',
+    descripcion: 'Pulse el lápiz para agregar una descripción sobre usted.',
+    profesion: 'Belleza'
   },
 ];
 
@@ -44,6 +48,7 @@ export const saveUserLogin = async (userData) => {
     );
 
     await saveUserProfile({
+      id: userData.id || 0,
       fullName: userData.username || userData.fullName || 'Usuario',
       email: userData.email,
       province: userData.province || '',
@@ -51,6 +56,9 @@ export const saveUserLogin = async (userData) => {
       address: userData.address || '',
       userType: userData.userType,
       birthdate: userData.birthdate || '',
+      avatar: userData.avatar || '',
+      descripcion: userData.descripcion || '',
+      profesion: userData.profesion || '',
     });
 
     console.log("User login saved successfully");
