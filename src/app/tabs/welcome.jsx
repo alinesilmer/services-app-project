@@ -24,7 +24,7 @@ export default function welcome() {
         <View style={styles.buttonContainer}>
           <CustomButton text="Iniciar Sesión" onPress={() => router.push('/auth/login')} />
           <CustomButton text="Registrarme" onPress={() => router.push('/auth/register')} />
-          <CustomButton text="AtajoProfesional" onPress={ async () => {
+          {/*<CustomButton text="AtajoProfesional" onPress={ async () => {
             
             await saveUserProfile(MOCK_USERS[1]);
             router.push('/tabs/professional/home')}
@@ -33,7 +33,7 @@ export default function welcome() {
             
             await saveUserProfile(MOCK_USERS[0]);
             router.push('/tabs/client/home')}
-          } />
+          } />*/}
         </View>
       </SlideUpCard>
     </View>
