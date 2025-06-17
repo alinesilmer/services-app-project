@@ -8,15 +8,24 @@ import { Text, StyleSheet, Pressable } from 'react-native';
 import { Colors } from '../constants/Colors';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
 
-const CustomButton = ({ text, onPress, width = '90%', backgroundColor}) => {
+const CustomButton = ({ text, onPress, width = '90%', backgroundColor, disabled = false }) => {
   return (
     <Pressable
-      onPress={onPress}
-      style={({ pressed }) => [
-        styles.button, backgroundColor && { backgroundColor },
-        { width}, 
-        pressed && styles.buttonPressed && { backgroundColor: Colors.orangeColor },
-      ]}
+      onPress={disabled ? null : onPress}
+      disabled={disabled}
+      style={({ pressed }) => {
+      let baseStyle = [styles.button];
+
+      if(disabled) {
+        baseStyle.push(styles.buttonDisabled);
+      } else {
+        baseStyle.push({ width });
+        if( backgroundColor ) baseStyle.push({ backgroundColor });
+        if( pressed ) baseStyle.push(styles.buttonDisabled, { backgroundColor: Colors.orangeColor });
+      }
+
+      return baseStyle;
+    }}
     >
       <Text style={[styles.text, disabled && styles.textDisabled]}>
         {text}
@@ -43,9 +52,10 @@ const styles = StyleSheet.create({
   },
   buttonDisabled: {
     backgroundColor: '#ccc',
+    opacity: 0.6,
   },
   textDisabled: {
-    color: '#666',
+    color: '#eee',
   }
 });
 
