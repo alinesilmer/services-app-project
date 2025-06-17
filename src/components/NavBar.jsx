@@ -63,10 +63,10 @@ const renderItem = (icon, label, route, isHome = false) => {
 
   return (
     <View style={styles.container}>
-      {renderItem('home', 'Inicio', () => router.push(`tabs/${basePath}/home`))}
-      {renderItem('message-square', 'Chat', () => router.push(`tabs/chat`))}
-      {renderItem('calendar', 'Agenda', () => router.push(`tabs/${basePath}/myAppointments`))}
-      {renderItem('user', 'Perfil', () => router.push(`tabs/${basePath}/dashboard`))}
+      {renderItem('home', 'Inicio', 'home')}
+      {renderItem('message-square', 'Chat', 'chat')}
+      {renderItem('calendar', 'Agenda', 'myAppointments')}
+      {renderItem('user', 'Perfil', 'dashboard')}
     </View>
   );
 };

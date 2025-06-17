@@ -26,7 +26,7 @@ import { FlatList } from 'react-native';
 import { ClientRequestCard } from '../../../components/ClientRequestCard';
 
 
-export default function HomeScreen() {
+export default Home = () => {
     const [userProfile, setUserProfile] = useState(null);
 
     const { publicitado } = useLocalSearchParams();

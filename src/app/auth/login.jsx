@@ -36,7 +36,7 @@ export default function Login() {
       if (loggedIn) {
         const userType = await getUserType()
         if (userType === "professional") {
-          router.push("tabs/professional/dashboard")
+          router.push("tabs/professional/home")
         } else {
           router.push("tabs/client/home")
         }
@@ -55,7 +55,7 @@ export default function Login() {
         await saveUserLogin(loginResult.user)
         dispatch(loginSuccess(loginResult.user))
         const userType = loginResult.user.userType
-        router.push(userType === "professional" ? "tabs/professional/dashboard" : "tabs/client/home")
+        router.push(userType === "professional" ? "tabs/professional/home" : "tabs/client/home")
       } else {
         setLoginErrorMessage("Usuario o contraseña incorrectos")
         setShowLoginError(true)
