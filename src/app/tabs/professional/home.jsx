@@ -15,12 +15,15 @@ import CustomButton from '../../../components/CustomButton';
 import SlideUpCard from '../../../components/SlideUpCard';
 import NavBar from '../../../components/NavBar';
 import Rate from '../../../components/Rate';
+import { ClientRequest } from '../../../data/mockClientRequest';
 import ServiceItem from '../../../components/ServiceItem';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Feather, FontAwesome5 } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { getUserProfile } from '../../../utils/storage';
+import { FlatList } from 'react-native';
+import { ClientRequestCard } from '../../../components/ClientRequestCard';
 
 
 export default function HomeScreen() {
@@ -44,6 +47,16 @@ export default function HomeScreen() {
         fetchUserProfile();
     }, []);
 
+    if (!userProfile) {
+        return (
+        <View style={styles.container}>
+            <Text style={{ textAlign: "center", marginTop: 50, color: "#fff" }}>
+            Cargando perfil...
+            </Text>
+        </View>
+        );
+    }
+
     const Boton = ({ texto, onPress }) => (
         <Pressable onPress={onPress} style={({ pressed }) => [
             styles.boton,
@@ -53,22 +66,27 @@ export default function HomeScreen() {
         </Pressable>
     );
 
-    const Card = ({text}) => (
-        <View style={styles.cardToService}>
-            <View style={styles.alertStyle}>
-                <Feather name='alert-circle' size={35} color={Colors.orangeColor}/>
-                <Text style={styles.alertText}>¡SE NECESITA!</Text>
-            </View>
-            <Text style={styles.cardText}>{text}</Text>
-            <Boton texto='Ver detalles de la solicitud' onPress={() => alert('¡Presionado!')} />
-        </View>
-    );
-
     const Icono = ({nom='spa', size=50}) => (
         <View style={styles.icoContainer}>
             <FontAwesome5 name={nom} size={size} color="#bbb" />
         </View>
     );
+
+    const ClientRequestFlatList = () => {
+        const requests = ClientRequest.filter(req => {
+            return req.category === userProfile.profesion;
+        });
+
+        return (<FlatList
+            data={requests}
+            renderItem={({item}) => (
+                <ClientRequestCard
+                    item={item}
+                />
+            )}
+            showsVerticalScrollIndicator={false}
+        />);
+    }
 
     return (<View style={styles.container}>
         <StatusBar barStyle='auto'/>
@@ -115,23 +133,12 @@ export default function HomeScreen() {
         )}
 
         <SlideUpCard style={styles.slideUpCard}>
-            <ScrollView
-                style={styles.scroll}
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={{ paddingBottom: hp(9) }}    
-            >
-                <View style={styles.buttonContainer}>                    
-                    <Boton texto='Trabajos completados: 22' onPress={() => alert('¡Presionado!')} />
-                    <Boton texto='Valoración de clientes: 95' onPress={() => alert('¡Presionado!')} />
-                    <Boton texto='Solicitudes recibidas: 3' onPress={() => alert('¡Presionado!')} />
-                </View>
-                <View style={styles.ultimoAviso}>
-                    <Text style={styles.texto}>Más recientes</Text>
-                    <Card text='Servicio de maquillaje para evento'/>
-                    <Card text='Cortador de pasto' />
-                    <Card text='Maestro Mayor de Obras' />
-                </View>
-            </ScrollView>
+            <View style={styles.buttonContainer}>
+                <Text style={styles.simpleText}>Trabajos completados: 22</Text>
+                <Text style={styles.simpleText}>Valoración de clientes: 95</Text>
+                <Text style={styles.simpleText}>Solicitudes recibidas: 3</Text>
+            </View>
+            <ClientRequestFlatList />
         </SlideUpCard>
         <NavBar />
     </View>);
@@ -189,9 +196,10 @@ const styles = StyleSheet.create({
         paddingBottom: 0
     },
     buttonContainer: {
-        width: '100%',
+        marginTop: hp('5%'),
+        width: '80%',
         padding: '2%',
-        gap: '6%',
+        gap: '8%',
     },
     scroll: {
         marginTop: '10%',
@@ -222,14 +230,15 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     cardToService: {
-        margin: '1%',
-        padding: '1%',
-        borderRadius: '8%',
-        borderWidth: 1,
+        margin: wp('1%'),
+        padding: hp('1%'),
+        borderRadius: wp('2.5%'),
+        borderWidth: wp('0.1%'),
         borderColor: '#888',
-        borderRadius: 20,
         borderStyle: 'solid',
-        alignItems: 'center'
+        alignItems: 'center',
+        elevation: 5,
+        backgroundColor: '#dedede'
     },
     alertStyle: {
         flex: 1,
@@ -261,4 +270,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#88888855'
     },
+    simpleText: {
+        fontSize: wp('6%'),
+    }
 });

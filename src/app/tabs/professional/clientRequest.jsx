@@ -1,31 +1,26 @@
-import { StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 import { Colors } from "../../../constants/Colors";
-import { Text } from "react-native";
-import SlideUpCard from "../../../components/SlideUpCard";
 import BackButton from "../../../components/BackButton";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { ScrollView } from "react-native";
 import NavBar from "../../../components/NavBar";
-import CustomButton from "../../../components/CustomButton";
+import { useLocalSearchParams } from 'expo-router';
+import ClientRequestSlide from "../../../components/ClientRequestSlide";
 
 export default function ClientRequest(){
+    let {title, problems, details, images} = useLocalSearchParams();
+    problems = JSON.parse(problems || '[]');
+    details = JSON.parse(details || '[]');
+    images = JSON.parse(images || '[]');
+
     return(<View style={styles.container}>
         <BackButton />
 
-        <SlideUpCard title='Reparación de Aire Acondicionado' style={styles.slideUpCard}>
-            <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={[styles.problemDescriptionContainer, styles.box]}>
-                    <Text>Problema/s identificado/s:</Text>
-                </View>
-                <View style={[styles.problemDetailsContainer, styles.box]}>
-                    <Text>Detalles del Aire Acondicionado:</Text>
-                </View>
-                <View style={[styles.problemPhotoContainer, styles.box]}>
-                    <Text>Imagen/es:</Text>
-                </View>
-                <CustomButton text='Enviar Mensaje' onPress={() => console.log('ENVIAR MENSAJE')}/>
-            </ScrollView>
-        </SlideUpCard>
+        <ClientRequestSlide
+            title={title}
+            problems={problems}
+            details={details}
+            images={images}
+        />
         <NavBar />
     </View>);
 }
@@ -42,22 +37,38 @@ const styles = StyleSheet.create({
         marginTop: hp('15%'),
         borderTopRightRadius: 0,
         borderTopLeftRadius: wp('40%'),
-        paddingHorizontal: wp('4%'),
+        paddingHorizontal: wp('5%'),
     },
     problemDescriptionContainer: {
-        height: 200
     },
     problemDetailsContainer: {
-        height: 200
     },
     problemPhotoContainer: {
-        height: 200
     },
     box: {
-        backgroundColor: '#8a8a8a',
+        backgroundColor: '#dcdcdc',
         flex: 1,
-        padding: wp('3%'),
+        padding: wp('4%'),
         marginVertical: hp('0.5%'),
-        borderRadius: wp('5%'),
+        borderRadius: wp('2.5%'),
+    },
+    boxTitle: {
+        fontWeight: 900,
+        fontSize: wp('4%'),
+    },
+    img: {
+        width: 200,
+        height: 200,
+        borderColor: '#000',
+        borderWidth: 3,
+        borderStyle: 'solid',
+        borderRadius: wp('2.5%'),
+        margin: wp('1%'),
+    },
+    imageScroll: {
+        flex: 1,
+        flexDirection: 'row',
+        padding: wp('1%'),
+        marginTop: hp('1%'),
     }
 });
