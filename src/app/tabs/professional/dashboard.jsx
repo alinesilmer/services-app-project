@@ -99,22 +99,21 @@
                   {isPremium && <Text style={styles.premiumBadge}> Premium</Text>}
                   </Text>
 
-                <View style={styles.fieldWrapper}>
-                  <DisplayField label="Email" value={userProfile.email || "No especificado"} />
-                </View>
-                <View style={styles.fieldWrapper}>
-                  <DisplayField label="Provincia" value={useProfile.province || "No especificado"} />
-                </View>
-                <View style={styles.fieldWrapper}>
-                  <DisplayField label="Ciudad" value={userProfile.department || "No especificado"} />
-                </View>
-                <View style={styles.fieldWrapper}>
-                  <DisplayField label="Dirección" value={userProfile.address || "No especificado"} />
-                </View>
-                <View style={styles.fieldWrapper}>
-                  <DisplayField label="Disponibilidad" value={userProfile.availability || "No especificado"} />
-                </View>
-              </ScrollView>
+              <View style={styles.fieldWrapper}>
+                <DisplayField label="Email" value={data.email || "No especificado"} />
+              </View>
+              <View style={styles.fieldWrapper}>
+                <DisplayField label="Provincia" value={data.province || "No especificado"} />
+              </View>
+              <View style={styles.fieldWrapper}>
+                <DisplayField label="Ciudad" value={data.department || "No especificado"} />
+              </View>
+              <View style={styles.fieldWrapper}>
+                <DisplayField label="Dirección" value={data.address || "No especificado"} />
+              </View>
+              <View style={styles.fieldWrapper}>
+                <DisplayField label="Disponibilidad" value={data.availability || "No especificado"} />
+              </View>
 
               <ButtonGroup
                 buttons={['Ver Servicios', 'Ver Calificaciones']}
@@ -134,6 +133,7 @@
                 selectedTextStyle={styles.buttonGroupSelectedText}
               />
 
+            <View style={styles.buttonContainer}>
               <CustomButton 
                 text="Cerrar Sesión" 
                 onPress={() => {
@@ -141,11 +141,23 @@
                     logoutUser()
                     router.replace('../welcome')
                   }}
+                backgroundColor="#DC3545"
                 style={styles.customBotton}
               />
+            </View>
 
-            </SlideUpCard>
-          </View>
+            <View style={styles.buttonContainer}>
+              <CustomButton 
+                text="Cancelar Suscripción" 
+                onPress={() => {
+                    router.replace('../cancelation')
+                  }}
+                style={styles.customBotton}
+              />
+            </View>
+          </ScrollView>
+          </SlideUpCard>
+        </View>
 
           <ModalWrapper
           visible={isModalVisible}
@@ -224,111 +236,116 @@
     );
   }
 
-  const styles = StyleSheet.create({
-    safeArea: {
-      flex: 1,
-      backgroundColor: Colors.blueColor,
-      paddingTop: hp('1%')
-    },
-    container: {
-      flex: 1,
-      backgroundColor: Colors.blueColor
-    },
-    mainContent: {
-      flex: 1,
-      justifyContent: 'flex-start'
-    },
-    card: {
-      flex: 1,
-      width: wp('100%'),
-      backgroundColor: 'white',
-      paddingTop: hp('2%'),
-      paddingHorizontal: wp('5%'),
-      paddingBottom: hp('2%'),
-      shadowColor: 'black',
-      shadowOffset: { width: 0, height: -4 },
-      shadowOpacity: 0.1,
-      shadowRadius: 8,
-      elevation: 10,
-      borderTopLeftRadius: 20,
-      borderTopRightRadius: 20,
-      alignItems: 'center',
-      marginTop: hp('16%'),
-      marginBottom: hp('1%')
-    },
-    scrollContent: {
-      alignItems: 'flex-start',
-      paddingBottom: hp('6%'),
-      paddingHorizontal: wp('2%'), 
-      width: '100%',
-      flexGrow: 1,
-    },
-    avatar: {
-      marginTop: hp('2%'),
-      borderWidth: 4,
-      borderColor: 'white',
-    },
-    name: {
-      marginTop: hp('1.5%'),
-      marginBottom: hp('2%'),
-      fontSize: wp('5.5%'),
-      fontWeight: '700',
-      color: 'black',
-      textAlign: 'center'
-    },
-    premiumBadge: {
-      fontSize: wp("4%"),
-      color: Colors.orangeColor,
-      fontWeight: "bold",
-    },
-    fieldWrapper: {
-      width: '100%',
-      maxWidth: 400,
-      marginBottom: hp('2%'),
-      display: 'flex',
-      justifyContent: 'flex-start',
-      flexDirection: 'column'
-    },
-    editButton: {
-      position: 'absolute',
-      top: hp('3%'),
-      right: wp('6%'),
-      zIndex: 10
-    },
-    chatButton: {
-      position: 'absolute',
-      top: hp('3%'),
-      left: wp('6%'),
-      zIndex: 10
-    },
-    customBotton: {
-      marginTop: hp('20%'),
-      width: '100%'
-    },
-    buttonGroupContainer: {
-      marginTop: hp('3%'),
-      borderRadius: 10,
-      borderColor: Colors.blueColor,
-      borderWidth: 1,
-      width: '100%',
-      maxWidth: 400,
-      alignSelf: 'center',
-      backgroundColor: Colors.whiteColor,
-    },
-    buttonGroupButton: {
-      backgroundColor: Colors.whiteColor,
-      borderColor: Colors.orangeColor,
-    },
-    buttonGroupText: {
-      color: Colors.orangeColor,
-      fontWeight: '700',
-    },
-    buttonGroupSelectedButton: {
-      backgroundColor: Colors.orangeColor,
-    },
-    buttonGroupSelectedText: {
-      color: Colors.whiteColor,
-      fontWeight: 'bold',
-    },
-
-  });
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: Colors.blueColor,
+    paddingTop: hp('1%')
+  },
+  container: {
+    flex: 1,
+    backgroundColor: Colors.blueColor
+  },
+  mainContent: {
+    flex: 1,
+    justifyContent: 'flex-start'
+  },
+  card: {
+    flex: 1,
+    width: wp('100%'),
+    backgroundColor: 'white',
+    paddingTop: hp('2%'),
+    paddingHorizontal: wp('5%'),
+    paddingBottom: hp('2%'),
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: -4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 10,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    alignItems: 'center',
+    marginTop: hp('16%'),
+    marginBottom: hp('1%')
+  },
+  scrollContent: {
+    alignItems: 'flex-start',
+    paddingBottom: hp('6%'),
+    paddingHorizontal: wp('2%'), 
+    width: '100%',
+    flexGrow: 1,
+  },
+  avatar: {
+    marginTop: hp('2%'),
+    borderWidth: 4,
+    borderColor: 'white',
+  },
+  name: {
+    marginTop: hp('1.5%'),
+    marginBottom: hp('2%'),
+    fontSize: wp('5.5%'),
+    fontWeight: '700',
+    color: 'black',
+    textAlign: 'center'
+  },
+  premiumBadge: {
+    fontSize: wp("4%"),
+    color: Colors.orangeColor,
+    fontWeight: "bold",
+  },
+  fieldWrapper: {
+    width: '100%',
+    maxWidth: 400,
+    marginBottom: hp('2%'),
+    display: 'flex',
+    justifyContent: 'flex-start',
+    flexDirection: 'column'
+  },
+  editButton: {
+    position: 'absolute',
+    top: hp('3%'),
+    right: wp('6%'),
+    zIndex: 10
+  },
+  chatButton: {
+    position: 'absolute',
+    top: hp('3%'),
+    left: wp('6%'),
+    zIndex: 10
+  },
+  customBotton: {
+    marginTop: hp('20%'),
+    width: '100%'
+  },
+  buttonGroupContainer: {
+    marginTop: hp('3%'),
+    borderRadius: 10,
+    borderColor: Colors.blueColor,
+    borderWidth: 1,
+    width: wp('80%'),
+    maxWidth: wp('100%'),
+    alignSelf: 'center',
+    backgroundColor: Colors.whiteColor,
+  },
+  buttonGroupButton: {
+    backgroundColor: Colors.whiteColor,
+    borderColor: Colors.orangeColor,
+  },
+  buttonGroupText: {
+    color: Colors.orangeColor,
+    fontWeight: '700',
+  },
+  buttonGroupSelectedButton: {
+    backgroundColor: Colors.orangeColor,
+  },
+  buttonGroupSelectedText: {
+    color: Colors.whiteColor,
+    fontWeight: 'bold',
+  },
+  buttonContainer: {
+    width: wp('90%'),
+    alignItems: 'center',
+    marginTop: hp('1%'),
+    marginBottom: hp('1%'),
+  },
+});

@@ -1,4 +1,5 @@
 "use client"
+import React, { useState, useEffect } from "react"
 import { View, ScrollView, Text, StyleSheet, StatusBar, Platform } from "react-native"
 import { useLocalSearchParams, router } from "expo-router"
 import { Colors } from "../../../constants/Colors"
@@ -15,8 +16,10 @@ import { categories } from "../../../data/mockCategories"
 import profiles from "../../../data/mockProfiles"
 import { useProfileFiltering } from "../../../hooks/useProfileFiltering"
 import BackButton from "../../../components/BackButton"
+import { getUserData, isPremiumUser } from "../../../utils/storage";
 
 const service = () => {
+  const [premium, setPremium] = useState(false);
   const { label, icon, useFeather } = useLocalSearchParams()
 
   const initialService = label ? { label, icon, useFeather: useFeather === "true" } : null
@@ -31,6 +34,20 @@ const service = () => {
     getSelectedSubcategoriesArray,
     filteredProfiles,
   } = useProfileFiltering(profiles, initialService)
+
+  useEffect(() => {
+      const loadPremiumStatus = async () => {
+        try {
+          getUserData()
+          const premium = await isPremiumUser();
+          setPremium(premium);
+        } catch (error) {
+          console.error("Error loading premium status:", error);
+        }
+      };
+  
+      loadPremiumStatus();
+    }, []);
 
   // Función para navegar al perfil del profesional
   const handleProfilePress = (prof) => {
@@ -49,9 +66,6 @@ const service = () => {
       },
     })
   }
-
-
-  const isPremiumUser = false
 
   return (
     <View style={styles.safeArea}>
@@ -84,9 +98,7 @@ const service = () => {
 
         <FilterTags selectedSubcategories={getSelectedSubcategoriesArray()} />
 
-        <View style={styles.adContainer}>
-          <AdsImage onPress isPremium={isPremiumUser}/>
-        </View>
+        <AdsImage onPress isPremium={premium}/>
 
         <ProfileGrid
           profiles={filteredProfiles}

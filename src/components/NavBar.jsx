@@ -8,43 +8,58 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 import { Feather } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { Colors } from '../constants/Colors';
-import { getUserProfile } from '../utils/storage';
+import { getUserProfile, isUserLoggedIn } from '../utils/storage';
 
 const NavBar = () => {
   const [pressedIcon, setPressedIcon] = useState(null);
   const [userType, setUserType] = useState(null);
-  const router = useRouter(); 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
-    const fetchUserType = async () => {
+    const fetchData = async () => {
+      const logged = await isUserLoggedIn();
+      setIsLoggedIn(logged);
+
       const profile = await getUserProfile();
-      setUserType(profile?.userType || 'client');
+      setUserType(profile?.userType || null); 
     };
-    fetchUserType();
+    fetchData();
   }, []);
 
-  const renderItem = (icon, label, onPress) => {
-    const isPressed = pressedIcon === icon;
-
-    const TouchableComponent = onPress ? Pressable : TouchableOpacity;
-
-    return (
-      <TouchableComponent
-        style={styles.item}
-        activeOpacity={0.7}
-        onPressIn={() => setPressedIcon(icon)}
-        onPressOut={() => setPressedIcon(null)}
-        onPress={onPress} 
-      >
-        <Feather name={icon} size={23} color={isPressed ? Colors.orangeColor : 'white'} />
-        <Text style={[styles.label, { color: isPressed ? Colors.orangeColor : 'white' }]}>{label}</Text>
-      </TouchableComponent>
-    );
+  const handleProtectedRoute = (route) => {
+    if (!isLoggedIn) {
+      router.push('/auth/login'); 
+    } else {
+      router.push(route);
+    }
   };
 
-  const basePath = userType === 'professional' ? 'professional' : 'client';
-  // TODO: Cambiar estas lineas cuando esten listas la ruta del home de profesionales
-  //{renderItem('home', 'Inicio', () => router.push(`tabs/${basePath}/home`))}
+const renderItem = (icon, label, route, isHome = false) => {
+  const isPressed = pressedIcon === icon;
+
+  return (
+    <Pressable
+      style={styles.item}
+      onPressIn={() => setPressedIcon(icon)}
+      onPressOut={() => setPressedIcon(null)}
+      onPress={() => {
+        if (isHome) {
+          router.push(`tabs/client/home`);
+        } else if (route === 'chat') {
+          handleProtectedRoute(`tabs/chat`);
+        } else {
+          const basePath = userType === 'professional' ? 'professional' : 'client';
+          handleProtectedRoute(`tabs/${basePath}/${route}`);
+        }
+      }}
+    >
+      <Feather name={icon} size={23} color={isPressed ? Colors.orangeColor : 'white'} />
+      <Text style={[styles.label, { color: isPressed ? Colors.orangeColor : 'white' }]}>{label}</Text>
+    </Pressable>
+  );
+};
+
 
   return (
     <View style={styles.container}>

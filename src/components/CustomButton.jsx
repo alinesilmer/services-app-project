@@ -5,19 +5,18 @@
 
 import React from 'react';
 import { Text, StyleSheet, Pressable } from 'react-native';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Colors } from '../constants/Colors';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
 
-const CustomButton = ({ text, onPress, disabled = false }) => {
+const CustomButton = ({ text, onPress, width = '90%', backgroundColor}) => {
   return (
     <Pressable
-      onPress={disabled ? null : onPress}
-      disabled={disabled}
-      style={({ pressed }) => {
-        if (disabled) return [styles.button, styles.buttonDisabled];
-        if (pressed) return [styles.button, styles.buttonPressed];
-        return styles.button;
-      }}
+      onPress={onPress}
+      style={({ pressed }) => [
+        styles.button, backgroundColor && { backgroundColor },
+        { width}, 
+        pressed && styles.buttonPressed && { backgroundColor: Colors.orangeColor },
+      ]}
     >
       <Text style={[styles.text, disabled && styles.textDisabled]}>
         {text}
@@ -28,10 +27,9 @@ const CustomButton = ({ text, onPress, disabled = false }) => {
 
 const styles = StyleSheet.create({
   button: {
-    width: wp('90%'),
     backgroundColor: '#000',
-    padding: hp('2%'),
-    borderRadius: wp('2.5%'),
+    padding: 16,
+    borderRadius: 10,
     alignItems: 'center',
     marginVertical: hp('0,5%'),
   },
@@ -39,7 +37,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.orangeColor,
   },
   text: {
-    fontSize: wp('4%'),
+    fontSize: 16,
     color: 'white',
     fontWeight: 'bold',
   },
