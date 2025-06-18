@@ -73,8 +73,9 @@ const renderItem = (icon, label, route, isHome = false) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    height: hp(10),
+    display: "flex",
+    width: "100%",
+    height: hp(8),
     flexDirection: 'row',
     backgroundColor: Colors.blueColor,
     justifyContent: 'space-around',

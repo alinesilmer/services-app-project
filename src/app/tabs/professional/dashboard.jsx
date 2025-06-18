@@ -1,106 +1,106 @@
-  import React, { useState, useEffect } from 'react';
-  import { View, Text, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
-  import { StatusBar } from 'expo-status-bar';
-  import { useRouter } from 'expo-router';
-  import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-  import { ButtonGroup } from 'react-native-elements';
+"use client"
+import { useEffect } from "react"
+import { View, Text, StyleSheet, ScrollView, SafeAreaView } from "react-native"
+import { StatusBar } from "expo-status-bar"
+import { useRouter } from "expo-router"
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
 
-  import ProfilePic from '../../../components/ProfilePic';
-  import DisplayField from '../../../components/DisplayField';
-  import IconButton from '../../../components/IconButton';
-  import SlideUpCard from '../../../components/SlideUpCard';
-  import BackButton from '../../../components/BackButton';
-  import CustomButton from '../../../components/CustomButton';
-  import { useProfile } from '../../../hooks/useProfessionalProfile';
-  import { getUserProfile, saveUserProfile } from "../../../utils/storage";
-  import { Colors } from '../../../constants/Colors';
-  import BottomNavBar from '../../../components/NavBar';
-  import ModalWrapper from '../../../components/ModalWrapper';
-  import { getUserData, isPremiumProf, logoutUser } from "../../../utils/storage"
+import ProfilePic from "../../../components/ProfilePic"
+import DisplayField from "../../../components/DisplayField"
+import IconButton from "../../../components/IconButton"
+import SlideUpCard from "../../../components/SlideUpCard"
+import BackButton from "../../../components/BackButton"
+import CustomButton from "../../../components/CustomButton"
+import { useProfile } from "../../../hooks/useProfile"
+import { usePremium } from "../../../hooks/usePremium"
+import { Colors } from "../../../constants/Colors"
+import BottomNavBar from "../../../components/NavBar"
+import ModalWrapper from "../../../components/ModalWrapper"
+import { getUserData, logoutUser } from "../../../utils/storage"
 
-  export default function ProfileScreen() {
-    const router = useRouter();
-    const { data, formData, isModalVisible, openModal, closeModal, saveForm, updateFormData } = useProfile();
-    const [selectedIndex, setSelectedIndex] = useState(null);
-    const [isPremium, setIsPremium] = useState(false)
-    const [userProfile, setUserProfile] = useState(null);
+export default function ProfessionalProfileScreen() {
+  const router = useRouter()
+  const { data, formData, isModalVisible, openModal, closeModal, saveForm, updateFormData } = useProfile()
+  const { premium, daysRemaining } = usePremium()
 
-    useEffect(() => {
-      const fetchUserProfile = async () => {
-        try {
-          const profile = await getUserProfile();
-          if (profile) {
-            setUserProfile(profile);
-            console.log("Perfil cargado:", profile);
-          }
-        } catch (error) {
-          console.log("Error al obtener el perfil:", error);
-        }
-      };
-      fetchUserProfile();
-    }, []);
+  useEffect(() => {
+    getUserData()
+  }, [])
 
-    useEffect(() => {
-      getUserData()
-      const loadPremiumStatus = async () => {
-        try {
-          const premiumStatus = await isPremiumProf()
-          setIsPremium(premiumStatus)
-        } catch (error) {
-          console.error("Error loading premium status:", error)
-        }
-      }
-
-      loadPremiumStatus()
-    }, [])
-
-    if (!userProfile) {
-      return (
-        <SafeAreaView style={styles.safeArea}>
-          <StatusBar style="light" backgroundColor={Colors.primary} />
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ color: 'white', fontSize: 18 }}>Cargando perfil...</Text>
-          </View>
-        </SafeAreaView>
-      );
+  const getPremiumStatusText = () => {
+    if (premium.premiumStatus === "active" && premium.isPremiumProf) {
+      const planName = premium.premiumType === "estandar" ? "Estándar" : "Plus"
+      return `Premium ${planName}`
     }
+    return null
+  }
 
-    return (
-      <SafeAreaView style={styles.safeArea}>
-        <StatusBar style="light" backgroundColor={Colors.primary} />
-        <BackButton style={styles.backButton} />
-          <View style={styles.container}>
-            <View style={styles.mainContent}>
-            <SlideUpCard title="Mi Perfil"  style={styles.card}>
-              <IconButton
-                name="edit"
-                size={24}
-                color={Colors.textColor}
-                style={styles.editButton}
-                onPress={openModal}
-              />
-              <IconButton
-                name="message-circle"
-                size={24}
-                color={Colors.textColor}
-                style={styles.chatButton}
-                onPress={() => router.push('../chat')}
+  const getPremiumButtonText = () => {
+    if (premium.premiumStatus === "inactive") {
+      return "Obtener Premium Profesional"
+    } else if (premium.premiumStatus === "expired") {
+      return "Renovar Premium"
+    } else {
+      return "Gestionar Premium"
+    }
+  }
+
+  const handlePremiumAction = () => {
+    if (premium.premiumStatus === "inactive" || premium.premiumStatus === "expired") {
+      router.push("/tabs/professional/goPremiumProf")
+    } else {
+      router.push("/tabs/managePremium")
+    }
+  }
+
+  const isPremiumActive =
+    premium.isPremiumProf && (premium.premiumStatus === "active" || premium.premiumStatus === "trial")
+
+  return (
+    <SafeAreaView style={styles.safeArea}>
+      <StatusBar style="light" backgroundColor={Colors.primary} />
+      <BackButton style={styles.backButton} />
+      <View style={styles.container}>
+        <View style={styles.mainContent}>
+          <SlideUpCard title="Mi Perfil Profesional" style={styles.card}>
+            <IconButton name="edit" size={24} color={Colors.textColor} style={styles.editButton} onPress={openModal} />
+            <IconButton
+              name="message-circle"
+              size={24}
+              color={Colors.textColor}
+              style={styles.chatButton}
+              onPress={() => router.push("/tabs/professional/chat")}
+            />
+
+            <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+              <ProfilePic
+                uri={
+                  data.avatar ||
+                  "https://image.freepik.com/foto-gratis/hermosa-mujer-sobre-fondo-blanco_144627-2849.jpg"
+                }
+                size={wp("30%")}
+                style={styles.avatar}
               />
 
-              <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-                <ProfilePic
-                  uri={ userProfile?.avatar }
-                  size={wp('30%')}
-                  style={styles.avatar}
-                />
-                
+              <View style={styles.usernameView}>
                 <Text style={styles.name}>
-                  {userProfile.fullName}
-                  {isPremium && <Text style={styles.premiumBadge}> Premium</Text>}
-                  </Text>
+                  {data.fullName}
+                  {isPremiumActive && <Text style={styles.premiumBadge}> {getPremiumStatusText()}</Text>}
+                </Text>
+                <Text style={styles.profession}>{data.profesion || "Profesional"}</Text>
+              </View>
 
               <View style={styles.fieldWrapper}>
                 <DisplayField label="Email" value={data.email || "No especificado"} />
+              </View>
+              <View style={styles.fieldWrapper}>
+                <DisplayField label="Profesión" value={data.profesion || "No especificado"} />
+              </View>
+              <View style={styles.fieldWrapper}>
+                <DisplayField label="Descripción" value={data.descripcion || "No especificado"} />
+              </View>
+              <View style={styles.fieldWrapper}>
+                <DisplayField label="Disponibilidad" value={data.availability || "No especificado"} />
               </View>
               <View style={styles.fieldWrapper}>
                 <DisplayField label="Provincia" value={data.province || "No especificado"} />
@@ -111,182 +111,193 @@
               <View style={styles.fieldWrapper}>
                 <DisplayField label="Dirección" value={data.address || "No especificado"} />
               </View>
-              <View style={styles.fieldWrapper}>
-                <DisplayField label="Disponibilidad" value={data.availability || "No especificado"} />
+
+              {/* Premium Status Card for Professionals */}
+              {premium.premiumStatus !== "inactive" && premium.isPremiumProf && (
+                <View style={styles.premiumStatusCard}>
+                  <Text style={styles.premiumStatusTitle}>Estado Premium Profesional:</Text>
+                  <Text style={styles.premiumStatusText}>
+                    {premium.premiumStatus === "active" && "✅ Activo"}
+                    {premium.premiumStatus === "paused" && "⏸️ Pausado"}
+                    {premium.premiumStatus === "cancelled" && "❌ Cancelado"}
+                    {premium.premiumStatus === "expired" && "⏰ Expirado"}
+                  </Text>
+                  {premium.planDetails && (
+                    <>
+                      <Text style={styles.planDetailsText}>
+                        Plan: {premium.premiumType === "estandar" ? "Estándar" : "Plus"}
+                      </Text>
+                      <Text style={styles.planDetailsText}>
+                        Precio: ${premium.premiumType === "estandar" ? "2" : "5"} USD/mes
+                      </Text>
+                    </>
+                  )}
+                  {premium.premiumEndDate && (
+                    <Text style={styles.expirationText}>
+                      Renovación: {new Date(premium.premiumEndDate).toLocaleDateString()}
+                    </Text>
+                  )}
+                </View>
+              )}
+
+              <View style={styles.buttonContainer}>
+                <CustomButton
+                  text={getPremiumButtonText()}
+                  onPress={handlePremiumAction}
+                  style={[
+                    styles.customButton,
+                    {
+                      backgroundColor:
+                        premium.premiumStatus === "inactive" || premium.premiumStatus === "expired"
+                          ? Colors.orangeColor
+                          : Colors.blueColor,
+                    },
+                  ]}
+                />
               </View>
 
-              <ButtonGroup
-                buttons={['Ver Servicios', 'Ver Calificaciones']}
-                selectedIndex={selectedIndex}
-                onPress={(index) => {
-                  setSelectedIndex(index);
-                  if (index === 0) {
-                    <CustomButton text="Ver Servicios" onPress={router.push('tabs/professional/services')} />
-                  } else if (index === 1) {
-                    <CustomButton text="Ver Calificaciones" onPress={router.push('tabs/professional/rateScreen')} />
-                  }
-                }}
-                containerStyle={styles.buttonGroupContainer}
-                buttonStyle={styles.buttonGroupButton}
-                textStyle={styles.buttonGroupText}
-                selectedButtonStyle={styles.buttonGroupSelectedButton}
-                selectedTextStyle={styles.buttonGroupSelectedText}
-              />
-
-            <View style={styles.buttonContainer}>
-              <CustomButton 
-                text="Cerrar Sesión" 
-                onPress={() => {
-                    console.log('Cerrando sesión...')
+              <View style={styles.buttonContainer}>
+                <CustomButton
+                  text="Cerrar Sesión"
+                  onPress={() => {
+                    console.log("Cerrando sesión...")
                     logoutUser()
-                    router.replace('../welcome')
+                    router.replace("/welcome")
                   }}
-                backgroundColor="#DC3545"
-                style={styles.customBotton}
-              />
-            </View>
-
-            <View style={styles.buttonContainer}>
-              <CustomButton 
-                text="Cancelar Suscripción" 
-                onPress={() => {
-                    router.replace('../cancelation')
-                  }}
-                style={styles.customBotton}
-              />
-            </View>
-          </ScrollView>
+                  backgroundColor="#DC3545"
+                  style={styles.customButton}
+                />
+              </View>
+            </ScrollView>
           </SlideUpCard>
         </View>
 
-          <ModalWrapper
+        <ModalWrapper
           visible={isModalVisible}
-          title="Editar perfil"
+          title="Editar perfil profesional"
           onCancel={closeModal}
           onSubmit={saveForm}
           cancelLabel="Cancelar"
           submitLabel="Guardar"
-          >
-            <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
-              <DisplayField
-                label="Nombre completo"
-                value={formData.fullName}
-                editable
-                onChangeText={(text) => {
-                  updateFormData('fullName', text)
-                  setUserProfile((prev) => ({ ...prev, fullName: text }));
-                  saveUserProfile({ ...userProfile, fullName: text });
-                }}
-              />
-              <DisplayField
-                label="Email"
-                value={formData.email}
-                editable
-                onChangeText={(text) => {
-                  updateFormData('email', text)
-                  setUserProfile((prev) => ({ ...prev, email: text }));
-                  saveUserProfile({ ...userProfile, email: text });
-                }}
-              />
-              <DisplayField
-                label="Provincia"
-                value={formData.province}
-                editable
-                onChangeText={(text) => {
-                  updateFormData('province', text)
-                  setUserProfile((prev) => ({ ...prev, province: text }));
-                  saveUserProfile({ ...userProfile, province: text });
-                }}
-              />
-              <DisplayField
-                label="Ciudad"
-                value={formData.department}
-                editable
-                onChangeText={(text) => {
-                  updateFormData('department', text)
-                  setUserProfile((prev) => ({ ...prev, department: text }));
-                  saveUserProfile({ ...userProfile, department: text });
-                }}
-              />
-              <DisplayField
-                label="Dirección"
-                value={formData.address}
-                editable
-                onChangeText={(text) => {
-                  updateFormData('address', text)
-                  setUserProfile((prev) => ({ ...prev, address: text }));
-                  saveUserProfile({ ...userProfile, address: text });
-                }}
-              />
-              <DisplayField
-                label="Disponibilidad"
-                value={formData.availability}
-                editable
-                onChangeText={(text) => {
-                  updateFormData('availability', text)
-                  setUserProfile((prev) => ({ ...prev, availability: text }));
-                  saveUserProfile({ ...userProfile, availability: text });
-                }}
-              />
-            </ScrollView>
-          </ModalWrapper>
+        >
+          <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
+            <DisplayField
+              label="Nombre completo"
+              value={formData.fullName}
+              editable
+              onChangeText={(text) => updateFormData("fullName", text)}
+            />
+            <DisplayField
+              label="Email"
+              value={formData.email}
+              editable
+              onChangeText={(text) => updateFormData("email", text)}
+            />
+            <DisplayField
+              label="Profesión"
+              value={formData.profesion}
+              editable
+              onChangeText={(text) => updateFormData("profesion", text)}
+            />
+            <DisplayField
+              label="Descripción"
+              value={formData.descripcion}
+              editable
+              onChangeText={(text) => updateFormData("descripcion", text)}
+            />
+            <DisplayField
+              label="Disponibilidad"
+              value={formData.availability}
+              editable
+              onChangeText={(text) => updateFormData("availability", text)}
+            />
+            <DisplayField
+              label="Provincia"
+              value={formData.province}
+              editable
+              onChangeText={(text) => updateFormData("province", text)}
+            />
+            <DisplayField
+              label="Ciudad"
+              value={formData.department}
+              editable
+              onChangeText={(text) => updateFormData("city", text)}
+            />
+            <DisplayField
+              label="Dirección"
+              value={formData.address}
+              editable
+              onChangeText={(text) => updateFormData("address", text)}
+            />
+          </ScrollView>
+        </ModalWrapper>
         <BottomNavBar />
-        </View>
-      </SafeAreaView>
-    );
-  }
+      </View>
+    </SafeAreaView>
+  )
+}
 
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: Colors.blueColor,
-    paddingTop: hp('1%')
+    paddingTop: hp("1.5%"),
   },
   container: {
     flex: 1,
-    backgroundColor: Colors.blueColor
+    backgroundColor: Colors.blueColor,
   },
   mainContent: {
     flex: 1,
-    justifyContent: 'flex-start'
+    justifyContent: "flex-start",
   },
   card: {
     flex: 1,
-    width: wp('100%'),
-    backgroundColor: 'white',
-    paddingTop: hp('2%'),
-    paddingHorizontal: wp('5%'),
-    paddingBottom: hp('2%'),
-    shadowColor: 'black',
+    backgroundColor: "white",
+    paddingTop: hp("4%"),
+    paddingHorizontal: wp("5%"),
+    paddingBottom: hp("2%"),
+    shadowColor: "black",
     shadowOffset: { width: 0, height: -4 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 10,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    alignItems: 'center',
-    marginTop: hp('16%'),
-    marginBottom: hp('1%')
+    alignItems: "center",
+    marginTop: hp("15%"),
   },
   scrollContent: {
-    alignItems: 'flex-start',
-    paddingBottom: hp('6%'),
-    paddingHorizontal: wp('2%'), 
-    width: '100%',
+    alignItems: "center",
+    paddingBottom: hp("6%"),
+    paddingHorizontal: wp("2%"),
+    width: wp("90%"),
     flexGrow: 1,
   },
   avatar: {
-    marginTop: hp('2%'),
+    marginTop: hp("2%"),
     borderWidth: 4,
-    borderColor: 'white',
+    borderColor: "white",
+  },
+  usernameView: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   name: {
-    marginTop: hp('1.5%'),
-    marginBottom: hp('2%'),
-    fontSize: wp('5.5%'),
-    fontWeight: '700',
-    color: 'black',
-    textAlign: 'center'
+    marginTop: hp("1.5%"),
+    marginBottom: hp("0.5%"),
+    fontSize: wp("5.5%"),
+    fontWeight: "700",
+    color: "black",
+    textAlign: "center",
+  },
+  profession: {
+    fontSize: wp("4%"),
+    color: Colors.grayColor,
+    textAlign: "center",
+    marginBottom: hp("2%"),
+    fontStyle: "italic",
   },
   premiumBadge: {
     fontSize: wp("4%"),
@@ -294,58 +305,64 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   fieldWrapper: {
-    width: '100%',
+    width: "100%",
     maxWidth: 400,
-    marginBottom: hp('2%'),
-    display: 'flex',
-    justifyContent: 'flex-start',
-    flexDirection: 'column'
+    marginBottom: hp("2%"),
+    display: "flex",
+    justifyContent: "flex-start",
+    flexDirection: "column",
   },
   editButton: {
-    position: 'absolute',
-    top: hp('3%'),
-    right: wp('6%'),
-    zIndex: 10
+    position: "absolute",
+    top: hp("3%"),
+    right: wp("6%"),
+    zIndex: 10,
   },
   chatButton: {
-    position: 'absolute',
-    top: hp('3%'),
-    left: wp('6%'),
-    zIndex: 10
+    position: "absolute",
+    top: hp("3%"),
+    left: wp("6%"),
+    zIndex: 10,
   },
-  customBotton: {
-    marginTop: hp('20%'),
-    width: '100%'
-  },
-  buttonGroupContainer: {
-    marginTop: hp('3%'),
-    borderRadius: 10,
-    borderColor: Colors.blueColor,
-    borderWidth: 1,
-    width: wp('80%'),
-    maxWidth: wp('100%'),
-    alignSelf: 'center',
-    backgroundColor: Colors.whiteColor,
-  },
-  buttonGroupButton: {
-    backgroundColor: Colors.whiteColor,
-    borderColor: Colors.orangeColor,
-  },
-  buttonGroupText: {
-    color: Colors.orangeColor,
-    fontWeight: '700',
-  },
-  buttonGroupSelectedButton: {
-    backgroundColor: Colors.orangeColor,
-  },
-  buttonGroupSelectedText: {
-    color: Colors.whiteColor,
-    fontWeight: 'bold',
+  customButton: {
+    marginTop: hp("2%"),
+    width: "100%",
   },
   buttonContainer: {
-    width: wp('90%'),
-    alignItems: 'center',
-    marginTop: hp('1%'),
-    marginBottom: hp('1%'),
+    width: wp("90%"),
+    alignItems: "center",
+    marginTop: hp("1%"),
+    marginBottom: hp("1%"),
   },
-});
+  premiumStatusCard: {
+    backgroundColor: Colors.lightGray,
+    padding: wp("4%"),
+    borderRadius: wp("3%"),
+    marginVertical: hp("2%"),
+    width: "100%",
+    alignItems: "center",
+  },
+  premiumStatusTitle: {
+    fontSize: wp("4.5%"),
+    fontWeight: "bold",
+    color: Colors.dark,
+    marginBottom: hp("1%"),
+  },
+  premiumStatusText: {
+    fontSize: wp("4%"),
+    color: Colors.dark,
+    marginBottom: hp("0.5%"),
+    textAlign: "center",
+  },
+  planDetailsText: {
+    fontSize: wp("3.5%"),
+    color: Colors.grayColor,
+    marginBottom: hp("0.5%"),
+    textAlign: "center",
+  },
+  expirationText: {
+    fontSize: wp("3.5%"),
+    color: Colors.grayColor,
+    textAlign: "center",
+  },
+})

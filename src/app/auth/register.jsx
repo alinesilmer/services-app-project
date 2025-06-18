@@ -158,6 +158,7 @@ export default function Register() {
                 change("birthdate", selected)
               }}
             />
+            {errors.birthdate && <Text style={styles.errorText}>{errors.birthdate}</Text>}
 
             <View style={styles.checkboxContainer}>
               <CheckBox
@@ -173,7 +174,9 @@ export default function Register() {
 
             {errors.acceptTerms && <Text style={styles.errorText}>{errors.acceptTerms}</Text>}
 
-            <CustomButton text="Registrarme" onPress={onRegister} disabled={loading} />
+            <View style={styles.registerButtonContainer}>
+              <CustomButton text="Registrarme" onPress={onRegister} disabled={loading} />
+              </View>
 
             <Text style={styles.simpleText}>¿Ya estás registrado?</Text>
             <Pressable onPress={LoginRoute}>
@@ -251,6 +254,11 @@ const styles = StyleSheet.create({
   checkboxText: {
     color: Colors.textColor,
     marginLeft: 10,
+  },
+  registerButtonContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
   errorText: {
     color: "red",

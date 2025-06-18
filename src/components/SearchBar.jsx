@@ -12,10 +12,12 @@ const SearchBar = ({ value, onChangeText, placeholder }) => {
         value={value}
         onChangeText={onChangeText}
         placeholderTextColor="#999"
+        autoCorrect={false}
+        autoCapitalize="none"
       />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -26,6 +28,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     height: 40,
     elevation: 3,
+    marginBottom: 10
   },
   icon: {
     marginLeft: 15,

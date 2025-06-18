@@ -56,7 +56,7 @@ const ProfileDetail = () => {
 
   const handleMessagePress = () => {
     router.push({
-      pathname: "/tabs/chat",
+      pathname: "/professional/chat",
       params: {
         professionalId: params.profileId,
         professionalName: params.nombre,

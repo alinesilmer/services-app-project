@@ -1,47 +1,84 @@
-// Notifications: BELL ICON (home) that toggles a dropdown list of notifications on press.
-// Manages internal state isDropped.
-//------------------------------------------------------------------//
-
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { Feather } from '@expo/vector-icons';
 
 const Notifications = () => {
-    const [isDropped, setDropped] = useState(false);
+  const [isDropped, setDropped] = useState(false);
+  const [notifications, setNotifications] = useState([]);
 
-    const handleDropdown = () => {
-        setDropped(prev => !prev);
+  const appointments = [
+    {
+      id: "1",
+      professionalName: "Martin Gonzalez",
+      profession: "Limpieza",
+      date: new Date("2024-08-17"),
+      time: "15:00",
+    },
+    {
+      id: "2",
+      professionalName: "Ana García",
+      profession: "Electricista",
+      date: new Date("2024-08-20"),
+      time: "12:00",
+    },
+  ];
+
+  useEffect(() => {
+    const generated = appointments.map((b, index) => ({
+      id: index + 1,
+      read: false,
+      message: `Tu turno con ${b.professionalName} (${b.profession}) fue confirmado para el ${b.date.toLocaleDateString()} a las ${b.time}.`,
+    }));
+    setNotifications(generated);
+  }, []);
+
+  const handleDropdown = () => {
+    setDropped(prev => !prev);
+
+    if (!isDropped) {
+      setNotifications(prev =>
+        prev.map(n => ({ ...n, read: true }))
+      );
     }
+  };
 
-    return (
-        <View style={styles.wrapper}>
-            <Pressable onPress={handleDropdown}>
-                <Feather name="bell" size={26} color="white" style={styles.bellIcon} />
-            </Pressable>
+  const unreadCount = notifications.filter(n => !n.read).length;
 
-            {isDropped && (
-                <View style={styles.dropdown}>
-                    <Text style={styles.title}>Notificaciones</Text>
-                    <Text style={styles.notification}>Ramón Cruz aceptó tu turno.</Text>
-                    <Text style={styles.notification}>Joaquín Villalba canceló tu solicitud.</Text>
-                    <Text style={styles.notification}>Nahuel Silva canceló tu solicitud.</Text>
-                </View>
-            )}
+  return (
+    <View style={styles.wrapper}>
+      <Pressable onPress={handleDropdown}>
+        <Feather name="bell" size={26} color="white" style={styles.bellIcon} />
+        {unreadCount > 0 && (
+          <View style={styles.badge}>
+            <Text style={styles.badgeText}>{unreadCount}</Text>
+          </View>
+        )}
+      </Pressable>
+
+      {isDropped && (
+        <View style={styles.dropdown}>
+          <Text style={styles.title}>Notificaciones</Text>
+          {notifications.length === 0 ? (
+            <Text style={styles.notification}>No hay notificaciones nuevas.</Text>
+          ) : (
+            notifications.map(n => (
+              <Text key={n.id} style={styles.notification}>
+                {n.message}
+              </Text>
+            ))
+          )}
         </View>
-    );
+      )}
+    </View>
+  );
 };
 
 export default Notifications;
 
 const styles = StyleSheet.create({
-  wrapper: {
-    position: 'relative',
-    zIndex: 999,
-  },
-  bellIcon: {
-    marginLeft: wp(2.5),
-  },
+  wrapper: { position: 'relative', zIndex: 999 },
+  bellIcon: { marginLeft: wp(2.5) },
   dropdown: {
     position: 'absolute',
     top: hp(4),
@@ -69,5 +106,19 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#e0e0e0',
     paddingBottom: hp(0.5),
+  },
+  badge: {
+    position: 'absolute',
+    top: -4,
+    right: -4,
+    backgroundColor: 'red',
+    borderRadius: 10,
+    paddingHorizontal: 5,
+    paddingVertical: 2,
+  },
+  badgeText: {
+    color: 'white',
+    fontSize: 10,
+    fontWeight: 'bold',
   },
 });

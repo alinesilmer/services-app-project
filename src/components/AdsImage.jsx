@@ -9,7 +9,7 @@ const AdsImage = ({ onPress, style, isPremium }) => {
 
   const router = useRouter();
   const handleAdClick = () => {
-    router.push("/tabs/client/goPremium")
+    router.push(".../client/goPremium")
   }
 
   const adsImages = [
