@@ -6,15 +6,17 @@ import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, Pressable } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { Feather } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
+import { useRouter, usePathname } from 'expo-router';
 import { Colors } from '../constants/Colors';
 import { getUserProfile, isUserLoggedIn } from '../utils/storage';
 
 const NavBar = () => {
-  const [pressedIcon, setPressedIcon] = useState(null);
   const [userType, setUserType] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
+  const [activatedNavBarOption, setActivatedNavBarOption] = useState('home');
+  const mainRoutes = ['home', 'chat', 'myAppointments', 'dashboard'];
+  const pathname = usePathname();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,30 +37,35 @@ const NavBar = () => {
     }
   };
 
-const renderItem = (icon, label, route, isHome = false) => {
-  const isPressed = pressedIcon === icon;
+  const getActiveNavOption = () => {
+    const found = mainRoutes.find(route => pathname.includes(route));
+    return found || activatedNavBarOption;
+  }
 
-  return (
-    <Pressable
+  const renderItem = (icon, label, route, isHome = false) => {
+    const activeRoute = getActiveNavOption();
+    
+    const isActive = route === activeRoute;
+    const iconColor = isActive ? Colors.orangeColor : 'white';
+    
+    return (
+      <Pressable
       style={styles.item}
-      onPressIn={() => setPressedIcon(icon)}
-      onPressOut={() => setPressedIcon(null)}
       onPress={() => {
-        if (isHome) {
-          router.push(`tabs/client/home`);
-        } else if (route === 'chat') {
-          handleProtectedRoute(`tabs/chat`);
-        } else {
-          const basePath = userType === 'professional' ? 'professional' : 'client';
-          handleProtectedRoute(`tabs/${basePath}/${route}`);
-        }
-      }}
-    >
-      <Feather name={icon} size={23} color={isPressed ? Colors.orangeColor : 'white'} />
-      <Text style={[styles.label, { color: isPressed ? Colors.orangeColor : 'white' }]}>{label}</Text>
-    </Pressable>
-  );
-};
+          setActivatedNavBarOption(route);
+          if (route === 'chat') {
+            handleProtectedRoute(`tabs/chat`);
+          } else {
+            const basePath = userType === 'professional' ? 'professional' : 'client';
+            handleProtectedRoute(`tabs/${basePath}/${route}`);
+          }
+        }}
+      >
+        <Feather name={icon} size={23} color={iconColor} />
+        <Text style={[styles.label, { color: iconColor }]}>{label}</Text>
+      </Pressable>
+    );
+  };
 
 
   return (
