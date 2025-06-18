@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  currentUserId: null,
   isPremium: false,
   isPremiumProf: false,
   premiumType: null,
@@ -16,8 +17,27 @@ const premiumSlice = createSlice({
   name: "premium",
   initialState,
   reducers: {
+    resetPremiumState: (state) => {
+      return { ...initialState };
+    },
+
+    initializePremiumForUser: (state, action) => {
+      const { userId, premiumData } = action.payload;
+
+      if (state.currentUserId && state.currentUserId !== userId) {
+        Object.assign(state, initialState);
+      }
+
+      state.currentUserId = userId;
+
+      if (premiumData) {
+        Object.assign(state, premiumData, { currentUserId: userId });
+      }
+    },
+
     setPremiumStatus: (state, action) => {
       const {
+        userId,
         isPremium,
         isPremiumProf,
         premiumType,
@@ -28,6 +48,10 @@ const premiumSlice = createSlice({
         trialUsed,
       } = action.payload;
 
+      if (userId && state.currentUserId !== userId) {
+        return;
+      }
+
       state.isPremium = isPremium || false;
       state.isPremiumProf = isPremiumProf || false;
       state.premiumType = premiumType;
@@ -37,8 +61,14 @@ const premiumSlice = createSlice({
       state.planDetails = planDetails;
       state.trialUsed = trialUsed || state.trialUsed;
     },
+
     activatePremium: (state, action) => {
-      const { premiumType, planDetails, userType } = action.payload;
+      const { premiumType, planDetails, userType, userId } = action.payload;
+
+      if (userId && state.currentUserId !== userId) {
+        return;
+      }
+
       const startDate = new Date().toISOString();
       const endDate = new Date();
 
@@ -57,7 +87,6 @@ const premiumSlice = createSlice({
         endDate.setFullYear(endDate.getFullYear() + 1);
         state.premiumStatus = "active";
       } else if (premiumType === "Empresarial") {
-        // Enterprise plans typically have custom terms
         endDate.setFullYear(endDate.getFullYear() + 1);
         state.premiumStatus = "active";
       }
@@ -74,15 +103,28 @@ const premiumSlice = createSlice({
         state.isPremium = true;
       }
     },
+
     pausePremium: (state, action) => {
-      const { pauseDuration = 6 } = action.payload;
+      const { pauseDuration = 6, userId } = action.payload;
+
+      if (userId && state.currentUserId !== userId) {
+        return;
+      }
+
       const pausedUntil = new Date();
       pausedUntil.setMonth(pausedUntil.getMonth() + pauseDuration);
 
       state.premiumStatus = "paused";
       state.pausedUntil = pausedUntil.toISOString();
     },
-    resumePremium: (state) => {
+
+    resumePremium: (state, action) => {
+      const { userId } = action.payload || {};
+
+      if (userId && state.currentUserId !== userId) {
+        return;
+      }
+
       state.premiumStatus =
         state.trialUsed && state.premiumType === "Prueba" ? "trial" : "active";
       state.pausedUntil = null;
@@ -98,19 +140,39 @@ const premiumSlice = createSlice({
         }
       }
     },
-    cancelPremium: (state) => {
+
+    cancelPremium: (state, action) => {
+      const { userId } = action.payload || {};
+
+      if (userId && state.currentUserId !== userId) {
+        return;
+      }
+
       state.premiumStatus = "cancelled";
       state.isPremium = false;
       state.isPremiumProf = false;
       state.pausedUntil = null;
     },
-    expirePremium: (state) => {
+
+    expirePremium: (state, action) => {
+      const { userId } = action.payload || {};
+
+      if (userId && state.currentUserId !== userId) {
+        return;
+      }
+
       state.premiumStatus = "expired";
       state.isPremium = false;
       state.isPremiumProf = false;
     },
+
     renewPremium: (state, action) => {
-      const { premiumType } = action.payload;
+      const { premiumType, userId } = action.payload;
+
+      if (userId && state.currentUserId !== userId) {
+        return;
+      }
+
       const startDate = new Date().toISOString();
       const endDate = new Date();
 
@@ -125,8 +187,14 @@ const premiumSlice = createSlice({
       state.premiumEndDate = endDate.toISOString();
       state.isPremium = true;
     },
+
     upgradeFromTrial: (state, action) => {
-      const { premiumType, planDetails } = action.payload;
+      const { premiumType, planDetails, userId } = action.payload;
+
+      if (userId && state.currentUserId !== userId) {
+        return;
+      }
+
       const endDate = new Date();
 
       if (premiumType === "Mensual") {
@@ -144,6 +212,8 @@ const premiumSlice = createSlice({
 });
 
 export const {
+  resetPremiumState,
+  initializePremiumForUser,
   setPremiumStatus,
   activatePremium,
   pausePremium,

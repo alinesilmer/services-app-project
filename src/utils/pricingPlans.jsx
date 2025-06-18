@@ -15,19 +15,68 @@ export const professionalPlans = {
   ],
 }
 
+// Client plans for personal users
+export const clientPlans = {
+  headers: ["", "BÁSICO", "PREMIUM"],
+  rows: [
+    { id: "price", label: "Precio", values: ["4.99 US$/mes", "9.99 US$/mes"] },
+    { id: "ads", label: "Sin Publicidad", values: ["❌", "✅"] },
+    { id: "features", label: "Funciones Premium", values: ["Limitadas", "Completas"] },
+    { id: "support", label: "Soporte", values: ["Básico", "Prioritario"] },
+  ],
+}
+
 export const getPlanDetails = (planId) => {
+  // Check client plans first
   const clientPlan = pricingPlans.find((plan) => plan.id === planId)
   if (clientPlan) return clientPlan
 
-  if (planId === "estandar" || planId === "plus") {
-    const idx = planId === "estandar" ? 0 : 1
+  // Handle professional plans
+  if (planId === "estandar") {
     return {
-      id: planId,
-      label: planId === "estandar" ? "Plan Estándar" : "Plan Plus",
-      price: planId === "estandar" ? 2 : 5,
+      id: "estandar",
+      label: "Plan Estándar",
+      price: 2,
       features: professionalPlans.rows.map((row) => ({
         feature: row.label,
-        value: row.values[idx],
+        value: row.values[0],
+      })),
+    }
+  }
+
+  if (planId === "plus") {
+    return {
+      id: "plus",
+      label: "Plan Plus",
+      price: 5,
+      features: professionalPlans.rows.map((row) => ({
+        feature: row.label,
+        value: row.values[1],
+      })),
+    }
+  }
+
+  // Handle client premium plans
+  if (planId === "basico") {
+    return {
+      id: "basico",
+      label: "Plan Básico",
+      price: 4.99,
+      features: clientPlans.rows.map((row) => ({
+        feature: row.label,
+        value: row.values[0],
+      })),
+    }
+  }
+
+  if (planId === "premium") {
+    return {
+      id: "premium",
+      label: "Plan Premium",
+      price: 9.99,
+      features: clientPlans.rows.map((row) => ({
+        feature: row.label,
+        value: row.values[1],
       })),
     }
   }
@@ -45,6 +94,10 @@ export const getPricingPlans = () => {
   return pricingPlans
 }
 
+export const getClientPlans = () => {
+  return clientPlans
+}
+
 export const getProfessionalPlans = () => {
   return professionalPlans
 }
@@ -54,5 +107,5 @@ export const isProfessionalPlan = (planId) => {
 }
 
 export const isClientPlan = (planId) => {
-  return pricingPlans.some((plan) => plan.id === planId)
+  return pricingPlans.some((plan) => plan.id === planId) || planId === "basico" || planId === "premium"
 }

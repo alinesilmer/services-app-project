@@ -16,11 +16,7 @@ const Ad = ({ visible, onClose, source, type = "image" }) => {
 
   const handleGoPremium = () => {
     onClose()
-    if (user?.userType === "professional") {
-      router.push("/tabs/professional/goPremiumProf")
-    } else {
-      router.push("/tabs/client/goPremium")
-    }
+    router.push("/auth/goPremium")
   }
 
   return (

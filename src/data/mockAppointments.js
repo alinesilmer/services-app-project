@@ -1,11 +1,16 @@
-// data/mockAppointments.js
-const appointments = [
+export default [
   {
     id: "1",
     professionalName: "Martin Gonzalez",
     profession: "Limpieza",
     date: new Date("2024-08-17"),
     time: "15:00",
+    timeLabel: "B",
+    availability: "Lunes a Viernes, 10:00 - 18:00",
+    professionalId: "prof_1",
+    location: "En local",
+    estado: "CONFIRMADO",
+    createdAt: "2024-01-15T10:00:00.000Z",
   },
   {
     id: "2",
@@ -13,7 +18,11 @@ const appointments = [
     profession: "Electricista",
     date: new Date("2024-08-20"),
     time: "12:00",
+    timeLabel: "A",
+    availability: "Lunes a Sábado, 08:00 - 17:00",
+    professionalId: "prof_2",
+    location: "A domicilio",
+    estado: "CONFIRMADO",
+    createdAt: "2024-01-16T14:30:00.000Z",
   },
 ];
-
-export default appointments;

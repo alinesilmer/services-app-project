@@ -3,7 +3,8 @@
 import { useSelector, useDispatch } from "react-redux"
 import { useEffect } from "react"
 import {
-  setPremiumStatus,
+  resetPremiumState,
+  initializePremiumForUser,
   activatePremium,
   pausePremium,
   resumePremium,
@@ -12,29 +13,36 @@ import {
   renewPremium,
   upgradeFromTrial,
 } from "../redux/slices/premiumSlice"
-import { setPremiumStatus as setStoragePremiumStatus, setPremiumProfStatus, isPremiumUser, isPremiumProf } from "../utils/storage"
+import {
+  saveUserPremiumData,
+  getUserPremiumData,
+  setPremiumStatus as setStoragePremiumStatus,
+  setPremiumProfStatus,
+} from "../utils/storage"
 
 export function usePremium() {
   const dispatch = useDispatch()
   const premium = useSelector((state) => state.premium)
   const user = useSelector((state) => state.auth.user)
 
+  const getUserId = () => {
+    return user?.email || user?.id || "default"
+  }
+
   const initializePremium = async () => {
     try {
-      const isPremium = await isPremiumUser()
-      const isPremiumProfessional = await isPremiumProf()
+      const userId = getUserId()
 
-      if ((isPremium || isPremiumProfessional) && !premium.premiumStatus) {
-        dispatch(
-          setPremiumStatus({
-            isPremium,
-            isPremiumProf: isPremiumProfessional,
-            premiumStatus: "active",
-            premiumStartDate: new Date().toISOString(),
-            premiumEndDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), 
-          }),
-        )
-      }
+      const userPremiumData = await getUserPremiumData(userId)
+
+      dispatch(
+        initializePremiumForUser({
+          userId,
+          premiumData: userPremiumData,
+        }),
+      )
+
+      console.log(`Premium initialized for user: ${userId}`, userPremiumData)
     } catch (error) {
       console.error("Error initializing premium:", error)
     }
@@ -42,23 +50,50 @@ export function usePremium() {
 
   const syncWithStorage = async () => {
     try {
-      await setStoragePremiumStatus(premium.isPremium)
-      await setPremiumProfStatus(premium.isPremiumProf)
+      const userId = getUserId()
+
+      const premiumDataToSave = {
+        isPremium: premium.isPremium,
+        isPremiumProf: premium.isPremiumProf,
+        premiumType: premium.premiumType,
+        premiumStatus: premium.premiumStatus,
+        premiumStartDate: premium.premiumStartDate,
+        premiumEndDate: premium.premiumEndDate,
+        pausedUntil: premium.pausedUntil,
+        planDetails: premium.planDetails,
+        trialUsed: premium.trialUsed,
+      }
+
+      await saveUserPremiumData(userId, premiumDataToSave)
+
+      // Also update legacy storage for backward compatibility
+      await setStoragePremiumStatus(premium.isPremium, userId)
+      await setPremiumProfStatus(premium.isPremiumProf, userId)
+
+      console.log(`Premium data synced for user: ${userId}`)
     } catch (error) {
       console.error("Error syncing premium with storage:", error)
     }
   }
 
+  const resetPremium = () => {
+    dispatch(resetPremiumState())
+  }
+
   const subscribeToPremium = async (planType, planDetails) => {
     try {
+      const userId = getUserId()
       const userType = user?.userType || "client"
+
       dispatch(
         activatePremium({
           premiumType: planType,
           planDetails,
           userType,
+          userId,
         }),
       )
+
       await syncWithStorage()
       return { success: true }
     } catch (error) {
@@ -73,14 +108,18 @@ export function usePremium() {
         return { success: false, error: "Ya has usado tu prueba gratuita" }
       }
 
+      const userId = getUserId()
       const userType = user?.userType || "client"
+
       dispatch(
         activatePremium({
           premiumType: "Prueba",
           planDetails: { planName: "Prueba de 7 días gratis", price: 0 },
           userType,
+          userId,
         }),
       )
+
       await syncWithStorage()
       return { success: true }
     } catch (error) {
@@ -91,7 +130,16 @@ export function usePremium() {
 
   const upgradeFromTrialToPaid = async (planType, planDetails) => {
     try {
-      dispatch(upgradeFromTrial({ premiumType: planType, planDetails }))
+      const userId = getUserId()
+
+      dispatch(
+        upgradeFromTrial({
+          premiumType: planType,
+          planDetails,
+          userId,
+        }),
+      )
+
       await syncWithStorage()
       return { success: true }
     } catch (error) {
@@ -102,7 +150,15 @@ export function usePremium() {
 
   const pausePremiumPlan = async (duration = 6) => {
     try {
-      dispatch(pausePremium({ pauseDuration: duration }))
+      const userId = getUserId()
+
+      dispatch(
+        pausePremium({
+          pauseDuration: duration,
+          userId,
+        }),
+      )
+
       await syncWithStorage()
       return { success: true }
     } catch (error) {
@@ -113,7 +169,9 @@ export function usePremium() {
 
   const resumePremiumPlan = async () => {
     try {
-      dispatch(resumePremium())
+      const userId = getUserId()
+
+      dispatch(resumePremium({ userId }))
       await syncWithStorage()
       return { success: true }
     } catch (error) {
@@ -124,7 +182,9 @@ export function usePremium() {
 
   const cancelPremiumPlan = async () => {
     try {
-      dispatch(cancelPremium())
+      const userId = getUserId()
+
+      dispatch(cancelPremium({ userId }))
       await syncWithStorage()
       return { success: true }
     } catch (error) {
@@ -135,7 +195,15 @@ export function usePremium() {
 
   const renewPremiumPlan = async (planType) => {
     try {
-      dispatch(renewPremium({ premiumType: planType }))
+      const userId = getUserId()
+
+      dispatch(
+        renewPremium({
+          premiumType: planType,
+          userId,
+        }),
+      )
+
       await syncWithStorage()
       return { success: true }
     } catch (error) {
@@ -144,11 +212,13 @@ export function usePremium() {
     }
   }
 
+  // Check if premium is expired
   const isExpired = () => {
     if (!premium.premiumEndDate) return false
     return new Date() > new Date(premium.premiumEndDate)
   }
 
+  // Check if premium is paused and should be resumed
   const shouldResume = () => {
     if (premium.premiumStatus !== "paused") return false
     if (!premium.pausedUntil) return false
@@ -170,27 +240,33 @@ export function usePremium() {
 
   useEffect(() => {
     const checkPremiumStatus = () => {
+      const userId = getUserId()
+
       if (isExpired() && (premium.premiumStatus === "active" || premium.premiumStatus === "trial")) {
-        dispatch(expirePremium())
+        dispatch(expirePremium({ userId }))
         syncWithStorage()
       }
 
       if (shouldResume()) {
-        dispatch(resumePremium())
+        dispatch(resumePremium({ userId }))
         syncWithStorage()
       }
     }
 
-    checkPremiumStatus()
-
-    const interval = setInterval(checkPremiumStatus, 60 * 60 * 1000)
-
-    return () => clearInterval(interval)
+    if (premium.currentUserId) {
+      checkPremiumStatus()
+      const interval = setInterval(checkPremiumStatus, 60 * 60 * 1000)
+      return () => clearInterval(interval)
+    }
   }, [premium.premiumEndDate, premium.pausedUntil, premium.premiumStatus])
 
   useEffect(() => {
-    initializePremium()
-  }, [])
+    if (user) {
+      initializePremium()
+    } else {
+      resetPremium()
+    }
+  }, [user])
 
   return {
     premium,
@@ -206,5 +282,6 @@ export function usePremium() {
     cancelPremiumPlan,
     renewPremiumPlan,
     initializePremium,
+    resetPremium,
   }
 }

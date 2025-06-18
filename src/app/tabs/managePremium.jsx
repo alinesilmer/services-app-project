@@ -50,11 +50,7 @@ export default function ManagePremium() {
   }
 
   const getCorrectPremiumRoute = () => {
-    if (user?.userType === "professional") {
-      return "/tabs/professional/goPremiumProf"
-    } else {
-      return "/tabs/client/goPremium"
-    }
+      return ".../goPremium"
   }
 
   return (

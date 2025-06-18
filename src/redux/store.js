@@ -8,7 +8,7 @@ import premiumReducer from "./slices/premiumSlice";
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
-  whitelist: ["auth", "premium"],
+  whitelist: ["auth"],
 };
 
 const rootReducer = combineReducers({

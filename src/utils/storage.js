@@ -8,9 +8,9 @@ export const MOCK_USERS = [
     userType: "client",
     email: "usuario@example.com",
     birthdate: "1990-01-01",
-    province: 'Chaco',
-    department: 'Resistencia',
-    address: 'Av. Sarmiento 1249',
+    province: "Chaco",
+    department: "Resistencia",
+    address: "Av. Sarmiento 1249",
   },
   {
     id: 34,
@@ -19,13 +19,13 @@ export const MOCK_USERS = [
     userType: "professional",
     email: "profesional@example.com",
     birthdate: "1985-05-10",
-    province: 'Chaco',
-    department: 'Resistencia',
-    address: 'Av Sarmiento 1249',
-    availability: 'Lunes a Viernes de 9 a 14hs',
-    avatar: 'https://randomuser.me/api/portraits/men/73.jpg',
-    descripcion: 'Pulse el lápiz para agregar una descripción sobre usted.',
-    profesion: 'Belleza'
+    province: "Chaco",
+    department: "Resistencia",
+    address: "Av Sarmiento 1249",
+    availability: "Lunes a Viernes de 9 a 14hs",
+    avatar: "https://randomuser.me/api/portraits/men/73.jpg",
+    descripcion: "Pulse el lápiz para agregar una descripción sobre usted.",
+    profesion: "Belleza",
   },
 ];
 
@@ -33,10 +33,13 @@ export const MOCK_USERS = [
 const STORAGE_KEYS = {
   USER_DATA: "user_data",
   IS_LOGGED_IN: "is_logged_in",
-  IS_PREMIUM: "is_premium", // Flujo sin publicidad para clientes
-  IS_PREMIUM_PROF: "is_premium_prof", // Flujo con publicidad personalizada para profesionales
   REGISTERED_USERS: "registered_users",
   USER_PROFILE: "user_profile",
+  USER_PREMIUM_PREFIX: "user_premium_",
+};
+
+const getUserPremiumKey = (userId) => {
+  return `${STORAGE_KEYS.USER_PREMIUM_PREFIX}${userId}`;
 };
 
 export const saveUserLogin = async (userData) => {
@@ -49,16 +52,16 @@ export const saveUserLogin = async (userData) => {
 
     await saveUserProfile({
       id: userData.id || 0,
-      fullName: userData.username || userData.fullName || 'Usuario',
+      fullName: userData.username || userData.fullName || "Usuario",
       email: userData.email,
-      province: userData.province || '',
-      department: userData.department || '',
-      address: userData.address || '',
+      province: userData.province || "",
+      department: userData.department || "",
+      address: userData.address || "",
       userType: userData.userType,
-      birthdate: userData.birthdate || '',
-      avatar: userData.avatar || '',
-      descripcion: userData.descripcion || '',
-      profesion: userData.profesion || '',
+      birthdate: userData.birthdate || "",
+      avatar: userData.avatar || "",
+      descripcion: userData.descripcion || "",
+      profesion: userData.profesion || "",
     });
 
     console.log("User login saved successfully");
@@ -117,12 +120,10 @@ export const getCompleteUserData = async () => {
   try {
     const userData = await getUserData();
     const profileData = await getUserProfile();
-    const isPremium = await isPremiumUser();
 
     return {
       ...userData,
       ...profileData,
-      isPremium,
     };
   } catch (error) {
     console.error("Error getting complete user data:", error);
@@ -141,16 +142,123 @@ export const getUserType = async () => {
 };
 
 export const saveUserType = async (type) => {
-  await AsyncStorage.setItem("userType", type)
+  await AsyncStorage.setItem("userType", type);
 };
 
 export const logoutUser = async () => {
   try {
     await AsyncStorage.removeItem(STORAGE_KEYS.IS_LOGGED_IN);
+    await AsyncStorage.removeItem(STORAGE_KEYS.USER_DATA);
+    await AsyncStorage.removeItem(STORAGE_KEYS.USER_PROFILE);
     console.log("User logged out successfully");
     return true;
   } catch (error) {
     console.error("Error logging out user:", error);
+    return false;
+  }
+};
+
+// User-specific premium functions
+export const saveUserPremiumData = async (userId, premiumData) => {
+  try {
+    const key = getUserPremiumKey(userId);
+    await AsyncStorage.setItem(key, JSON.stringify(premiumData));
+    console.log(`Premium data saved for user ${userId}`);
+    return true;
+  } catch (error) {
+    console.error("Error saving user premium data:", error);
+    return false;
+  }
+};
+
+export const getUserPremiumData = async (userId) => {
+  try {
+    const key = getUserPremiumKey(userId);
+    const premiumData = await AsyncStorage.getItem(key);
+    return premiumData ? JSON.parse(premiumData) : null;
+  } catch (error) {
+    console.error("Error getting user premium data:", error);
+    return null;
+  }
+};
+
+export const clearUserPremiumData = async (userId) => {
+  try {
+    const key = getUserPremiumKey(userId);
+    await AsyncStorage.removeItem(key);
+    console.log(`Premium data cleared for user ${userId}`);
+    return true;
+  } catch (error) {
+    console.error("Error clearing user premium data:", error);
+    return false;
+  }
+};
+
+// Legacy functions for backward compatibility (now user-specific)
+export const setPremiumStatus = async (isPremium, userId = null) => {
+  try {
+    if (!userId) {
+      const userData = await getUserData();
+      userId = userData?.email || "default";
+    }
+
+    const existingData = (await getUserPremiumData(userId)) || {};
+    existingData.isPremium = isPremium;
+
+    await saveUserPremiumData(userId, existingData);
+    console.log("Premium status updated successfully");
+    return true;
+  } catch (error) {
+    console.error("Error updating premium status:", error);
+    return false;
+  }
+};
+
+export const isPremiumUser = async (userId = null) => {
+  try {
+    if (!userId) {
+      const userData = await getUserData();
+      userId = userData?.email || "default";
+    }
+
+    const premiumData = await getUserPremiumData(userId);
+    return premiumData?.isPremium || false;
+  } catch (error) {
+    console.error("Error checking premium status:", error);
+    return false;
+  }
+};
+
+export const setPremiumProfStatus = async (isPremiumProf, userId = null) => {
+  try {
+    if (!userId) {
+      const userData = await getUserData();
+      userId = userData?.email || "default";
+    }
+
+    const existingData = (await getUserPremiumData(userId)) || {};
+    existingData.isPremiumProf = isPremiumProf;
+
+    await saveUserPremiumData(userId, existingData);
+    console.log("Professional premium status updated successfully");
+    return true;
+  } catch (error) {
+    console.error("Error updating professional premium status:", error);
+    return false;
+  }
+};
+
+export const isPremiumProf = async (userId = null) => {
+  try {
+    if (!userId) {
+      const userData = await getUserData();
+      userId = userData?.email || "default";
+    }
+
+    const premiumData = await getUserPremiumData(userId);
+    return premiumData?.isPremiumProf || false;
+  } catch (error) {
+    console.error("Error checking professional premium status:", error);
     return false;
   }
 };
@@ -221,54 +329,6 @@ export const checkLoginCredentials = async (email, password) => {
   } catch (error) {
     console.error("Error checking credentials:", error);
     return { success: false, user: null };
-  }
-};
-
-export const setPremiumStatus = async (isPremium) => {
-  try {
-    await AsyncStorage.setItem(
-      STORAGE_KEYS.IS_PREMIUM,
-      isPremium ? "true" : "false"
-    );
-    console.log("Premium status updated successfully");
-    return true;
-  } catch (error) {
-    console.error("Error updating premium status:", error);
-    return false;
-  }
-};
-
-export const isPremiumUser = async () => {
-  try {
-    const value = await AsyncStorage.getItem(STORAGE_KEYS.IS_PREMIUM);
-    return value === "true";
-  } catch (error) {
-    console.error("Error checking premium status:", error);
-    return false;
-  }
-};
-
-export const setPremiumProfStatus = async (isPremiumProf) => {
-  try {
-    await AsyncStorage.setItem(
-      STORAGE_KEYS.IS_PREMIUM_PROF,
-      isPremiumProf ? "true" : "false"
-    );
-    console.log("Professional premium status updated successfully");
-    return true;
-  } catch (error) {
-    console.error("Error updating professional premium status:", error);
-    return false;
-  }
-};
-
-export const isPremiumProf = async () => {
-  try {
-    const value = await AsyncStorage.getItem(STORAGE_KEYS.IS_PREMIUM_PROF);
-    return value === "true";
-  } catch (error) {
-    console.error("Error checking professional premium status:", error);
-    return false;
   }
 };
 

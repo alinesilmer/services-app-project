@@ -1,151 +1,217 @@
 "use client"
-import { useEffect } from "react"
-import { View, Text, StyleSheet, ScrollView, SafeAreaView } from "react-native"
+
+import { useEffect, useState } from "react"
+import { View, Text, StyleSheet, ScrollView, SafeAreaView, RefreshControl } from "react-native"
 import { StatusBar } from "expo-status-bar"
 import { useRouter } from "expo-router"
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
 
-import ProfilePic from "../../../components/ProfilePic"
-import DisplayField from "../../../components/DisplayField"
-import IconButton from "../../../components/IconButton"
 import SlideUpCard from "../../../components/SlideUpCard"
-import BackButton from "../../../components/BackButton"
 import CustomButton from "../../../components/CustomButton"
-import { useProfile } from "../../../hooks/useProfile"
-import { usePremium } from "../../../hooks/usePremium"
-import { Colors } from "../../../constants/Colors"
+import AdsImage from "../../../components/AdsImage"
+import Ad from "../../../components/Ad"
 import BottomNavBar from "../../../components/NavBar"
-import ModalWrapper from "../../../components/ModalWrapper"
-import { getUserData, logoutUser } from "../../../utils/storage"
+import ProfilePic from "../../../components/ProfilePic"
+import { Colors } from "../../../constants/Colors"
+import { usePremium } from "../../../hooks/usePremium"
+import { useAdManager } from "../../../hooks/useAdManager"
+import { getCompleteUserData } from "../../../utils/storage"
 
-export default function ProfessionalProfileScreen() {
+export default function ProfessionalDashboard() {
   const router = useRouter()
-  const { data, formData, isModalVisible, openModal, closeModal, saveForm, updateFormData } = useProfile()
   const { premium, daysRemaining } = usePremium()
+  const { showAd, closeAd, userIsPremium } = useAdManager()
+  const [refreshing, setRefreshing] = useState(false)
+  const [userData, setUserData] = useState(null)
+
+  // Sample ads data
+  const adsData = [
+    { id: 1, source: require("../../../assets/ads/ads1.jpeg"), type: "image" },
+    { id: 2, source: require("../../../assets/ads/ads2.jpeg"), type: "image" },
+    { id: 3, source: require("../../../assets/ads/ads3.jpeg"), type: "image" },
+  ]
+
+  const [currentAd, setCurrentAd] = useState(adsData[0])
 
   useEffect(() => {
-    getUserData()
+    loadUserData()
   }, [])
+
+  const loadUserData = async () => {
+    try {
+      const data = await getCompleteUserData()
+      setUserData(data)
+    } catch (error) {
+      console.error("Error loading user data:", error)
+    }
+  }
+
+  const onRefresh = async () => {
+    setRefreshing(true)
+    await loadUserData()
+    setRefreshing(false)
+  }
+
+  const handleAdClose = () => {
+    closeAd()
+    const currentIndex = adsData.findIndex((ad) => ad.id === currentAd.id)
+    const nextIndex = (currentIndex + 1) % adsData.length
+    setCurrentAd(adsData[nextIndex])
+  }
+
+  const getWelcomeMessage = () => {
+    const name = userData?.fullName || "Profesional"
+    const hour = new Date().getHours()
+
+    if (hour < 12) {
+      return `¡Buenos días, ${name}!`
+    } else if (hour < 18) {
+      return `¡Buenas tardes, ${name}!`
+    } else {
+      return `¡Buenas noches, ${name}!`
+    }
+  }
 
   const getPremiumStatusText = () => {
     if (premium.premiumStatus === "active" && premium.isPremiumProf) {
       const planName = premium.premiumType === "estandar" ? "Estándar" : "Plus"
-      return `Premium ${planName}`
-    }
-    return null
-  }
-
-  const getPremiumButtonText = () => {
-    if (premium.premiumStatus === "inactive") {
-      return "Obtener Premium Profesional"
+      return `Premium ${planName} Activo`
+    } else if (premium.premiumStatus === "paused") {
+      return "Premium Pausado"
     } else if (premium.premiumStatus === "expired") {
-      return "Renovar Premium"
-    } else {
-      return "Gestionar Premium"
+      return "Premium Expirado"
+    }
+    return "Gestiona tu negocio"
+  }
+
+  const getPremiumFeatures = () => {
+    if (premium.premiumType === "plus") {
+      return {
+        advertisingDays: "4 días por semana",
+        features: ["Publicidad 4 días/semana", "Eliges tus días", "Cancelación gratuita", "Soporte prioritario"],
+      }
+    } else if (premium.premiumType === "estandar") {
+      return {
+        advertisingDays: "4 días por mes",
+        features: ["Publicidad 4 días/mes", "Días automáticos", "Cancelación gratuita"],
+      }
+    }
+    return {
+      advertisingDays: "Sin publicidad",
+      features: ["Perfil básico", "Búsquedas limitadas"],
     }
   }
 
-  const handlePremiumAction = () => {
-    if (premium.premiumStatus === "inactive" || premium.premiumStatus === "expired") {
-      router.push("/tabs/professional/goPremiumProf")
-    } else {
-      router.push("/tabs/managePremium")
-    }
-  }
-
-  const isPremiumActive =
-    premium.isPremiumProf && (premium.premiumStatus === "active" || premium.premiumStatus === "trial")
+  const premiumFeatures = getPremiumFeatures()
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <StatusBar style="light" backgroundColor={Colors.primary} />
-      <BackButton style={styles.backButton} />
+      <StatusBar style="light" backgroundColor={Colors.blueColor} />
       <View style={styles.container}>
         <View style={styles.mainContent}>
-          <SlideUpCard title="Mi Perfil Profesional" style={styles.card}>
-            <IconButton name="edit" size={24} color={Colors.textColor} style={styles.editButton} onPress={openModal} />
-            <IconButton
-              name="message-circle"
-              size={24}
-              color={Colors.textColor}
-              style={styles.chatButton}
-              onPress={() => router.push("/tabs/professional/chat")}
-            />
-
-            <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-              <ProfilePic
-                uri={
-                  data.avatar ||
-                  "https://image.freepik.com/foto-gratis/hermosa-mujer-sobre-fondo-blanco_144627-2849.jpg"
-                }
-                size={wp("30%")}
-                style={styles.avatar}
-              />
-
-              <View style={styles.usernameView}>
-                <Text style={styles.name}>
-                  {data.fullName}
-                  {isPremiumActive && <Text style={styles.premiumBadge}> {getPremiumStatusText()}</Text>}
-                </Text>
-                <Text style={styles.profession}>{data.profesion || "Profesional"}</Text>
-              </View>
-
-              <View style={styles.fieldWrapper}>
-                <DisplayField label="Email" value={data.email || "No especificado"} />
-              </View>
-              <View style={styles.fieldWrapper}>
-                <DisplayField label="Profesión" value={data.profesion || "No especificado"} />
-              </View>
-              <View style={styles.fieldWrapper}>
-                <DisplayField label="Descripción" value={data.descripcion || "No especificado"} />
-              </View>
-              <View style={styles.fieldWrapper}>
-                <DisplayField label="Disponibilidad" value={data.availability || "No especificado"} />
-              </View>
-              <View style={styles.fieldWrapper}>
-                <DisplayField label="Provincia" value={data.province || "No especificado"} />
-              </View>
-              <View style={styles.fieldWrapper}>
-                <DisplayField label="Ciudad" value={data.department || "No especificado"} />
-              </View>
-              <View style={styles.fieldWrapper}>
-                <DisplayField label="Dirección" value={data.address || "No especificado"} />
-              </View>
-
-              {/* Premium Status Card for Professionals */}
-              {premium.premiumStatus !== "inactive" && premium.isPremiumProf && (
-                <View style={styles.premiumStatusCard}>
-                  <Text style={styles.premiumStatusTitle}>Estado Premium Profesional:</Text>
-                  <Text style={styles.premiumStatusText}>
-                    {premium.premiumStatus === "active" && "✅ Activo"}
-                    {premium.premiumStatus === "paused" && "⏸️ Pausado"}
-                    {premium.premiumStatus === "cancelled" && "❌ Cancelado"}
-                    {premium.premiumStatus === "expired" && "⏰ Expirado"}
-                  </Text>
-                  {premium.planDetails && (
-                    <>
-                      <Text style={styles.planDetailsText}>
-                        Plan: {premium.premiumType === "estandar" ? "Estándar" : "Plus"}
+          <SlideUpCard title={getWelcomeMessage()} subtitle={getPremiumStatusText()} style={styles.card}>
+            <ScrollView
+              contentContainerStyle={styles.scrollContent}
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
+              refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+            >
+              {/* User Info Section */}
+              <View style={styles.userInfoSection}>
+                <ProfilePic
+                  uri={
+                    userData?.avatar ||
+                    "https://image.freepik.com/foto-gratis/hermosa-mujer-sobre-fondo-blanco_144627-2849.jpg"
+                  }
+                  size={wp("20%")}
+                  style={styles.avatar}
+                />
+                <View style={styles.userTextInfo}>
+                  <Text style={styles.userName}>{userData?.fullName || "Profesional"}</Text>
+                  <Text style={styles.userProfession}>{userData?.profesion || "Profesional"}</Text>
+                  <Text style={styles.userEmail}>{userData?.email || "email@ejemplo.com"}</Text>
+                  {userIsPremium && (
+                    <View style={styles.premiumBadge}>
+                      <Text style={styles.premiumBadgeText}>
+                        ✨ {premium.premiumType === "estandar" ? "Premium Estándar" : "Premium Plus"}
                       </Text>
-                      <Text style={styles.planDetailsText}>
-                        Precio: ${premium.premiumType === "estandar" ? "2" : "5"} USD/mes
-                      </Text>
-                    </>
-                  )}
-                  {premium.premiumEndDate && (
-                    <Text style={styles.expirationText}>
-                      Renovación: {new Date(premium.premiumEndDate).toLocaleDateString()}
-                    </Text>
+                    </View>
                   )}
                 </View>
-              )}
+              </View>
 
-              <View style={styles.buttonContainer}>
+              {/* Premium Status Card */}
+              <View
+                style={[
+                  styles.premiumCard,
+                  { backgroundColor: userIsPremium ? Colors.lightGreen : Colors.lightOrange },
+                ]}
+              >
+                <Text style={styles.premiumCardTitle}>
+                  {userIsPremium ? "🎉 ¡Eres Premium!" : "✨ Impulsa tu Negocio"}
+                </Text>
+                <Text style={styles.premiumCardText}>
+                  {userIsPremium
+                    ? `Plan ${premium.premiumType === "estandar" ? "Estándar" : "Plus"} - ${premiumFeatures.advertisingDays}`
+                    : "Obtén más visibilidad y clientes con nuestros planes profesionales."}
+                </Text>
+              </View>
+
+              {/* Business Stats */}
+              <View style={styles.statsContainer}>
+                <Text style={styles.sectionTitle}>📊 Estadísticas del Negocio</Text>
+                <View style={styles.statsRow}>
+                  <View style={styles.statItem}>
+                    <Text style={styles.statNumber}>0</Text>
+                    <Text style={styles.statLabel}>Clientes</Text>
+                  </View>
+                  <View style={styles.statItem}>
+                    <Text style={styles.statNumber}>0</Text>
+                    <Text style={styles.statLabel}>Citas</Text>
+                  </View>
+                  <View style={styles.statItem}>
+                    <Text style={styles.statNumber}>0</Text>
+                    <Text style={styles.statLabel}>Reseñas</Text>
+                  </View>
+                </View>
+              </View>
+
+              {/* Quick Actions */}
+              <View style={styles.quickActionsContainer}>
+                <Text style={styles.sectionTitle}>Acciones Rápidas</Text>
+
                 <CustomButton
-                  text={getPremiumButtonText()}
-                  onPress={handlePremiumAction}
+                    text="Mi Perfil"
+                    onPress={() => router.push("/tabs/professional/profile")}
+                    style={[styles.actionButton, { backgroundColor: Colors.greenColor }]}
+                />
+                
+                  <CustomButton
+                    text="Mi Agenda"
+                    onPress={() => router.push("/tabs/professional/myAppointments")}
+                    style={[styles.actionButton, { backgroundColor: Colors.blueColor }]}
+                  />
+
+                  <CustomButton
+                    text="Mis Clientes"
+                    onPress={() => router.push("/tabs/professional/clientRequest")}
+                    style={[styles.actionButton, { backgroundColor: Colors.orangeColor }]}
+                  />
+
+                  <CustomButton
+                    text="Mis Servicios"
+                    onPress={() => router.push("/tabs/professional/services")}
+                    style={[styles.actionButton, { backgroundColor: Colors.grayColor }]}
+                  />
+
+
+              {/* Premium Action Button */}
+              <View style={styles.premiumActionContainer}>
+                <CustomButton
+                  text={userIsPremium ? "Gestionar Premium" : "Obtener Premium"}
+                  onPress={() => router.push(userIsPremium ? "/tabs/managePremium" : "/auth/goPremium")}
                   style={[
-                    styles.customButton,
+                    styles.premiumActionButton,
                     {
                       backgroundColor:
                         premium.premiumStatus === "inactive" || premium.premiumStatus === "expired"
@@ -156,81 +222,23 @@ export default function ProfessionalProfileScreen() {
                 />
               </View>
 
-              <View style={styles.buttonContainer}>
-                <CustomButton
-                  text="Cerrar Sesión"
-                  onPress={() => {
-                    console.log("Cerrando sesión...")
-                    logoutUser()
-                    router.replace("/welcome")
-                  }}
-                  backgroundColor="#DC3545"
-                  style={styles.customButton}
-                />
+              </View>
+
+              {/* Recent Activity */}
+              <View style={styles.recentActivityContainer}>
+                <Text style={styles.sectionTitle}>Actividad Reciente</Text>
+                <View style={styles.activityItem}>
+                  <Text style={styles.activityText}>No hay actividad reciente</Text>
+                  <Text style={styles.activitySubtext}>Configura tus servicios para comenzar a recibir clientes</Text>
+                </View>
               </View>
             </ScrollView>
           </SlideUpCard>
         </View>
 
-        <ModalWrapper
-          visible={isModalVisible}
-          title="Editar perfil profesional"
-          onCancel={closeModal}
-          onSubmit={saveForm}
-          cancelLabel="Cancelar"
-          submitLabel="Guardar"
-        >
-          <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
-            <DisplayField
-              label="Nombre completo"
-              value={formData.fullName}
-              editable
-              onChangeText={(text) => updateFormData("fullName", text)}
-            />
-            <DisplayField
-              label="Email"
-              value={formData.email}
-              editable
-              onChangeText={(text) => updateFormData("email", text)}
-            />
-            <DisplayField
-              label="Profesión"
-              value={formData.profesion}
-              editable
-              onChangeText={(text) => updateFormData("profesion", text)}
-            />
-            <DisplayField
-              label="Descripción"
-              value={formData.descripcion}
-              editable
-              onChangeText={(text) => updateFormData("descripcion", text)}
-            />
-            <DisplayField
-              label="Disponibilidad"
-              value={formData.availability}
-              editable
-              onChangeText={(text) => updateFormData("availability", text)}
-            />
-            <DisplayField
-              label="Provincia"
-              value={formData.province}
-              editable
-              onChangeText={(text) => updateFormData("province", text)}
-            />
-            <DisplayField
-              label="Ciudad"
-              value={formData.department}
-              editable
-              onChangeText={(text) => updateFormData("city", text)}
-            />
-            <DisplayField
-              label="Dirección"
-              value={formData.address}
-              editable
-              onChangeText={(text) => updateFormData("address", text)}
-            />
-          </ScrollView>
-        </ModalWrapper>
+        {/* Full-screen Ad Modal */}
+        <Ad visible={showAd} onClose={handleAdClose} source={currentAd.source} type={currentAd.type} />
+
         <BottomNavBar />
       </View>
     </SafeAreaView>
@@ -246,6 +254,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.blueColor,
+    width: wp("100%"),
   },
   mainContent: {
     flex: 1,
@@ -264,105 +273,171 @@ const styles = StyleSheet.create({
     elevation: 10,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    alignItems: "center",
     marginTop: hp("15%"),
+    width: wp("100%"),
   },
   scrollContent: {
+    paddingBottom: hp("12%"),
+    width: "100%",
+    paddingHorizontal: 0, 
+  },
+  userInfoSection: {
+    flexDirection: "row",
     alignItems: "center",
-    paddingBottom: hp("6%"),
-    paddingHorizontal: wp("2%"),
-    width: wp("90%"),
-    flexGrow: 1,
+    marginBottom: hp("3%"),
+    paddingHorizontal: wp("4%"), 
+    width: "100%",
   },
   avatar: {
-    marginTop: hp("2%"),
-    borderWidth: 4,
-    borderColor: "white",
+    marginRight: wp("4%"),
   },
-  usernameView: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+  userTextInfo: {
+    flex: 1,
   },
-  name: {
-    marginTop: hp("1.5%"),
-    marginBottom: hp("0.5%"),
-    fontSize: wp("5.5%"),
-    fontWeight: "700",
-    color: "black",
-    textAlign: "center",
-  },
-  profession: {
-    fontSize: wp("4%"),
-    color: Colors.grayColor,
-    textAlign: "center",
-    marginBottom: hp("2%"),
-    fontStyle: "italic",
-  },
-  premiumBadge: {
-    fontSize: wp("4%"),
-    color: Colors.orangeColor,
+  userName: {
+    fontSize: hp("2.5%"),
     fontWeight: "bold",
+    color: Colors.dark,
+    marginBottom: hp("0.5%"),
   },
-  fieldWrapper: {
-    width: "100%",
-    maxWidth: 400,
-    marginBottom: hp("2%"),
-    display: "flex",
-    justifyContent: "flex-start",
-    flexDirection: "column",
+  userProfession: {
+    fontSize: hp("1.8%"),
+    color: Colors.blueColor,
+    fontWeight: "600",
+    marginBottom: hp("0.5%"),
   },
-  editButton: {
-    position: "absolute",
-    top: hp("3%"),
-    right: wp("6%"),
-    zIndex: 10,
-  },
-  chatButton: {
-    position: "absolute",
-    top: hp("3%"),
-    left: wp("6%"),
-    zIndex: 10,
-  },
-  customButton: {
-    marginTop: hp("2%"),
-    width: "100%",
-  },
-  buttonContainer: {
-    width: wp("90%"),
-    alignItems: "center",
-    marginTop: hp("1%"),
+  userEmail: {
+    fontSize: hp("1.6%"),
+    color: Colors.grayColor,
     marginBottom: hp("1%"),
   },
-  premiumStatusCard: {
+  premiumBadge: {
+    backgroundColor: Colors.lightGreen,
+    paddingHorizontal: wp("3%"),
+    paddingVertical: hp("0.5%"),
+    borderRadius: wp("3%"),
+    alignSelf: "flex-start",
+  },
+  premiumBadgeText: {
+    color: Colors.greenColor,
+    fontWeight: "bold",
+    fontSize: hp("1.6%"),
+  },
+  premiumCard: {
+    padding: wp("4%"),
+    borderRadius: wp("3%"),
+    marginBottom: hp("3%"),
+    alignItems: "center",
+    marginHorizontal: wp("4%"), 
+    width: wp("92%"), 
+    alignSelf: "center",
+  },
+  premiumCardTitle: {
+    fontSize: hp("2.2%"),
+    fontWeight: "bold",
+    color: Colors.dark,
+    marginBottom: hp("1%"),
+    textAlign: "center",
+  },
+  premiumCardText: {
+    fontSize: hp("1.8%"),
+    color: Colors.dark,
+    textAlign: "center",
+    lineHeight: hp("2.5%"),
+  },
+  statsContainer: {
+    marginBottom: hp("3%"),
+    paddingHorizontal: wp("4%"),
+    width: "100%",
+  },
+  sectionTitle: {
+    fontSize: hp("2%"),
+    fontWeight: "bold",
+    color: Colors.dark,
+    marginBottom: hp("2%"),
+  },
+  statsRow: {
+    flexDirection: "row",
+    justifyContent: "space-around",
     backgroundColor: Colors.lightGray,
     padding: wp("4%"),
     borderRadius: wp("3%"),
-    marginVertical: hp("2%"),
     width: "100%",
+  },
+  statItem: {
     alignItems: "center",
   },
-  premiumStatusTitle: {
-    fontSize: wp("4.5%"),
+  statNumber: {
+    fontSize: hp("3%"),
     fontWeight: "bold",
-    color: Colors.dark,
+    color: Colors.blueColor,
+  },
+  statLabel: {
+    fontSize: hp("1.6%"),
+    color: Colors.grayColor,
+    marginTop: hp("0.5%"),
+  },
+  quickActionsContainer: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 20,
+    marginBottom: hp("3%"),
+    paddingLeft: 100,
+    width: "100%",
+  },
+  buttonRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: hp("2.5%"),
+    width: "100%",
+  },
+  actionButton: {
+    width: wp("42%"), 
+    height: hp("6%"),
+  },
+  premiumActionContainer: {
+    marginBottom: hp("3%"),
+    alignItems: "center",
+    paddingHorizontal: wp("4%"),
+    width: "100%",
+  },
+  premiumActionButton: {
+    width: wp("88%"),
+    height: hp("6%"),
+  },
+  adsContainer: {
+    marginBottom: hp("3%"),
+    paddingHorizontal: wp("4%"),
+    width: "100%",
+  },
+  adsTitle: {
+    fontSize: hp("1.8%"),
+    fontWeight: "bold",
+    color: Colors.grayColor,
     marginBottom: hp("1%"),
   },
-  premiumStatusText: {
-    fontSize: wp("4%"),
+  recentActivityContainer: {
+    marginBottom: hp("3%"),
+    paddingHorizontal: wp("4%"),
+    width: "100%",
+  },
+  activityItem: {
+    backgroundColor: Colors.lightGray,
+    padding: wp("4%"),
+    borderRadius: wp("2%"),
+    alignItems: "center",
+  },
+  activityText: {
+    fontSize: hp("1.8%"),
     color: Colors.dark,
-    marginBottom: hp("0.5%"),
-    textAlign: "center",
+    fontWeight: "500",
   },
-  planDetailsText: {
-    fontSize: wp("3.5%"),
+  activitySubtext: {
+    fontSize: hp("1.5%"),
     color: Colors.grayColor,
-    marginBottom: hp("0.5%"),
-    textAlign: "center",
-  },
-  expirationText: {
-    fontSize: wp("3.5%"),
-    color: Colors.grayColor,
+    marginTop: hp("0.5%"),
     textAlign: "center",
   },
 })
