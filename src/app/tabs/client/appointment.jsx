@@ -12,6 +12,7 @@ import useDatePickerAppointment from "../../../hooks/useDatePickerAppointment"
 import mockAppointments from "../../../data/mockAppointments"
 import { generateTimeSlots } from "../../../utils/timeSlotGenerator"
 import BackButton from "../../../components/BackButton"
+import CustomButton from "../../../components/CustomButton"
 
 const Appointment = () => {
   const isPremiumUser = false
@@ -177,21 +178,15 @@ const Appointment = () => {
             <AdsImage onPress isPremium={isPremiumUser}/>
           </View>
 
-          <View style={styles.actionButtons}>
-            <TouchableOpacity activeOpacity={0.7} style={styles.backActionButton} onPress={handleBack}>
-              <Text style={styles.backButtonText}>Volver atrás</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-            activeOpacity={0.7}
-              style={[styles.confirmButton, !isConfirmButtonEnabled && styles.confirmButtonDisabled]}
-              onPress={handleConfirmAppointment}
-              disabled={!isConfirmButtonEnabled}
-            >
-              <Text style={[styles.confirmButtonText, !isConfirmButtonEnabled && styles.confirmButtonTextDisabled]}>
-                Confirmar TURNO
-              </Text>
-            </TouchableOpacity>
+          <View style={styles.actionButton}>
+            <CustomButton text={"Volver atrás"} onPress={handleBack}/>
+          </View>
+          <View style={styles.actionButton}>
+            <CustomButton
+            text="Confirmar TURNO"
+            onPress={handleConfirmAppointment}
+            disabled={!isConfirmButtonEnabled}
+            />
           </View>
         </ScrollView>
 
@@ -255,15 +250,9 @@ const Appointment = () => {
         <View style={styles.adContainer}>
           <AdsImage onPress isPremium={isPremiumUser}/>
         </View>
-
-        <View style={styles.actionButtons}>
-          <TouchableOpacity activeOpacity={0.7} style={styles.backActionButton} onPress={handleBack}>
-            <Text style={styles.backButtonText}>Volver atrás</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity activeOpacity={0.7} style={styles.confirmButton} onPress={handleDateConfirm}>
-            <Text style={styles.confirmButtonText}>Confirmar fecha</Text>
-          </TouchableOpacity>
+        <View style={styles.actionButton}>
+          <CustomButton text={"Volver atrás"} onPress={handleBack}/>
+          <CustomButton text={"Confirmar fecha"} onPress={handleDateConfirm}/>
         </View>
       </ScrollView>
     </View>
@@ -453,13 +442,6 @@ const styles = StyleSheet.create({
   adContainer: {
     marginVertical: hp("2%"),
   },
-  actionButtons: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: hp("4%"),
-    marginBottom: hp("3%"),
-    gap: 15,
-  },
   backActionButton: {
     flex: 1,
     backgroundColor: "#dc3545",
@@ -528,6 +510,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
     textAlign: "center",
     lineHeight: wp("5.5%"),
+  },
+    actionButton: {
+    alignItems: "center",
+    gap: 15,
+    marginBottom: 30,
   },
 })
 

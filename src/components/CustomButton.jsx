@@ -16,13 +16,14 @@ const CustomButton = ({ text, onPress, width = '90%', backgroundColor, disabled 
       style={({ pressed }) => {
       let baseStyle = [styles.button];
 
-      if(disabled) {
-        baseStyle.push(styles.buttonDisabled);
-      } else {
-        baseStyle.push({ width });
-        if( backgroundColor ) baseStyle.push({ backgroundColor });
-        if( pressed ) baseStyle.push(styles.buttonDisabled, { backgroundColor: Colors.orangeColor });
-      }
+baseStyle.push({ width }); // SIEMPRE aplica el width
+
+if (disabled) {
+  baseStyle.push(styles.buttonDisabled);
+} else {
+  if (backgroundColor) baseStyle.push({ backgroundColor });
+  if (pressed) baseStyle.push(styles.buttonDisabled, { backgroundColor: Colors.orangeColor });
+}
 
       return baseStyle;
     }}
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
   },
   buttonDisabled: {
     backgroundColor: '#ccc',
-    opacity: 0.6,
+    opacity: 1,
   },
   textDisabled: {
     color: '#eee',
