@@ -1,20 +1,32 @@
 "use client"
 import { useEffect, useState, useCallback } from "react"
-import { View, Text, ScrollView, StyleSheet, StatusBar, Pressable, SafeAreaView, Platform } from "react-native"
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  StatusBar,
+  Pressable,
+  SafeAreaView,
+  Platform,
+  FlatList
+} from "react-native"
 import { useRouter, useFocusEffect } from "expo-router"
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
 
-import ProfilePicture from '../../../components/ProfilePic';
-import SearchBar from '../../../components/SearchBar';
-import BottomNavBar from '../../../components/NavBar';
-import ServiceList from '../../../components/ServiceList';
-import PublicityProfessional from '../../../components/PublicityProfessional';
-import Notifications from '../../../components/Notifications';
-import LongCard from '../../../components/LongCard';
-import Rate from '../../../components/Rate';
-import Ad from '../../../components/Ad';
-import { useAdManager } from '../../../hooks/useAdManager';
-import { Colors } from '../../../constants/Colors';
+import ProfilePicture from '../../../components/ProfilePic'
+import SearchBar from '../../../components/SearchBar'
+import BottomNavBar from '../../../components/NavBar'
+import ServiceList from '../../../components/ServiceList'
+import PublicityProfessional from '../../../components/PublicityProfessional'
+import Notifications from '../../../components/Notifications'
+import LongCard from '../../../components/LongCard'
+import allServices from "../../../data/mockServices";
+import Rate from '../../../components/Rate'
+import { filterServices } from '../../../utils/filterServices'
+import Ad from '../../../components/Ad'
+import { useAdManager } from '../../../hooks/useAdManager'
+import { Colors } from '../../../constants/Colors'
 import { getUserData, isPremiumUser } from "../../../utils/storage"
 
 const ads = [
@@ -30,7 +42,11 @@ const Home = () => {
   const [username, setUsername] = useState("Usuario")
   const [premium, setPremium] = useState(false)
   const { showAd, closeAd } = useAdManager({ isPremium: premium })
-  const [randomAd, setRandomAd] = useState(null);
+  const [randomAd, setRandomAd] = useState(null)
+  const [search, setSearch] = useState('');
+
+
+  const filteredResults = filterServices(search, allServices);
 
   const loadUserData = useCallback(async () => {
     try {
@@ -38,39 +54,37 @@ const Home = () => {
       if (userData && userData.fullName) {
         setUsername(userData.fullName)
       }
-      const premium = await isPremiumUser()
-      console.log("Home: Premium status check:", premium)
-      setPremium(premium)
+      const premiumStatus = await isPremiumUser()
+      setPremium(premiumStatus)
     } catch (error) {
       console.error("Error loading user data:", error)
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
     loadUserData()
-  }, [loadUserData]);
+  }, [loadUserData])
 
   useEffect(() => {
     if (showAd && !randomAd) {
-      const randomIndex = Math.floor(Math.random() * ads.length);
-      setRandomAd(ads[randomIndex]);
+      const randomIndex = Math.floor(Math.random() * ads.length)
+      setRandomAd(ads[randomIndex])
     }
 
     if (!showAd) {
-      setRandomAd(null);
+      setRandomAd(null)
     }
-  }, [showAd]);
+  }, [showAd])
 
   useFocusEffect(
     useCallback(() => {
       loadUserData()
     }, [loadUserData]),
-  );
+  )
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="light-content" />
-
       <View style={styles.container}>
         <View style={styles.header}>
           <View style={styles.topRow}>
@@ -84,8 +98,23 @@ const Home = () => {
             </Pressable>
             <Notifications />
           </View>
-          <SearchBar />
-        </View>
+
+          <SearchBar value={search} onChangeText={setSearch} />
+          {search.trim().length > 0 && (
+            <View style={styles.searchResults}>
+              <FlatList
+                data={filteredResults}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={({ item }) => (
+                  <Pressable style={styles.resultItem} onPress={() => console.log('Detalle', item.servicio)}>
+                    <Text style={styles.resultText}>{item.servicio} - ${item.precio}</Text>
+                  </Pressable>
+                )}
+                ListEmptyComponent={<Text style={styles.noResults}>No se encontraron servicios</Text>}
+              />
+            </View>
+          )}
+          </View>
 
         <View style={styles.content}>
           <ScrollView showsVerticalScrollIndicator={false}>
@@ -113,11 +142,11 @@ const Home = () => {
         <BottomNavBar />
 
         {!premium && randomAd && (
-          <Ad 
-            visible={showAd} 
-            onClose={closeAd} 
+          <Ad
+            visible={showAd}
+            onClose={closeAd}
             source={randomAd}
-            type="video" 
+            type="video"
           />
         )}
       </View>
@@ -175,13 +204,36 @@ const styles = StyleSheet.create({
     paddingTop: hp("2.5%"),
   },
   sectionTitle: {
-    fontSize: wp("5%"),
+    fontSize: wp("4.5%"),
     fontWeight: "600",
     color: Colors.orangeColor,
     marginTop: hp("5%"),
     marginBottom: hp("1.5%"),
     paddingHorizontal: wp("1%"),
   },
+  searchResults: {
+    backgroundColor: 'white',
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    elevation: 3,
+    marginTop: 10,
+  },
+  resultItem: {
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  resultText: {
+    fontSize: wp("4%"),
+    color: Colors.textColor,
+  },
+  noResults: {
+    fontSize: wp("4%"),
+    textAlign: 'center',
+    padding: 10,
+    color: 'gray',
+  }  
 })
 
 export default Home

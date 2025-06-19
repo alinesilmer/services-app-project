@@ -25,4 +25,4 @@ export default [
     estado: "CONFIRMADO",
     createdAt: "2024-01-16T14:30:00.000Z",
   },
-]
+];

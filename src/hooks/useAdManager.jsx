@@ -1,39 +1,47 @@
-"use client"
-
 import { useEffect, useState, useRef } from "react"
-import { isPremiumUser } from "../utils/storage"
+import { useSelector } from "react-redux"
 
 export const useAdManager = ({ isPremium = false } = {}) => {
   const [showAd, setShowAd] = useState(false)
-  const [userIsPremium, setUserIsPremium] = useState(isPremium)
+  const premium = useSelector((state) => state.premium)
+  const user = useSelector((state) => state.auth.user)
   const adTimer = useRef(null)
   const initialCheckDone = useRef(false)
 
-  useEffect(() => {
-    const checkPremiumStatus = async () => {
-      try {
-        const premium = await isPremiumUser()
-        console.log("Premium status check:", premium)
-        setUserIsPremium(premium || isPremium)
-        initialCheckDone.current = true
+  const userIsPremium = () => {
+    if (isPremium) return true
 
-        if (premium || isPremium) {
-          setShowAd(false)
-          if (adTimer.current) {
-            clearTimeout(adTimer.current)
-            adTimer.current = null
-          }
-        }
-      } catch (error) {
-        console.error("Error checking premium status:", error)
+    if (user?.userType === "professional") {
+      return premium.isPremiumProf && (premium.premiumStatus === "active" || premium.premiumStatus === "trial")
+    } else {
+      return premium.isPremium && (premium.premiumStatus === "active" || premium.premiumStatus === "trial")
+    }
+  }
+
+  useEffect(() => {
+    initialCheckDone.current = true
+    const isPremiumUser = userIsPremium()
+
+    console.log("Premium status check:", {
+      userType: user?.userType,
+      isPremium: premium.isPremium,
+      isPremiumProf: premium.isPremiumProf,
+      premiumStatus: premium.premiumStatus,
+      finalIsPremium: isPremiumUser,
+    })
+
+    if (isPremiumUser) {
+      setShowAd(false)
+      if (adTimer.current) {
+        clearTimeout(adTimer.current)
+        adTimer.current = null
       }
     }
-
-    checkPremiumStatus()
-  }, [isPremium])
+  }, [premium.isPremium, premium.isPremiumProf, premium.premiumStatus, user?.userType, isPremium])
 
   const triggerAd = () => {
-    if (!userIsPremium && initialCheckDone.current) {
+    const isPremiumUser = userIsPremium()
+    if (!isPremiumUser && initialCheckDone.current) {
       console.log("Triggering ad - user is not premium")
       setShowAd(true)
     } else {
@@ -52,21 +60,23 @@ export const useAdManager = ({ isPremium = false } = {}) => {
       adTimer.current = null
     }
 
-    if (!userIsPremium && initialCheckDone.current) {
+    const isPremiumUser = userIsPremium()
+    if (!isPremiumUser && initialCheckDone.current) {
       console.log("Setting ad timer - user is not premium")
       adTimer.current = setTimeout(
         () => {
           triggerAd()
         },
-        7 * 60 * 1000,
-      ) 
+        7 * 60 * 1000, 
+      )
     }
   }
 
   useEffect(() => {
-    console.log("Ad manager effect - userIsPremium:", userIsPremium)
+    const isPremiumUser = userIsPremium()
+    console.log("Ad manager effect - userIsPremium:", isPremiumUser)
 
-    if (!userIsPremium && initialCheckDone.current) {
+    if (!isPremiumUser && initialCheckDone.current) {
       triggerAd()
       resetAdTimer()
     } else {
@@ -79,7 +89,7 @@ export const useAdManager = ({ isPremium = false } = {}) => {
         adTimer.current = null
       }
     }
-  }, [userIsPremium])
+  }, [premium.isPremium, premium.isPremiumProf, premium.premiumStatus, user?.userType])
 
-  return { showAd, triggerAd, closeAd }
+  return { showAd, triggerAd, closeAd, userIsPremium: userIsPremium() }
 }

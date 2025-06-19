@@ -1,351 +1,443 @@
-  import React, { useState, useEffect } from 'react';
-  import { View, Text, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
-  import { StatusBar } from 'expo-status-bar';
-  import { useRouter } from 'expo-router';
-  import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-  import { ButtonGroup } from 'react-native-elements';
+"use client"
 
-  import ProfilePic from '../../../components/ProfilePic';
-  import DisplayField from '../../../components/DisplayField';
-  import IconButton from '../../../components/IconButton';
-  import SlideUpCard from '../../../components/SlideUpCard';
-  import BackButton from '../../../components/BackButton';
-  import CustomButton from '../../../components/CustomButton';
-  import { useProfile } from '../../../hooks/useProfessionalProfile';
-  import { getUserProfile, saveUserProfile } from "../../../utils/storage";
-  import { Colors } from '../../../constants/Colors';
-  import BottomNavBar from '../../../components/NavBar';
-  import ModalWrapper from '../../../components/ModalWrapper';
-  import { getUserData, isPremiumProf, logoutUser } from "../../../utils/storage"
+import { useEffect, useState } from "react"
+import { View, Text, StyleSheet, ScrollView, SafeAreaView, RefreshControl } from "react-native"
+import { StatusBar } from "expo-status-bar"
+import { useRouter } from "expo-router"
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
 
-  export default function ProfileScreen() {
-    const router = useRouter();
-    const { data, formData, isModalVisible, openModal, closeModal, saveForm, updateFormData } = useProfile();
-    const [selectedIndex, setSelectedIndex] = useState(null);
-    const [isPremium, setIsPremium] = useState(false)
-    const [userProfile, setUserProfile] = useState(null);
+import SlideUpCard from "../../../components/SlideUpCard"
+import CustomButton from "../../../components/CustomButton"
+import AdsImage from "../../../components/AdsImage"
+import Ad from "../../../components/Ad"
+import BottomNavBar from "../../../components/NavBar"
+import ProfilePic from "../../../components/ProfilePic"
+import { Colors } from "../../../constants/Colors"
+import { usePremium } from "../../../hooks/usePremium"
+import { useAdManager } from "../../../hooks/useAdManager"
+import { getCompleteUserData } from "../../../utils/storage"
 
-    useEffect(() => {
-      const fetchUserProfile = async () => {
-        try {
-          const profile = await getUserProfile();
-          if (profile) {
-            setUserProfile(profile);
-            console.log("Perfil cargado:", profile);
-          }
-        } catch (error) {
-          console.log("Error al obtener el perfil:", error);
-        }
-      };
-      fetchUserProfile();
-    }, []);
+export default function ProfessionalDashboard() {
+  const router = useRouter()
+  const { premium, daysRemaining } = usePremium()
+  const { showAd, closeAd, userIsPremium } = useAdManager()
+  const [refreshing, setRefreshing] = useState(false)
+  const [userData, setUserData] = useState(null)
 
-    useEffect(() => {
-      getUserData()
-      const loadPremiumStatus = async () => {
-        try {
-          const premiumStatus = await isPremiumProf()
-          setIsPremium(premiumStatus)
-        } catch (error) {
-          console.error("Error loading premium status:", error)
-        }
-      }
+  // Sample ads data
+  const adsData = [
+    { id: 1, source: require("../../../assets/ads/ads1.jpeg"), type: "image" },
+    { id: 2, source: require("../../../assets/ads/ads2.jpeg"), type: "image" },
+    { id: 3, source: require("../../../assets/ads/ads3.jpeg"), type: "image" },
+  ]
 
-      loadPremiumStatus()
-    }, [])
+  const [currentAd, setCurrentAd] = useState(adsData[0])
 
-    if (!userProfile) {
-      return (
-        <SafeAreaView style={styles.safeArea}>
-          <StatusBar style="light" backgroundColor={Colors.primary} />
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ color: 'white', fontSize: 18 }}>Cargando perfil...</Text>
-          </View>
-        </SafeAreaView>
-      );
+  useEffect(() => {
+    loadUserData()
+  }, [])
+
+  const loadUserData = async () => {
+    try {
+      const data = await getCompleteUserData()
+      setUserData(data)
+    } catch (error) {
+      console.error("Error loading user data:", error)
     }
+  }
 
-    return (
-      <SafeAreaView style={styles.safeArea}>
-        <StatusBar style="light" backgroundColor={Colors.primary} />
-        <BackButton style={styles.backButton} />
-          <View style={styles.container}>
-            <View style={styles.mainContent}>
-            <SlideUpCard title="Mi Perfil"  style={styles.card}>
-              <IconButton
-                name="edit"
-                size={24}
-                color={Colors.textColor}
-                style={styles.editButton}
-                onPress={openModal}
-              />
-              <IconButton
-                name="message-circle"
-                size={24}
-                color={Colors.textColor}
-                style={styles.chatButton}
-                onPress={() => router.push('../chat')}
-              />
+  const onRefresh = async () => {
+    setRefreshing(true)
+    await loadUserData()
+    setRefreshing(false)
+  }
 
-              <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+  const handleAdClose = () => {
+    closeAd()
+    const currentIndex = adsData.findIndex((ad) => ad.id === currentAd.id)
+    const nextIndex = (currentIndex + 1) % adsData.length
+    setCurrentAd(adsData[nextIndex])
+  }
+
+  const getWelcomeMessage = () => {
+    const name = userData?.fullName || "Profesional"
+    const hour = new Date().getHours()
+
+    if (hour < 12) {
+      return `¡Buenos días, ${name}!`
+    } else if (hour < 18) {
+      return `¡Buenas tardes, ${name}!`
+    } else {
+      return `¡Buenas noches, ${name}!`
+    }
+  }
+
+  const getPremiumStatusText = () => {
+    if (premium.premiumStatus === "active" && premium.isPremiumProf) {
+      const planName = premium.premiumType === "estandar" ? "Estándar" : "Plus"
+      return `Premium ${planName} Activo`
+    } else if (premium.premiumStatus === "paused") {
+      return "Premium Pausado"
+    } else if (premium.premiumStatus === "expired") {
+      return "Premium Expirado"
+    }
+    return "Gestiona tu negocio"
+  }
+
+  const getPremiumFeatures = () => {
+    if (premium.premiumType === "plus") {
+      return {
+        advertisingDays: "4 días por semana",
+        features: ["Publicidad 4 días/semana", "Eliges tus días", "Cancelación gratuita", "Soporte prioritario"],
+      }
+    } else if (premium.premiumType === "estandar") {
+      return {
+        advertisingDays: "4 días por mes",
+        features: ["Publicidad 4 días/mes", "Días automáticos", "Cancelación gratuita"],
+      }
+    }
+    return {
+      advertisingDays: "Sin publicidad",
+      features: ["Perfil básico", "Búsquedas limitadas"],
+    }
+  }
+
+  const premiumFeatures = getPremiumFeatures()
+
+  return (
+    <SafeAreaView style={styles.safeArea}>
+      <StatusBar style="light" backgroundColor={Colors.blueColor} />
+      <View style={styles.container}>
+        <View style={styles.mainContent}>
+          <SlideUpCard title={getWelcomeMessage()} subtitle={getPremiumStatusText()} style={styles.card}>
+            <ScrollView
+              contentContainerStyle={styles.scrollContent}
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
+              refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+            >
+              {/* User Info Section */}
+              <View style={styles.userInfoSection}>
                 <ProfilePic
-                  uri={ userProfile?.avatar }
-                  size={wp('30%')}
+                  uri={
+                    userData?.avatar ||
+                    "https://image.freepik.com/foto-gratis/hermosa-mujer-sobre-fondo-blanco_144627-2849.jpg"
+                  }
+                  size={wp("20%")}
                   style={styles.avatar}
                 />
+                <View style={styles.userTextInfo}>
+                  <Text style={styles.userName}>{userData?.fullName || "Profesional"}</Text>
+                  <Text style={styles.userProfession}>{userData?.profesion || "Profesional"}</Text>
+                  <Text style={styles.userEmail}>{userData?.email || "email@ejemplo.com"}</Text>
+                  {userIsPremium && (
+                    <View style={styles.premiumBadge}>
+                      <Text style={styles.premiumBadgeText}>
+                        ✨ {premium.premiumType === "estandar" ? "Premium Estándar" : "Premium Plus"}
+                      </Text>
+                    </View>
+                  )}
+                </View>
+              </View>
+
+              {/* Premium Status Card */}
+              <View
+                style={[
+                  styles.premiumCard,
+                  { backgroundColor: userIsPremium ? Colors.lightGreen : Colors.lightOrange },
+                ]}
+              >
+                <Text style={styles.premiumCardTitle}>
+                  {userIsPremium ? "🎉 ¡Eres Premium!" : "✨ Impulsa tu Negocio"}
+                </Text>
+                <Text style={styles.premiumCardText}>
+                  {userIsPremium
+                    ? `Plan ${premium.premiumType === "estandar" ? "Estándar" : "Plus"} - ${premiumFeatures.advertisingDays}`
+                    : "Obtén más visibilidad y clientes con nuestros planes profesionales."}
+                </Text>
+              </View>
+
+              {/* Business Stats */}
+              <View style={styles.statsContainer}>
+                <Text style={styles.sectionTitle}>📊 Estadísticas del Negocio</Text>
+                <View style={styles.statsRow}>
+                  <View style={styles.statItem}>
+                    <Text style={styles.statNumber}>0</Text>
+                    <Text style={styles.statLabel}>Clientes</Text>
+                  </View>
+                  <View style={styles.statItem}>
+                    <Text style={styles.statNumber}>0</Text>
+                    <Text style={styles.statLabel}>Citas</Text>
+                  </View>
+                  <View style={styles.statItem}>
+                    <Text style={styles.statNumber}>0</Text>
+                    <Text style={styles.statLabel}>Reseñas</Text>
+                  </View>
+                </View>
+              </View>
+
+              {/* Quick Actions */}
+              <View style={styles.quickActionsContainer}>
+                <Text style={styles.sectionTitle}>Acciones Rápidas</Text>
+
+                <CustomButton
+                    text="Mi Perfil"
+                    onPress={() => router.push("/tabs/professional/profile")}
+                    style={[styles.actionButton, { backgroundColor: Colors.greenColor }]}
+                />
                 
-                <Text style={styles.name}>
-                  {userProfile.fullName}
-                  {isPremium && <Text style={styles.premiumBadge}> Premium</Text>}
-                  </Text>
+                  <CustomButton
+                    text="Mi Agenda"
+                    onPress={() => router.push("/tabs/professional/myAppointments")}
+                    style={[styles.actionButton, { backgroundColor: Colors.blueColor }]}
+                  />
 
-              <View style={styles.fieldWrapper}>
-                <DisplayField label="Email" value={data.email || "No especificado"} />
-              </View>
-              <View style={styles.fieldWrapper}>
-                <DisplayField label="Provincia" value={data.province || "No especificado"} />
-              </View>
-              <View style={styles.fieldWrapper}>
-                <DisplayField label="Ciudad" value={data.department || "No especificado"} />
-              </View>
-              <View style={styles.fieldWrapper}>
-                <DisplayField label="Dirección" value={data.address || "No especificado"} />
-              </View>
-              <View style={styles.fieldWrapper}>
-                <DisplayField label="Disponibilidad" value={data.availability || "No especificado"} />
+                  <CustomButton
+                    text="Mis Clientes"
+                    onPress={() => router.push("/tabs/professional/clientRequest")}
+                    style={[styles.actionButton, { backgroundColor: Colors.orangeColor }]}
+                  />
+
+                  <CustomButton
+                    text="Mis Servicios"
+                    onPress={() => router.push("/tabs/professional/services")}
+                    style={[styles.actionButton, { backgroundColor: Colors.grayColor }]}
+                  />
+
+
+              {/* Premium Action Button */}
+              <View style={styles.premiumActionContainer}>
+                <CustomButton
+                  text={userIsPremium ? "Gestionar Premium" : "Obtener Premium"}
+                  onPress={() => router.push(userIsPremium ? "/tabs/managePremium" : "/auth/goPremium")}
+                  style={[
+                    styles.premiumActionButton,
+                    {
+                      backgroundColor:
+                        premium.premiumStatus === "inactive" || premium.premiumStatus === "expired"
+                          ? Colors.orangeColor
+                          : Colors.blueColor,
+                    },
+                  ]}
+                />
               </View>
 
-              <ButtonGroup
-                buttons={['Ver Servicios', 'Ver Calificaciones']}
-                selectedIndex={selectedIndex}
-                onPress={(index) => {
-                  setSelectedIndex(index);
-                  if (index === 0) {
-                    <CustomButton text="Ver Servicios" onPress={router.push('tabs/professional/services')} />
-                  } else if (index === 1) {
-                    <CustomButton text="Ver Calificaciones" onPress={router.push('tabs/professional/rateScreen')} />
-                  }
-                }}
-                containerStyle={styles.buttonGroupContainer}
-                buttonStyle={styles.buttonGroupButton}
-                textStyle={styles.buttonGroupText}
-                selectedButtonStyle={styles.buttonGroupSelectedButton}
-                selectedTextStyle={styles.buttonGroupSelectedText}
-              />
+              </View>
 
-            <View style={styles.buttonContainer}>
-              <CustomButton 
-                text="Cerrar Sesión" 
-                onPress={() => {
-                    console.log('Cerrando sesión...')
-                    logoutUser()
-                    router.replace('../welcome')
-                  }}
-                backgroundColor="#DC3545"
-                style={styles.customBotton}
-              />
-            </View>
-
-            <View style={styles.buttonContainer}>
-              <CustomButton 
-                text="Cancelar Suscripción" 
-                onPress={() => {
-                    router.replace('../cancelation')
-                  }}
-                style={styles.customBotton}
-              />
-            </View>
-          </ScrollView>
+              {/* Recent Activity */}
+              <View style={styles.recentActivityContainer}>
+                <Text style={styles.sectionTitle}>Actividad Reciente</Text>
+                <View style={styles.activityItem}>
+                  <Text style={styles.activityText}>No hay actividad reciente</Text>
+                  <Text style={styles.activitySubtext}>Configura tus servicios para comenzar a recibir clientes</Text>
+                </View>
+              </View>
+            </ScrollView>
           </SlideUpCard>
         </View>
 
-          <ModalWrapper
-          visible={isModalVisible}
-          title="Editar perfil"
-          onCancel={closeModal}
-          onSubmit={saveForm}
-          cancelLabel="Cancelar"
-          submitLabel="Guardar"
-          >
-            <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
-              <DisplayField
-                label="Nombre completo"
-                value={formData.fullName}
-                editable
-                onChangeText={(text) => {
-                  updateFormData('fullName', text)
-                  setUserProfile((prev) => ({ ...prev, fullName: text }));
-                  saveUserProfile({ ...userProfile, fullName: text });
-                }}
-              />
-              <DisplayField
-                label="Email"
-                value={formData.email}
-                editable
-                onChangeText={(text) => {
-                  updateFormData('email', text)
-                  setUserProfile((prev) => ({ ...prev, email: text }));
-                  saveUserProfile({ ...userProfile, email: text });
-                }}
-              />
-              <DisplayField
-                label="Provincia"
-                value={formData.province}
-                editable
-                onChangeText={(text) => {
-                  updateFormData('province', text)
-                  setUserProfile((prev) => ({ ...prev, province: text }));
-                  saveUserProfile({ ...userProfile, province: text });
-                }}
-              />
-              <DisplayField
-                label="Ciudad"
-                value={formData.department}
-                editable
-                onChangeText={(text) => {
-                  updateFormData('department', text)
-                  setUserProfile((prev) => ({ ...prev, department: text }));
-                  saveUserProfile({ ...userProfile, department: text });
-                }}
-              />
-              <DisplayField
-                label="Dirección"
-                value={formData.address}
-                editable
-                onChangeText={(text) => {
-                  updateFormData('address', text)
-                  setUserProfile((prev) => ({ ...prev, address: text }));
-                  saveUserProfile({ ...userProfile, address: text });
-                }}
-              />
-              <DisplayField
-                label="Disponibilidad"
-                value={formData.availability}
-                editable
-                onChangeText={(text) => {
-                  updateFormData('availability', text)
-                  setUserProfile((prev) => ({ ...prev, availability: text }));
-                  saveUserProfile({ ...userProfile, availability: text });
-                }}
-              />
-            </ScrollView>
-          </ModalWrapper>
+        {/* Full-screen Ad Modal */}
+        <Ad visible={showAd} onClose={handleAdClose} source={currentAd.source} type={currentAd.type} />
+
         <BottomNavBar />
-        </View>
-      </SafeAreaView>
-    );
-  }
+      </View>
+    </SafeAreaView>
+  )
+}
 
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: Colors.blueColor,
-    paddingTop: hp('1%')
+    paddingTop: hp("1.5%"),
   },
   container: {
     flex: 1,
-    backgroundColor: Colors.blueColor
+    backgroundColor: Colors.blueColor,
+    width: wp("100%"),
   },
   mainContent: {
     flex: 1,
-    justifyContent: 'flex-start'
+    justifyContent: "flex-start",
   },
   card: {
     flex: 1,
-    width: wp('100%'),
-    backgroundColor: 'white',
-    paddingTop: hp('2%'),
-    paddingHorizontal: wp('5%'),
-    paddingBottom: hp('2%'),
-    shadowColor: 'black',
+    backgroundColor: "white",
+    paddingTop: hp("4%"),
+    paddingHorizontal: wp("5%"),
+    paddingBottom: hp("2%"),
+    shadowColor: "black",
     shadowOffset: { width: 0, height: -4 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 10,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    alignItems: 'center',
-    marginTop: hp('16%'),
-    marginBottom: hp('1%')
+    marginTop: hp("15%"),
+    width: wp("100%"),
   },
   scrollContent: {
-    alignItems: 'flex-start',
-    paddingBottom: hp('6%'),
-    paddingHorizontal: wp('2%'), 
-    width: '100%',
-    flexGrow: 1,
+    paddingBottom: hp("12%"),
+    width: "100%",
+    paddingHorizontal: 0, 
+  },
+  userInfoSection: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: hp("3%"),
+    paddingHorizontal: wp("4%"), 
+    width: "100%",
   },
   avatar: {
-    marginTop: hp('2%'),
-    borderWidth: 4,
-    borderColor: 'white',
+    marginRight: wp("4%"),
   },
-  name: {
-    marginTop: hp('1.5%'),
-    marginBottom: hp('2%'),
-    fontSize: wp('5.5%'),
-    fontWeight: '700',
-    color: 'black',
-    textAlign: 'center'
+  userTextInfo: {
+    flex: 1,
+  },
+  userName: {
+    fontSize: hp("2.5%"),
+    fontWeight: "bold",
+    color: Colors.dark,
+    marginBottom: hp("0.5%"),
+  },
+  userProfession: {
+    fontSize: hp("1.8%"),
+    color: Colors.blueColor,
+    fontWeight: "600",
+    marginBottom: hp("0.5%"),
+  },
+  userEmail: {
+    fontSize: hp("1.6%"),
+    color: Colors.grayColor,
+    marginBottom: hp("1%"),
   },
   premiumBadge: {
-    fontSize: wp("4%"),
-    color: Colors.orangeColor,
+    backgroundColor: Colors.lightGreen,
+    paddingHorizontal: wp("3%"),
+    paddingVertical: hp("0.5%"),
+    borderRadius: wp("3%"),
+    alignSelf: "flex-start",
+  },
+  premiumBadgeText: {
+    color: Colors.greenColor,
     fontWeight: "bold",
+    fontSize: hp("1.6%"),
   },
-  fieldWrapper: {
-    width: '100%',
-    maxWidth: 400,
-    marginBottom: hp('2%'),
-    display: 'flex',
-    justifyContent: 'flex-start',
-    flexDirection: 'column'
+  premiumCard: {
+    padding: wp("4%"),
+    borderRadius: wp("3%"),
+    marginBottom: hp("3%"),
+    alignItems: "center",
+    marginHorizontal: wp("4%"), 
+    width: wp("92%"), 
+    alignSelf: "center",
   },
-  editButton: {
-    position: 'absolute',
-    top: hp('3%'),
-    right: wp('6%'),
-    zIndex: 10
+  premiumCardTitle: {
+    fontSize: hp("2.2%"),
+    fontWeight: "bold",
+    color: Colors.dark,
+    marginBottom: hp("1%"),
+    textAlign: "center",
   },
-  chatButton: {
-    position: 'absolute',
-    top: hp('3%'),
-    left: wp('6%'),
-    zIndex: 10
+  premiumCardText: {
+    fontSize: hp("1.8%"),
+    color: Colors.dark,
+    textAlign: "center",
+    lineHeight: hp("2.5%"),
   },
-  customBotton: {
-    marginTop: hp('20%'),
-    width: '100%'
+  statsContainer: {
+    marginBottom: hp("3%"),
+    paddingHorizontal: wp("4%"),
+    width: "100%",
   },
-  buttonGroupContainer: {
-    marginTop: hp('3%'),
-    borderRadius: 10,
-    borderColor: Colors.blueColor,
-    borderWidth: 1,
-    width: wp('80%'),
-    maxWidth: wp('100%'),
-    alignSelf: 'center',
-    backgroundColor: Colors.whiteColor,
+  sectionTitle: {
+    fontSize: hp("2%"),
+    fontWeight: "bold",
+    color: Colors.dark,
+    marginBottom: hp("2%"),
   },
-  buttonGroupButton: {
-    backgroundColor: Colors.whiteColor,
-    borderColor: Colors.orangeColor,
+  statsRow: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    backgroundColor: Colors.lightGray,
+    padding: wp("4%"),
+    borderRadius: wp("3%"),
+    width: "100%",
   },
-  buttonGroupText: {
-    color: Colors.orangeColor,
-    fontWeight: '700',
+  statItem: {
+    alignItems: "center",
   },
-  buttonGroupSelectedButton: {
-    backgroundColor: Colors.orangeColor,
+  statNumber: {
+    fontSize: hp("3%"),
+    fontWeight: "bold",
+    color: Colors.blueColor,
   },
-  buttonGroupSelectedText: {
-    color: Colors.whiteColor,
-    fontWeight: 'bold',
+  statLabel: {
+    fontSize: hp("1.6%"),
+    color: Colors.grayColor,
+    marginTop: hp("0.5%"),
   },
-  buttonContainer: {
-    width: wp('90%'),
-    alignItems: 'center',
-    marginTop: hp('1%'),
-    marginBottom: hp('1%'),
+  quickActionsContainer: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 20,
+    marginBottom: hp("3%"),
+    paddingLeft: 100,
+    width: "100%",
   },
-});
+  buttonRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: hp("2.5%"),
+    width: "100%",
+  },
+  actionButton: {
+    width: wp("42%"), 
+    height: hp("6%"),
+  },
+  premiumActionContainer: {
+    marginBottom: hp("3%"),
+    alignItems: "center",
+    paddingHorizontal: wp("4%"),
+    width: "100%",
+  },
+  premiumActionButton: {
+    width: wp("88%"),
+    height: hp("6%"),
+  },
+  adsContainer: {
+    marginBottom: hp("3%"),
+    paddingHorizontal: wp("4%"),
+    width: "100%",
+  },
+  adsTitle: {
+    fontSize: hp("1.8%"),
+    fontWeight: "bold",
+    color: Colors.grayColor,
+    marginBottom: hp("1%"),
+  },
+  recentActivityContainer: {
+    marginBottom: hp("3%"),
+    paddingHorizontal: wp("4%"),
+    width: "100%",
+  },
+  activityItem: {
+    backgroundColor: Colors.lightGray,
+    padding: wp("4%"),
+    borderRadius: wp("2%"),
+    alignItems: "center",
+  },
+  activityText: {
+    fontSize: hp("1.8%"),
+    color: Colors.dark,
+    fontWeight: "500",
+  },
+  activitySubtext: {
+    fontSize: hp("1.5%"),
+    color: Colors.grayColor,
+    marginTop: hp("0.5%"),
+    textAlign: "center",
+  },
+})

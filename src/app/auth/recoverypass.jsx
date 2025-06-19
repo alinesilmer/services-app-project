@@ -64,7 +64,6 @@ export default function RecoveryPass() {
           <Logo />
           <SlideUpCard
             title={"Recuperar\nContraseña"}
-            subtitle={"Sigue las instrucciones\npara recuperar tu contraseña"}
             style={styles.card}
           >
             {step === 'email' && (
@@ -162,7 +161,7 @@ const styles = StyleSheet.create({
     marginBottom: hp('3%'),
   },
   infoText: {
-    fontSize: hp('2%'),
+    fontSize: hp('1.7%'),
     marginVertical: hp('1%'),
     textAlign: 'center',
   },

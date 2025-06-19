@@ -2,33 +2,40 @@
 // Props: start boolean to start countdown
 // Returns: { canClose, timer }
 //------------------------------------------------------------------//
- 
-import { useEffect, useState } from 'react';
+
+import { useEffect, useState } from "react"
 
 export const useAdTimer = (start) => {
-  const [canClose, setCanClose] = useState(false);
-  const [timer, setTimer] = useState(5);
+  const [canClose, setCanClose] = useState(false)
+  const [timer, setTimer] = useState(5)
 
   useEffect(() => {
-    let interval;
+    let interval
 
     if (start) {
-      setCanClose(false);
-      setTimer(5);
+      setCanClose(false)
+      setTimer(5)
       interval = setInterval(() => {
-        setTimer(prev => {
+        setTimer((prev) => {
           if (prev <= 1) {
-            clearInterval(interval);
-            setCanClose(true);
-            return 0;
+            clearInterval(interval)
+            setCanClose(true)
+            return 0
           }
-          return prev - 1;
-        });
-      }, 1000);
+          return prev - 1
+        })
+      }, 1000)
+    } else {
+      setCanClose(false)
+      setTimer(5)
     }
 
-    return () => clearInterval(interval);
-  }, [start]);
+    return () => {
+      if (interval) {
+        clearInterval(interval)
+      }
+    }
+  }, [start])
 
-  return { canClose, timer };
-};
+  return { canClose, timer }
+}
