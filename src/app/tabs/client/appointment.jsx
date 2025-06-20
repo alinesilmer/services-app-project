@@ -1,10 +1,22 @@
 "use client"
-import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Platform, ScrollView, Modal } from "react-native"
-import { useState, useEffect } from "react"
+
+import React, { useState, useEffect, useCallback } from "react"
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  StyleSheet,
+  SafeAreaView,
+  StatusBar,
+  Platform,
+  Modal,
+} from "react-native"
 import { useLocalSearchParams, router } from "expo-router"
+import { Feather } from "@expo/vector-icons"
 import { Colors } from "../../../constants/Colors"
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
-import {  Feather } from "@expo/vector-icons"
+
 import AdsImage from "../../../components/AdsImage"
 import DatePickerAppointment from "../../../components/DatePickerAppointment"
 import AnimationFeedback from "../../../components/AnimationFeedback"
@@ -12,11 +24,11 @@ import useDatePickerAppointment from "../../../hooks/useDatePickerAppointment"
 import mockAppointments from "../../../data/mockAppointments"
 import { generateTimeSlots } from "../../../utils/timeSlotGenerator"
 import BackButton from "../../../components/BackButton"
-import CustomButton from "../../../components/CustomButton"
+import { usePremium } from "../../../hooks/usePremium"
 
 const Appointment = () => {
-  const isPremiumUser = false
   const params = useLocalSearchParams()
+  const { premium } = usePremium()
   const [showTimeSelection, setShowTimeSelection] = useState(false)
   const [selectedTimes, setSelectedTimes] = useState([])
   const [showSuccessAnimation, setShowSuccessAnimation] = useState(false)
@@ -31,173 +43,155 @@ const Appointment = () => {
     getMinimumDate,
   } = useDatePickerAppointment()
 
+  // derive a boolean: active or trial premium only
+  const hasPremium =
+    (premium.isPremium || premium.isPremiumProf) &&
+    ["active", "trial"].includes(premium.premiumStatus)
+
   useEffect(() => {
     if (params.professionalId) {
-      const timeSlots = generateTimeSlots(params.professionalId)
-      setAvailableTimes(timeSlots)
+      setAvailableTimes(generateTimeSlots(params.professionalId))
     }
   }, [params.professionalId])
 
   const formatDate = (date) => {
     if (!date) return "Seleccionar fecha"
-
     const days = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
     const months = [
-      "Enero",
-      "Febrero",
-      "Marzo",
-      "Abril",
-      "Mayo",
-      "Junio",
-      "Julio",
-      "Agosto",
-      "Septiembre",
-      "Octubre",
-      "Noviembre",
-      "Diciembre",
+      "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+      "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",
     ]
-
     return `${days[date.getDay()]}, ${date.getDate()} de ${months[date.getMonth()]} ${date.getFullYear()}`
   }
 
   const handleBack = () => {
-    if (showTimeSelection) {
-      setShowTimeSelection(false)
-    } else {
-      router.back()
-    }
+    if (showTimeSelection) setShowTimeSelection(false)
+    else router.back()
   }
 
   const handleDateConfirm = () => {
-    if (!selectedDate) {
-      return
-    }
-
-    if (!validateFutureDate(selectedDate)) {
-      return
-    }
-
+    if (!selectedDate || !validateFutureDate(selectedDate)) return
     setShowTimeSelection(true)
   }
 
-  const toggleTimeSelection = (timeId) => {
-    setSelectedTimes((prev) => {
-      if (prev.includes(timeId)) {
-        return prev.filter((id) => id !== timeId)
-      } else {
-        return [...prev, timeId]
-      }
-    })
+  const toggleTimeSelection = (id) => {
+    setSelectedTimes((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    )
   }
 
   const handleConfirmAppointment = () => {
     selectedTimes.forEach((timeId) => {
-      const timeSlot = availableTimes.find((t) => t.id === timeId)
-      const newAppointment = {
-        id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+      const slot = availableTimes.find((t) => t.id === timeId)
+      mockAppointments.unshift({
+        id: Date.now().toString() + Math.random().toString(36).slice(2),
         professionalName: params.professionalName,
         profession: params.profession,
         date: selectedDate,
-        time: timeSlot.time,
-        timeLabel: timeSlot.label,
+        time: slot.time,
+        timeLabel: slot.label,
         availability: params.availability,
         professionalId: params.professionalId,
         location: "En local",
         estado: "CONFIRMADO",
         createdAt: new Date().toISOString(),
         isNew: true,
-      }
-
-      mockAppointments.unshift(newAppointment)
+      })
     })
 
     setShowSuccessAnimation(true)
-
     setTimeout(() => {
       setShowSuccessAnimation(false)
       router.push("/tabs/client/myAppointments")
     }, 1400)
   }
 
-
-  const isConfirmButtonEnabled = selectedTimes.length > 0
-
+  // render the time‐selection step
   if (showTimeSelection) {
     return (
       <View style={styles.container}>
-        <StatusBar backgroundColor="#f8f9fa" barStyle="dark-content" />
-
+        <StatusBar backgroundColor="#fff" barStyle="dark-content" />
         <View style={styles.header}>
-          <BackButton/>
+          <BackButton onPress={handleBack} />
         </View>
-
         <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-
           <Text style={styles.title}>
-            Por favor, seleccionar horarios entre las opciones{"\n"}disponibles para el turno
+            Selecciona horarios disponibles para tu turno
           </Text>
-
           <View style={styles.selectedDateContainer}>
             <Text style={styles.selectedDateLabel}>Fecha seleccionada</Text>
             <View style={styles.dateInputStyle}>
-              <Text style={styles.dateInputText}>{selectedDate?.toLocaleDateString("es-ES") || "mm/dd/yyyy"}</Text>
+              <Text style={styles.dateInputText}>
+                {selectedDate?.toLocaleDateString("es-ES") ?? "--/--/----"}
+              </Text>
               <Feather name="calendar" size={20} color="#666" />
             </View>
           </View>
 
           <View style={styles.timeSelectionContainer}>
-            <Text style={styles.timeSelectionLabel}>Seleccionar horarios de disponibilidad</Text>
-
-            {availableTimes.map((timeSlot) => (
+            {availableTimes.map((slot) => (
               <TouchableOpacity
-              activeOpacity={0.7}
-                key={timeSlot.id}
+                key={slot.id}
                 style={styles.timeSlotContainer}
-                onPress={() => toggleTimeSelection(timeSlot.id)}
+                activeOpacity={0.7}
+                onPress={() => toggleTimeSelection(slot.id)}
               >
                 <View style={styles.timeSlotContent}>
-                  <Text style={styles.timeSlotLabel}>{timeSlot.label}</Text>
-                  <Text style={styles.timeSlotTime}>{timeSlot.time}</Text>
+                  <Text style={styles.timeSlotLabel}>{slot.label}</Text>
+                  <Text style={styles.timeSlotTime}>{slot.time}</Text>
                 </View>
-                <View style={[styles.checkbox, selectedTimes.includes(timeSlot.id) && styles.checkboxSelected]}>
-                  {selectedTimes.includes(timeSlot.id) && <Feather name="check" size={16} color="white" />}
+                <View
+                  style={[
+                    styles.checkbox,
+                    selectedTimes.includes(slot.id) && styles.checkboxSelected,
+                  ]}
+                >
+                  {selectedTimes.includes(slot.id) && (
+                    <Feather name="check" size={16} color="white" />
+                  )}
                 </View>
               </TouchableOpacity>
             ))}
           </View>
 
-          {selectedTimes.length === 0 && (
-            <View style={styles.infoContainer}>
-              <Feather name="info" size={20} color="#ff9800" />
-              <Text style={styles.infoText}>Selecciona al menos un horario para continuar</Text>
-            </View>
-          )}
-
-
           <View style={styles.adContainer}>
-            <AdsImage onPress isPremium={isPremiumUser}/>
+            <AdsImage onPress style={styles.ad} isPremium={hasPremium} />
           </View>
 
-          <View style={styles.actionButton}>
-            <CustomButton text={"Volver atrás"} onPress={handleBack}/>
-          </View>
-          <View style={styles.actionButton}>
-            <CustomButton
-            text="Confirmar TURNO"
-            onPress={handleConfirmAppointment}
-            disabled={!isConfirmButtonEnabled}
-            />
+          <View style={styles.actionButtons}>
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={handleBack}
+            >
+              <Text style={styles.backText}>Volver atrás</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.confirmButton,
+                !selectedTimes.length && styles.confirmDisabled,
+              ]}
+              disabled={!selectedTimes.length}
+              onPress={handleConfirmAppointment}
+            >
+              <Text
+                style={[
+                  styles.confirmText,
+                  !selectedTimes.length && styles.confirmTextDisabled,
+                ]}
+              >
+                Confirmar TURNO
+              </Text>
+            </TouchableOpacity>
           </View>
         </ScrollView>
 
-        <Modal visible={showSuccessAnimation} transparent={true} animationType="fade">
+        <Modal visible={showSuccessAnimation} transparent animationType="fade">
           <View style={styles.animationOverlay}>
             <View style={styles.animationContainer}>
               <AnimationFeedback type="success" />
               <Text style={styles.successTitle}>¡Éxito!</Text>
               <Text style={styles.successMessage}>
-                Se {selectedTimes.length > 1 ? "han" : "ha"} confirmado {selectedTimes.length} turno
-                {selectedTimes.length > 1 ? "s" : ""}
+                {`Se ${selectedTimes.length > 1 ? "han" : "ha"} confirmado ${selectedTimes.length} turno${selectedTimes.length > 1 ? "s" : ""}`}
               </Text>
             </View>
           </View>
@@ -206,39 +200,20 @@ const Appointment = () => {
     )
   }
 
+  // render the date‐picker step
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="#f8f9fa" barStyle="dark-content" />
-
+      <StatusBar backgroundColor="#fff" barStyle="dark-content" />
       <View style={styles.header}>
-        <BackButton/>
+        <BackButton onPress={handleBack} />
       </View>
-
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-
-        <Text style={styles.title}>Por favor, seleccionar la fecha para el turno</Text>
-
-
-        <View style={styles.professionalInfo}>
-          <Text style={styles.professionalInfoText}>
-            Cita con: <Text style={styles.professionalName}>{params.professionalName}</Text>
-          </Text>
-          <Text style={styles.professionalInfoText}>
-            Servicio: <Text style={styles.professionText}>{params.profession}</Text>
-          </Text>
-          <Text style={styles.professionalInfoText}>
-            Disponibilidad: <Text style={styles.availabilityText}>{params.availability}</Text>
-          </Text>
-        </View>
-
+        <Text style={styles.title}>
+          Selecciona la fecha para tu turno
+        </Text>
         <View style={styles.datePickerContainer}>
-          <Text style={styles.datePickerLabel}>Fecha seleccionada:</Text>
-          <View style={styles.selectedDateDisplay}>
-            <Text style={styles.selectedDateText}>{formatDate(selectedDate)}</Text>
-          </View>
-
           <DatePickerAppointment
-            label="Seleccionar nueva fecha"
+            label="Elegir fecha"
             value={selectedDate}
             onChange={handleChange}
             show={showDatePicker}
@@ -248,11 +223,22 @@ const Appointment = () => {
         </View>
 
         <View style={styles.adContainer}>
-          <AdsImage onPress isPremium={isPremiumUser}/>
+          <AdsImage onPress isPremium={hasPremium} />
         </View>
-        <View style={styles.actionButton}>
-          <CustomButton text={"Volver atrás"} onPress={handleBack}/>
-          <CustomButton text={"Confirmar fecha"} onPress={handleDateConfirm}/>
+
+        <View style={styles.actionButtons}>
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={handleBack}
+          >
+            <Text style={styles.backText}>Volver atrás</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.confirmButton}
+            onPress={handleDateConfirm}
+          >
+            <Text style={styles.confirmText}>Confirmar fecha</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </View>

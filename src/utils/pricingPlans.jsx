@@ -1,111 +1,72 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 export const pricingPlans = [
-  { id: "Prueba", label: "Prueba de 7 días gratis", price: 0 },
-  { id: "Mensual", label: "Plan Mensual", price: 9.99 },
-  { id: "Anual", label: "Plan Anual", price: 99.99 },
+  { id: "Prueba",      label: "Prueba de 7 días gratis", price: 0    },
+  { id: "Mensual",     label: "Plan Mensual",            price: 9.99 },
+  { id: "Anual",       label: "Plan Anual",              price: 99.99},
   { id: "Empresarial", label: "Plan de Empresa / Equipo", price: "Contáctanos" },
-]
+];
+
+export const clientPlans = {
+  headers: ["", "MENSUAL", "ANUAL"],
+  rows: [
+    { id: "price",    label: "Precio",           values: ["$9.99/mes", "$99.99/año"] },
+    { id: "ads",      label: "Sin Anuncios",      values: ["✅", "✅"] },
+    { id: "support",  label: "Soporte Premium",   values: ["❌", "✅"] },
+    { id: "features", label: "Funciones Avanzadas", values: ["❌", "✅"] },
+  ],
+};
 
 export const professionalPlans = {
-  headers: ["", "ESTANDAR", "PLUS"],
+  headers: ["", "ESTÁNDAR", "PLUS"],
   rows: [
-    { id: "price", label: "Precio", values: ["2 US$/mes", "5 US$/mes"] },
-    { id: "advertising_days", label: "Días de Publicidad", values: ["4 días\npor mes", "4 días\npor semana"] },
-    { id: "day_selection", label: "Elección de Días", values: ["❌", "✅"] },
-    { id: "free_cancellation", label: "Cancelación Gratuita", values: ["✅", "✅"] },
+    { id: "price",             label: "Precio",               values: ["2 US$/mes", "5 US$/mes"] },
+    { id: "advertising_days",  label: "Días de Publicidad",    values: ["4 días\npor mes", "4 días\npor semana"] },
+    { id: "day_selection",     label: "Elección de Días",      values: ["❌", "✅"] },
+    { id: "free_cancellation", label: "Cancelación Gratuita",   values: ["✅", "✅"] },
   ],
-}
-
-// Client plans for personal users
-export const clientPlans = {
-  headers: ["", "BÁSICO", "PREMIUM"],
-  rows: [
-    { id: "price", label: "Precio", values: ["4.99 US$/mes", "9.99 US$/mes"] },
-    { id: "ads", label: "Sin Publicidad", values: ["❌", "✅"] },
-    { id: "features", label: "Funciones Premium", values: ["Limitadas", "Completas"] },
-    { id: "support", label: "Soporte", values: ["Básico", "Prioritario"] },
-  ],
-}
+};
 
 export const getPlanDetails = (planId) => {
-  // Check client plans first
-  const clientPlan = pricingPlans.find((plan) => plan.id === planId)
-  if (clientPlan) return clientPlan
+  const normalized = planId.toString().toLowerCase();
 
-  // Handle professional plans
-  if (planId === "estandar") {
+  const clientPlan = pricingPlans.find(
+    (plan) => plan.id.toLowerCase() === normalized
+  );
+  if (clientPlan) return clientPlan;
+
+  if (["estandar", "plus"].includes(normalized)) {
+    const idx = normalized === "estandar" ? 0 : 1;
     return {
-      id: "estandar",
-      label: "Plan Estándar",
-      price: 2,
+      id: normalized,
+      label: normalized === "estandar" ? "Plan Estándar" : "Plan Plus",
+      price: normalized === "estandar" ? 2 : 5,
       features: professionalPlans.rows.map((row) => ({
         feature: row.label,
-        value: row.values[0],
+        value: row.values[idx],
       })),
-    }
+    };
   }
 
-  if (planId === "plus") {
-    return {
-      id: "plus",
-      label: "Plan Plus",
-      price: 5,
-      features: professionalPlans.rows.map((row) => ({
-        feature: row.label,
-        value: row.values[1],
-      })),
-    }
-  }
 
-  // Handle client premium plans
-  if (planId === "basico") {
-    return {
-      id: "basico",
-      label: "Plan Básico",
-      price: 4.99,
-      features: clientPlans.rows.map((row) => ({
-        feature: row.label,
-        value: row.values[0],
-      })),
-    }
-  }
+  if (normalized === "basico")  return { id: "basico",  label: "Plan Básico", price: 9.99  };
+  if (normalized === "premium") return { id: "premium", label: "Plan Premium", price: 99.99 };
 
-  if (planId === "premium") {
-    return {
-      id: "premium",
-      label: "Plan Premium",
-      price: 9.99,
-      features: clientPlans.rows.map((row) => ({
-        feature: row.label,
-        value: row.values[1],
-      })),
-    }
-  }
-
-  return null
-}
+  console.warn(`Plan not found: ${planId}`);
+  return null;
+};
 
 export const formatPrice = (price) => {
-  if (price === 0) return "Gratis"
-  if (typeof price === "string") return price
-  return `$${price.toFixed(2)} USD`
-}
+  if (price === 0)           return "Gratis";
+  if (typeof price === "string") return price;
+  if (typeof price === "number") return `$${price.toFixed(2)} USD`;
+  return "Precio no disponible";
+};
 
-export const getPricingPlans = () => {
-  return pricingPlans
-}
-
-export const getClientPlans = () => {
-  return clientPlans
-}
-
-export const getProfessionalPlans = () => {
-  return professionalPlans
-}
-
-export const isProfessionalPlan = (planId) => {
-  return planId === "estandar" || planId === "plus"
-}
-
-export const isClientPlan = (planId) => {
-  return pricingPlans.some((plan) => plan.id === planId) || planId === "basico" || planId === "premium"
-}
+export const getPricingPlans      = () => clientPlans;
+export const getClientPlans       = () => clientPlans;
+export const getProfessionalPlans = () => professionalPlans;
+export const isProfessionalPlan   = (planId) => ["estandar","plus"].includes(planId.toString().toLowerCase());
+export const isClientPlan         = (planId) =>
+  pricingPlans.some((plan) => plan.id.toLowerCase() === planId.toString().toLowerCase()) ||
+  ["basico","premium"].includes(planId.toString().toLowerCase());

@@ -1,4 +1,3 @@
-
 // NavBar: bottom navigation bar with icons for different routes, highlights active route.
 // Uses Pressable and Feather icons; routes via useRouter.
 //------------------------------------------------------------------//
@@ -12,41 +11,41 @@ import { Colors } from "../constants/Colors"
 import { getUserProfile, isUserLoggedIn } from "../utils/storage"
 
 const NavBar = () => {
-  const [pressedIcon, setPressedIcon] = useState(null)
   const [userType, setUserType] = useState(null)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const router = useRouter()
+  const router   = useRouter()
   const pathname = usePathname()
 
   useEffect(() => {
-    const fetchData = async () => {
-      const logged = await isUserLoggedIn()
-      setIsLoggedIn(logged)
-
+    ;(async () => {
+      setIsLoggedIn(await isUserLoggedIn())
       const profile = await getUserProfile()
       setUserType(profile?.userType || null)
-    }
-    fetchData()
+    })()
   }, [])
 
   const handleProtectedRoute = (route) => {
-    if (!isLoggedIn) {
-      router.push("/auth/login")
-    } else {
-      router.push(route)
-    }
+    if (!isLoggedIn) return router.push("/auth/login")
+    router.push(route)
   }
 
   const isActiveRoute = (routeKey) => {
     if (!pathname) return false
-
     switch (routeKey) {
       case "home":
-        return pathname.includes("/home") || pathname === "/tabs/client/home" || pathname === "/tabs/professional/home"
+        return (
+          pathname.includes("/home") ||
+          pathname === "/tabs/client/home" ||
+          pathname === "/tabs/professional/home"
+        )
       case "chat":
         return pathname.includes("/chat")
       case "calendar":
-        return pathname.includes("/myAppointments") || pathname.includes("/agenda") || pathname.includes("/schedule")
+        return (
+          pathname.includes("/myAppointments") ||
+          pathname.includes("/agenda") ||
+          pathname.includes("/schedule")
+        )
       case "profile":
         return pathname.includes("/dashboard") || pathname.includes("/profile")
       default:
@@ -55,28 +54,28 @@ const NavBar = () => {
   }
 
   const renderItem = (icon, label, route, routeKey) => {
-    const isPressed = pressedIcon === icon
     const isActive = isActiveRoute(routeKey)
-    const iconColor = isPressed || isActive ? Colors.orangeColor : "white"
-    const textColor = isPressed || isActive ? Colors.orangeColor : "white"
+    const iconColor = isActive ? Colors.orangeColor : "white"
+    const textColor = isActive ? Colors.orangeColor : "white"
+
+    const onPress = () => {
+      if (isActive) return             
+      if (routeKey === "home") {
+        const homeRoute =
+          userType === "professional"
+            ? "/tabs/professional/home"
+            : "/tabs/client/home"
+        handleProtectedRoute(homeRoute)
+      } else if (routeKey === "chat") {
+        handleProtectedRoute("/tabs/chat")
+      } else {
+        const base = userType === "professional" ? "professional" : "client"
+        handleProtectedRoute(`/tabs/${base}/${route}`)
+      }
+    }
 
     return (
-      <Pressable
-        style={styles.item}
-        onPressIn={() => setPressedIcon(icon)}
-        onPressOut={() => setPressedIcon(null)}
-        onPress={() => {
-          if (routeKey === "home") {
-            const homeRoute = userType === "professional" ? "tabs/professional/home" : "tabs/client/home"
-            handleProtectedRoute(homeRoute)
-          } else if (route === "chat") {
-            handleProtectedRoute(`tabs/chat`)
-          } else {
-            const basePath = userType === "professional" ? "professional" : "client"
-            handleProtectedRoute(`tabs/${basePath}/${route}`)
-          }
-        }}
-      >
+      <Pressable key={routeKey} style={styles.item} onPress={onPress}>
         <Feather name={icon} size={23} color={iconColor} />
         <Text style={[styles.label, { color: textColor }]}>{label}</Text>
         {isActive && <View style={styles.activeIndicator} />}
@@ -96,7 +95,6 @@ const NavBar = () => {
 
 const styles = StyleSheet.create({
   container: {
-    display: "flex",
     width: "100%",
     height: hp(8),
     flexDirection: "row",

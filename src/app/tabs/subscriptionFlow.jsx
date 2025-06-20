@@ -1,166 +1,174 @@
-"use client"
-
-import { useState } from "react"
-import { SafeAreaView, View, Text, ScrollView, StyleSheet } from "react-native"
-import { useLocalSearchParams, useRouter } from "expo-router"
-import { StatusBar } from "expo-status-bar"
-import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen"
-
-import SlideUpCard from "../../components/SlideUpCard"
-import Logo from "../../components/Logo"
-import PaymentList from "../../components/PaymentList"
-import CustomButton from "../../components/CustomButton"
-import ModalCard from "../../components/ModalCard"
-import AnimationFeedback from "../../components/AnimationFeedback"
-
-import { Colors } from "../../constants/Colors"
-import { paymentMethods } from "../../utils/paymentMethods"
-import { usePremium } from "../../hooks/usePremium"
-import { validateCreditCard } from "../../utils/storage"
-import { getPlanDetails } from "../../utils/pricingPlans"
+import React, { useState, useMemo } from 'react';
+import { View, Text, ScrollView, StyleSheet, StatusBar } from 'react-native';
+import { useRouter, useLocalSearchParams } from 'expo-router';
+import CustomButton from '../../components/CustomButton';
+import Logo from '../../components/Logo';
+import SlideUpCard from '../../components/SlideUpCard';
+import ModalCard from '../../components/ModalCard';
+import AnimationFeedback from '../../components/AnimationFeedback';
+import PaymentList from '../../components/PaymentList';
+import { paymentMethods } from '../../utils/paymentMethods';
+import { usePremium } from '../../hooks/usePremium';
+import { validateCreditCard } from '../../utils/storage';
+import { getPlanDetails } from '../../utils/pricingPlans';
+import { Colors } from '../../constants/Colors';
 
 export default function SubscriptionFlow() {
-  const router = useRouter()
-  const { planType } = useLocalSearchParams()
-  const { premium, subscribeToPremium } = usePremium()
+  const router = useRouter();
+  const { planType, userType } = useLocalSearchParams();
+  const { subscribeToPremium } = usePremium();
 
-  const [selectedMethod, setSelectedMethod] = useState(null)
-  const [isFormValid, setIsFormValid] = useState(false)
-  const [showSuccess, setShowSuccess] = useState(false)
-  const [showFailure, setShowFailure] = useState(false)
-  const [paymentData, setPaymentData] = useState({
-    number: "",
-    name: "",
-    cvv: "",
-    expiry: "",
-  })
-  const [paymentError, setPaymentError] = useState("")
+  const [selectedMethod, setSelectedMethod] = useState(null);
+  const [isValid, setIsValid]               = useState(false);
+  const [paymentData, setPaymentData]       = useState({ number:'', name:'', cvv:'', expiry:'' });
+  const [error, setError]                   = useState('');
+  const [success, setSuccess]               = useState(false);
+  const [failure, setFailure]               = useState(false);
 
-  const handlePayment = async () => {
-    if (!isFormValid || !selectedMethod) {
-      setPaymentError("Por favor complete todos los campos correctamente y seleccione un método de pago.")
-      setShowFailure(true)
-      return
+  const mockCards = useMemo(() => [
+    { type: 'visa',       number: '1111111111111111', cvv: '123',  expiry: '12/25', displayNumber: '**** **** **** 1111' },
+    { type: 'mastercard', number: '5555555555554444', cvv: '456',  expiry: '11/26', displayNumber: '**** **** **** 4444' },
+    { type: 'amex',       number: '378282246310005',  cvv: '1234', expiry: '10/27', displayNumber: '**** ****** 0005' },
+  ], []);
+
+  const handlePay = async () => {
+    if (!isValid || !selectedMethod) {
+      setError('Complete todos los campos y seleccione un método.');
+      return setFailure(true);
     }
-
-    const paymentResult = validateCreditCard(paymentData)
-
-    if (!paymentResult.success) {
-      setPaymentError(paymentResult.message)
-      setShowFailure(true)
-      return
+    const cardRes = validateCreditCard(paymentData);
+    if (!cardRes.success) {
+      setError(cardRes.message);
+      return setFailure(true);
     }
-
-    const planDetails = getPlanDetails(planType?.toLowerCase() || "mensual")
-    const subscriptionResult = await subscribeToPremium(planType?.toLowerCase() || "mensual", {
-      ...planDetails,
-      paymentMethod: selectedMethod,
-      cardType: paymentResult.cardType,
-    })
-
-    if (subscriptionResult.success) {
-      setShowSuccess(true)
+    const details = getPlanDetails(planType);
+    const sub = await subscribeToPremium(
+      planType,
+      {
+        ...details,
+        paymentMethod: selectedMethod,
+        cardType: cardRes.cardType
+      },
+      userType
+    );
+    if (sub.success) {
+      setSuccess(true);
     } else {
-      setPaymentError("Error al procesar el pago. Inténtelo de nuevo.")
-      setShowFailure(true)
+      setError('Error al procesar el pago.');
+      setFailure(true);
     }
-  }
+  };
+
+  const dash = userType === 'professional'
+    ? '/tabs/professional/dashboard'
+    : '/tabs/client/dashboard';
 
   return (
-    <>
-      <StatusBar style="light-content" />
-      <View style={styles.container}>
-        <Logo />
-        <SlideUpCard title="Pago" subtitle={`Plan seleccionado: ${planType ?? "N/A"}`} style={styles.card}>
-          <ScrollView contentContainerStyle={styles.scrollContent}>
-            <PaymentList
-              methods={paymentMethods}
-              selected={selectedMethod}
-              onSelect={setSelectedMethod}
-              onValidityChange={setIsFormValid}
-              onPaymentDataChange={setPaymentData}
-            />
+    <View style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor={Colors.blueColor} />
+      <Logo />
 
-            <View style={styles.testCardsContainer}>
-              <Text style={styles.testCardsTitle}>Tarjetas de prueba:</Text>
-              <Text style={styles.testCardText}>VISA: 1111 1111 1111 1111 (CVV: 123, Exp: 12/25)</Text>
-              <Text style={styles.testCardText}>MasterCard: 5555 5555 5555 4444 (CVV: 456, Exp: 11/26)</Text>
-              <Text style={styles.testCardText}>AMEX: 3782 8224 6310 005 (CVV: 1234, Exp: 10/27)</Text>
-            </View>
+      <SlideUpCard title="Pago" subtitle={`Plan: ${planType}`} style={styles.card}>
+        <ScrollView
+            horizontal={false}                     
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false} 
+            alwaysBounceHorizontal={false}         
+            contentContainerStyle={styles.scrollContent}>
+          <PaymentList
+            methods={paymentMethods}
+            selected={selectedMethod}
+            onSelect={setSelectedMethod}
+            onValidityChange={setIsValid}
+            onPaymentDataChange={setPaymentData}
+          />
 
-            <CustomButton
-              text="Pagar"
-              onPress={handlePayment}
-              disabled={!isFormValid}
-              style={{ marginTop: hp("2%") }}
-            />
-          </ScrollView>
-        </SlideUpCard>
-      </View>
-      <SafeAreaView style={styles.safeArea} />
+          <View style={styles.testCardsContainer}>
+            <Text style={styles.testCardsTitle}>Tarjetas de prueba</Text>
+            {mockCards.map((c) => (
+              <Text key={c.number} style={styles.testCardText}>
+                {c.type.toUpperCase()}: {c.displayNumber} | CVV {c.cvv} | Exp: {c.expiry}
+              </Text>
+            ))}
+          </View>
+
+          <View style={styles.payBtnWrapper}>
+          <CustomButton
+            text="Pagar"
+            onPress={handlePay}
+            disabled={!isValid}
+            style={{ marginTop: 16, marginBottom: 40 }}
+          />
+          </View>
+        </ScrollView>
+      </SlideUpCard>
 
       <ModalCard
-        visible={showSuccess}
+        visible={success}
         title="¡Felicidades!"
         onClose={() => {
-          setShowSuccess(false)
-          router.push("/tabs/professional/dashboard")
+          setSuccess(false);
+          router.push(dash);
         }}
       >
         <AnimationFeedback type="success" />
         <Text style={styles.messageText}>Bienvenido a Dilo Premium.</Text>
       </ModalCard>
 
-      <ModalCard visible={showFailure} title="Error en el pago" onClose={() => setShowFailure(false)}>
+      <ModalCard
+        visible={failure}
+        title="Error"
+        onClose={() => setFailure(false)}
+      >
         <AnimationFeedback type="failure" />
-        <Text style={styles.messageText}>
-          {paymentError || "Por favor revisa la información e inténtalo de nuevo."}
-        </Text>
+        <Text style={styles.messageText}>{error}</Text>
       </ModalCard>
-    </>
-  )
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.blueColor,
-    alignItems: "center",
   },
   card: {
-    width: wp("100%"),
-    marginTop: hp("30%"),
-    paddingVertical: wp("10%"),
-    height: hp("70%"),
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    paddingHorizontal: 11,
+    height: '70%',
   },
   scrollContent: {
     flexGrow: 1,
-    justifyContent: "flex-start",
-  },
-  safeArea: {
-    backgroundColor: Colors.whiteColor,
+    paddingHorizontal: 16,
+    paddingTop: 16,
   },
   messageText: {
-    fontSize: hp("2%"),
-    marginTop: hp("1%"),
-    textAlign: "center",
+    fontSize: 16,
+    marginTop: 8,
+    textAlign: 'center',
   },
   testCardsContainer: {
-    backgroundColor: "#f5f5f5",
-    padding: wp("3%"),
-    borderRadius: wp("2%"),
-    marginTop: hp("2%"),
-    marginBottom: hp("1%"),
+    backgroundColor: '#f5f5f5',
+    padding: 16,
+    borderRadius: 8,
+    marginTop: 10,
+    width: '90%',
+    alignSelf: 'center',
   },
   testCardsTitle: {
-    fontSize: hp("1.8%"),
-    fontWeight: "bold",
-    marginBottom: hp("1%"),
+    fontWeight: 'bold',
+    marginBottom: 8,
     color: Colors.blueColor,
   },
   testCardText: {
-    fontSize: hp("1.5%"),
-    color: Colors.dark,
-    marginBottom: hp("0.5%"),
+    fontSize: 14,
+    marginBottom: 4,
   },
-})
+  payBtnWrapper: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  }
+});

@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-//MOCKS
+// MOCK USERS
 export const MOCK_USERS = [
   {
     fullName: "Mirta Gaona",
@@ -29,7 +29,7 @@ export const MOCK_USERS = [
   },
 ];
 
-// KEYS
+// STORAGE KEYS
 const STORAGE_KEYS = {
   USER_DATA: "user_data",
   IS_LOGGED_IN: "is_logged_in",
@@ -38,9 +38,8 @@ const STORAGE_KEYS = {
   USER_PREMIUM_PREFIX: "user_premium_",
 };
 
-const getUserPremiumKey = (userId) => {
-  return `${STORAGE_KEYS.USER_PREMIUM_PREFIX}${userId}`;
-};
+const getUserPremiumKey = (userId) =>
+  `${STORAGE_KEYS.USER_PREMIUM_PREFIX}${userId}`;
 
 export const saveUserLogin = async (userData) => {
   try {
@@ -64,7 +63,6 @@ export const saveUserLogin = async (userData) => {
       profesion: userData.profesion || "",
     });
 
-    console.log("User login saved successfully");
     return true;
   } catch (error) {
     console.error("Error saving user login:", error);
@@ -76,348 +74,123 @@ export const isUserLoggedIn = async () => {
   try {
     const value = await AsyncStorage.getItem(STORAGE_KEYS.IS_LOGGED_IN);
     return value === "true";
-  } catch (error) {
-    console.error("Error checking login status:", error);
+  } catch {
     return false;
   }
 };
 
 export const getUserData = async () => {
   try {
-    const userData = await AsyncStorage.getItem(STORAGE_KEYS.USER_DATA);
-    return userData ? JSON.parse(userData) : null;
-  } catch (error) {
-    console.error("Error getting user data:", error);
+    const raw = await AsyncStorage.getItem(STORAGE_KEYS.USER_DATA);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
     return null;
   }
 };
 
 export const getUserProfile = async () => {
   try {
-    const profileData = await AsyncStorage.getItem(STORAGE_KEYS.USER_PROFILE);
-    return profileData ? JSON.parse(profileData) : null;
-  } catch (error) {
-    console.error("Error getting user profile:", error);
-    return null;
+    const raw = await AsyncStorage.getItem(STORAGE_KEYS.USER_PROFILE);
+    return raw ? JSON.parse(raw) : {};
+  } catch {
+    return {};
   }
 };
-
-export const saveUserProfile = async (profileData) => {
+export const saveUserProfile = async (profile) => {
   try {
     await AsyncStorage.setItem(
       STORAGE_KEYS.USER_PROFILE,
-      JSON.stringify(profileData)
+      JSON.stringify(profile)
     );
-    console.log("User profile saved successfully");
     return true;
-  } catch (error) {
-    console.error("Error saving user profile:", error);
+  } catch {
     return false;
   }
 };
 
-export const getCompleteUserData = async () => {
-  try {
-    const userData = await getUserData();
-    const profileData = await getUserProfile();
-
-    return {
-      ...userData,
-      ...profileData,
-    };
-  } catch (error) {
-    console.error("Error getting complete user data:", error);
-    return null;
-  }
-};
-
-export const getUserType = async () => {
-  try {
-    const profileData = await getUserProfile();
-    return profileData?.userType || null;
-  } catch (error) {
-    console.error("Error getting user type:", error);
-    return null;
-  }
-};
-
-export const saveUserType = async (type) => {
-  await AsyncStorage.setItem("userType", type);
-};
+export const getCompleteUserData = async () => ({
+  ...(await getUserData()),
+  ...(await getUserProfile()),
+});
 
 export const logoutUser = async () => {
+  await AsyncStorage.multiRemove([
+    STORAGE_KEYS.IS_LOGGED_IN,
+    STORAGE_KEYS.USER_DATA,
+    STORAGE_KEYS.USER_PROFILE,
+  ]);
+  return true;
+};
+
+export const registerUser = async (user) => {
   try {
-    await AsyncStorage.removeItem(STORAGE_KEYS.IS_LOGGED_IN);
-    await AsyncStorage.removeItem(STORAGE_KEYS.USER_DATA);
-    await AsyncStorage.removeItem(STORAGE_KEYS.USER_PROFILE);
-    console.log("User logged out successfully");
-    return true;
-  } catch (error) {
-    console.error("Error logging out user:", error);
-    return false;
+    const raw = await AsyncStorage.getItem(STORAGE_KEYS.REGISTERED_USERS);
+    const all = raw ? JSON.parse(raw) : [];
+    if (
+      all.some((u) => u.username === user.username || u.email === user.email)
+    ) {
+      return { success: false, message: "Username or email exists" };
+    }
+    all.push(user);
+    await AsyncStorage.setItem(
+      STORAGE_KEYS.REGISTERED_USERS,
+      JSON.stringify(all)
+    );
+    await saveUserLogin(user);
+    return { success: true };
+  } catch {
+    return { success: false, message: "Error registering" };
   }
 };
 
-// User-specific premium functions
-export const saveUserPremiumData = async (userId, premiumData) => {
+export const checkLoginCredentials = async (email, password) => {
+  const raw = await AsyncStorage.getItem(STORAGE_KEYS.REGISTERED_USERS);
+  const all = raw ? JSON.parse(raw) : [];
+  const user = [...all, ...MOCK_USERS].find(
+    (u) => u.email === email && u.password === password
+  );
+  return user ? { success: true, user } : { success: false };
+};
+
+// ===== PREMIUM PERSISTENCE =====
+export const saveUserPremiumData = async (userId, data) => {
   try {
-    const key = getUserPremiumKey(userId);
-    await AsyncStorage.setItem(key, JSON.stringify(premiumData));
-    console.log(`Premium data saved for user ${userId}`);
+    await AsyncStorage.setItem(getUserPremiumKey(userId), JSON.stringify(data));
     return true;
-  } catch (error) {
-    console.error("Error saving user premium data:", error);
+  } catch {
     return false;
   }
 };
 
 export const getUserPremiumData = async (userId) => {
   try {
-    const key = getUserPremiumKey(userId);
-    const premiumData = await AsyncStorage.getItem(key);
-    return premiumData ? JSON.parse(premiumData) : null;
-  } catch (error) {
-    console.error("Error getting user premium data:", error);
+    const raw = await AsyncStorage.getItem(getUserPremiumKey(userId));
+    return raw ? JSON.parse(raw) : null;
+  } catch {
     return null;
   }
 };
 
 export const clearUserPremiumData = async (userId) => {
   try {
-    const key = getUserPremiumKey(userId);
-    await AsyncStorage.removeItem(key);
-    console.log(`Premium data cleared for user ${userId}`);
+    await AsyncStorage.removeItem(getUserPremiumKey(userId));
     return true;
-  } catch (error) {
-    console.error("Error clearing user premium data:", error);
+  } catch {
     return false;
   }
 };
 
-// Legacy functions for backward compatibility (now user-specific)
-export const setPremiumStatus = async (isPremium, userId = null) => {
-  try {
-    if (!userId) {
-      const userData = await getUserData();
-      userId = userData?.email || "default";
-    }
-
-    const existingData = (await getUserPremiumData(userId)) || {};
-    existingData.isPremium = isPremium;
-
-    await saveUserPremiumData(userId, existingData);
-    console.log("Premium status updated successfully");
-    return true;
-  } catch (error) {
-    console.error("Error updating premium status:", error);
-    return false;
-  }
-};
-
-export const isPremiumUser = async (userId = null) => {
-  try {
-    if (!userId) {
-      const userData = await getUserData();
-      userId = userData?.email || "default";
-    }
-
-    const premiumData = await getUserPremiumData(userId);
-    return premiumData?.isPremium || false;
-  } catch (error) {
-    console.error("Error checking premium status:", error);
-    return false;
-  }
-};
-
-export const setPremiumProfStatus = async (isPremiumProf, userId = null) => {
-  try {
-    if (!userId) {
-      const userData = await getUserData();
-      userId = userData?.email || "default";
-    }
-
-    const existingData = (await getUserPremiumData(userId)) || {};
-    existingData.isPremiumProf = isPremiumProf;
-
-    await saveUserPremiumData(userId, existingData);
-    console.log("Professional premium status updated successfully");
-    return true;
-  } catch (error) {
-    console.error("Error updating professional premium status:", error);
-    return false;
-  }
-};
-
-export const isPremiumProf = async (userId = null) => {
-  try {
-    if (!userId) {
-      const userData = await getUserData();
-      userId = userData?.email || "default";
-    }
-
-    const premiumData = await getUserPremiumData(userId);
-    return premiumData?.isPremiumProf || false;
-  } catch (error) {
-    console.error("Error checking professional premium status:", error);
-    return false;
-  }
-};
-
-export const registerUser = async (userData) => {
-  try {
-    const existingUsersJSON = await AsyncStorage.getItem(
-      STORAGE_KEYS.REGISTERED_USERS
-    );
-    const existingUsers = existingUsersJSON
-      ? JSON.parse(existingUsersJSON)
-      : [];
-
-    const usernameExists = existingUsers.some(
-      (user) => user.username === userData.username
-    );
-    const emailExists = existingUsers.some(
-      (user) => user.email === userData.email
-    );
-
-    if (usernameExists || emailExists) {
-      return { success: false, message: "Username or email already exists" };
-    }
-
-    existingUsers.push(userData);
-    await AsyncStorage.setItem(
-      STORAGE_KEYS.REGISTERED_USERS,
-      JSON.stringify(existingUsers)
-    );
-
-    await saveUserLogin(userData.email);
-
-    await saveUserProfile({
-      fullName: userData.username,
-      email: userData.email,
-      province: "",
-      department: "",
-      address: "",
-      userType: userData.userType,
-      birthdate: userData.birthdate,
-    });
-
-    return { success: true };
-  } catch (error) {
-    console.error("Error registering user:", error);
-    return { success: false, message: "Error saving user data" };
-  }
-};
-
-export const checkLoginCredentials = async (email, password) => {
-  try {
-    const existingUsersJSON = await AsyncStorage.getItem(
-      STORAGE_KEYS.REGISTERED_USERS
-    );
-
-    const existingUsers = existingUsersJSON
-      ? JSON.parse(existingUsersJSON)
-      : [];
-
-    const allUsers = [...existingUsers, ...MOCK_USERS];
-
-    const user = allUsers.find(
-      (user) => user.email === email && user.password === password
-    );
-
-    if (!user) return { success: false, user: null };
-    return { success: true, user: user };
-  } catch (error) {
-    console.error("Error checking credentials:", error);
-    return { success: false, user: null };
-  }
-};
-
-export const clearAllData = async () => {
-  try {
-    await AsyncStorage.clear();
-    console.log("All data cleared successfully");
-    return true;
-  } catch (error) {
-    console.error("Error clearing data:", error);
-    return false;
-  }
-};
-
+// ===== MOCK CREDIT CARDS =====
 const MOCK_CREDIT_CARDS = [
-  {
-    number: "1111111111111111",
-    name: "VISA Test Card",
-    cvv: "123",
-    expiry: "12/25",
-    type: "visa",
-  },
-  {
-    number: "5555555555554444",
-    name: "MasterCard Test Card",
-    cvv: "456",
-    expiry: "11/26",
-    type: "mastercard",
-  },
-  {
-    number: "378282246310005",
-    name: "American Express Test Card",
-    cvv: "1234",
-    expiry: "10/27",
-    type: "amex",
-  },
+  { number: "1111111111111111", cvv: "123", expiry: "12/25", type: "visa" },
 ];
-
-export const validateCreditCard = (cardData) => {
-  const { number, cvv, expiry, name } = cardData;
-
-  const cleanNumber = number.replace(/\s/g, "");
-
-  const validCard = MOCK_CREDIT_CARDS.find(
-    (card) => card.number === cleanNumber
+export const validateCreditCard = (card) => {
+  const c = MOCK_CREDIT_CARDS.find(
+    (c) => c.number === card.number.replace(/\s/g, "")
   );
-
-  if (!validCard) {
-    return {
-      success: false,
-      message: "Número de tarjeta inválido. Use una tarjeta de prueba.",
-    };
-  }
-
-  if (cvv !== validCard.cvv) {
-    return {
-      success: false,
-      message: "CVV incorrecto.",
-    };
-  }
-
-  const formattedExpiry =
-    expiry.length === 4
-      ? `${expiry.substring(0, 2)}/${expiry.substring(2, 4)}`
-      : expiry;
-  if (formattedExpiry !== validCard.expiry) {
-    return {
-      success: false,
-      message: "Fecha de expiración incorrecta.",
-    };
-  }
-
-  if (!name || name.trim().length < 2) {
-    return {
-      success: false,
-      message: "Nombre del titular requerido.",
-    };
-  }
-
-  return {
-    success: true,
-    message: "Pago procesado exitosamente.",
-    cardType: validCard.type,
-  };
-};
-
-export const getMockCreditCards = () => {
-  return MOCK_CREDIT_CARDS.map((card) => ({
-    ...card,
-    displayNumber: `**** **** **** ${card.number.slice(-4)}`,
-  }));
+  if (!c) return { success: false, message: "Tarjeta inválida" };
+  if (card.cvv !== c.cvv) return { success: false, message: "CVV incorrecto" };
+  if (card.expiry !== c.expiry)
+    return { success: false, message: "Expiración inválida" };
+  return { success: true, cardType: c.type };
 };

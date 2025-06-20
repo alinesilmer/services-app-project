@@ -1,5 +1,5 @@
-"use client"
-import { useEffect, useState, useCallback } from "react"
+// “use client”
+import React, { useEffect, useState, useCallback } from "react"
 import {
   View,
   Text,
@@ -9,55 +9,55 @@ import {
   Pressable,
   SafeAreaView,
   Platform,
-  FlatList
+  FlatList,
 } from "react-native"
 import { useRouter, useFocusEffect } from "expo-router"
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
 
-import ProfilePicture from '../../../components/ProfilePic'
-import SearchBar from '../../../components/SearchBar'
-import BottomNavBar from '../../../components/NavBar'
-import ServiceList from '../../../components/ServiceList'
-import PublicityProfessional from '../../../components/PublicityProfessional'
-import Notifications from '../../../components/Notifications'
-import LongCard from '../../../components/LongCard'
-import allServices from "../../../data/mockServices";
-import Rate from '../../../components/Rate'
-import { filterServices } from '../../../utils/filterServices'
-import Ad from '../../../components/Ad'
-import { useAdManager } from '../../../hooks/useAdManager'
-import { Colors } from '../../../constants/Colors'
-import { getUserData, isPremiumUser } from "../../../utils/storage"
+import ProfilePicture from "../../../components/ProfilePic"
+import SearchBar from "../../../components/SearchBar"
+import BottomNavBar from "../../../components/NavBar"
+import ServiceList from "../../../components/ServiceList"
+import PublicityProfessional from "../../../components/PublicityProfessional"
+import Notifications from "../../../components/Notifications"
+import LongCard from "../../../components/LongCard"
+import allServices from "../../../data/mockServices"
+import Rate from "../../../components/Rate"
+import { filterServices } from "../../../utils/filterServices"
+import Ad from "../../../components/Ad"
+import { useAdManager } from "../../../hooks/useAdManager"
+import { usePremium } from "../../../hooks/usePremium"
+import { Colors } from "../../../constants/Colors"
+import { getCompleteUserData } from "../../../utils/storage"
 
 const ads = [
-  require('../../../assets/videos/propaganda1.mp4'),
-  require('../../../assets/videos/propaganda2.mp4'),
-  require('../../../assets/videos/propaganda3.mp4'),
-  require('../../../assets/videos/propaganda4.mp4'),
-  require('../../../assets/videos/propaganda5.mp4'),
-];
+  require("../../../assets/videos/propaganda1.mp4"),
+  require("../../../assets/videos/propaganda2.mp4"),
+  require("../../../assets/videos/propaganda3.mp4"),
+  require("../../../assets/videos/propaganda4.mp4"),
+  require("../../../assets/videos/propaganda5.mp4"),
+]
 
-const Home = () => {
+export default function Home() {
   const router = useRouter()
-  const [username, setUsername] = useState("Usuario")
-  const [premium, setPremium] = useState(false)
-  const { showAd, closeAd } = useAdManager({ isPremium: premium })
+  const { premium } = usePremium()
+  const userIsPremium =
+    (premium.isPremium || premium.isPremiumProf) &&
+    ["active", "trial"].includes(premium.premiumStatus)
+
+  const { showAd, closeAd } = useAdManager()
   const [randomAd, setRandomAd] = useState(null)
-  const [search, setSearch] = useState('');
+  const [username, setUsername] = useState("Usuario")
+  const [search, setSearch] = useState("")
 
-
-  const filteredResults = filterServices(search, allServices);
+  const filteredResults = filterServices(search, allServices)
 
   const loadUserData = useCallback(async () => {
     try {
-      const userData = await getUserData()
-      if (userData && userData.fullName) {
-        setUsername(userData.fullName)
-      }
-      const premiumStatus = await isPremiumUser()
-      setPremium(premiumStatus)
-    } catch (error) {
-      console.error("Error loading user data:", error)
+      const data = await getCompleteUserData()
+      if (data.fullName) setUsername(data.fullName)
+    } catch (e) {
+      console.error("Error loading user data:", e)
     }
   }, [])
 
@@ -65,35 +65,40 @@ const Home = () => {
     loadUserData()
   }, [loadUserData])
 
-  useEffect(() => {
-    if (showAd && !randomAd) {
-      const randomIndex = Math.floor(Math.random() * ads.length)
-      setRandomAd(ads[randomIndex])
-    }
-
-    if (!showAd) {
-      setRandomAd(null)
-    }
-  }, [showAd])
-
   useFocusEffect(
     useCallback(() => {
       loadUserData()
-    }, [loadUserData]),
+    }, [loadUserData])
   )
+
+  useEffect(() => {
+    if (showAd && !randomAd) {
+      const idx = Math.floor(Math.random() * ads.length)
+      setRandomAd(ads[idx])
+    }
+    if (!showAd) {
+      setRandomAd(null)
+    }
+  }, [showAd, randomAd])
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="light-content" />
       <View style={styles.container}>
+
         <View style={styles.header}>
           <View style={styles.topRow}>
-            <Pressable style={styles.profileContainer} onPress={() => router.push("tabs/client/dashboard")}>
-              <ProfilePicture uri="https://image.freepik.com/foto-gratis/hermosa-mujer-sobre-fondo-blanco_144627-2849.jpg" />
+            <Pressable
+              style={styles.profileContainer}
+              onPress={() => router.push("/tabs/client/dashboard")}
+            >
+              <ProfilePicture uri="https://i.pinimg.com/736x/9f/16/72/9f1672710cba6bcb0dfd93201c6d4c00.jpg" />
               <View style={styles.profileText}>
                 <Text style={styles.welcome}>Bienvenido</Text>
                 <Text style={styles.username}>{username}</Text>
-                {premium && <Text style={styles.premiumBadge}>Premium</Text>}
+                {userIsPremium && (
+                  <Text style={styles.premiumBadge}>Premium</Text>
+                )}
               </View>
             </Pressable>
             <Notifications />
@@ -106,15 +111,24 @@ const Home = () => {
                 data={filteredResults}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
-                  <Pressable style={styles.resultItem} onPress={() => console.log('Detalle', item.servicio)}>
-                    <Text style={styles.resultText}>{item.servicio} - ${item.precio}</Text>
+                  <Pressable
+                    style={styles.resultItem}
+                    onPress={() => console.log("Detalle", item.servicio)}
+                  >
+                    <Text style={styles.resultText}>
+                      {item.servicio} - ${item.precio}
+                    </Text>
                   </Pressable>
                 )}
-                ListEmptyComponent={<Text style={styles.noResults}>No se encontraron servicios</Text>}
+                ListEmptyComponent={
+                  <Text style={styles.noResults}>
+                    No se encontraron servicios
+                  </Text>
+                }
               />
             </View>
           )}
-          </View>
+        </View>
 
         <View style={styles.content}>
           <ScrollView showsVerticalScrollIndicator={false}>
@@ -141,13 +155,8 @@ const Home = () => {
 
         <BottomNavBar />
 
-        {!premium && randomAd && (
-          <Ad
-            visible={showAd}
-            onClose={closeAd}
-            source={randomAd}
-            type="video"
-          />
+        {!userIsPremium && randomAd && (
+          <Ad visible={showAd} onClose={closeAd} source={randomAd} type="video" />
         )}
       </View>
     </SafeAreaView>
@@ -160,9 +169,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.blueColor,
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
-  container: {
-    flex: 1,
-  },
+  container: { flex: 1 },
   header: {
     marginTop: hp("2%"),
     paddingHorizontal: wp("6%"),
@@ -174,13 +181,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: hp("2%"),
   },
-  profileContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  profileText: {
-    marginLeft: wp("2%"),
-  },
+  profileContainer: { flexDirection: "row", alignItems: "center" },
+  profileText: { marginLeft: wp("2%") },
   welcome: {
     fontSize: wp("4.5%"),
     color: Colors.whiteColor,
@@ -212,7 +214,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: wp("1%"),
   },
   searchResults: {
-    backgroundColor: 'white',
+    backgroundColor: "#fff",
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 12,
@@ -222,7 +224,7 @@ const styles = StyleSheet.create({
   resultItem: {
     paddingVertical: 8,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: "#eee",
   },
   resultText: {
     fontSize: wp("4%"),
@@ -230,10 +232,8 @@ const styles = StyleSheet.create({
   },
   noResults: {
     fontSize: wp("4%"),
-    textAlign: 'center',
+    textAlign: "center",
     padding: 10,
-    color: 'gray',
-  }  
+    color: "gray",
+  },
 })
-
-export default Home
