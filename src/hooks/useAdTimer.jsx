@@ -2,7 +2,7 @@
 // Props: start boolean to start countdown
 // Returns: { canClose, timer }
 //------------------------------------------------------------------//
-
+// File: hooks/useAdTimer.js
 import { useEffect, useState } from "react"
 
 export const useAdTimer = (start) => {
@@ -11,30 +11,24 @@ export const useAdTimer = (start) => {
 
   useEffect(() => {
     let interval
-
     if (start) {
       setCanClose(false)
       setTimer(5)
       interval = setInterval(() => {
-        setTimer((prev) => {
-          if (prev <= 1) {
+        setTimer((t) => {
+          if (t <= 1) {
             clearInterval(interval)
             setCanClose(true)
             return 0
           }
-          return prev - 1
+          return t - 1
         })
       }, 1000)
     } else {
       setCanClose(false)
       setTimer(5)
     }
-
-    return () => {
-      if (interval) {
-        clearInterval(interval)
-      }
-    }
+    return () => clearInterval(interval)
   }, [start])
 
   return { canClose, timer }

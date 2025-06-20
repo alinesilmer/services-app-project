@@ -1,204 +1,149 @@
-"use client"
-
-import { useState, useEffect } from "react"
-import { View, StyleSheet, ScrollView, Pressable, Text, SafeAreaView } from "react-native"
-import { StatusBar } from "expo-status-bar"
+import React, { useState, useEffect } from "react"
+import {
+  View,
+  Text,
+  ScrollView,
+  Pressable,
+  StyleSheet,
+  StatusBar,
+} from "react-native"
+import { SafeAreaView } from "react-native-safe-area-context"
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useRouter, useLocalSearchParams } from "expo-router"
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
-import { Feather } from "@expo/vector-icons"
 import CheckBox from "expo-checkbox"
-
 import BackButton from "../../components/BackButton"
 import Logo from "../../components/Logo"
 import SlideUpCard from "../../components/SlideUpCard"
 import CustomButton from "../../components/CustomButton"
 import PricingComparisonTable from "../../components/PricingComparisonTable"
-import { usePremium } from "../../hooks/usePremium"
-import { getProfessionalPlans, getClientPlans, getPlanDetails } from "../../utils/pricingPlans"
-import { getUserProfile } from "../../utils/storage"
 import { Colors } from "../../constants/Colors"
+import {
+  getProfessionalPlans,
+  getPricingPlans,
+  getPlanDetails,
+} from "../../utils/pricingPlans"
+import { getUserProfile } from "../../utils/storage"
+import { usePremium } from "../../hooks/usePremium"
 
 export default function GoPremium() {
   const router = useRouter()
   const { type } = useLocalSearchParams()
-  const [userType, setUserType] = useState(type || "client")
-  const { premium, subscribeToPremium } = usePremium()
+  const [userType, setUserType] = useState(null)
+  const { subscribeToPremium } = usePremium()
   const [selectedPlan, setSelectedPlan] = useState(null)
   const [formData, setFormData] = useState({ acceptTerms: false })
   const [errors, setErrors] = useState({})
 
+  const normalize = (t) =>
+    ["professional", "client"].includes(t) ? t : "client"
   useEffect(() => {
-    const loadUserProfile = async () => {
-      try {
-        const profile = await getUserProfile()
-        if (profile?.userType) {
-          setUserType(profile.userType)
-        }
-      } catch (error) {
-        console.error("Error loading user profile:", error)
-      }
-    }
-
-    if (!type) {
-      loadUserProfile()
-    }
+    getUserProfile().then((profile) =>
+      setUserType(normalize(type || profile?.userType))
+    )
   }, [type])
 
-  const pricingPlans = userType === "professional" ? getProfessionalPlans() : getClientPlans()
-
-  const TermRoute = () => {
-    router.push(userType === "professional" ? "/auth/termsProf" : "/auth/terms")
-  }
-
-  const change = (name, value) => setFormData((p) => ({ ...p, [name]: value }))
+  const isProf = userType === "professional"
+  const plans = isProf ? getProfessionalPlans() : getPricingPlans()
+  const opts = isProf ? ["estandar", "plus"] : ["Prueba", "Mensual", "Anual"]
 
   const handleSubscribe = async () => {
     if (!formData.acceptTerms) {
-      setErrors({ acceptTerms: "Debes aceptar los términos y condiciones" })
-      return
+      return setErrors({ acceptTerms: "Debes aceptar los términos" })
     }
+    if (!selectedPlan) return
 
-    if (selectedPlan) {
-      const planDetails = getPlanDetails(selectedPlan)
-      console.log("Subscribing to plan:", selectedPlan, "with details:", planDetails)
-
-      const result = await subscribeToPremium(selectedPlan, planDetails, userType)
-
-      if (result.success) {
-        router.push({
-          pathname: "/tabs/SubscriptionFlow",
-          params: { planType: selectedPlan.toUpperCase(), userType },
-        })
-      } else {
-        setErrors({ general: result.error || "Error al procesar la suscripción" })
-      }
-    }
-  }
-
-  const getDashboardRoute = () => {
-    return userType === "professional" ? "/tabs/professional/dashboard" : "/tabs/client/dashboard"
-  }
-
-  const isProfessional = userType === "professional"
-  const isPremiumActive =
-    (isProfessional &&
-      premium.isPremiumProf &&
-      (premium.premiumStatus === "active" || premium.premiumStatus === "trial")) ||
-    (!isProfessional && premium.isPremium && (premium.premiumStatus === "active" || premium.premiumStatus === "trial"))
-
-  if (isPremiumActive) {
-    return (
-      <>
-        <StatusBar style="light-content" />
-        <View style={styles.container}>
-          <BackButton onPress={() => router.back()} />
-          <Logo />
-          <SlideUpCard
-            title="Ya eres Premium"
-            subtitle={`Ya disfrutas de todos los beneficios premium ${isProfessional ? "profesionales" : "personales"}`}
-            style={styles.card}
-          >
-            <ScrollView contentContainerStyle={styles.scroll} showsHorizontalScrollIndicator={false}>
-              <Text style={styles.premiumText}>
-                Gracias por ser un usuario premium. Disfruta de la experiencia completa.
-              </Text>
-              <CustomButton
-                text="Volver al inicio"
-                onPress={() => router.push(getDashboardRoute())}
-                style={styles.subscribeBtn}
-              />
-              <CustomButton
-                text="Gestionar Premium"
-                onPress={() => router.push("/tabs/managePremium")}
-                style={[styles.subscribeBtn, { backgroundColor: Colors.grayColor }]}
-              />
-            </ScrollView>
-          </SlideUpCard>
-        </View>
-      </>
+    const details = getPlanDetails(selectedPlan)
+    const res = await subscribeToPremium(
+      selectedPlan,
+      details,
+      userType
     )
+    if (res.success) {
+      router.push({
+        pathname: "/tabs/subscriptionFlow",
+        params: { planType: selectedPlan, userType },
+      })
+    } else {
+      setErrors({ general: res.error })
+    }
   }
 
   return (
-    <>
-      <StatusBar style="light-content" />
-      <View style={styles.container}>
-        <BackButton onPress={() => router.back()} />
-        <Logo />
-        <SlideUpCard
-          title={isProfessional ? "Publicitá tu servicio" : "Disfruta sin límites"}
-          subtitle={isProfessional ? "Proba Dilo con tu propia marca personal" : "Obtén la mejor experiencia"}
-          style={styles.card}
-              >
-               <SafeAreaView style={{ flex: 1 }}>
-            <ScrollView
-              style={{ flex: 1 }}
-              contentContainerStyle={styles.scroll}
-              showsVerticalScrollIndicator={false}
-            >
-            <PricingComparisonTable
-              headers={pricingPlans.headers}
-              rows={pricingPlans.rows}
-              selected={selectedPlan}
-              onSelect={setSelectedPlan}
-                      />
-                      
-            <View style={styles.radioGroup}>
-              {(isProfessional ? ["estandar", "plus"] : ["basico", "premium"]).map((plan) => {
-                const isSelected = selectedPlan === plan
-                const planDetails = getPlanDetails(plan)
-                return (
-                  <Pressable key={plan} style={styles.labelRow} onPress={() => setSelectedPlan(plan)}>
-                    <Feather
-                      name={isSelected ? "check-circle" : "circle"}
-                      size={20}
-                      color={isSelected ? Colors.orangeColor : Colors.dark}
-                    />
-                    <View style={styles.planInfo}>
-                      <Text style={[styles.label, isSelected && styles.labelSelected]}>
-                        {plan === "estandar"
-                          ? "ESTÁNDAR"
-                          : plan === "plus"
-                            ? "Plus"
-                            : plan === "basico"
-                              ? "Básico"
-                              : "Premium"}
-                      </Text>
-                      <Text style={styles.planPrice}>${planDetails?.price} USD/mes</Text>
-                    </View>
-                  </Pressable>
-                )
-              })}
+    <View style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor={Colors.blueColor} />
+      <BackButton onPress={() => router.back()} />
+      <Logo />
+
+      <SlideUpCard
+        title={isProf ? "Publicitá tu servicio" : "Disfruta sin límites"}
+        subtitle={isProf ? "Planes profesionales" : "Planes personales"}
+        style={styles.card}  
+      >
+        <SafeAreaView edges={["top"]} style={{ flex: 1 }}>
+          <ScrollView contentContainerStyle={styles.scroll}>
+
+            <View style={styles.tableContainer}>
+              <PricingComparisonTable
+                headers={plans.headers}
+                rows={plans.rows}
+                selected={selectedPlan}
+                onSelect={setSelectedPlan}
+              />
             </View>
+
+            {opts.map((p) => {
+              const sel = selectedPlan === p
+              const info = getPlanDetails(p)
+              return (
+                <Pressable
+                  key={p}
+                  style={styles.optionRow}
+                  onPress={() => setSelectedPlan(p)}
+                >
+                  <Text style={[styles.optionLabel, sel && styles.selected]}>
+                    {p}
+                  </Text>
+                  <Text>
+                    {typeof info.price === "number"
+                      ? `$${info.price}`
+                      : info.price}
+                  </Text>
+                </Pressable>
+              )
+            })}
 
             <View style={styles.checkboxContainer}>
               <CheckBox
                 value={formData.acceptTerms}
-                onValueChange={(v) => change("acceptTerms", v)}
+                onValueChange={(v) =>
+                  setFormData({ acceptTerms: v })
+                }
                 tintColors={{ true: Colors.orangeColor }}
               />
-              <Text style={styles.checkboxText}>Acepto los </Text>
-              <Pressable onPress={TermRoute}>
-                <Text style={styles.link}>Términos y Condiciones</Text>
-              </Pressable>
+              <Text style={styles.linkText}>
+                Acepto Términos y Condiciones
+              </Text>
             </View>
+            {errors.acceptTerms && (
+              <Text style={styles.error}>{errors.acceptTerms}</Text>
+            )}
+            {errors.general && (
+              <Text style={styles.error}>{errors.general}</Text>
+            )}
 
-            {errors.acceptTerms && <Text style={styles.errorText}>{errors.acceptTerms}</Text>}
-            {errors.general && <Text style={styles.errorText}>{errors.general}</Text>}
-
-                          <View style={styles.premiumBtn}>
-            <CustomButton
-              text="Suscribirme"
-              onPress={handleSubscribe}
-              disabled={!selectedPlan || !formData.acceptTerms}
-              style={styles.subscribeBtn}
-                              />
-                              </View>
-                  </ScrollView>
-                  </SafeAreaView>
-        </SlideUpCard>
-      </View>
-    </>
+            <View style={styles.subscribeBtnWrapper}>
+              <CustomButton
+                text="Suscribirme"
+                onPress={handleSubscribe}
+                disabled={
+                  !selectedPlan || !formData.acceptTerms
+                }
+              />
+            </View>
+          </ScrollView>
+        </SafeAreaView>
+      </SlideUpCard>
+    </View>
   )
 }
 
@@ -206,81 +151,67 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.blueColor,
-    alignItems: "center",
   },
   card: {
-    width: wp("100%"),
-    marginTop: hp("20%"),
-    paddingVertical: wp("5%"),
-    height: hp("80%"),
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: "80%",
+    backgroundColor: "white",
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+    overflow: "hidden",
   },
-    scroll: {
-        flexGrow: 1,
-        paddingHorizontal: wp("2%"),
+  scroll: {
+    paddingHorizontal: wp("2%"),  
+    paddingTop: hp("2%"),
+    paddingBottom: hp("4%"),
   },
-  radioGroup: {
-    marginTop: hp("3%"),
-    marginBottom: hp("2%"),
-    flexDirection: "row",
-    justifyContent: "space-around",
-    marginVertical: hp("2%"),
+
+  tableContainer: {
+    width: 340,              
+    marginBottom: hp("3%"),
+    backgroundColor: Colors.lightGray,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: Colors.inputGray,          
   },
-  labelRow: {
-    flexDirection: "row",
+
+  optionRow: {
+    display: "flex",
     alignItems: "center",
-    marginVertical: 8,
-    marginLeft: wp("5%"),
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: hp("1%"),
+    paddingHorizontal: wp("2%"),
   },
-    planInfo: {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-    marginLeft: wp("7%"),
-  },
-  label: {
+  optionLabel: {
+    fontWeight: "600",
     fontSize: wp("4%"),
-    fontWeight: "bold",
-    color: Colors.dark,
   },
-  labelSelected: {
+  selected: {
     color: Colors.orangeColor,
-    fontWeight: "bold",
-  },
-  planPrice: {
-    fontSize: wp("3%"),
-    color: Colors.grayColor,
-    marginTop: 2,
-  },
-  link: {
-    color: Colors.orangeColor,
-    textAlign: "center",
   },
   checkboxContainer: {
+    display: "flex",
+    justifyContent: "center",
     flexDirection: "row",
     alignItems: "center",
-    marginVertical: hp("1.5%"),
+    marginTop: hp("3%"),
+    marginBottom: hp("3%"),
   },
-  checkboxText: {
-    color: Colors.textColor,
-    marginLeft: 10,
+  linkText: {
+    marginLeft: wp("2%"),
+    color: Colors.blueColor,
   },
-  subscribeBtn: {
+  subscribeBtnWrapper: {
+    alignItems: "center",
     marginTop: hp("2%"),
   },
-  errorText: {
+  error: {
     color: "red",
-    fontSize: wp("3.5%"),
-    marginBottom: hp("1%"),
-  },
-  premiumText: {
-    fontSize: hp("2.2%"),
+    marginTop: hp("1%"),
     textAlign: "center",
-    marginVertical: hp("3%"),
-    color: Colors.blueColor,
-    },
-    premiumBtn: {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-  }
+  },
 })

@@ -1,10 +1,9 @@
-"use client"
-
-import { useSelector, useDispatch } from "react-redux"
+// File: hooks/usePremium.js
 import { useEffect } from "react"
+import { useSelector, useDispatch } from "react-redux"
 import {
-  resetPremiumState,
   initializePremiumForUser,
+  resetPremiumState,
   activatePremium,
   pausePremium,
   resumePremium,
@@ -14,274 +13,105 @@ import {
   upgradeFromTrial,
 } from "../redux/slices/premiumSlice"
 import {
-  saveUserPremiumData,
   getUserPremiumData,
-  setPremiumStatus as setStoragePremiumStatus,
-  setPremiumProfStatus,
+  saveUserPremiumData,
 } from "../utils/storage"
 
 export function usePremium() {
   const dispatch = useDispatch()
-  const premium = useSelector((state) => state.premium)
-  const user = useSelector((state) => state.auth.user)
+  const premium = useSelector((s) => s.premium)
+  const user = useSelector((s) => s.auth.user)
 
-  const getUserId = () => {
-    return user?.email || user?.id || "default"
-  }
+  // Helper to get a stable userId
+  const getUserId = () => user?.email || user?.id || "default"
 
+  // Load from AsyncStorage into Redux
   const initializePremium = async () => {
-    try {
-      const userId = getUserId()
-
-      const userPremiumData = await getUserPremiumData(userId)
-
-      dispatch(
-        initializePremiumForUser({
-          userId,
-          premiumData: userPremiumData,
-        }),
-      )
-
-      console.log(`Premium initialized for user: ${userId}`, userPremiumData)
-    } catch (error) {
-      console.error("Error initializing premium:", error)
-    }
+    const userId = getUserId()
+    const stored = await getUserPremiumData(userId)
+    dispatch(initializePremiumForUser({ userId, premiumData: stored }))
   }
 
-  const syncWithStorage = async () => {
-    try {
-      const userId = getUserId()
-
-      const premiumDataToSave = {
-        isPremium: premium.isPremium,
-        isPremiumProf: premium.isPremiumProf,
-        premiumType: premium.premiumType,
-        premiumStatus: premium.premiumStatus,
-        premiumStartDate: premium.premiumStartDate,
-        premiumEndDate: premium.premiumEndDate,
-        pausedUntil: premium.pausedUntil,
-        planDetails: premium.planDetails,
-        trialUsed: premium.trialUsed,
-      }
-
-      await saveUserPremiumData(userId, premiumDataToSave)
-
-      // Also update legacy storage for backward compatibility
-      await setStoragePremiumStatus(premium.isPremium, userId)
-      await setPremiumProfStatus(premium.isPremiumProf, userId)
-
-      console.log(`Premium data synced for user: ${userId}`)
-    } catch (error) {
-      console.error("Error syncing premium with storage:", error)
-    }
-  }
-
-  const resetPremium = () => {
-    dispatch(resetPremiumState())
-  }
-
-  const subscribeToPremium = async (planType, planDetails) => {
-    try {
-      const userId = getUserId()
-      const userType = user?.userType || "client"
-
-      dispatch(
-        activatePremium({
-          premiumType: planType,
-          planDetails,
-          userType,
-          userId,
-        }),
-      )
-
-      await syncWithStorage()
-      return { success: true }
-    } catch (error) {
-      console.error("Error subscribing to premium:", error)
-      return { success: false, error: error.message }
-    }
-  }
-
-  const startFreeTrial = async () => {
-    try {
-      if (premium.trialUsed) {
-        return { success: false, error: "Ya has usado tu prueba gratuita" }
-      }
-
-      const userId = getUserId()
-      const userType = user?.userType || "client"
-
-      dispatch(
-        activatePremium({
-          premiumType: "Prueba",
-          planDetails: { planName: "Prueba de 7 días gratis", price: 0 },
-          userType,
-          userId,
-        }),
-      )
-
-      await syncWithStorage()
-      return { success: true }
-    } catch (error) {
-      console.error("Error starting free trial:", error)
-      return { success: false, error: error.message }
-    }
-  }
-
-  const upgradeFromTrialToPaid = async (planType, planDetails) => {
-    try {
-      const userId = getUserId()
-
-      dispatch(
-        upgradeFromTrial({
-          premiumType: planType,
-          planDetails,
-          userId,
-        }),
-      )
-
-      await syncWithStorage()
-      return { success: true }
-    } catch (error) {
-      console.error("Error upgrading from trial:", error)
-      return { success: false, error: error.message }
-    }
-  }
-
-  const pausePremiumPlan = async (duration = 6) => {
-    try {
-      const userId = getUserId()
-
-      dispatch(
-        pausePremium({
-          pauseDuration: duration,
-          userId,
-        }),
-      )
-
-      await syncWithStorage()
-      return { success: true }
-    } catch (error) {
-      console.error("Error pausing premium:", error)
-      return { success: false, error: error.message }
-    }
-  }
-
-  const resumePremiumPlan = async () => {
-    try {
-      const userId = getUserId()
-
-      dispatch(resumePremium({ userId }))
-      await syncWithStorage()
-      return { success: true }
-    } catch (error) {
-      console.error("Error resuming premium:", error)
-      return { success: false, error: error.message }
-    }
-  }
-
-  const cancelPremiumPlan = async () => {
-    try {
-      const userId = getUserId()
-
-      dispatch(cancelPremium({ userId }))
-      await syncWithStorage()
-      return { success: true }
-    } catch (error) {
-      console.error("Error cancelling premium:", error)
-      return { success: false, error: error.message }
-    }
-  }
-
-  const renewPremiumPlan = async (planType) => {
-    try {
-      const userId = getUserId()
-
-      dispatch(
-        renewPremium({
-          premiumType: planType,
-          userId,
-        }),
-      )
-
-      await syncWithStorage()
-      return { success: true }
-    } catch (error) {
-      console.error("Error renewing premium:", error)
-      return { success: false, error: error.message }
-    }
-  }
-
-  // Check if premium is expired
-  const isExpired = () => {
-    if (!premium.premiumEndDate) return false
-    return new Date() > new Date(premium.premiumEndDate)
-  }
-
-  // Check if premium is paused and should be resumed
-  const shouldResume = () => {
-    if (premium.premiumStatus !== "paused") return false
-    if (!premium.pausedUntil) return false
-    return new Date() > new Date(premium.pausedUntil)
-  }
-
-  const getDaysRemaining = () => {
-    if (!premium.premiumEndDate) return 0
-    const now = new Date()
-    const endDate = new Date(premium.premiumEndDate)
-    const diffTime = endDate - now
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-    return Math.max(0, diffDays)
-  }
-
-  const canStartTrial = () => {
-    return !premium.trialUsed && premium.premiumStatus === "inactive"
-  }
-
+  // After any Redux change, sync back to AsyncStorage
   useEffect(() => {
-    const checkPremiumStatus = () => {
-      const userId = getUserId()
+    if (!premium.currentUserId) return
+    const userId = premium.currentUserId
+    saveUserPremiumData(userId, {
+      isPremium: premium.isPremium,
+      isPremiumProf: premium.isPremiumProf,
+      premiumType: premium.premiumType,
+      premiumStatus: premium.premiumStatus,
+      premiumStartDate: premium.premiumStartDate,
+      premiumEndDate: premium.premiumEndDate,
+      pausedUntil: premium.pausedUntil,
+      planDetails: premium.planDetails,
+      trialUsed: premium.trialUsed,
+    })
+  }, [premium])
 
-      if (isExpired() && (premium.premiumStatus === "active" || premium.premiumStatus === "trial")) {
-        dispatch(expirePremium({ userId }))
-        syncWithStorage()
-      }
+  // Reset on logout
+  useEffect(() => {
+    if (!user) dispatch(resetPremiumState())
+    else initializePremium()
+  }, [user])
 
-      if (shouldResume()) {
-        dispatch(resumePremium({ userId }))
-        syncWithStorage()
-      }
+  // Business methods
+  const subscribeToPremium = async (plan, details, userType) => {
+    const userId = getUserId()
+    dispatch(activatePremium({ userId, premiumType: plan, planDetails: details, userType }))
+    return { success: true }
+  }
+  const pausePremiumPlan = async (duration = 6) => {
+    dispatch(pausePremium({ userId: getUserId(), pauseDuration: duration }))
+    return { success: true }
+  }
+  const resumePremiumPlan = async () => {
+    dispatch(resumePremium({ userId: getUserId() }))
+    return { success: true }
+  }
+  const cancelPremiumPlan = async () => {
+    dispatch(cancelPremium({ userId: getUserId() }))
+    return { success: true }
+  }
+  const renewPremiumPlan = async (plan) => {
+    dispatch(renewPremium({ userId: getUserId(), premiumType: plan }))
+    return { success: true }
+  }
+  const upgradeFromTrialToPaid = async (plan, details) => {
+    dispatch(upgradeFromTrial({ userId: getUserId(), premiumType: plan, planDetails: details }))
+    return { success: true }
+  }
+
+  // Helpers
+  const now = Date.now()
+  const isExpired = () => premium.premiumEndDate && new Date(premium.premiumEndDate) < new Date(now)
+  const shouldResume = () => premium.premiumStatus === "paused" && premium.pausedUntil && new Date(premium.pausedUntil) < new Date(now)
+  const daysRemaining = premium.premiumEndDate
+    ? Math.max(0, Math.ceil((new Date(premium.premiumEndDate) - new Date(now)) / 86400000))
+    : 0
+  const canStartTrial = () => !premium.trialUsed && premium.premiumStatus === "inactive"
+
+  // Auto–expire or auto–resume
+  useEffect(() => {
+    if (!premium.currentUserId) return
+    if (isExpired() && ["active", "trial"].includes(premium.premiumStatus)) {
+      dispatch(expirePremium({ userId: getUserId() }))
     }
-
-    if (premium.currentUserId) {
-      checkPremiumStatus()
-      const interval = setInterval(checkPremiumStatus, 60 * 60 * 1000)
-      return () => clearInterval(interval)
+    if (shouldResume()) {
+      dispatch(resumePremium({ userId: getUserId() }))
     }
   }, [premium.premiumEndDate, premium.pausedUntil, premium.premiumStatus])
 
-  useEffect(() => {
-    if (user) {
-      initializePremium()
-    } else {
-      resetPremium()
-    }
-  }, [user])
-
   return {
     premium,
-    isExpired: isExpired(),
-    shouldResume: shouldResume(),
-    daysRemaining: getDaysRemaining(),
-    canStartTrial: canStartTrial(),
+    daysRemaining,
+    canStartTrial,
     subscribeToPremium,
-    startFreeTrial,
-    upgradeFromTrialToPaid,
     pausePremiumPlan,
     resumePremiumPlan,
     cancelPremiumPlan,
     renewPremiumPlan,
+    upgradeFromTrialToPaid,
     initializePremium,
-    resetPremium,
   }
 }

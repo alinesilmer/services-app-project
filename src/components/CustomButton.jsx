@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'white',
     fontWeight: 'bold',
+    textAlign: 'center',
   },
   buttonDisabled: {
     backgroundColor: '#ccc',
@@ -56,6 +57,7 @@ const styles = StyleSheet.create({
   },
   textDisabled: {
     color: '#eee',
+    width: "90%"
   }
 });
 
