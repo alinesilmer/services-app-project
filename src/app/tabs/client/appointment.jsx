@@ -24,6 +24,7 @@ import useDatePickerAppointment from "../../../hooks/useDatePickerAppointment"
 import mockAppointments from "../../../data/mockAppointments"
 import { generateTimeSlots } from "../../../utils/timeSlotGenerator"
 import BackButton from "../../../components/BackButton"
+import CustomButton from "../../../components/CustomButton"
 import { usePremium } from "../../../hooks/usePremium"
 
 const Appointment = () => {
@@ -106,6 +107,8 @@ const Appointment = () => {
     }, 1400)
   }
 
+  const isConfirmButtonEnabled = selectedTimes.length > 0
+
   // render the time‐selection step
   if (showTimeSelection) {
     return (
@@ -137,7 +140,6 @@ const Appointment = () => {
                 onPress={() => toggleTimeSelection(slot.id)}
               >
                 <View style={styles.timeSlotContent}>
-                  <Text style={styles.timeSlotLabel}>{slot.label}</Text>
                   <Text style={styles.timeSlotTime}>{slot.time}</Text>
                 </View>
                 <View
@@ -157,32 +159,17 @@ const Appointment = () => {
           <View style={styles.adContainer}>
             <AdsImage onPress style={styles.ad} isPremium={hasPremium} />
           </View>
-
-          <View style={styles.actionButtons}>
-            <TouchableOpacity
-              style={styles.backButton}
-              onPress={handleBack}
-            >
-              <Text style={styles.backText}>Volver atrás</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.confirmButton,
-                !selectedTimes.length && styles.confirmDisabled,
-              ]}
-              disabled={!selectedTimes.length}
-              onPress={handleConfirmAppointment}
-            >
-              <Text
-                style={[
-                  styles.confirmText,
-                  !selectedTimes.length && styles.confirmTextDisabled,
-                ]}
-              >
-                Confirmar TURNO
-              </Text>
-            </TouchableOpacity>
+          <View style={styles.actionButton}>
+            <CustomButton text={"Volver atrás"} onPress={handleBack}/>
           </View>
+          <View style={styles.actionButton}>
+            <CustomButton
+            text="Confirmar TURNO"
+            onPress={handleConfirmAppointment}
+            disabled={!isConfirmButtonEnabled}
+            backgroundColor={Colors.orangeColor}/>
+            
+            </View>
         </ScrollView>
 
         <Modal visible={showSuccessAnimation} transparent animationType="fade">
@@ -226,19 +213,11 @@ const Appointment = () => {
           <AdsImage onPress isPremium={hasPremium} />
         </View>
 
-        <View style={styles.actionButtons}>
-          <TouchableOpacity
-            style={styles.backButton}
-            onPress={handleBack}
-          >
-            <Text style={styles.backText}>Volver atrás</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.confirmButton}
-            onPress={handleDateConfirm}
-          >
-            <Text style={styles.confirmText}>Confirmar fecha</Text>
-          </TouchableOpacity>
+ <View style={styles.actionButton}>
+          <CustomButton text={"Volver atrás"} onPress={handleBack}/>
+          </View>
+           <View style={styles.actionButton}>
+          <CustomButton text={"Confirmar fecha"} onPress={handleDateConfirm} backgroundColor={Colors.orangeColor}/>
         </View>
       </ScrollView>
     </View>
@@ -261,68 +240,11 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: wp("4.5%"),
-    color: "#d63384",
+    color: Colors.blueColor,
     textAlign: "center",
     marginVertical: hp("3%"),
     fontWeight: "500",
     lineHeight: wp("6%"),
-  },
-  professionalInfo: {
-    backgroundColor: "white",
-    borderRadius: 15,
-    padding: 20,
-    marginBottom: hp("3%"),
-    elevation: 2,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-  },
-  professionalInfoText: {
-    fontSize: wp("3.8%"),
-    color: "#666",
-    marginBottom: 8,
-  },
-  professionalName: {
-    fontWeight: "bold",
-    color: Colors.blueColor,
-  },
-  professionText: {
-    fontWeight: "600",
-    color: "#333",
-  },
-  availabilityText: {
-    fontWeight: "500",
-    color: "#28a745",
-  },
-  datePickerContainer: {
-    backgroundColor: "white",
-    borderRadius: 15,
-    padding: 20,
-    marginBottom: hp("3%"),
-    elevation: 2,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-  },
-  datePickerLabel: {
-    fontSize: wp("4%"),
-    color: "#666",
-    marginBottom: 15,
-    fontWeight: "600",
-  },
-  selectedDateDisplay: {
-    backgroundColor: "#e9ecef",
-    borderRadius: 10,
-    padding: 15,
-    marginBottom: 20,
-  },
-  selectedDateText: {
-    fontSize: wp("4%"),
-    color: "#333",
-    fontWeight: "500",
-    textAlign: "center",
   },
   selectedDateContainer: {
     backgroundColor: "white",
@@ -349,7 +271,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 15,
     borderWidth: 1,
-    borderColor: "#e9ecef",
+    borderColor: "#red",
   },
   dateInputText: {
     fontSize: wp("4%"),
@@ -366,12 +288,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 2,
   },
-  timeSelectionLabel: {
-    fontSize: wp("4%"),
-    color: "#666",
-    marginBottom: 20,
-    fontWeight: "600",
-  },
   timeSlotContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -385,13 +301,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
   },
-  timeSlotLabel: {
-    fontSize: wp("4.5%"),
-    fontWeight: "bold",
-    color: "#8e44ad",
-    marginRight: 15,
-    width: 30,
-  },
   timeSlotTime: {
     fontSize: wp("4%"),
     color: "#333",
@@ -401,74 +310,15 @@ const styles = StyleSheet.create({
     height: 24,
     borderRadius: 4,
     borderWidth: 2,
-    borderColor: "#8e44ad",
+    borderColor: Colors.orangeColor,
     justifyContent: "center",
     alignItems: "center",
   },
   checkboxSelected: {
-    backgroundColor: "#8e44ad",
-  },
-  infoContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#fff3cd",
-    borderRadius: 10,
-    padding: 15,
-    marginBottom: hp("2%"),
-    borderLeftWidth: 4,
-    borderLeftColor: "#ff9800",
-  },
-  infoText: {
-    fontSize: wp("3.8%"),
-    color: "#856404",
-    marginLeft: 10,
-    fontWeight: "500",
-    flex: 1,
+    backgroundColor: Colors.orangeColor,
   },
   adContainer: {
     marginVertical: hp("2%"),
-  },
-  backActionButton: {
-    flex: 1,
-    backgroundColor: "#dc3545",
-    borderRadius: 25,
-    paddingVertical: hp("2%"),
-    alignItems: "center",
-    elevation: 3,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-  },
-  backButtonText: {
-    color: "white",
-    fontSize: wp("4%"),
-    fontWeight: "600",
-  },
-  confirmButton: {
-    flex: 1,
-    backgroundColor: "#28a745",
-    borderRadius: 25,
-    paddingVertical: hp("2%"),
-    alignItems: "center",
-    elevation: 3,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-  },
-  confirmButtonText: {
-    color: "white",
-    fontSize: wp("4%"),
-    fontWeight: "600",
-  },
-  confirmButtonDisabled: {
-    backgroundColor: "#e9ecef",
-    elevation: 1,
-    shadowOpacity: 0.1,
-  },
-  confirmButtonTextDisabled: {
-    color: "#6c757d",
   },
   animationOverlay: {
     flex: 1,

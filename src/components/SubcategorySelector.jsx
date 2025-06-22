@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   },
   subcategoryText: {
     fontSize: wp("3.5%"),
-    borderRadius: 4,
+    borderRadius:10,
     padding: 10,
     color: Colors.textColor,
     backgroundColor: Colors.whiteColor,

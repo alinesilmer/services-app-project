@@ -56,7 +56,7 @@ const ProfileDetail = () => {
 
   const handleMessagePress = () => {
     router.push({
-      pathname: "/professional/chat",
+      pathname: "/tabs/chat",
       params: {
         professionalId: params.profileId,
         professionalName: params.nombre,
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: Colors.whiteColor,
     paddingVertical: hp("0.2%"),
-    borderRadius: 40,
+    borderRadius: 10,
     marginBottom: hp("2%"),
     elevation: 3,
     shadowColor: "#000",
@@ -317,7 +317,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     width: wp("25%"),
     height: wp("25%"),
-    borderRadius: 15,
+    borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
     elevation: 2,
@@ -341,7 +341,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#000",
     paddingVertical: hp("2%"),
     paddingHorizontal: wp("6%"),
-    borderRadius: 25,
+    borderRadius: 10,
     elevation: 3,
     shadowColor: "#000",
     shadowOffset: {
@@ -356,7 +356,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#000",
     paddingVertical: hp("2%"),
     paddingHorizontal: wp("6%"),
-    borderRadius: 25,
+    borderRadius: 10,
     elevation: 3,
     shadowColor: "#000",
     shadowOffset: {

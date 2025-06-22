@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
   userAvatar: {
     width: 60,
     height: 60,
-    borderRadius: 35,
+    borderRadius:10,
     borderWidth: 3,
     borderColor: "black",
   },

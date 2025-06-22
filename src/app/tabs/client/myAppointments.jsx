@@ -240,7 +240,7 @@ const MyAppointments = () => {
                   </View>
 
                   <View style={styles.modalDetailRow}>
-                    <Feather name="check-circle" size={20} color="#28a745" />
+                    <Feather name="check-circle" size={20} color={Colors.orangeColor} />
                     <Text style={styles.modalDetailText}>
                       <Text style={styles.modalDetailLabel}>Estado:</Text> {selectedAppointment.estado}
                     </Text>
@@ -327,7 +327,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: 30,
-    color: "#333",
+    color: Colors.orangeColor,
   },
   scrollContainer: {
     flex: 1,
@@ -351,8 +351,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   appointmentCard: {
-    backgroundColor: "#f8f9fa",
-    borderRadius: 15,
+    backgroundColor: "black",
+    borderRadius: 10,
     padding: 20,
     marginBottom: 15,
     elevation: 2,
@@ -373,8 +373,8 @@ const styles = StyleSheet.create({
     right: 10,
     width: 8,
     height: 8,
-    borderRadius: 4,
-    backgroundColor: "#4CAF50",
+    borderRadius: 100,
+    backgroundColor: Colors.orangeColor,
   },
   appointmentHeader: {
     flexDirection: "row",
@@ -388,7 +388,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   newText: {
-    color: "#4CAF50",
+    color: Colors.orangeColor,
     fontSize: wp("3.5%"),
   },
   appointmentDetails: {
@@ -414,7 +414,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   statusBadge: {
-    backgroundColor: "#28a745",
+    backgroundColor: Colors.orangeColor,
     paddingHorizontal: 12,
     paddingVertical: 4,
     borderRadius: 12,
@@ -427,7 +427,6 @@ const styles = StyleSheet.create({
   adContainer: {
     marginVertical: 20,
   },
-  // Modal styles
   modalOverlay: {
     flex: 1,
     backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -436,7 +435,7 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     backgroundColor: "white",
-    borderRadius: 20,
+    borderRadius: 10,
     padding: 20,
     margin: 20,
     width: wp("90%"),
@@ -481,8 +480,8 @@ const styles = StyleSheet.create({
   },
   cancelButton: {
     flex: 1,
-    backgroundColor: "#dc3545",
-    borderRadius: 25,
+    backgroundColor: "#000",
+    borderRadius: 10,
     paddingVertical: 15,
     alignItems: "center",
   },
@@ -493,8 +492,8 @@ const styles = StyleSheet.create({
   },
   changeButton: {
     flex: 1,
-    backgroundColor: Colors.blueColor,
-    borderRadius: 25,
+    backgroundColor: Colors.orangeColor,
+    borderRadius: 10,
     paddingVertical: 15,
     alignItems: "center",
   },
@@ -511,7 +510,7 @@ const styles = StyleSheet.create({
   },
   animationContainer: {
     backgroundColor: "white",
-    borderRadius: 20,
+    borderRadius: 10,
     padding: 30,
     alignItems: "center",
     minWidth: wp("70%"),

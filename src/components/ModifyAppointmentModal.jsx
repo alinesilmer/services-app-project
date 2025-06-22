@@ -198,7 +198,7 @@ const ModifyAppointmentModal = ({ visible, appointment, onClose, onSave }) => {
               <Text style={styles.sectionTitle}>Nuevo Horario</Text>
               <View style={styles.currentInfo}>
                 <Text style={styles.currentLabel}>Horario actual:</Text>
-                <Text style={styles.currentValue}>{appointment.time} h</Text>
+                <Text style={styles.currentValue}>{appointment.time}h</Text>
               </View>
 
               <View style={styles.timeSelection}>
@@ -210,7 +210,6 @@ const ModifyAppointmentModal = ({ visible, appointment, onClose, onSave }) => {
                     onPress={() => toggleTimeSelection(timeSlot.id)}
                   >
                     <View style={styles.timeSlotContent}>
-                      <Text style={styles.timeSlotLabel}>{timeSlot.label}</Text>
                       <Text style={styles.timeSlotTime}>{timeSlot.time}</Text>
                     </View>
                     <View style={[styles.checkbox, selectedTimes.includes(timeSlot.id) && styles.checkboxSelected]}>
@@ -223,7 +222,7 @@ const ModifyAppointmentModal = ({ visible, appointment, onClose, onSave }) => {
 
             {hasChanges && (
               <View style={styles.changesIndicator}>
-                <Feather name="info" size={20} color="#ff9800" />
+                <Feather name="info" size={20} color="#fff" />
                 <Text style={styles.changesText}>Tienes cambios sin guardar</Text>
               </View>
             )}
@@ -285,7 +284,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: wp("5.5%"),
     fontWeight: "bold",
-    color: "#333",
+    color: Colors.orangeColor,
   },
   content: {
     flex: 1,
@@ -293,7 +292,7 @@ const styles = StyleSheet.create({
   },
   professionalInfo: {
     backgroundColor: "#f8f9fa",
-    borderRadius: 15,
+    borderRadius: 10,
     padding: 15,
     marginVertical: 15,
   },
@@ -356,7 +355,7 @@ const styles = StyleSheet.create({
   timeSlotLabel: {
     fontSize: wp("4.5%"),
     fontWeight: "bold",
-    color: "#8e44ad",
+    color: Colors.orangeColor,
     marginRight: 15,
     width: 30,
   },
@@ -369,24 +368,24 @@ const styles = StyleSheet.create({
     height: 24,
     borderRadius: 4,
     borderWidth: 2,
-    borderColor: "#8e44ad",
+    borderColor: Colors.orangeColor,
     justifyContent: "center",
     alignItems: "center",
   },
   checkboxSelected: {
-    backgroundColor: "#8e44ad",
+    backgroundColor: Colors.orangeColor,
   },
   changesIndicator: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#fff3cd",
+    backgroundColor: Colors.orangeColor,
     borderRadius: 10,
     padding: 12,
     marginVertical: 15,
   },
   changesText: {
     fontSize: wp("3.8%"),
-    color: "#856404",
+    color: "#fff",
     marginLeft: 8,
     fontWeight: "500",
   },
@@ -405,8 +404,8 @@ const styles = StyleSheet.create({
   },
   cancelButton: {
     flex: 1,
-    backgroundColor: "#6c757d",
-    borderRadius: 25,
+    backgroundColor: "#000",
+    borderRadius: 10,
     paddingVertical: 15,
     alignItems: "center",
   },
@@ -417,8 +416,8 @@ const styles = StyleSheet.create({
   },
   saveButton: {
     flex: 1,
-    backgroundColor: "#28a745",
-    borderRadius: 25,
+    backgroundColor: Colors.orangeColor,
+    borderRadius: 10,
     paddingVertical: 15,
     alignItems: "center",
   },
@@ -442,7 +441,7 @@ const styles = StyleSheet.create({
   },
   animationContainer: {
     backgroundColor: "white",
-    borderRadius: 20,
+    borderRadius: 10,
     padding: 30,
     alignItems: "center",
     minWidth: wp("70%"),
