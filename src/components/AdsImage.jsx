@@ -21,7 +21,7 @@ export default function AdsImage({ isPremium }) {
 
   if (!ad) return null;
   return (
-    <TouchableOpacity style={s.wrap} onPress={() => router.push("/auth/goPremium")}>
+    <TouchableOpacity style={s.wrap} onPress={() => router.push("/auth/goPremium")} activeOpacity={0.8}>
       <Image source={ad} style={s.img} resizeMode="cover" />
       <Text style={s.tag}>Anuncio</Text>
     </TouchableOpacity>

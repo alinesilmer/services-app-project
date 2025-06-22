@@ -16,9 +16,21 @@ import { categories } from "../../../data/mockCategories"
 import profiles from "../../../data/mockProfiles"
 import { useProfileFiltering } from "../../../hooks/useProfileFiltering"
 import BackButton from "../../../components/BackButton"
-import { getUserData, isPremiumUser } from "../../../utils/storage";
+import { getUserData, isPremiumUser, isUserLoggedIn } from "../../../utils/storage";
 
 const service = () => {
+
+const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+useEffect(() => {
+  const checkLoginStatus = async () => {
+    const loggedIn = await isUserLoggedIn()
+    setIsLoggedIn(loggedIn)
+  }
+
+  checkLoginStatus()
+}, [])
+
   const [premium, setPremium] = useState(false);
   const { label, icon, useFeather } = useLocalSearchParams()
 
@@ -49,8 +61,11 @@ const service = () => {
       loadPremiumStatus();
     }, []);
 
-  // Función para navegar al perfil del profesional
   const handleProfilePress = (prof) => {
+      if (!isLoggedIn) {
+    router.push("/auth/login")
+    return
+  }
     router.push({
       pathname: "/tabs/client/profileDetail",
       params: {

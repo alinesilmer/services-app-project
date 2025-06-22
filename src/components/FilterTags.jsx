@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   },
   filterTag: {
     backgroundColor: Colors.orangeColor,
-    borderRadius: 15,
+    borderRadius: 6,
     paddingHorizontal: 12,
     paddingVertical: 6,
     marginBottom: 5,

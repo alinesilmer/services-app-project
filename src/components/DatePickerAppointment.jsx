@@ -1,4 +1,4 @@
-"use client"
+
 import { View, Text, TouchableOpacity, StyleSheet, Platform } from "react-native"
 import DateTimePicker from "@react-native-community/datetimepicker"
 import { Feather } from "@expo/vector-icons"
@@ -35,7 +35,7 @@ const DatePickerAppointment = ({ label = "Seleccionar fecha", value, onChange, s
             <Text style={styles.label}>{label}</Text>
             <Text style={styles.dateText}>{value ? formatDate(value) : "Seleccionar fecha"}</Text>
           </View>
-          <Feather name="calendar" size={24} color="#8e44ad" />
+          <Feather name="calendar" size={24} color="#1a2f68" />
         </View>
       </TouchableOpacity>
 

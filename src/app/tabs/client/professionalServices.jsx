@@ -18,6 +18,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-nat
 import {  Feather } from "@expo/vector-icons"
 import AdsImage from "../../../components/AdsImage"
 import BackButton from "../../../components/BackButton"
+import CustomButton from "../../../components/CustomButton"
 
 import mockProfiles from "../../../data/mockProfiles"
 import mockServices from "../../../data/mockServices"
@@ -170,13 +171,10 @@ const ProfessionalServices = () => {
         </View>
 
         <View style={styles.actionButtons}>
-          <TouchableOpacity style={styles.messageButton} onPress={handleSendMessage}>
-            <Text style={styles.buttonText}>Enviar mensaje</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.appointmentButton} onPress={handleRequestAppointment}>
-            <Text style={styles.buttonText}>Solicitar turno</Text>
-          </TouchableOpacity>
+          <CustomButton text="Enviar Mensaje" onPress={handleSendMessage} 
+          />
+          <CustomButton text="Solicitar turno" onPress={handleRequestAppointment} 
+          />
         </View>
 
         <AdsImage onPress isPremium={isPremiumUser} />
@@ -355,10 +353,10 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   actionButtons: {
+    alignItems: "center",
     gap: 15,
     marginBottom: 30,
   },
-  // Estilos del modal
   modalOverlay: {
     flex: 1,
     backgroundColor: "rgba(0, 0, 0, 0.5)",

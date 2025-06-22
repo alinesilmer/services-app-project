@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   profileCard: {
     alignItems: "center",
     backgroundColor: "rgba(255, 255, 255, 0.1)",
-    borderRadius: 15,
+    borderRadius: 10,
     padding: 15,
     width: wp("40%"),
     marginBottom: 15,
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
   },
   ratingContainer: {
     backgroundColor: "rgba(255, 255, 255, 0.2)",
-    borderRadius: 10,
+    borderRadius: '10%',
     paddingHorizontal: 8,
     paddingVertical: 2,
   },
