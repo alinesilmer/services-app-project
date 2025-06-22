@@ -5,11 +5,18 @@ import { Text, Animated, Easing, StyleSheet } from "react-native"
 import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 import { router } from "expo-router"
 import { Colors } from "../constants/Colors"
+import { isUserLoggedIn } from "../utils/storage"
+
 
 const CustomRequestButton = () => {
   const scaleAnim = useRef(new Animated.Value(1)).current
 
-  const handlePress = () => {
+  const handlePress = async () => {
+      const loggedIn = await isUserLoggedIn()
+  if (!loggedIn) {
+    router.push("/auth/login")
+    return
+  }
     Animated.sequence([
       Animated.timing(scaleAnim, {
         toValue: 0.95,
