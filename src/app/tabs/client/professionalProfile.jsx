@@ -250,7 +250,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: Colors.whiteColor,
-    paddingVertical: hp("0.2%"),
+    paddingVertical: hp("0.7%"),
+    paddingHorizontal: hp("4%"),
     borderRadius: 10,
     marginBottom: hp("1%"),
     elevation: 3,
@@ -282,7 +283,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ccc",
     paddingVertical: 12,
     paddingHorizontal: 20,
-    borderRadius: 25,
+    borderRadius: 10,
     marginBottom: hp("3%"),
     alignSelf: "center",
   },
@@ -302,12 +303,12 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   newBadge: {
-    color: "#4CAF50",
+    color: Colors.orangeColor,
     fontSize: wp("3.5%"),
   },
   opinionCard: {
     backgroundColor: "#e9e9e9",
-    borderRadius: 15,
+    borderRadius: 10,
     padding: 15,
     marginBottom: 10,
     position: "relative",
@@ -324,7 +325,7 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: "#4CAF50",
+    backgroundColor: Colors.orangeColor,
   },
   opinionHeader: {
     flexDirection: "row",
@@ -357,7 +358,7 @@ const styles = StyleSheet.create({
     color: "#",
   },
   newText: {
-    color: "#4CAF50",
+    color: Colors.orangeColor,
     fontSize: wp("3%"),
   },
   opinionStars: {

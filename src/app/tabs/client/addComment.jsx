@@ -304,7 +304,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     backgroundColor: "#ddd",
-    borderRadius: 100,
+    borderRadius: 10,
     paddingHorizontal: 15,
   },
   starButton: {
@@ -315,8 +315,8 @@ const styles = StyleSheet.create({
     paddingBottom: wp("2%")
   },
   submitButton: {
-    backgroundColor: "#4CAF50",
-    borderRadius: 25,
+    backgroundColor: "#000",
+    borderRadius: 10,
     paddingVertical: hp("2%"),
     paddingHorizontal: wp("8%"),
     alignItems: "center",
@@ -328,7 +328,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   submitButtonDisabled: {
-    backgroundColor: "#A5D6A7",
+    backgroundColor: Colors.orangeColor,
   },
   submitButtonText: {
     color: "white",
@@ -363,7 +363,7 @@ const styles = StyleSheet.create({
   },
   animationContainer: {
     backgroundColor: "white",
-    borderRadius: 20,
+    borderRadius: 10,
     padding: 30,
     alignItems: "center",
     elevation: 10,
