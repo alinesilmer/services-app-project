@@ -1,14 +1,6 @@
 import React, { useState, useEffect } from "react"
-import {
-  View,
-  Text,
-  ScrollView,
-  Pressable,
-  StyleSheet,
-  StatusBar,
-} from "react-native"
+import { View, Text, ScrollView, Pressable, StyleSheet, StatusBar, } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useRouter, useLocalSearchParams } from "expo-router"
 import CheckBox from "expo-checkbox"
 import BackButton from "../../components/BackButton"
@@ -17,11 +9,8 @@ import SlideUpCard from "../../components/SlideUpCard"
 import CustomButton from "../../components/CustomButton"
 import PricingComparisonTable from "../../components/PricingComparisonTable"
 import { Colors } from "../../constants/Colors"
-import {
-  getProfessionalPlans,
-  getPricingPlans,
-  getPlanDetails,
-} from "../../utils/pricingPlans"
+import { Metrics } from "../../constants/Metrics"
+import { getProfessionalPlans, getPricingPlans, getPlanDetails, } from "../../utils/pricingPlans"
 import { getUserProfile } from "../../utils/storage"
 import { usePremium } from "../../hooks/usePremium"
 
@@ -69,16 +58,16 @@ export default function GoPremium() {
   }
 
   return (
-    <View style={styles.container}>
+        <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor={Colors.blueColor} />
       <BackButton onPress={() => router.back()} />
-      <Logo />
+        <Logo />
 
-      <SlideUpCard
-        title={isProf ? "Publicitá tu servicio" : "Disfruta sin límites"}
-        subtitle={isProf ? "Planes profesionales" : "Planes personales"}
-        style={styles.card}  
-      >
+        <SlideUpCard
+          title={isProf ? "Publicitá tu servicio" : "Disfruta sin límites"}
+          subtitle={isProf ? "Planes profesionales" : "Planes personales"}
+          style={styles.card}  
+        >
         <SafeAreaView edges={["top"]} style={{ flex: 1 }}>
           <ScrollView contentContainerStyle={styles.scroll}>
 
@@ -142,8 +131,8 @@ export default function GoPremium() {
             </View>
           </ScrollView>
         </SafeAreaView>
-      </SlideUpCard>
-    </View>
+        </SlideUpCard>
+        </View>
   )
 }
 
@@ -151,44 +140,42 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.blueColor,
+    alignItems: "center",
+    justifyContent: "center",
   },
   card: {
     position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
-    height: "80%",
-    backgroundColor: "white",
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
+    height: Metrics.screenM,
     overflow: "hidden",
+    alignItems: "stretch",
   },
   scroll: {
-    paddingHorizontal: wp("2%"),  
-    paddingTop: hp("2%"),
-    paddingBottom: hp("4%"),
+    paddingHorizontal: Metrics.marginS,  
+    paddingTop: Metrics.marginS,
+    paddingBottom: Metrics.marginL,
   },
-
   tableContainer: {
     width: 340,              
-    marginBottom: hp("3%"),
+    marginBottom: Metrics.marginS,
     backgroundColor: Colors.lightGray,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: Colors.inputGray,          
+    borderRadius: Metrics.radiusS,
+    borderWidth: Metrics.marginXS,
+    borderColor: Colors.inputGray,  
   },
-
   optionRow: {
     display: "flex",
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingVertical: hp("1%"),
-    paddingHorizontal: wp("2%"),
+    paddingVertical: Metrics.marginS,
+    paddingHorizontal: Metrics.marginS,
   },
   optionLabel: {
     fontWeight: "600",
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontS,
   },
   selected: {
     color: Colors.orangeColor,
@@ -198,20 +185,20 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
     alignItems: "center",
-    marginTop: hp("3%"),
-    marginBottom: hp("3%"),
+    marginTop: Metrics.marginS,
+    marginBottom: Metrics.marginS,
   },
   linkText: {
-    marginLeft: wp("2%"),
+    marginLeft: Metrics.marginS,
     color: Colors.blueColor,
   },
   subscribeBtnWrapper: {
     alignItems: "center",
-    marginTop: hp("2%"),
+    marginTop: Metrics.marginS,
   },
   error: {
-    color: "red",
-    marginTop: hp("1%"),
+    color: Colors.errorColor,
+    marginTop: Metrics.marginS,
     textAlign: "center",
   },
 })

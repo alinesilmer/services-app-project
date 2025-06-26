@@ -1,7 +1,6 @@
 "use client"
 import { useState, useEffect } from "react"
-import { View, StyleSheet, StatusBar, Text, Pressable, KeyboardAvoidingView, Platform, SafeAreaView } from "react-native"
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
+import { View, StyleSheet, StatusBar, Text, Pressable, ScrollView, KeyboardAvoidingView, Platform, SafeAreaView } from "react-native"
 import { useRouter } from "expo-router"
 import useAppDispatch from '../../hooks/useAppDispatch'
 import { loginSuccess } from '../../redux/slices/authSlice'
@@ -12,6 +11,7 @@ import Logo from "../../components/Logo"
 import SlideUpCard from "../../components/SlideUpCard"
 import ModalCard from "../../components/ModalCard"
 import AnimationFeedback from "../../components/AnimationFeedback"
+import { Metrics } from '../../constants/Metrics';
 import { Colors } from "../../constants/Colors"
 import { useTogglePassword } from "../../hooks/useTogglePassword"
 import { useValidation } from "../../hooks/useValidation"
@@ -71,54 +71,65 @@ export default function Login() {
   return (
     <>
       <StatusBar barStyle="light-content" />
+      <SafeAreaView style={styles.safeArea}>
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <View style={styles.container}>
           <BackButton />
           <Logo />
           <SlideUpCard title="Inicio" subtitle={"Por favor, ingrese su\ncorreo para continuar"} style={styles.card}>
-            <CustomInput
-              label="Email"
-              placeholder="Email"
-              value={email}
-              onChangeText={setEmail}
-              error={errors.email}
-            />
-            <CustomInput
-              label="Contraseña"
-              placeholder="********"
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry={secureTextEntry}
-              isPassword
-              icon={icon}
-              onIconPress={toggleVisibility}
-              error={errors.password}
-            />
-            <CustomButton text="Ingresar" onPress={handleLogin} disabled={loading} />
-            <View style={styles.linksContainer}>
-              <Pressable onPress={() => router.push("auth/recoverypass")}>
-                <Text style={styles.linkRecovery}>¿Olvidaste tu contraseña?</Text>
-              </Pressable>
-              <Pressable onPress={() => router.push("auth/register")}>
+            <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+              <CustomInput
+                style={styles.inputs}
+                label="Email"
+                placeholder="Email"
+                value={email}
+                onChangeText={setEmail}
+                error={errors.email}
+              />
+              <CustomInput
+                style={styles.inputs}
+                label="Contraseña"
+                placeholder="********"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry={secureTextEntry}
+                isPassword
+                icon={icon}
+                onIconPress={toggleVisibility}
+                error={errors.password}
+              />
+
+              <CustomButton text="Ingresar" onPress={handleLogin} disabled={loading} />
+              <View style={styles.linksContainer}>
+                <Pressable onPress={() => router.push("auth/recoverypass")}>
+                  <Text style={styles.linkRecovery}>¿Olvidaste tu contraseña?</Text>
+                </Pressable>
+                <Pressable onPress={() => router.push("auth/register")}>
                 <Text style={styles.linkRegister}>Haz click aquí {"\n"} para registrarte</Text>
-              </Pressable>
-              <Pressable onPress={() => router.push("tabs/client/home")}>
-                <Text style={styles.linkNoRegister}>Continuar sin registrarme</Text>
-              </Pressable>
-            </View>
+                </Pressable>
+                <Pressable onPress={() => router.push("tabs/client/home")}>
+                  <Text style={styles.linkNoRegister}>Continuar sin registrarme</Text>
+                </Pressable>
+              </View>
+            </ScrollView>
           </SlideUpCard>
         </View>
       </KeyboardAvoidingView>
-      <SafeAreaView style={{ height: hp("1%"), backgroundColor: Colors.whiteColor }} />
+      </SafeAreaView>
       <ModalCard visible={showLoginError} title="Error de inicio de sesión" onClose={() => setShowLoginError(false)}>
         <AnimationFeedback type="failure" />
-        <Text style={{ textAlign: "center", marginTop: 10 }}>{loginErrorMessage}</Text>
+        <Text style={{ textAlign: "center", marginTop: Metrics.marginS }}>{loginErrorMessage}</Text>
       </ModalCard>
     </>
   )
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: Colors.blueColor,
+    height: Metrics.safeArea
+  },
   container: {
     flex: 1,
     backgroundColor: Colors.blueColor,
@@ -128,15 +139,36 @@ const styles = StyleSheet.create({
   card: {
     position: "absolute",
     bottom: 0,
-    width: wp("100%"),
-    height: hp("72%"),
+    height: Metrics.screenM,
+    alignItems: "stretch",
+  },
+  scrollContent: {
+    flexGrow: 1,
+    gap: Metrics.marginS,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingBottom: Metrics.marginL,
   },
   linksContainer: {
-    marginTop: hp("2%"),
+    marginTop: Metrics.marginS,
     alignItems: "center",
-    gap: hp("1.2%"),
+    gap: Metrics.marginS,
   },
-  linkRecovery: { color: Colors.blueColor },
-  linkRegister: { color: Colors.orangeColor, textAlign: "center" },
-  linkNoRegister: { color: Colors.dark },
+  linkRecovery: { 
+    color: Colors.blueColor,
+    fontSize: Metrics.fontS,
+  },
+  linkRegister: { 
+    color: Colors.orangeColor, 
+    textAlign: "center",
+    fontSize: Metrics.fontS,
+  },
+  linkNoRegister: { 
+    color: Colors.dark,
+    fontSize: Metrics.fontS,
+  },
+  inputs: {
+    width: '90%',
+    fontSize: Metrics.fontXS,
+  }
 })

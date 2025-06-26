@@ -12,6 +12,7 @@ import { usePremium } from '../../hooks/usePremium';
 import { validateCreditCard } from '../../utils/storage';
 import { getPlanDetails } from '../../utils/pricingPlans';
 import { Colors } from '../../constants/Colors';
+import { Metrics } from '../../constants/Metrics';
 
 export default function SubscriptionFlow() {
   const router = useRouter();
@@ -131,40 +132,42 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.blueColor,
+    alignItems: "center",
+    justifyContent: "center",
   },
   card: {
     position: 'absolute',
     bottom: 0,
-    width: '100%',
-    paddingHorizontal: 11,
-    height: '70%',
+    paddingHorizontal: Metrics.marginS,
+    height: Metrics.screenM,
   },
   scrollContent: {
     flexGrow: 1,
-    paddingHorizontal: 16,
-    paddingTop: 16,
+    paddingHorizontal: Metrics.marginS,
+    paddingTop: Metrics.marginS,
   },
   messageText: {
-    fontSize: 16,
-    marginTop: 8,
+    fontSize: Metrics.fontM,
+    marginTop: Metrics.marginS,
     textAlign: 'center',
   },
   testCardsContainer: {
     backgroundColor: '#f5f5f5',
-    padding: 16,
-    borderRadius: 8,
-    marginTop: 10,
+    padding: Metrics.marginS,
+    borderRadius: Metrics.radiusS,
+    marginTop: Metrics.marginS,
     width: '90%',
     alignSelf: 'center',
   },
   testCardsTitle: {
     fontWeight: 'bold',
-    marginBottom: 8,
+    marginBottom: Metrics.marginXS,
     color: Colors.blueColor,
   },
   testCardText: {
-    fontSize: 14,
-    marginBottom: 4,
+    fontSize: Metrics.fontXS,
+    color: Colors.orangeColor,
+    marginBottom: Metrics.marginXS,
   },
   payBtnWrapper: {
     display: "flex",

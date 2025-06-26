@@ -4,15 +4,15 @@
 import React, { useState } from 'react';
 import { View, Text, Pressable, StyleSheet, ScrollView, Switch } from 'react-native';
 import { Feather } from '@expo/vector-icons';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import PaymentForm from './PaymentForm';
+import { Metrics } from '../constants/Metrics';
 import { Colors } from '../constants/Colors';
 
 const PaymentList = ({ methods, selected, onSelect, onValidityChange, onPaymentDataChange }) => {
   const [saveDetails, setSaveDetails] = useState(false);
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: hp('5%') }}>
+    <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: Metrics.marginS }}>
       <Text style={styles.header}>¿Con qué método deseas pagar?</Text>
 
       {methods.map(method => {
@@ -67,19 +67,21 @@ const PaymentList = ({ methods, selected, onSelect, onValidityChange, onPaymentD
 export default PaymentList;
 
 const styles = StyleSheet.create({
-  container: { width: '100%' },
+  container: { 
+    width: '100%', 
+  },
   header: {
-    fontSize: wp('4%'),
+    fontSize: Metrics.fontS,
     fontWeight: 'bold',
-    marginBottom: hp('2%'),
+    marginBottom: Metrics.marginM,
     textAlign: 'center'
   },
   item: {
     backgroundColor: 'white',
-    borderRadius: wp('2%'),
-    marginBottom: hp('1.5%'),
+    borderRadius: Metrics.radiusS,
+    marginBottom: Metrics.marginS,
     overflow: 'hidden',
-    width: wp('90%')
+    width: '100%',
   },
   itemOpen: {
     borderColor: Colors.orangeColor,
@@ -89,28 +91,28 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: wp('4%'),
-    paddingVertical: hp('1.5%')
+    paddingHorizontal: Metrics.marginM,
+    paddingVertical: Metrics.marginS,
   },
   labelRow: {
     flexDirection: 'row',
     alignItems: 'center'
   },
   methodText: {
-    marginLeft: wp('2%'),
-    fontSize: wp('4%')
+    marginLeft: Metrics.marginS,
+    fontSize: Metrics.fontS,
   },
   formWrapper: {
-    paddingHorizontal: wp('1%'),
-    paddingBottom: hp('2%')
+    paddingHorizontal: Metrics.marginS,
+    paddingBottom: Metrics.marginS,
   },
   saveRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: hp('1%')
+    marginTop: Metrics.marginXS,
   },
   saveText: {
-    marginLeft: wp('2%'),
-    fontSize: wp('3.5%')
+    marginLeft: Metrics.marginXS,
+    fontSize: Metrics.fontXS,
   },
 });

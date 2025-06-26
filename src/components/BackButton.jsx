@@ -8,6 +8,8 @@ import { TouchableOpacity, StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { Metrics } from '../constants/Metrics';
+import { Colors } from '../constants/Colors';
 
 export default function BackButton({ onPress }) {
   const navigation = useNavigation();
@@ -36,11 +38,11 @@ export default function BackButton({ onPress }) {
 const styles = StyleSheet.create({
   button: {
     position: 'absolute',
-    top: hp('10%'),
-    left: wp('7%'),
+    top: Metrics.buttonHeight,
+    left: Metrics.marginM,
     backgroundColor: 'rgba(169, 169, 169, 0.7)',
-    padding: wp('3%'),
-    borderRadius: wp('3%'),
+    padding: Metrics.marginS,
+    borderRadius: Metrics.radiusS,
     zIndex: 1,
   },
   buttonHover: {

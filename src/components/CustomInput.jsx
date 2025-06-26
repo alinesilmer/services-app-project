@@ -15,10 +15,10 @@
  
 import React from 'react';
 import { View, TextInput, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Feather } from '@expo/vector-icons';
 import { Colors } from '../constants/Colors';
 import { Fonts } from '../constants/Fonts';
+import { Metrics } from '../constants/Metrics';
 
 const CustomInput = ({
   label,
@@ -46,7 +46,7 @@ const CustomInput = ({
         />
         {isPassword && (
           <TouchableOpacity onPress={onIconPress} style={styles.icon}>
-            <Feather name={icon} size={20} color="#666" />
+            <Feather name={icon} size={Metrics.fontM} color="#666" />
           </TouchableOpacity>
         )}
       </View>
@@ -57,40 +57,39 @@ const CustomInput = ({
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: hp('2%'),
-    width: wp('85%'),
+    marginBottom: Metrics.marginS,
+    width: '100%',
   },
   label: {
     fontFamily: Fonts.roboto,
     fontWeight: '500',
-     fontSize: wp('4%'),
-    marginBottom: hp('0.5%'),
+    fontSize: Metrics.fontS,
+    marginBottom: Metrics.marginXS,
     color: Colors.dark
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: Colors.inputGray,
-    borderRadius: wp('2%'),
-    paddingRight: wp('3%'),
-    marginBottom: hp('2%'),
+    borderRadius: Metrics.radiusS,
+    paddingRight: Metrics.radiusS,
+    marginBottom: Metrics.radiusS,
     borderWidth: 1,
     borderColor: '#eee',
-    paddingRight: 12,
-    marginBottom: 10
+    marginBottom: Metrics.marginS,
   },
   input: {
     flex: 1,
-    padding: 18,
+    padding: Metrics.marginM,
   },
   icon: {
-    paddingLeft: 8,
+    paddingLeft: Metrics.iconSmall,
   },
   errorInput: {
-    borderColor: 'red',
+    borderColor: Colors.errorColor,
   },
   errorText: {
-    color: 'red',
+    color: Colors.errorColor,
     marginTop: 4,
   },
 });

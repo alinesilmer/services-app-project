@@ -1,10 +1,7 @@
 // File: components/PricingComparisonTable.js
 import React from 'react'
 import { View, Text, StyleSheet, Pressable } from 'react-native'
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen'
+import { Metrics } from '../constants/Metrics'
 import { Colors } from '../constants/Colors'
 import { Feather } from '@expo/vector-icons'
 
@@ -92,10 +89,10 @@ export default PricingComparisonTable
 const styles = StyleSheet.create({
   table: {
     width: '100%',
-    borderRadius: 12,
+    borderRadius: Metrics.radiusS,
     backgroundColor: Colors.whiteColor,
-    paddingVertical: hp('2%'),
-    paddingHorizontal: wp('2%'),
+    paddingVertical: Metrics.marginXS,
+    paddingHorizontal: Metrics.marginXS,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -105,44 +102,42 @@ const styles = StyleSheet.create({
   headerRow: {
     flexDirection: 'row',
     backgroundColor: Colors.lightGray,
-    borderRadius: 8,
+    borderRadius: Metrics.radiusS,
     overflow: 'hidden',
-    marginBottom: hp('1.5%'),
+    marginBottom: Metrics.marginS,
   },
   headerCell: {
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: hp('1%'),
+    paddingVertical: Metrics.marginS,
   },
   headerText: {
     fontWeight: '700',
-    fontSize: wp('4%'),
+    fontSize: Metrics.fontS,
     color: Colors.orangeColor,
     textAlign: 'center',
   },
-  // Make first column wider
   featureHeaderCell: {
-    flex: 3,  // increased from 2 → 3
+    flex: 2.5,
   },
   valueHeaderCell: {
     flex: 1,
   },
-
   dataRow: {
     flexDirection: 'row',
-    paddingVertical: hp('1%'),
+    paddingVertical: Metrics.marginS,
     borderBottomWidth: 1,
     borderColor: Colors.inputGray,
   },
   featureCell: {
-    flex: 3,  // match header flex
+    flex: 3, 
     justifyContent: 'center',
   },
   featureBodyCell: {
-    paddingHorizontal: wp('3%'),
+    paddingHorizontal: Metrics.marginS,
   },
   featureText: {
-    fontSize: wp('3.8%'),
+    fontSize: Metrics.fontS,
     color: Colors.dark,
     textAlign: 'left',
   },
@@ -150,15 +145,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: hp('0.8%'),
-    paddingHorizontal: wp('1%'),
+    paddingVertical: Metrics.marginXS,
+    paddingHorizontal: Metrics.marginXS,
   },
   valueCellSelected: {
     backgroundColor: Colors.orangeTint,
     borderRadius: 6,
   },
   valueText: {
-    fontSize: wp('3.5%'),
+    fontSize: Metrics.fontXS,
     color: Colors.dark,
     textAlign: 'center',
   },

@@ -2,6 +2,7 @@ import { Text, StyleSheet, View } from "react-native"
 import Animated, { SlideInDown } from "react-native-reanimated"
 import { Colors } from "../constants/Colors"
 import { Fonts } from "../constants/Fonts"
+import { Metrics } from '../constants/Metrics';
 
 const SlideUpCard = ({ title, subtitle, children, style, showHeader = true }) => {
   return (
@@ -23,9 +24,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     backgroundColor: Colors.whiteColor,
-    padding: 20,
-    borderTopRightRadius: 90,
-    borderTopLeftRadius: 20,
+    gap: Metrics.marginXS,
+    padding: Metrics.marginM,
+    borderTopRightRadius: Metrics.radiusL,
+    borderTopLeftRadius: Metrics.radiusL,
     shadowColor: Colors.inputGray,
     shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.3,
@@ -34,19 +36,19 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     alignItems: "center",
-    marginBottom: 40,
-    marginTop: 40,
+    marginBottom: Metrics.marginL,
+    marginTop: Metrics.marginL,
   },
   title: {
     fontFamily: Fonts.roboto,
-    fontSize: 38,
+    fontSize: Metrics.fontL,
     fontWeight: "bold",
     textAlign: "center",
-    marginBottom: 10,
+    marginBottom: Metrics.marginM,
   },
   subtitle: {
     fontFamily: Fonts.montserrat,
-    fontSize: 16,
+    fontSize: Metrics.fontM,
     color: "#888",
     textAlign: "center",
   },

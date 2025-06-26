@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-import {
-  View, Text, StyleSheet, StatusBar, SafeAreaView, KeyboardAvoidingView, Platform
-} from 'react-native';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { View, Text, StyleSheet, StatusBar, SafeAreaView, KeyboardAvoidingView, Platform } from 'react-native';
 import { useRouter } from 'expo-router';
 
 //Components
@@ -16,6 +13,7 @@ import AnimationFeedback from '../../components/AnimationFeedback';
 
 //Constants
 import { Colors } from '../../constants/Colors';
+import { Metrics } from '../../constants/Metrics';
 
 //Hooks
 import { useValidation } from '../../hooks/useValidation';
@@ -58,12 +56,13 @@ export default function RecoveryPass() {
   return (
     <>
       <StatusBar barStyle="light-content" />
+      <SafeAreaView style={styles.safeArea}>
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <View style={styles.container}>
           <BackButton />
           <Logo />
           <SlideUpCard
-            title={"Recuperar\nContraseña"}
+            title={"Recuperar Contraseña"}
             style={styles.card}
           >
             {step === 'email' && (
@@ -127,12 +126,17 @@ export default function RecoveryPass() {
           </ModalCard>
         </View>
       </KeyboardAvoidingView>
-      <SafeAreaView style={{backgroundColor: Colors.whiteColor }} />
+    </SafeAreaView>
     </>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: Colors.blueColor,
+    height: Metrics.safeArea
+  },
   container: {
     flex: 1,
     backgroundColor: Colors.blueColor,
@@ -142,8 +146,9 @@ const styles = StyleSheet.create({
   card: {
     position: 'absolute',
     bottom: 0,
-    width: wp('100%'),
-    height: hp('68%'),
+    width: '100%',
+    height: Metrics.screenS,
+    alignItems: 'stretch',
   },
   stepsContainer: {
     width: '100%',
@@ -153,21 +158,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#e9e9e9',
-    borderWidth: wp('0.2%'),
+    borderWidth: Metrics.marginXS,
     borderColor: 'gray',
-    height: hp('10%'),
-    width: wp('90%'),
-    borderRadius: wp('5%'),
-    marginBottom: hp('3%'),
+    height: Metrics.screenS * 0.15,
+    width: '90%',
+    borderRadius: Metrics.radiusS,
+    marginBottom: Metrics.marginL,
   },
   infoText: {
-    fontSize: hp('1.7%'),
-    marginVertical: hp('1%'),
+    fontSize: Metrics.fontXS,
     textAlign: 'center',
   },
   modalText: {
-    fontSize: hp('2.2%'),
+    fontSize: Metrics.fontS,
     textAlign: 'center',
-    marginTop: hp('2%'),
   },
-});
+})
