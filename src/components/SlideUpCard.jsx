@@ -3,6 +3,7 @@ import Animated, { SlideInDown } from "react-native-reanimated"
 import { Colors } from "../constants/Colors"
 import { Fonts } from "../constants/Fonts"
 import { Metrics } from '../constants/Metrics';
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 const SlideUpCard = ({ title, subtitle, children, style, showHeader = true }) => {
   return (
@@ -22,7 +23,7 @@ const styles = StyleSheet.create({
   card: {
     display: "flex",
     alignItems: "center",
-    width: "100%",
+    width: wp("100%"),
     backgroundColor: Colors.whiteColor,
     gap: Metrics.marginXS,
     padding: Metrics.marginM,
@@ -31,7 +32,7 @@ const styles = StyleSheet.create({
     shadowColor: Colors.inputGray,
     shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.3,
-    shadowRadius: 5,
+    shadowRadius: Metrics.radiusS,
     elevation: 10,
   },
   headerContainer: {

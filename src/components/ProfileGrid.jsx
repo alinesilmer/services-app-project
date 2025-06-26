@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from "react-native"
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 import { Colors } from "../constants/Colors"
+import { Metrics } from "../constants/Metrics"
 import ProfileCard from "./ProfileCard"
 
 const ProfileGrid = ({ profiles, onProfilePress, selectedService, selectedSubcategories }) => {
@@ -30,29 +30,29 @@ const ProfileGrid = ({ profiles, onProfilePress, selectedService, selectedSubcat
 
 const styles = StyleSheet.create({
   profilesContainer: {
-    marginTop: 20,
-    paddingHorizontal: wp("5%"),
+    marginTop: Metrics.marginM,
+    paddingHorizontal: Metrics.marginM,
   },
   profilesLabel: {
-    fontSize: 16,
+    fontSize: Metrics.fontS,
     fontWeight: "bold",
     color: Colors.whiteColor,
-    marginBottom: 15,
+    marginBottom: Metrics.marginM,
     textAlign: "center",
   },
   profilesGrid: {
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-around",
-    gap: 15,
+    gap: Metrics.marginS,
   },
   noResultsContainer: {
     alignItems: "center",
-    marginTop: 30,
-    padding: 20,
+    marginTop: Metrics.marginM,
+    padding: Metrics.marginS,
   },
   noResultsText: {
-    fontSize: 16,
+    fontSize: Metrics.fontS,
     color: Colors.whiteColor,
     textAlign: "center",
     fontStyle: "italic",

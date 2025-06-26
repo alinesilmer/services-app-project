@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native"
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 import { Colors } from "../constants/Colors"
+import { Metrics } from "../constants/Metrics"
 
 const ProfileCard = ({ profile, onPress }) => {
   return (
@@ -20,46 +20,46 @@ const styles = StyleSheet.create({
   profileCard: {
     alignItems: "center",
     backgroundColor: "rgba(255, 255, 255, 0.1)",
-    borderRadius: 10,
-    padding: 15,
-    width: wp("40%"),
-    marginBottom: 15,
+    borderRadius: Metrics.radiusS,
+    padding: Metrics.marginS,
+    width: "45%",
+    marginBottom: Metrics.marginXS,
   },
   profileImage: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    borderWidth: 0.5,
+    width: Metrics.iconXLarge,
+    height: Metrics.iconXLarge,
+    borderRadius: Metrics.radiusS,
+    borderWidth: Metrics.marginXS,
     borderColor: Colors.whiteColor,
-    marginBottom: 10,
+    marginBottom: Metrics.marginS,
   },
   profileName: {
-    fontSize: 14,
+    fontSize: Metrics.fontM,
     fontWeight: "bold",
     color: Colors.whiteColor,
     textAlign: "center",
-    marginBottom: 5,
+    marginBottom: Metrics.marginXS,
   },
   profileService: {
-    fontSize: 12,
+    fontSize: Metrics.fontS,
     color: Colors.orangeColor,
     textAlign: "center",
   },
   profileCategory: {
-    fontSize: 11,
+    fontSize: Metrics.fontXS,
     color: Colors.whiteColor,
     textAlign: "center",
     opacity: 0.8,
-    marginBottom: 5,
+    marginBottom: Metrics.marginXS,
   },
   ratingContainer: {
     backgroundColor: "rgba(255, 255, 255, 0.2)",
-    borderRadius: '10%',
-    paddingHorizontal: 8,
-    paddingVertical: 2,
+    borderRadius: Metrics.radiusS,
+    paddingHorizontal: Metrics.marginS,
+    paddingVertical: Metrics.marginS,
   },
   rating: {
-    fontSize: 12,
+    fontSize: Metrics.fontXS,
     color: Colors.starColor,
     fontWeight: "bold",
   },

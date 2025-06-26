@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import CustomInput from './CustomInput';
 import { Metrics } from '../constants/Metrics';
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 const PaymentForm = ({ onValidityChange, onPaymentDataChange }) => {
   const [card, setCard] = useState('');
@@ -98,14 +99,14 @@ export default PaymentForm;
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
+    width: wp("100%"),
     backgroundColor: '#F5F5F5',
     borderRadius: Metrics.radiusS,
     padding: Metrics.marginS,
     marginTop: Metrics.marginS,
   },
   input: {
-    width: '100%',
+    width: wp("100%"),
     fontSize: Metrics.fontXS,
   }
 });

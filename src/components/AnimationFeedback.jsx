@@ -5,7 +5,6 @@
 
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import LottieView from 'lottie-react-native'; 
 
 const AnimationFeedback = ({ type }) => {
@@ -43,7 +42,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   animation: {
-    width: wp('40%'),
-    height: wp('40%'),
+    width: '40%',
+    height: '40%',
   },
 });

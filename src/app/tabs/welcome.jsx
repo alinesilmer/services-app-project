@@ -3,6 +3,7 @@ import { View, StyleSheet, StatusBar, SafeAreaView } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Metrics } from '../../constants/Metrics';
 import { Colors } from '../../constants/Colors';
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 // Components
 import Logo from '../../components/Logo';
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     alignItems: 'center',
-    width: '100%',
+    width: wp("90%"),
     gap: Metrics.marginXS,
   },
   card: {

@@ -2,11 +2,10 @@
 
 import { useRef } from "react"
 import { Text, Animated, Easing, StyleSheet } from "react-native"
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 import { router } from "expo-router"
 import { Colors } from "../constants/Colors"
+import { Metrics } from "../constants/Metrics"
 import { isUserLoggedIn } from "../utils/storage"
-
 
 const CustomRequestButton = () => {
   const scaleAnim = useRef(new Animated.Value(1)).current
@@ -37,7 +36,7 @@ const CustomRequestButton = () => {
 
   return (
     <Text style={styles.selectedLabel}>
-      ¿No encontraste lo que buscas?{" "}
+      ¿No encontras lo que buscas?{"\n"}
       <Animated.Text
         onPress={handlePress}
         style={[
@@ -47,7 +46,7 @@ const CustomRequestButton = () => {
           },
         ]}
       >
-        {" >"} Presione aquí {"<"}
+        {">"} Presione aquí {"<"}
       </Animated.Text>
     </Text>
   )
@@ -55,8 +54,9 @@ const CustomRequestButton = () => {
 
 const styles = StyleSheet.create({
   selectedLabel: {
-    marginTop: 34,
-    fontSize: wp("4%"),
+    marginTop: Metrics.marginM,
+    marginBottom: Metrics.marginM,
+    fontSize: Metrics.fontS,
     fontWeight: "bold",
     color: Colors.whiteColor,
     textAlign: "center",

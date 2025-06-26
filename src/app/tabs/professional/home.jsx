@@ -1,14 +1,8 @@
 import { useLocalSearchParams } from 'expo-router';
-import {
-    Alert,
-    Pressable,
-    ScrollView,
-    StatusBar,
-    StyleSheet,
-    Text,
-    View
-} from "react-native";
+import { Alert, Pressable, ScrollView, StatusBar, StyleSheet, Text, View } from "react-native";
 import { Colors } from '../../../constants/Colors';
+import { Metrics } from '../../../constants/Metrics';
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 import BackButton from '../../../components/BackButton';
 import ProfilePic from '../../../components/ProfilePic';
 import CustomButton from '../../../components/CustomButton';
@@ -16,8 +10,6 @@ import SlideUpCard from '../../../components/SlideUpCard';
 import NavBar from '../../../components/NavBar';
 import Rate from '../../../components/Rate';
 import { ClientRequest } from '../../../data/mockClientRequest';
-import ServiceItem from '../../../components/ServiceItem';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Feather, FontAwesome5 } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
@@ -36,7 +28,6 @@ export default Home = () => {
         const fetchUserProfile = async () => {
             try {
                 const profile = await getUserProfile();
-                console.log('Perfil cargado: ', profile);
                 if (profile) {
                     setUserProfile(profile);
                 }
@@ -50,7 +41,7 @@ export default Home = () => {
     if (!userProfile) {
         return (
         <View style={styles.container}>
-            <Text style={{ textAlign: "center", marginTop: 50, color: "#fff" }}>
+            <Text style={{ textAlign: "center", marginTop: Metrics.marginM, color: "#fff" }}>
             Cargando perfil...
             </Text>
         </View>
@@ -66,7 +57,7 @@ export default Home = () => {
         </Pressable>
     );
 
-    const Icono = ({nom='spa', size=50}) => (
+    const Icono = ({nom='spa', size=Metrics.iconMedium}) => (
         <View style={styles.icoContainer}>
             <FontAwesome5 name={nom} size={size} color="#bbb" />
         </View>
@@ -92,7 +83,7 @@ export default Home = () => {
         <StatusBar barStyle='auto'/>
         <BackButton />
         <View style={styles.profileContainer}>
-            <ProfilePic uri={userProfile?.avatar} size='100'/>
+            <ProfilePic uri={userProfile?.avatar} size={Metrics.iconXLarge}/>
             <View style={styles.titleRateContainer}>
                 <Text style={styles.title}>
                     HOLA, {userProfile
@@ -148,30 +139,31 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: Colors.blueColor,
         flex: 1,
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     profileContainer: {
         flexDirection: 'row',
         width: wp('80%'),
-        height: hp('11%'),
-        padding: 4,
+        height: Metrics.screenM,
+        padding: Metrics.marginS,
         justifyContent: 'space-between',
-        marginTop: 160
+        marginTop: Metrics.marginM,
     },
     photo: {
-        borderWidth: '10%'
+        borderWidth: Metrics.marginS
     },
     titleRateContainer: {
         flex: 1,
         flexDirection: 'column',
-        width: '73%',
+        width: wp('75%'),
         alignItems: 'center',
         justifyContent: 'center',
-        gap: '10%'
+        gap: Metrics.marginS,
     },
     title: {
-        color: 'white',
-        fontSize: wp('5%'),
+        color: Colors.whiteColor,
+        fontSize: Metrics.fontL,
         fontWeight: 'bold'
     },
     rateContainer: {
@@ -184,27 +176,25 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly',
         alignItems: 'center',
         width: wp('65%'),
-        marginTop: hp('1%'),
-        marginBottom: hp('1%'),
+        marginTop: Metrics.marginS,
+        marginBottom: Metrics.marginS,
     },
     slideUpCard: {
-        flex: 1,
-        borderTopRightRadius: wp('30%'),
-        borderTopLeftRadius: 0,
-        marginTop: hp('2%'),
-        justifyContent: 'flex-start',
-        paddingBottom: 0
+        position: "absolute",
+        bottom: 0,
+        height: Metrics.screenM,
+        alignItems: "stretch",
     },
     buttonContainer: {
-        marginTop: hp('5%'),
-        width: '80%',
-        padding: '2%',
-        gap: '8%',
+        marginTop: Metrics.marginS,
+        width: wp('80%'),
+        padding: Metrics.marginS,
+        gap: Metrics.marginS,
     },
     scroll: {
-        marginTop: '10%',
-        width: '90%',
-        marginBottom: 0
+        marginTop: Metrics.marginS,
+        width: wp('90%'),
+        marginBottom: Metrics.marginXS,
     },
     buttonInCard: {
         width: '80%',
@@ -212,10 +202,10 @@ const styles = StyleSheet.create({
     },
     boton: {
         backgroundColor: '#aaa',
-        paddingVertical: '4%',
-        borderRadius: 17,
+        paddingVertical: Metrics.marginS,
+        borderRadius: Metrics.radiusS,
         alignItems: 'center',
-        width: '90%',
+        width: wp('90%'),
         zIndex: 1
     },
     botonPresionado: {
@@ -223,19 +213,18 @@ const styles = StyleSheet.create({
     },
     texto: {
         color: '#000',
-        fontSize: 24,
+        fontSize: Metrics.fontL,
     },
     ultimoAviso: {
-        padding: '2%',
-        width: '100%',
+        padding: Metrics.marginS,
+        width: wp('100%'),
     },
     cardToService: {
-        margin: wp('1%'),
-        padding: hp('1%'),
-        borderRadius: wp('2.5%'),
-        borderWidth: wp('0.1%'),
+        margin: Metrics.marginS,
+        padding: Metrics.marginS,
+        borderRadius:Metrics.radiusS,
+        borderWidth: Metrics.marginXS,
         borderColor: '#888',
-        borderStyle: 'solid',
         alignItems: 'center',
         elevation: 5,
         backgroundColor: '#dedede'
@@ -243,34 +232,33 @@ const styles = StyleSheet.create({
     alertStyle: {
         flex: 1,
         flexDirection: 'row',
-        width: '70%',
+        width: wp('70%'),
         justifyContent: 'space-evenly',
-        marginVertical: '1%'
+        marginVertical: Metrics.marginS,
     },
     alertText: {
         color: Colors.orangeColor,
-        fontSize: 32,
+        fontSize: Metrics.fontL,
         fontWeight: 'bold'
     },
     cardText: {
-        marginVertical: '2%',
-        fontSize: 25,
+        marginVertical: Metrics.marginS,
+        fontSize: Metrics.fontM,
         fontWeight: 'bold'
     },
     icoContainer: {
-        padding: '6%',
-        borderRadius: '20%',
-        borderWidth: 3,
+        padding: Metrics.marginS,
+        borderRadius: Metrics.radiusS,
+        borderWidth: Metrics.marginXS,
         borderColor: '#bbb',
-        borderStyle: 'solid',
         alignItems: 'center',
-        height: 75,
-        width: 75,
+        height:  Metrics.iconMedium,
+        width: Metrics.iconMedium,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#88888855'
     },
     simpleText: {
-        fontSize: wp('6%'),
+        fontSize: Metrics.fontS
     }
 });

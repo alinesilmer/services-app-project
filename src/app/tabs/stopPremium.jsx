@@ -9,8 +9,9 @@ import BackButton from "../../components/BackButton"
 import Logo from "../../components/Logo"
 import SlideUpCard from "../../components/SlideUpCard"
 import { Colors } from "../../constants/Colors"
+import { Metrics } from "../../constants/Metrics"
 import { usePremium } from "../../hooks/usePremium"
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 export default function StopPremium() {
   const router = useRouter()
@@ -88,7 +89,7 @@ export default function StopPremium() {
                 <CustomButton
                   text="Pausar en su lugar"
                   onPress={() => router.push("tabs/pausePremium")}
-                  width="90%"
+                  width={wp("90%")}
                   style={{ backgroundColor: Colors.orangeColor }}
                 />
               </View>
@@ -98,7 +99,7 @@ export default function StopPremium() {
                   text={isLoading ? "Cancelando..." : "Cancelar definitivamente"}
                   onPress={handleCancelPremium}
                   disabled={isLoading}
-                  width="90%"
+                  width={wp("90%")}
                   style={{ backgroundColor: Colors.redColor }}
                 />
               </View>
@@ -114,6 +115,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.blueColor,
+    alignItems: "center",
+    justifyContent: "center",
   },
   safeArea: {
     flex: 1,
@@ -122,59 +125,59 @@ const styles = StyleSheet.create({
   card: {
     position: "absolute",
     bottom: 0,
-    width: wp("100%"),
-    height: hp("80%"),
+    height: Metrics.screenM,
+    alignItems: "stretch",
   },
   row: {
     flexDirection: "row",
     alignItems: "flex-start",
-    gap: 15,
-    marginTop: 30,
+    gap: Metrics.marginS,
+    marginTop: Metrics.marginM,
     alignSelf: "flex-start",
   },
   buttonContainer: {
     width: wp("90%"),
     alignItems: "center",
-    marginTop: hp("2%"),
-    marginBottom: hp("1%"),
+    marginTop: Metrics.marginS,
+    marginBottom: Metrics.marginS,
   },
   warningContainer: {
     backgroundColor: "#ffebee",
-    padding: wp("4%"),
-    borderRadius: wp("2%"),
-    marginTop: hp("2%"),
-    marginHorizontal: wp("5%"),
-    borderLeftWidth: 4,
+    padding: Metrics.marginS,
+    borderRadius: Metrics.radiusS,
+    marginTop: Metrics.marginS,
+    marginHorizontal: Metrics.marginS,
+    borderLeftWidth: Metrics.marginXS,
     borderLeftColor: Colors.redColor,
   },
   warningTitle: {
-    fontSize: hp("2%"),
+    fontSize: Metrics.fontL,
     fontWeight: "bold",
-    marginBottom: hp("1%"),
+    marginBottom: Metrics.marginS,
     color: Colors.redColor,
   },
   warningItem: {
-    fontSize: hp("1.8%"),
-    marginBottom: hp("0.5%"),
+    fontSize: Metrics.fontM,
+    marginBottom: Metrics.marginS,
     color: Colors.dark,
   },
   alternativeContainer: {
     backgroundColor: "#e8f5e8",
-    padding: wp("4%"),
-    borderRadius: wp("2%"),
-    marginTop: hp("2%"),
-    marginHorizontal: wp("5%"),
-    borderLeftWidth: 4,
+    padding: Metrics.marginS,
+    borderRadius: Metrics.radiusS,
+    marginTop: Metrics.marginS, 
+    marginHorizontal: Metrics.marginS,
+    borderLeftWidth: Metrics.marginXS,
     borderLeftColor: Colors.greenColor,
   },
   alternativeTitle: {
-    fontSize: hp("2%"),
+    fontSize: Metrics.fontS,
     fontWeight: "bold",
-    marginBottom: hp("1%"),
+    marginBottom: Metrics.marginS,
     color: Colors.greenColor,
   },
   alternativeText: {
-    fontSize: hp("1.8%"),
+    fontSize: Metrics.fontS,
     color: Colors.dark,
   },
 })

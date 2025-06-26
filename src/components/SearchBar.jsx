@@ -1,11 +1,13 @@
 import React from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 import { Feather } from '@expo/vector-icons';
+import { Metrics } from '../constants/Metrics';
+import { Colors } from '../constants/Colors';
 
 const SearchBar = ({ value, onChangeText, placeholder }) => {
   return (
     <View style={styles.container}>
-      <Feather name="search" size={15} color="gray" style={styles.icon} />
+      <Feather name="search" size={Metrics.iconSmall} color="gray" style={styles.icon} />
       <TextInput
         placeholder={placeholder || "Buscar servicios..."}
         style={styles.input}
@@ -22,17 +24,17 @@ const SearchBar = ({ value, onChangeText, placeholder }) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    backgroundColor: 'white',
-    paddingHorizontal: 10,
+    backgroundColor: Colors.whiteColor,
+    paddingHorizontal: Metrics.marginS,
     alignItems: 'center',
-    borderRadius: 20,
-    height: 40,
+    borderRadius: Metrics.radiusS,
+    height: Metrics.searchBarArea,
     elevation: 3,
-    marginBottom: 10
+    marginBottom: Metrics.marginS
   },
   icon: {
-    marginLeft: 15,
-    marginRight: 8
+    marginLeft: Metrics.marginM,
+    marginRight: Metrics.marginM
   },
   input: {
     flex: 1,

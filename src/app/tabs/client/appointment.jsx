@@ -1,21 +1,12 @@
 "use client"
 
 import React, { useState, useEffect, useCallback } from "react"
-import {
-  View,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  StyleSheet,
-  SafeAreaView,
-  StatusBar,
-  Platform,
-  Modal,
-} from "react-native"
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet, SafeAreaView, StatusBar, Platform, Modal, } from "react-native"
 import { useLocalSearchParams, router } from "expo-router"
 import { Feather } from "@expo/vector-icons"
 import { Colors } from "../../../constants/Colors"
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
+import { Metrics } from "../../../constants/Metrics"
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 import AdsImage from "../../../components/AdsImage"
 import DatePickerAppointment from "../../../components/DatePickerAppointment"
@@ -213,7 +204,7 @@ const Appointment = () => {
           <AdsImage onPress isPremium={hasPremium} />
         </View>
 
- <View style={styles.actionButton}>
+        <View style={styles.actionButton}>
           <CustomButton text={"Volver atrás"} onPress={handleBack}/>
           </View>
            <View style={styles.actionButton}>
@@ -227,40 +218,42 @@ const Appointment = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f8f9fa",
+    backgroundColor: Colors.blueColor,
+    alignItems: "center",
+    justifyContent: "center",
   },
   header: {
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight + 10 : 50,
-    paddingHorizontal: wp("5%"),
-    paddingBottom: 10,
+    paddingHorizontal: Metrics.marginS,
+    paddingBottom: Metrics.marginL,
   },
   content: {
     flex: 1,
-    paddingHorizontal: wp("5%"),
+    paddingHorizontal: Metrics.marginS,
   },
   title: {
-    fontSize: wp("4.5%"),
+    fontSize: Metrics.fontM,
     color: Colors.blueColor,
     textAlign: "center",
-    marginVertical: hp("3%"),
+    marginVertical: Metrics.marginL,
     fontWeight: "500",
-    lineHeight: wp("6%"),
+    lineHeight: Metrics.marginXS,
   },
   selectedDateContainer: {
-    backgroundColor: "white",
-    borderRadius: 15,
-    padding: 20,
-    marginBottom: hp("3%"),
+    backgroundColor: Colors.whiteColor,
+    borderRadius: Metrics.radiusS,
+    padding: Metrics.marginS,
+    marginBottom: Metrics.marginS,
     elevation: 2,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
-    shadowRadius: 2,
+    shadowRadius: Metrics.radiusS
   },
   selectedDateLabel: {
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontS,
     color: "#666",
-    marginBottom: 15,
+    marginBottom: Metrics.marginS,
     fontWeight: "600",
   },
   dateInputStyle: {
@@ -268,32 +261,32 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: "#f8f9fa",
-    borderRadius: 8,
-    padding: 15,
-    borderWidth: 1,
-    borderColor: "#red",
+    borderRadius: Metrics.radiusS,
+    padding: Metrics.marginS,
+    borderWidth: Metrics.marginXS,
+    borderColor: Colors.errorColor
   },
   dateInputText: {
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontS,
     color: "#333",
   },
   timeSelectionContainer: {
-    backgroundColor: "white",
-    borderRadius: 15,
-    padding: 20,
-    marginBottom: hp("3%"),
+    backgroundColor: Colors.whiteColor,
+    borderRadius: Metrics.radiusS,
+    padding: Metrics.marginS,
+    marginBottom: Metrics.marginS,
     elevation: 2,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
-    shadowRadius: 2,
+    shadowRadius: Metrics.radiusS
   },
   timeSlotContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: 15,
-    borderBottomWidth: 1,
+    paddingVertical: Metrics.marginS,
+    borderBottomWidth: Metrics.marginXS,
     borderBottomColor: "#f0f0f0",
   },
   timeSlotContent: {
@@ -302,14 +295,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   timeSlotTime: {
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontS,
     color: "#333",
   },
   checkbox: {
-    width: 24,
-    height: 24,
-    borderRadius: 4,
-    borderWidth: 2,
+    width: Metrics.iconMedium,
+    height: Metrics.iconMedium,
+    borderRadius: Metrics.radiusS,
+    borderWidth: Metrics.marginXS,
     borderColor: Colors.orangeColor,
     justifyContent: "center",
     alignItems: "center",
@@ -318,7 +311,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.orangeColor,
   },
   adContainer: {
-    marginVertical: hp("2%"),
+    marginVertical: Metrics.marginS,
   },
   animationOverlay: {
     flex: 1,
@@ -327,30 +320,30 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   animationContainer: {
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 30,
+    backgroundColor: Colors.whiteColor,
+    borderRadius: Metrics.radiusS,
+    padding: Metrics.marginS,
     alignItems: "center",
     minWidth: wp("70%"),
   },
   successTitle: {
-    fontSize: wp("5%"),
+    fontSize: Metrics.radiusS,
     fontWeight: "bold",
     color: "#333",
-    marginTop: 15,
+    marginTop: Metrics.marginS,
     textAlign: "center",
   },
   successMessage: {
-    fontSize: wp("4%"),
+    fontSize: Metrics.radiusS,
     color: "#666",
-    marginTop: 10,
+    marginTop: Metrics.marginS,
     textAlign: "center",
-    lineHeight: wp("5.5%"),
+    lineHeight: Metrics.marginXS,
   },
     actionButton: {
     alignItems: "center",
-    gap: 15,
-    marginBottom: 30,
+    gap: Metrics.marginS,
+    marginBottom: Metrics.marginS,
   },
 })
 

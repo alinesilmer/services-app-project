@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, StatusBar, ScrollView, SafeAreaView } from 'rea
 //Constants
 import { Colors } from '../../constants/Colors'
 import { Metrics } from '../../constants/Metrics';
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 //Components
 import SlideUpCard from '../../components/SlideUpCard';
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
 		flexGrow: 1,
-		width: '90%',
+		width: wp('90%'),
 		alignSelf: 'center',
 		paddingBottom: Metrics.marginL, 
 	},

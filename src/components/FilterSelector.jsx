@@ -1,7 +1,8 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Colors } from "../constants/Colors";
-import { widthPercentageToDP as wp } from "react-native-responsive-screen";
+import { Metrics } from "../constants/Metrics";
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 export default function FilterSelector({ selectedFilter, setSelectedFilter }) {
   const radioOptions = [
@@ -31,40 +32,40 @@ export default function FilterSelector({ selectedFilter, setSelectedFilter }) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    borderRadius: 10,
-    width: "60%",
+    paddingHorizontal: Metrics.marginS,
+    paddingVertical: Metrics.marginS,
+    borderRadius: Metrics.radiusS,
+    width: wp("60%"),
     alignSelf: "center",
   },
   title: {
     color: "#ccc",
-    fontSize: wp("3.5%"),
-    marginBottom: 8,
+    fontSize: Metrics.fontS,
+    marginBottom: Metrics.marginS,
   },
   option: {
     flexDirection: "row",
     alignItems: "center",
-    marginVertical: 6,
+    marginVertical: Metrics.marginS,
   },
   circle: {
     height: 18,
     width: 18,
-    borderRadius: 9,
-    borderWidth: 2,
-    borderColor: "#eee",
+    borderRadius: Metrics.radiusS,
+    borderWidth: Metrics.marginXS,
+    borderColor: Colors.whiteColor,
     justifyContent: "center",
     alignItems: "center",
-    marginRight: 10,
+    marginRight: Metrics.marginS,
   },
   dot: {
     height: 8,
     width: 8,
-    borderRadius: 4,
+    borderRadius: Metrics.radiusS,
     backgroundColor: Colors.orangeColor,
   },
   label: {
-    color: "white",
-    fontSize: wp("3.5%"),
+    color: Colors.whiteColor,
+    fontSize: Metrics.fontS,
   },
 });

@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
-import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { Feather } from '@expo/vector-icons';
+import { Colors } from '../constants/Colors';
+import { Metrics } from '../constants/Metrics';
 
 const Notifications = () => {
   const [isDropped, setDropped] = useState(false);
@@ -48,7 +49,7 @@ const Notifications = () => {
   return (
     <View style={styles.wrapper}>
       <Pressable onPress={handleDropdown}>
-        <Feather name="bell" size={26} color="white" style={styles.bellIcon} />
+        <Feather name="bell" size={Metrics.iconSmall} color={Colors.whiteColor} style={styles.bellIcon} />
         {unreadCount > 0 && (
           <View style={styles.badge}>
             <Text style={styles.badgeText}>{unreadCount}</Text>
@@ -77,48 +78,53 @@ const Notifications = () => {
 export default Notifications;
 
 const styles = StyleSheet.create({
-  wrapper: { position: 'relative', zIndex: 999 },
-  bellIcon: { marginLeft: wp(2.5) },
+  wrapper: { 
+    position: 'relative', 
+    zIndex: 999 
+  },
+  bellIcon: { 
+    marginLeft: Metrics.marginM,
+  },
   dropdown: {
     position: 'absolute',
-    top: hp(4),
+    top: Metrics.marginL,
     right: 0,
-    backgroundColor: 'white',
-    padding: wp(4),
-    borderRadius: wp(3),
-    width: wp(65),
+    backgroundColor: Colors.whiteColor,
+    padding: Metrics.marginS,
+    borderRadius: Metrics.radiusS,
+    width: Metrics.screenXS,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
-    shadowRadius: 5,
+    shadowRadius: Metrics.radiusS,
     elevation: 8,
     zIndex: 1000,
   },
   title: {
     fontWeight: 'bold',
-    fontSize: hp(2.3),
-    marginBottom: hp(2),
+    fontSize: Metrics.fontM,
+    marginBottom: Metrics.marginM,
     textAlign: 'center',
   },
   notification: {
-    fontSize: hp(1.7),
-    marginBottom: hp(0.5),
-    borderBottomWidth: 1,
+    fontSize: Metrics.fontXS,
+    marginBottom: Metrics.marginS,
+    borderBottomWidth: Metrics.marginXS,
     borderBottomColor: '#e0e0e0',
-    paddingBottom: hp(0.5),
+    paddingBottom: Metrics.marginS,
   },
   badge: {
     position: 'absolute',
     top: -4,
     right: -4,
-    backgroundColor: 'red',
-    borderRadius: 10,
-    paddingHorizontal: 5,
-    paddingVertical: 2,
+    backgroundColor: Colors.orangeColor,
+    borderRadius: Metrics.radiusS,
+    paddingHorizontal: Metrics.marginXS,
+    paddingVertical: Metrics.marginXS,
   },
   badgeText: {
-    color: 'white',
-    fontSize: 10,
+    color: Colors.whiteColor,
+    fontSize: Metrics.fontXS,
     fontWeight: 'bold',
   },
 });

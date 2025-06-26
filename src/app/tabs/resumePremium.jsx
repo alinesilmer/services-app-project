@@ -6,8 +6,9 @@ import Logo from '../../components/Logo';
 import SlideUpCard from '../../components/SlideUpCard';
 import CustomButton from '../../components/CustomButton';
 import { usePremium } from '../../hooks/usePremium';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Colors } from '../../constants/Colors';
+import { Metrics } from '../../constants/Metrics';
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 export default function ResumePremium() {
   const router = useRouter();
@@ -64,8 +65,8 @@ export default function ResumePremium() {
             text={isLoading ? "Reanudando..." : "Reanudar ahora"}
             onPress={handleResume}
             disabled={isLoading}
-            width="90%"
-            style={{ marginTop: hp('3%') }}
+            width={wp("90%")}
+            style={{ marginTop: Metrics.marginS }}
           />
         </SlideUpCard>
       </SafeAreaView>
@@ -74,11 +75,35 @@ export default function ResumePremium() {
 }
 
 const styles = StyleSheet.create({
-  container:  { flex:1, backgroundColor: Colors.blueColor },
-  safeArea:   { flex:1, backgroundColor: Colors.blueColor },
-  card:       { position:'absolute', bottom:0, width:wp('100%'), height:hp('75%') },
-  infoBox:    { backgroundColor: Colors.lightBlue, padding:wp('4%'),
-                borderRadius:wp('2%'), width:wp('90%'), alignSelf:'center' },
-  infoTitle:  { fontSize:hp('2%'), fontWeight:'bold', marginBottom:hp('1%') },
-  infoText:   { fontSize:hp('1.8%') },
+  container: { 
+    flex:1, 
+    backgroundColor: Colors.blueColor,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  safeArea: { 
+    flex:1, 
+    backgroundColor: Colors.blueColor 
+  },
+  card: { 
+    position: "absolute",
+    bottom: 0,
+    height: Metrics.screenM,
+    alignItems: "stretch",
+  },
+  infoBox: { 
+    backgroundColor: Colors.lightBlue, 
+    padding: Metrics.marginS,
+    borderRadius: Metrics.radiusS,
+    width: wp('90%'),
+    alignSelf:'center' 
+  },
+  infoTitle: { 
+    fontSize: Metrics.fontM,
+    fontWeight:'bold', 
+    marginBottom: Metrics.marginS,
+  },
+  infoText: { 
+    fontSize: Metrics.fontS
+  },
 });

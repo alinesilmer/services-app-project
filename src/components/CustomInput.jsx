@@ -19,6 +19,7 @@ import { Feather } from '@expo/vector-icons';
 import { Colors } from '../constants/Colors';
 import { Fonts } from '../constants/Fonts';
 import { Metrics } from '../constants/Metrics';
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 const CustomInput = ({
   label,
@@ -58,7 +59,7 @@ const CustomInput = ({
 const styles = StyleSheet.create({
   container: {
     marginBottom: Metrics.marginS,
-    width: '100%',
+    width: wp("100%"),
   },
   label: {
     fontFamily: Fonts.roboto,
@@ -74,7 +75,7 @@ const styles = StyleSheet.create({
     borderRadius: Metrics.radiusS,
     paddingRight: Metrics.radiusS,
     marginBottom: Metrics.radiusS,
-    borderWidth: 1,
+    borderWidth: Metrics.marginXS,
     borderColor: '#eee',
     marginBottom: Metrics.marginS,
   },
@@ -90,7 +91,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: Colors.errorColor,
-    marginTop: 4,
+    marginTop: Metrics.marginXS,
   },
 });
 

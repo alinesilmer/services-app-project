@@ -14,10 +14,7 @@ import { Metrics } from "../../../constants/Metrics"
 import { usePremium } from "../../../hooks/usePremium"
 import { useAdManager } from "../../../hooks/useAdManager"
 import { getCompleteUserData } from "../../../utils/storage"
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen"
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 export default function ClientDashboard() {
   const router = useRouter()
@@ -81,7 +78,7 @@ export default function ClientDashboard() {
                   userData?.avatar ||
                   "https://i.pinimg.com/736x/9f/16/72/9f1672710cba6bcb0dfd93201c6d4c00.jpg"
                 }
-                size={wp("20%")}
+                size={Metrics.iconXLarge}
                 style={styles.avatar}
               />
               <View style={styles.userTextInfo}>
@@ -159,87 +156,88 @@ const styles = StyleSheet.create({
     height: Metrics.safeArea
   },
   card: {
-    flex: 1,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20
+    position: "absolute",
+    bottom: 0,
+    height: Metrics.screenM,
+    alignItems: "stretch",
   },
   scrollView: {
     flex: 1,
-    width: "100%",
+    width: wp("100%"),
   },
   scrollContent: {
     flexGrow: 1,
-    padding: wp("4%"),
+    padding: Metrics.marginS,
   },
   premiumNav: {
     alignItems: "center",
-    marginBottom: hp("2%")
+    marginBottom: Metrics.marginS,
   },
   premiumButton: {
-    width: wp("88%")
+    width: wp("90%"),
   },
   userInfoSection: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: hp("3%"),
+    marginBottom: Metrics.marginS,
   },
   avatar: {
-    marginRight: wp("8%"),
+    marginRight: Metrics.marginS,
   },
   userTextInfo: {
     flex: 1
   },
   userName: {
-    fontSize: hp("2.5%"),
+    fontSize: Metrics.fontM,
     fontWeight: "bold",
-    marginLeft: wp("3%"),
+    marginLeft: Metrics.marginS,
   },
   premiumBadge: {
-    fontSize: hp("1.6%"),
+    fontSize: Metrics.fontS,
     color: Colors.greenColor,
-    marginTop: hp("0.5%"),
-    marginLeft: wp("3%"),
+    marginTop: Metrics.marginS,
+    marginLeft: Metrics.marginS,
   },
   statsContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
-    marginBottom: hp("3%"),
+    marginBottom: Metrics.marginS,
   },
   statItem: {
     alignItems: "center"
   },
   statNumber: {
-    fontSize: hp("2.5%"),
+    fontSize: Metrics.fontS,
     fontWeight: "bold",
     color: Colors.orangeColor,
   },
   statLabel: {
-    fontSize: hp("1.6%")
+    fontSize: Metrics.fontS,
   },
   actionsContainer: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    gap: 20,
-    marginBottom: hp("3%"),
-    marginTop: hp("5%")
+    gap: Metrics.marginS,
+    marginBottom: Metrics.marginS,
+    marginTop: Metrics.marginS,
   },
   actionButton: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: hp("2%"),
+    marginBottom: Metrics.marginS,
     width: wp("100%"),
     textAlign: "center",
   },
   activitySection: {
-    marginTop: hp("2%")
+    marginTop: Metrics.marginS,
   },
   sectionTitle: {
-    fontSize: hp("2%"),
+    fontSize: Metrics.fontS,
     fontWeight: "bold",
-    marginBottom: hp("1%"),
+    marginBottom: Metrics.marginS,
     color: Colors.orangeColor,
   },
 })

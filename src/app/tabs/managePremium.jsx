@@ -7,8 +7,9 @@ import SlideUpCard from '../../components/SlideUpCard';
 import CustomButton from '../../components/CustomButton';
 import { usePremium } from '../../hooks/usePremium';
 import { formatPrice } from '../../utils/pricingPlans';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { Colors } from '../../constants/Colors';
+import { Metrics } from '../../constants/Metrics';
 
 export default function ManagePremium() {
   const router = useRouter();
@@ -59,7 +60,7 @@ export default function ManagePremium() {
               <CustomButton
                 text="Obtener Premium"
                 onPress={() => router.push(goPremiumRoute)}
-                width="100%"
+                width={wp("100%")}
               />
             )}
             {(premium.premiumStatus === 'active') && (
@@ -67,12 +68,12 @@ export default function ManagePremium() {
                 <CustomButton
                   text="Pausar Premium"
                   onPress={() => router.push('/tabs/pausePremium')}
-                  width="100%"
+                  width={wp("100%")}
                 />
                 <CustomButton
                   text="Cancelar Premium"
                   onPress={() => router.push('/tabs/stopPremium')}
-                  width="100%"
+                  width={wp("100%")}
                 />
               </>
             )}
@@ -81,13 +82,13 @@ export default function ManagePremium() {
                 <CustomButton
                   text="Actualizar a pago"
                   onPress={() => router.push(goPremiumRoute)}
-                  width="100%"
+                  width={wp("100%")}
                   style={{ backgroundColor: Colors.orangeColor }}
                 />
                 <CustomButton
                   text="Cancelar prueba"
                   onPress={() => router.push('/tabs/stopPremium')}
-                  width="100%"
+                  width={wp("100%")}
                 />
               </>
             )}
@@ -96,12 +97,12 @@ export default function ManagePremium() {
                 <CustomButton
                   text="Reanudar Premium"
                   onPress={() => router.push('/tabs/resumePremium')}
-                  width="100%"
+                  width={wp("100%")}
                 />
                 <CustomButton
                   text="Cancelar definitivamente"
                   onPress={() => router.push('/tabs/stopPremium')}
-                  width="100%"
+                  width={wp("100%")}
                 />
               </>
             )}
@@ -109,7 +110,7 @@ export default function ManagePremium() {
               <CustomButton
                 text="Reactivar Premium"
                 onPress={() => router.push(goPremiumRoute)}
-                width="100%"
+                width={wp("100%")}
               />
               )}
               </View>
@@ -123,44 +124,46 @@ export default function ManagePremium() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.blueColor
+    backgroundColor: Colors.blueColor,
+    alignItems: "center",
+    justifyContent: "center",
   },
   safeArea: {
     flex: 1,
     backgroundColor: Colors.blueColor
   },
   card: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
-    width: wp('100%'),
-    height: hp('70%')
+    height: Metrics.screenM,
+    alignItems: "stretch",
   },
   scroll: {
     flexGrow: 1,
     alignItems: 'center',
-    paddingVertical: hp('2%')
+    paddingVertical: Metrics.marginS,
   },
   planDetailsContainer: {
     backgroundColor: Colors.lightGray,
-    padding: wp('4%'),
-    borderRadius: wp('2%'),
-    marginBottom: hp('2%'),
-    width: wp('90%')
+    padding: Metrics.marginS,
+    borderRadius: Metrics.radiusS,
+    marginBottom: Metrics.marginS,
+    width: wp("90%"),
   },
   planDetailsTitle: {
-    fontSize: hp('2%'),
+    fontSize: Metrics.fontM,
     fontWeight: 'bold',
-    marginBottom: hp('1%')
+    marginBottom: Metrics.marginS,
   },
   planDetailsText: {
-    fontSize: hp('1.8%'),
-    marginBottom: hp('0.5%')
+    fontSize: Metrics.fontS,
+    marginBottom: Metrics.marginS,
   },
   actionsWrapper: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    gap: 20
+    gap: Metrics.marginS,
   }
 });

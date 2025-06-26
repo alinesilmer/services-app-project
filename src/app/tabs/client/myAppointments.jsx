@@ -1,20 +1,10 @@
 "use client"
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  StatusBar,
-  Platform,
-  ScrollView,
-  Modal,
-  SafeAreaView,
-  RefreshControl,
-} from "react-native"
+import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Platform, ScrollView, Modal, SafeAreaView, RefreshControl, } from "react-native"
 import { useState, useCallback } from "react"
 import { router, useFocusEffect } from "expo-router"
 import { Colors } from "../../../constants/Colors"
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
+import { Metrics } from "../../../constants/Metrics"
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 import { Feather } from "@expo/vector-icons"
 import AdsImage from "../../../components/AdsImage"
 import NavBar from "../../../components/NavBar"
@@ -144,7 +134,7 @@ const MyAppointments = () => {
         >
           {currentAppointments.length === 0 ? (
             <View style={styles.emptyContainer}>
-              <Feather name="x" size={80} color="#ccc" />
+              <Feather name="x" size={Metrics.iconXLarge} color="#ccc" />
               <Text style={styles.emptyText}>No tienes turnos programados</Text>
               <Text style={styles.emptySubtext}>Agenda tu primera cita con un profesional</Text>
             </View>
@@ -158,7 +148,7 @@ const MyAppointments = () => {
               >
                 {appointment.isNew && <View style={styles.newIndicator} />}
                 <View style={styles.appointmentHeader}>
-                  <Feather name="calendar" size={24} color={Colors.blueColor} />
+                  <Feather name="calendar" size={Metrics.iconSmall} color={Colors.blueColor} />
                   <Text style={styles.appointmentTitle}>
                     {appointment.profession?.toUpperCase()}
                     {appointment.isNew && <Text style={styles.newText}> (Nuevo)</Text>}
@@ -206,41 +196,41 @@ const MyAppointments = () => {
                     {selectedAppointment.isNew && <Text style={styles.newText}> (Nuevo)</Text>}
                   </Text>
                   <TouchableOpacity activeOpacity={0.7} onPress={() => setShowModal(false)}>
-                    <Feather name="x" size={24} color="#666" />
+                    <Feather name="x" size={Metrics.iconSmall} color="#666" />
                   </TouchableOpacity>
                 </View>
 
                 <View style={styles.modalBody}>
                   <View style={styles.modalDetailRow}>
-                    <Feather name="user" size={20} color={Colors.blueColor} />
+                    <Feather name="user" size={Metrics.iconSmall} color={Colors.blueColor} />
                     <Text style={styles.modalDetailText}>
                       <Text style={styles.modalDetailLabel}>Profesional:</Text> {selectedAppointment.professionalName}
                     </Text>
                   </View>
 
                   <View style={styles.modalDetailRow}>
-                    <Feather name="calendar" size={20} color={Colors.blueColor} />
+                    <Feather name="calendar" size={Metrics.iconSmall} color={Colors.blueColor} />
                     <Text style={styles.modalDetailText}>
                       <Text style={styles.modalDetailLabel}>Fecha:</Text> {formatDate(selectedAppointment.date)}
                     </Text>
                   </View>
 
                   <View style={styles.modalDetailRow}>
-                    <Feather name="clock" size={20} color={Colors.blueColor} />
+                    <Feather name="clock" size={Metrics.iconSmall} color={Colors.blueColor} />
                     <Text style={styles.modalDetailText}>
                       <Text style={styles.modalDetailLabel}>Hora:</Text> {selectedAppointment.time} h
                     </Text>
                   </View>
 
                   <View style={styles.modalDetailRow}>
-                    <Feather name="map-pin" size={20} color={Colors.blueColor} />
+                    <Feather name="map-pin" size={Metrics.iconSmall} color={Colors.blueColor} />
                     <Text style={styles.modalDetailText}>
                       <Text style={styles.modalDetailLabel}>Ubicación:</Text> {selectedAppointment.location}
                     </Text>
                   </View>
 
                   <View style={styles.modalDetailRow}>
-                    <Feather name="check-circle" size={20} color={Colors.orangeColor} />
+                    <Feather name="check-circle" size={Metrics.iconSmall} color={Colors.orangeColor} />
                     <Text style={styles.modalDetailText}>
                       <Text style={styles.modalDetailLabel}>Estado:</Text> {selectedAppointment.estado}
                     </Text>
@@ -297,36 +287,34 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: wp("5%"),
+    paddingHorizontal: Metrics.marginS,
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight + 10 : 10,
-    paddingBottom: 20,
+    paddingBottom: Metrics.marginS
   },
   welcomeContainer: {
     alignItems: "center",
     flex: 1,
   },
   welcomeText: {
-    color: "white",
-    fontSize: wp("4%"),
+    color: Colors.whiteColor,
+    fontSize: Metrics.fontM,
   },
   usernameText: {
-    color: "white",
-    fontSize: wp("4.5%"),
+    color: Colors.whiteColor,
+    fontSize: Metrics.fontM,
     fontWeight: "bold",
   },
   content: {
     flex: 1,
     backgroundColor: "white",
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    paddingTop: 30,
-    paddingHorizontal: wp("5%"),
+    paddingTop: Metrics.marginS,
+    paddingHorizontal: Metrics.marginS,
   },
   title: {
-    fontSize: wp("6%"),
+    fontSize: Metrics.fontL,
     fontWeight: "bold",
     textAlign: "center",
-    marginBottom: 30,
+    marginBottom: Metrics.marginS,
     color: Colors.orangeColor,
   },
   scrollContainer: {
@@ -335,36 +323,36 @@ const styles = StyleSheet.create({
   emptyContainer: {
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: hp("10%"),
+    paddingVertical: Metrics.marginS,
   },
   emptyText: {
-    fontSize: wp("5%"),
+    fontSize: Metrics.fontS,
     fontWeight: "600",
     color: "#666",
-    marginTop: 20,
+    marginTop: Metrics.marginS,
     textAlign: "center",
   },
   emptySubtext: {
-    fontSize: wp("3.5%"),
+    fontSize: Metrics.fontS,
     color: "#999",
-    marginTop: 10,
+    marginTop: Metrics.marginS,
     textAlign: "center",
   },
   appointmentCard: {
     backgroundColor: "black",
-    borderRadius: 10,
-    padding: 20,
-    marginBottom: 15,
+    borderRadius: Metrics.radiusS,
+    padding: Metrics.marginS,
+    marginBottom: Metrics.marginS,
     elevation: 2,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
-    shadowRadius: 2,
+    shadowRadius: Metrics.radiusS,
     position: "relative",
   },
   newAppointmentCard: {
     backgroundColor: "#E8F5E8",
-    borderLeftWidth: 4,
+    borderLeftWidth: Metrics.marginXS,
     borderLeftColor: "#4CAF50",
   },
   newIndicator: {
@@ -373,7 +361,7 @@ const styles = StyleSheet.create({
     right: 10,
     width: 8,
     height: 8,
-    borderRadius: 100,
+    borderRadius: Metrics.radiusM,
     backgroundColor: Colors.orangeColor,
   },
   appointmentHeader: {
@@ -382,20 +370,20 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   appointmentTitle: {
-    fontSize: wp("5%"),
+    fontSize: Metrics.fontL,
     fontWeight: "bold",
     color: "#333",
     marginLeft: 10,
   },
   newText: {
     color: Colors.orangeColor,
-    fontSize: wp("3.5%"),
+    fontSize: Metrics.fontM
   },
   appointmentDetails: {
-    gap: 8,
+    gap: Metrics.marginS,
   },
   appointmentDetailText: {
-    fontSize: wp("3.8%"),
+    fontSize: Metrics.fontS,
     color: "#666",
   },
   detailLabel: {
@@ -405,27 +393,27 @@ const styles = StyleSheet.create({
   statusContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 5,
+    marginTop: Metrics.marginS,
   },
   statusLabel: {
-    fontSize: wp("3.8%"),
+    fontSize: Metrics.fontS,
     fontWeight: "600",
     color: "#333",
-    marginRight: 10,
+    marginRight: Metrics.marginS,
   },
   statusBadge: {
     backgroundColor: Colors.orangeColor,
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    borderRadius: 12,
+    paddingHorizontal: Metrics.marginS,
+    paddingVertical: Metrics.marginS,
+    borderRadius: Metrics.radiusS
   },
   statusText: {
-    color: "white",
-    fontSize: wp("3%"),
+    color: Colors.whiteColor,
+    fontSize: Metrics.fontS,
     fontWeight: "600",
   },
   adContainer: {
-    marginVertical: 20,
+    marginVertical: Metrics.marginS,
   },
   modalOverlay: {
     flex: 1,
@@ -434,39 +422,39 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalContent: {
-    backgroundColor: "white",
-    borderRadius: 10,
-    padding: 20,
-    margin: 20,
+    backgroundColor: Colors.whiteColor,
+    borderRadius: Metrics.radiusS,
+    padding: Metrics.marginS,
+    margin: Metrics.marginS,
     width: wp("90%"),
-    maxHeight: hp("80%"),
+    maxHeight: "80%",
   },
   modalHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 20,
-    paddingBottom: 15,
-    borderBottomWidth: 1,
+    marginBottom: Metrics.marginS,
+    paddingBottom: Metrics.marginS,
+    borderBottomWidth: Metrics.marginXS,
     borderBottomColor: "#f0f0f0",
   },
   modalTitle: {
-    fontSize: wp("5.5%"),
+    fontSize: Metrics.fontM,
     fontWeight: "bold",
     color: "#333",
   },
   modalBody: {
-    marginBottom: 30,
+    marginBottom: Metrics.marginS,
   },
   modalDetailRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 15,
+    marginBottom: Metrics.marginS,
   },
   modalDetailText: {
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontS,
     color: "#666",
-    marginLeft: 15,
+    marginLeft: Metrics.marginS,
     flex: 1,
   },
   modalDetailLabel: {
@@ -476,30 +464,30 @@ const styles = StyleSheet.create({
   modalActions: {
     flexDirection: "row",
     justifyContent: "space-between",
-    gap: 15,
+    gap: Metrics.marginS,
   },
   cancelButton: {
     flex: 1,
     backgroundColor: "#000",
-    borderRadius: 10,
-    paddingVertical: 15,
+    borderRadius: Metrics.radiusS,
+    paddingVertical: Metrics.marginS,
     alignItems: "center",
   },
   cancelButtonText: {
-    color: "white",
-    fontSize: wp("3.8%"),
+    color: Colors.whiteColor,
+    fontSize: Metrics.fontS,
     fontWeight: "600",
   },
   changeButton: {
     flex: 1,
     backgroundColor: Colors.orangeColor,
-    borderRadius: 10,
-    paddingVertical: 15,
+    borderRadius: Metrics.radiusS,
+    paddingVertical: Metrics.marginS,
     alignItems: "center",
   },
   changeButtonText: {
-    color: "white",
-    fontSize: wp("3.8%"),
+    color: Colors.whiteColor,
+    fontSize: Metrics.fontS,
     fontWeight: "600",
   },
   animationOverlay: {
@@ -509,25 +497,25 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   animationContainer: {
-    backgroundColor: "white",
-    borderRadius: 10,
-    padding: 30,
+    backgroundColor: Colors.whiteColor,
+    borderRadius: Metrics.radiusS,
+    padding: Metrics.marginS,
     alignItems: "center",
     minWidth: wp("70%"),
   },
   deleteTitle: {
-    fontSize: wp("5%"),
+    fontSize: Metrics.fontS,
     fontWeight: "bold",
     color: "#333",
-    marginTop: 15,
+    marginTop: Metrics.marginS,
     textAlign: "center",
   },
   deleteMessage: {
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontS,
     color: "#666",
-    marginTop: 10,
+    marginTop: Metrics.marginS,
     textAlign: "center",
-    lineHeight: wp("5.5%"),
+    lineHeight: Metrics.marginXS,
   },
 })
 

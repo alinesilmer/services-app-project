@@ -9,9 +9,9 @@ import { Modal, View, Text, Pressable, StyleSheet, ScrollView,
   Platform,
   TouchableWithoutFeedback,
   Keyboard } from 'react-native';
-import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 import { Colors } from '../constants/Colors';
+import { Metrics } from '../constants/Metrics';
 
 const ModalWrapper = ({
   visible,
@@ -68,32 +68,32 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   container: {
-    backgroundColor: 'white',
-    borderRadius: wp('5%'),
-    maxHeight: hp('80%'),
-    padding: wp('5%'),
+    backgroundColor: Colors.whiteColor,
+    borderRadius: Metrics.radiusS,
+    maxHeight: Metrics.screenM,
+    padding: Metrics.marginS,
   },
   title: {
-    fontSize: hp(2.3),
+    fontSize: Metrics.fontM,
     fontWeight: 'bold',
-    marginBottom: hp(1.5),
+    marginBottom: Metrics.marginS,
   },
   content: {
-    paddingBottom: hp('1%'),
+    paddingBottom: Metrics.marginS,
   },
   scrollContent: {
-    paddingBottom: hp('2%'),
+    paddingBottom: Metrics.marginS,
   },
   actions: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    marginTop: hp('2%'),
+    marginTop: Metrics.marginS,
   },
   btn: {
-    paddingVertical: hp(1.2),
-    paddingHorizontal: wp(4),
-    borderRadius: wp(2),
-    marginLeft: wp(2),
+    paddingVertical: Metrics.marginS,
+    paddingHorizontal: Metrics.marginS,
+    borderRadius: Metrics.radiusS,
+    marginLeft: Metrics.marginS,
   },
   cancel: {
     backgroundColor: Colors.inputGray,
@@ -102,11 +102,11 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.blueColor,
   },
   cancelText: {
-    color: "black",
+    color: Colors.textColor,
     fontWeight: '500',
   },
   submitText: {
-    color: 'white',
+    color: Colors.whiteColor,
     fontWeight: '500',
   },
 });

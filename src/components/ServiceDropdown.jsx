@@ -2,6 +2,8 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import Dropdown from "./Dropdown";
 import { Colors } from "../constants/Colors";
+import { Metrics } from "../constants/Metrics";
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 export default function ServiceDropdown({ onSelect }) {
   return (
@@ -14,14 +16,14 @@ export default function ServiceDropdown({ onSelect }) {
 
 const styles = StyleSheet.create({
   container: {
-    width: "70%",
-    marginLeft: "23.6%",
-    alignItems: "flex-start",
+    width: wp("90%"),
+    marginLeft: Metrics.marginL,
+    alignItems: "center",
   },
   label: {
-    marginTop: 20,
+    marginTop: Metrics.marginM,
     textAlign: "left",
-    fontSize: 13,
+    fontSize: Metrics.fontS,
     color: Colors.serviceLabel,
   },
 });

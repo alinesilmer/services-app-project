@@ -13,6 +13,7 @@ import { validateCreditCard } from '../../utils/storage';
 import { getPlanDetails } from '../../utils/pricingPlans';
 import { Colors } from '../../constants/Colors';
 import { Metrics } from '../../constants/Metrics';
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 export default function SubscriptionFlow() {
   const router = useRouter();
@@ -98,7 +99,7 @@ export default function SubscriptionFlow() {
             text="Pagar"
             onPress={handlePay}
             disabled={!isValid}
-            style={{ marginTop: 16, marginBottom: 40 }}
+            style={{ marginTop: Metrics.marginS, marginBottom: Metrics.marginS }}
           />
           </View>
         </ScrollView>
@@ -156,7 +157,7 @@ const styles = StyleSheet.create({
     padding: Metrics.marginS,
     borderRadius: Metrics.radiusS,
     marginTop: Metrics.marginS,
-    width: '90%',
+    width: wp("90%"),
     alignSelf: 'center',
   },
   testCardsTitle: {

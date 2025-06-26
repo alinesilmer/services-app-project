@@ -1,19 +1,9 @@
 "use client"
 import { useState, useRef, useEffect } from "react"
-import {
-  Text,
-  View,
-  SafeAreaView,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  StatusBar,
-} from "react-native"
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
+import { Text, View, SafeAreaView, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, 
+  ScrollView, StatusBar, } from "react-native"
 import { Colors } from "../../constants/Colors"
+import { Metrics } from "../../constants/Metrics"
 import { useLocalSearchParams, router } from "expo-router"
 
 import SearchBar from "../../components/SearchBar"
@@ -170,7 +160,7 @@ export default function Chat() {
       </View>
 
       <View style={styles.chatHeader}>
-        <ProfilePic uri={selectedChat.profilePic} size={hp("7%")} />
+        <ProfilePic uri={selectedChat.profilePic} size={Metrics.iconLarge} />
         <View style={styles.chatHeaderText}>
           <Text style={styles.chatName}>{selectedChat.name}</Text>
           <Text style={styles.chatSpecialty}>{selectedChat.specialty}</Text>
@@ -179,7 +169,7 @@ export default function Chat() {
       </View>
 
       <KeyboardAvoidingView
-        style={[styles.chatWrapper, { marginVertical: hp("1.5%") }]}
+        style={[styles.chatWrapper, { marginVertical: Metrics.marginS }]}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={90}
       >
@@ -194,8 +184,8 @@ export default function Chat() {
             const isMe = msg.sender === "me"
             const showAvatar = i === 0 || messageList[i - 1].sender !== msg.sender
 
-            const avatarSize = hp("4%")
-            const gap = wp("4%")
+            const avatarSize = Metrics.iconMedium
+            const gap = Metrics.marginS
             const indent = avatarSize + gap
 
             return (
@@ -238,109 +228,105 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.blueColor,
+    alignItems: "center",
+    justifyContent: "center",
   },
-
   headerWrapper: {
-    marginHorizontal: wp("5%"),
-    marginTop: hp("4%"),
-    marginBottom: hp("2%"),
+    marginHorizontal: Metrics.marginS,
+    marginTop: Metrics.marginS,
+    marginBottom: Metrics.marginS,
   },
   title: {
-    fontSize: wp("8%"),
+    fontSize: Metrics.fontL,
     fontWeight: "700",
-    color: "white",
+    color: Colors.whiteColor,
     textAlign: "center",
-    marginBottom: hp("1.5%"),
+    marginBottom: Metrics.marginS,
   },
-
   cardWrapper: {
     position: "relative",
   },
   unreadBadge: {
     position: "absolute",
-    top: hp("3%"),
-    right: wp("7%"),
+    top: Metrics.marginS,
+    right: Metrics.marginS,
     backgroundColor: "#CC0000",
-    borderRadius: wp("3%"),
-    minWidth: wp("6%"),
-    minHeight: hp("2.5%"),
-    paddingHorizontal: wp("1%"),
-    borderWidth: 1,
+    borderRadius: Metrics.radiusS,
+    minWidth: Metrics.marginS,
+    minHeight: Metrics.marginS,
+    paddingHorizontal: Metrics.marginS,
+    borderWidth: Metrics.marginXS,
     borderColor: Colors.inputGray,
     alignItems: "center",
     justifyContent: "center",
   },
   unreadBadgeText: {
     color: "white",
-    fontSize: wp("3%"),
+    fontSize: Metrics.fontXS,
     fontWeight: "bold",
   },
-
   chatHeader: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: wp("5%"),
+    paddingHorizontal: Metrics.marginS,
   },
   chatHeaderText: {
     flex: 1,
-    marginLeft: wp("3%"),
+    marginLeft: Metrics.marginS,
   },
   chatName: {
-    fontSize: wp("5%"),
+    fontSize: Metrics.fontS,
     fontWeight: "600",
-    color: "white",
+    color: Colors.whiteColor
   },
   chatSpecialty: {
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontXS,
     color: "#ccc",
   },
   statusDot: {
-    width: wp("3%"),
-    height: wp("3%"),
-    borderRadius: wp("1.5%"),
-    borderWidth: 1,
-    borderColor: "white",
-    marginLeft: wp("2%"),
+    width: Metrics.marginM,
+    height: Metrics.marginM,
+    borderRadius: Metrics.radiusS,
+    borderWidth: Metrics.marginXS,
+    borderColor: Colors.whiteColor,
+    marginLeft: Metrics.marginS,
   },
-
   chatWrapper: {
     flex: 1,
-    backgroundColor: "white",
-    borderTopLeftRadius: wp("5%"),
-    borderTopRightRadius: wp("5%"),
+    backgroundColor: Colors.whiteColor,
+    borderTopLeftRadius: Metrics.radiusS,
+    borderTopRightRadius: Metrics.radiusS,
     overflow: "hidden",
   },
   messagesContainer: {
     flex: 1,
-    padding: wp("3%"),
+    padding: Metrics.marginS,
   },
   scrollContent: {
-    paddingBottom: hp("2%"),
+    paddingBottom: Metrics.marginS,
   },
-
   emptyStateContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    paddingVertical: hp("10%"),
+    paddingVertical: Metrics.marginS,
   },
   emptyStateText: {
-    fontSize: wp("4.5%"),
+    fontSize: Metrics.fontS,
     fontWeight: "600",
     color: Colors.blueColor,
     textAlign: "center",
-    marginBottom: hp("1%"),
+    marginBottom: Metrics.marginS,
   },
   emptyStateSubtext: {
-    fontSize: wp("3.5%"),
+    fontSize: Metrics.fontS,
     color: "#666",
     textAlign: "center",
   },
-
   messageRow: {
     flexDirection: "row",
     alignItems: "flex-end",
-    marginVertical: hp("1%"),
+    marginVertical: Metrics.marginS,
   },
   messageRowLeft: {
     justifyContent: "flex-start",
@@ -352,30 +338,30 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
-    padding: wp("3%"),
-    borderTopWidth: 1,
+    padding: Metrics.marginS,
+    borderTopWidth: Metrics.marginXS,
     borderColor: "#ccc",
-    backgroundColor: "white",
+    backgroundColor: Colors.whiteColor,
   },
   input: {
     flex: 1,
     backgroundColor: Colors.inputGray,
-    borderRadius: wp("8%"),
-    paddingHorizontal: wp("4%"),
-    paddingVertical: hp("1%"),
-    marginRight: wp("2%"),
+    borderRadius:Metrics.radiusS,
+    paddingHorizontal: Metrics.marginS,
+    paddingVertical: Metrics.marginS,
+    marginRight: Metrics.marginS,
     color: Colors.blueColor,
   },
   sendButton: {
     backgroundColor: Colors.blueColor,
-    paddingHorizontal: wp("4%"),
-    paddingVertical: hp("1%"),
-    borderRadius: wp("8%"),
+    paddingHorizontal: Metrics.marginS,
+    paddingVertical: Metrics.marginS,
+    borderRadius:Metrics.radiusS,
     justifyContent: "center",
     alignItems: "center",
   },
   sendButtonText: {
-    color: "white",
+    color: Colors.whiteColor,
     fontWeight: "bold",
   },
 })

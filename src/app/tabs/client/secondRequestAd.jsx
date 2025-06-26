@@ -5,11 +5,9 @@ import { StatusBar } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { Colors } from "../../../constants/Colors";
 import { Fonts } from "../../../constants/Fonts";
+import { Metrics } from "../../../constants/Metrics";
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 import { getUserData, isPremiumUser } from "../../../utils/storage";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
 
 import AdsImage from "../../../components/AdsImage";
 import Logo from "../../../components/Logo";
@@ -37,9 +35,9 @@ export default function SecondRequest() {
 
   return (
     <>
-      <View style={styles.container}>
-        <StatusBar barStyle="light-content" />
-        <SafeAreaView style={styles.safeArea}>
+      <StatusBar barStyle="light-content" />
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.container}>
           <BackButton />
           <Logo />
           <SlideUpCard title="Solicitudes" style={styles.card}>
@@ -47,11 +45,11 @@ export default function SecondRequest() {
               <View style={styles.needsContainer}>
                 <Feather
                   name="alert-circle"
-                  size={35}
+                  size={Metrics.iconMedium}
                   color={Colors.orangeColor}
                   fontWeight="bold"
                 />
-                <Text style={[styles.titleTwo, { marginLeft: 20 }]}>
+                <Text style={[styles.titleTwo, { marginLeft: Metrics.marginS }]}>
                   ¡SE NECESITA!
                 </Text>
               </View>
@@ -66,18 +64,17 @@ export default function SecondRequest() {
                   text="Ver detalles de la solicitud"
                   onPress={() => router.push("tabs/client/thirdRequestAd")}
                   backgroundColor={Colors.inputGray}
-                  width="90%"
                 />
               </View>
 
               <View style={styles.needsContainer}>
                 <Feather
                   name="alert-circle"
-                  size={35}
+                  size={Metrics.iconMedium}
                   color={Colors.orangeColor}
                   fontWeight="bold"
                 />
-                <Text style={[styles.titleTwo, { marginLeft: 20 }]}>
+                <Text style={[styles.titleTwo, { marginLeft: Metrics.marginS }]}>
                   ¡SE NECESITA!
                 </Text>
               </View>
@@ -90,7 +87,6 @@ export default function SecondRequest() {
                   text="Ver detalles de la solicitud"
                   onPress={() => router.push("tabs/client/thirdRequestAd")}
                   backgroundColor={Colors.inputGray}
-                  width="90%"
                 />
               </View>
 
@@ -99,7 +95,6 @@ export default function SecondRequest() {
                   text="Agregar solicitud personalizada"
                   onPress={() => router.push("tabs/client/requestAd")}
                   backgroundColor="#e47755"
-                  width="90%"
                 />
               </View>
 
@@ -108,8 +103,8 @@ export default function SecondRequest() {
               </View>
             </ScrollView>
           </SlideUpCard>
-        </SafeAreaView>
-      </View>
+        </View>
+      </SafeAreaView>
     </>
   );
 }
@@ -118,6 +113,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.blueColor,
+    alignItems: "center",
+    justifyContent: "center",
   },
   safeArea: {
     flex: 1,
@@ -127,45 +124,46 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     width: wp("100%"),
-    height: hp("72%"),
+    height: Metrics.screenM,
+    alignItems: "stretch",
   },
   headerContainer: {
     alignItems: "center",
-    marginBottom: hp("2%"),
-    marginTop: hp("2%"),
+    marginBottom: Metrics.marginS,
+    marginTop: Metrics.marginS,
   },
   needsContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 20,
+    marginTop: Metrics.marginS,
   },
   title: {
-    marginTop: 20,
-    fontSize: 30,
+    marginTop: Metrics.marginS,
+    fontSize: Metrics.fontL,
     fontFamily: Fonts.montserrat,
     fontWeight: "bold",
-    marginBottom: 40,
+    marginBottom: Metrics.marginM,
     textAlign: "center",
   },
   titleTwo: {
-    fontSize: 20,
+    fontSize: Metrics.fontM,
     fontFamily: Fonts.montserrat,
     fontWeight: "bold",
     color: Colors.orangeColor,
-    marginBottom: 10,
+    marginBottom: Metrics.marginS,
   },
   titleThree: {
-    MarginTop: 10,
-    fontSize: 18,
+    MarginTop: Metrics.marginS,
+    fontSize: Metrics.fontS,
     fontFamily: Fonts.montserrat,
     color: Colors.textColor,
     textAlign: "center",
   },
   buttonContainer: {
     width: wp("90%"),
-    marginTop: hp("1%"),
-    marginBottom: hp("1%"),
+    marginTop: Metrics.marginXS,
+    marginBottom: Metrics.marginXS,
     alignItems: "center",
   },
   imageContainer: {

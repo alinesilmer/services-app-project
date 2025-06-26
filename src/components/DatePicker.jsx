@@ -6,6 +6,8 @@ import React from 'react';
 import { View, Text, Pressable, StyleSheet, Platform } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Colors } from '../constants/Colors';
+import { Metrics } from '../constants/Metrics';
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 // Internal hook to manage date value and picker visibility
 const useDatePicker = (initialValue = null) => {
@@ -47,11 +49,18 @@ const DatePicker = ({ label, value, onChange, show, onPress }) => (
 );
 
 const styles = StyleSheet.create({
-  wrapper: { marginBottom: 20 },
-  label  : { fontWeight: 'bold', marginBottom: 6, color: Colors.textColor },
+  wrapper: { 
+    marginBottom: Metrics.marginS, 
+    width: wp("100%"),
+  },
+  label  : { 
+    fontWeight: 'bold', 
+    marginBottom: Metrics.marginXS, 
+    color: Colors.textColor 
+  },
   input  : {
-    padding: 18,
-    borderRadius: 6,
+    padding: Metrics.marginS,
+    borderRadius: Metrics.radiusS,
     backgroundColor: Colors.inputGray
   },
   inputText: {

@@ -4,10 +4,11 @@
 
 import { useState, useEffect } from "react"
 import { View, Text, StyleSheet, Pressable } from "react-native"
-import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen"
 import { Feather } from "@expo/vector-icons"
 import { useRouter, usePathname } from "expo-router"
 import { Colors } from "../constants/Colors"
+import { Metrics } from "../constants/Metrics"
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 import { getUserProfile, isUserLoggedIn } from "../utils/storage"
 
 const NavBar = () => {
@@ -55,8 +56,8 @@ const NavBar = () => {
 
   const renderItem = (icon, label, route, routeKey) => {
     const isActive = isActiveRoute(routeKey)
-    const iconColor = isActive ? Colors.orangeColor : "white"
-    const textColor = isActive ? Colors.orangeColor : "white"
+    const iconColor = isActive ? Colors.orangeColor : Colors.whiteColor
+    const textColor = isActive ? Colors.orangeColor : Colors.whiteColor
 
     const onPress = () => {
       if (isActive) return             
@@ -76,7 +77,7 @@ const NavBar = () => {
 
     return (
       <Pressable key={routeKey} style={styles.item} onPress={onPress}>
-        <Feather name={icon} size={23} color={iconColor} />
+        <Feather name={icon} size={Metrics.iconXSmall} color={iconColor} />
         <Text style={[styles.label, { color: textColor }]}>{label}</Text>
         {isActive && <View style={styles.activeIndicator} />}
       </Pressable>
@@ -95,31 +96,29 @@ const NavBar = () => {
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
-    height: hp(8),
+    width: wp("100%"),
+    height: Metrics.navBarArea,
     flexDirection: "row",
     backgroundColor: Colors.blueColor,
     justifyContent: "space-around",
     alignItems: "center",
-    paddingVertical: hp(1.5),
-    borderTopLeftRadius: wp(5),
-    borderTopRightRadius: wp(5),
+    paddingVertical: Metrics.marginS,
   },
   item: {
     alignItems: "center",
     position: "relative",
   },
   label: {
-    fontSize: hp(2),
-    marginTop: hp(0.5),
+    fontSize: Metrics.fontXS,
+    marginTop: Metrics.marginS,
   },
   activeIndicator: {
     position: "absolute",
-    bottom: -hp(1),
-    width: wp(6),
-    height: hp(0.3),
+    bottom: -Metrics.marginS,
+    width: Metrics.marginM,
+    height: Metrics.marginXS,
     backgroundColor: Colors.orangeColor,
-    borderRadius: wp(1),
+    borderRadius: Metrics.radiusS,
   },
 })
 

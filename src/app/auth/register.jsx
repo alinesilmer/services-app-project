@@ -19,6 +19,7 @@ import useDatePicker from "../../hooks/useDatePicker"
 import { Metrics } from "../../constants/Metrics"
 import { Colors } from "../../constants/Colors"
 import { registerUser } from "../../utils/storage"
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 export default function Register() {
   const router = useRouter()
@@ -246,7 +247,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingLeft: Metrics.marginL,
-    width: "80%",
+    width: wp("80%"),
     marginBottom: Metrics.marginS,
   },
   checkItem: {
@@ -280,7 +281,7 @@ const styles = StyleSheet.create({
     marginBottom: Metrics.marginS,
   },
   inputs: {
-    width: '100%',
+    width: wp('100%'),
     fontSize: Metrics.fontXS,
   }
 })

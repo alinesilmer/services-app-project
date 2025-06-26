@@ -7,6 +7,7 @@ import { Feather } from '@expo/vector-icons';
 import PaymentForm from './PaymentForm';
 import { Metrics } from '../constants/Metrics';
 import { Colors } from '../constants/Colors';
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 const PaymentList = ({ methods, selected, onSelect, onValidityChange, onPaymentDataChange }) => {
   const [saveDetails, setSaveDetails] = useState(false);
@@ -68,7 +69,7 @@ export default PaymentList;
 
 const styles = StyleSheet.create({
   container: { 
-    width: '100%', 
+    width: wp("100%"), 
   },
   header: {
     fontSize: Metrics.fontS,
@@ -81,11 +82,11 @@ const styles = StyleSheet.create({
     borderRadius: Metrics.radiusS,
     marginBottom: Metrics.marginS,
     overflow: 'hidden',
-    width: '100%',
+    width: wp("100%"),
   },
   itemOpen: {
     borderColor: Colors.orangeColor,
-    borderWidth: 1
+    borderWidth: Metrics.marginXS
   },
   itemHeader: {
     flexDirection: 'row',

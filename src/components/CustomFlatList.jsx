@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 const CustomFlatList = ({ data, renderItem, keyExtractor, style }) => {
   return (

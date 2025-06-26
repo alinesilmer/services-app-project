@@ -6,8 +6,9 @@ import Logo from '../../components/Logo';
 import SlideUpCard from '../../components/SlideUpCard';
 import CustomButton from '../../components/CustomButton';
 import { usePremium } from '../../hooks/usePremium';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Colors } from '../../constants/Colors';
+import { Metrics } from '../../constants/Metrics';
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 export default function PausePremium() {
   const router = useRouter();
@@ -60,8 +61,8 @@ export default function PausePremium() {
             text={isLoading ? "Pausando..." : "Confirmar pausa"}
             onPress={handlePause}
             disabled={isLoading}
-            width="90%"
-            style={{ marginTop: hp('3%') }}
+            width={wp("90%")}
+            style={{ marginTop: Metrics.marginS }}
           />
         </SlideUpCard>
       </SafeAreaView>
@@ -70,11 +71,36 @@ export default function PausePremium() {
 }
 
 const styles = StyleSheet.create({
-  container:     { flex:1, backgroundColor: Colors.blueColor },
-  safeArea:      { flex:1, backgroundColor: Colors.blueColor },
-  card:          { position:'absolute', bottom:0, width:wp('100%'), height:hp('70%') },
-  benefitsBox:   { backgroundColor: Colors.lightGray, padding:wp('4%'),
-                   borderRadius:wp('2%'), width:wp('90%'), alignSelf:'center' },
-  benefitsTitle: { fontSize:hp('2%'), fontWeight:'bold', marginBottom:hp('1%') },
-  benefitItem:   { fontSize:hp('1.8%'), marginBottom:hp('0.5%') },
+  container: { 
+    flex: 1, 
+    backgroundColor: Colors.blueColor,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  safeArea: { 
+    flex: 1, 
+    backgroundColor: Colors.blueColor 
+  },
+  card: { 
+    position: "absolute",
+    bottom: 0,
+    height: Metrics.screenM,
+    alignItems: "stretch",
+  },
+  benefitsBox: { 
+    backgroundColor: Colors.lightGray, 
+    padding: Metrics.marginS,
+    borderRadius: Metrics.radiusS, 
+    width: wp('90%'),
+    alignSelf:'center' 
+  },
+  benefitsTitle: { 
+    fontSize: Metrics.fontM, 
+    fontWeight: 'bold', 
+    marginBottom: Metrics.marginS,
+  },
+  benefitItem: { 
+    fontSize: Metrics.fontS, 
+    marginBottom: Metrics.marginS,
+  },
 });

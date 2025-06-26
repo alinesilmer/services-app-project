@@ -7,6 +7,7 @@ import React from 'react';
 import { Text, StyleSheet, Pressable } from 'react-native';
 import { Metrics } from '../constants/Metrics';
 import { Colors } from '../constants/Colors';
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 const CustomButton = ({ text, onPress, width = '90%', backgroundColor, disabled = false }) => {
   return (
@@ -58,7 +59,7 @@ const styles = StyleSheet.create({
   },
   textDisabled: {
     color: '#eee',
-    width: "100%"
+    width: wp("100%"),
   }
 });
 

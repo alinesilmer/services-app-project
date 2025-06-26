@@ -1,15 +1,7 @@
 // “use client”
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  ScrollView,
-  StyleSheet,
-  SafeAreaView,
-  StatusBar,
-} from "react-native";
+import { View, Text, ScrollView, StyleSheet, SafeAreaView, StatusBar, } from "react-native";
 import { useRouter } from "expo-router";
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 
 import ProfilePic    from "../../../components/ProfilePic";
 import DisplayField  from "../../../components/DisplayField";
@@ -21,6 +13,8 @@ import ModalWrapper  from "../../../components/ModalWrapper";
 import BottomNavBar  from "../../../components/NavBar";
 
 import { Colors }      from "../../../constants/Colors";
+import { Metrics } from "../../../constants/Metrics";
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 import { usePremium }  from "../../../hooks/usePremium";
 import { useProfile }  from "../../../hooks/useProfile";
 import { getUserData, logoutUser } from "../../../utils/storage";
@@ -97,13 +91,13 @@ export default function ProfessionalProfileScreen() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar style="light" backgroundColor={Colors.blueColor} />
-      <BackButton style={styles.backButton} onPress={() => router.back()} />
+      <BackButton onPress={() => router.back()} />
 
       <View style={styles.container}>
         <SlideUpCard title="Mi Perfil Profesional" style={styles.card}>
           <IconButton
             name="edit"
-            size={24}
+            size={Metrics.iconSmall}
             color={Colors.textColor}
             style={styles.editButton}
             onPress={openModal}
@@ -119,7 +113,7 @@ export default function ProfessionalProfileScreen() {
                 data.avatar ||
                 "https://randomuser.me/api/portraits/men/73.jpg"
               }
-              size={wp("30%")}
+              size={Metrics.iconXLarge}
               style={styles.avatar}
             />
 
@@ -232,33 +226,28 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: Colors.blueColor,
-    paddingTop: hp("1.5%")
+    paddingTop: Metrics.safeArea
   },
   container: {
     flex: 1,
-    backgroundColor: Colors.blueColor, width: "100%"
-  },
-  backButton: {
-    marginTop: hp("1%"),
-    marginLeft: wp("5%")
+    backgroundColor: Colors.blueColor, 
+    alignItems: "center",
+    justifyContent: "center",
   },
   card: {
-    flex: 1,
-    backgroundColor: "white",
-    marginTop: hp("15%"),
-    padding: wp("4%"),
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    elevation: 10
+    position: "absolute",
+    bottom: 0,
+    height: Metrics.screenM,
+    alignItems: "stretch",
   },
   scrollContent: {
     alignItems: "center",
-    paddingBottom: hp("2%")
+    paddingBottom: Metrics.marginS,
   },
   avatar: {
-    marginTop: hp("2%"),
-    borderWidth: 4,
-    borderColor: "white"
+    marginTop: Metrics.marginS,
+    borderWidth: Metrics.marginXS,
+    borderColor: Colors.whiteColor
   },
   userProfWrapper: {
     display: "flex",
@@ -267,63 +256,62 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   name: {
-    fontSize: wp("5.5%"),
+    fontSize: Metrics.fontL,
     fontWeight: "700",
     textAlign: "center",
-    marginTop: hp("1%")
+    marginTop: Metrics.marginS,
   },
   premiumBadge: {
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontM,
     fontWeight: "bold",
     color: Colors.orangeColor
   },
   profession: {
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontM,
     color: Colors.grayColor,
     fontStyle: "italic",
-    marginBottom: hp("5%"),
-    marginTop: hp("1%")
+    marginBottom: Metrics.marginS,
+    marginTop: Metrics.marginS,
   },
   fieldWrapper: {
     width: wp("90%"),
-    marginBottom: hp("1.5%"),
-    paddingHorizontal: hp("4%"),
+    marginBottom: Metrics.marginS,
+    paddingHorizontal: Metrics.marginS,
   },
   premiumStatusCard: {
     backgroundColor: Colors.lightGray,
-    padding: wp("4%"),
-    borderRadius: wp("3%"),
+    padding: Metrics.marginS,
+    borderRadius: Metrics.radiusS,
     width: wp("90%"),
     alignItems: "center",
-    marginVertical: hp("2%")
+    marginVertical: Metrics.marginS,
   },
   premiumStatusTitle: {
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontM,
     fontWeight: "bold",
-    marginBottom: hp("0.5%")
+    marginBottom: Metrics.marginS,
   },
   premiumStatusText: {
-    fontSize: wp("3.5%")
+    fontSize: Metrics.fontS
   },
   expirationText: {
-    fontSize: wp("3.5%"),
+    fontSize: Metrics.fontXS,
     color: Colors.grayColor
   },
   buttonContainer: {
     width: wp("85%"),
     alignItems: "center",
-    marginVertical: hp("1%")
+    marginVertical: Metrics.marginS,
   },
   customButton: {
-    width: "100%"
   },
   editButton: {
     position: "absolute",
-    top: hp("3%"),
-    right: wp("6%")
+    top: Metrics.marginS,
+    right: Metrics.marginS,
   },
   modalScroll: {
-    paddingBottom: 20,
-    paddingHorizontal: wp("2%")
+    paddingBottom: Metrics.marginS,
+    paddingHorizontal: Metrics.marginS,
   },
 });

@@ -10,6 +10,7 @@ import Logo from '../../components/Logo';
 import ModalCard from '../../components/ModalCard';
 import SlideUpCard from '../../components/SlideUpCard';
 import AnimationFeedback from '../../components/AnimationFeedback';
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 //Constants
 import { Colors } from '../../constants/Colors';
@@ -146,12 +147,12 @@ const styles = StyleSheet.create({
   card: {
     position: 'absolute',
     bottom: 0,
-    width: '100%',
+    width: wp('100%'),
     height: Metrics.screenS,
     alignItems: 'stretch',
   },
   stepsContainer: {
-    width: '100%',
+    width: wp('100%'),
     alignItems: 'center',
   },
   instructionWrapper: {
@@ -161,7 +162,7 @@ const styles = StyleSheet.create({
     borderWidth: Metrics.marginXS,
     borderColor: 'gray',
     height: Metrics.screenS * 0.15,
-    width: '90%',
+    width: wp('90%'),
     borderRadius: Metrics.radiusS,
     marginBottom: Metrics.marginL,
   },
