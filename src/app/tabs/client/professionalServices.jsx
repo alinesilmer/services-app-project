@@ -11,7 +11,7 @@ import {
   Image,
   Dimensions,
 } from "react-native"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useLocalSearchParams, router } from "expo-router"
 import { Colors } from "../../../constants/Colors"
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
@@ -22,6 +22,7 @@ import CustomButton from "../../../components/CustomButton"
 
 import mockProfiles from "../../../data/mockProfiles"
 import mockServices from "../../../data/mockServices"
+import { getUserData, isPremiumUser } from "../../../utils/storage";
 
 const { width } = Dimensions.get("window")
 
@@ -29,6 +30,22 @@ const ProfessionalServices = () => {
   const params = useLocalSearchParams()
   const [selectedService, setSelectedService] = useState(null)
   const [showServiceModal, setShowServiceModal] = useState(false)
+
+    const [premium, setPremium] = useState(false);
+
+    useEffect(() => {
+        const loadPremiumStatus = async () => {
+          try {
+            getUserData()
+            const premium = await isPremiumUser();
+            setPremium(premium);
+          } catch (error) {
+            console.error("Error loading premium status:", error);
+          }
+        };
+    
+        loadPremiumStatus();
+      }, []);
 
   const professional = mockProfiles.find((profile) => profile.id === Number.parseInt(params.professionalId))
 
@@ -73,7 +90,6 @@ const ProfessionalServices = () => {
     return selectedPhotos
   }
 
-  const isPremiumUser = false
 
   const getServicePrice = (serviceName) => {
     const service = mockServices.find(
@@ -177,7 +193,7 @@ const ProfessionalServices = () => {
           />
         </View>
 
-        <AdsImage onPress isPremium={isPremiumUser} />
+        <AdsImage onPress isPremium={premium} />
       </ScrollView>
 
       <Modal visible={showServiceModal} transparent={true} animationType="slide">
@@ -212,17 +228,16 @@ const ProfessionalServices = () => {
                       ))}
                     </View>
                   </View>
-
-                  <TouchableOpacity
-                    style={styles.modalAppointmentButton}
-                    onPress={() => {
+                  <View style={{ alignItems:"center"}}>
+                  <CustomButton 
+                  text={"Solicitar turno para este servicio"}
+                      onPress={() => {
                       setShowServiceModal(false)
                       handleRequestAppointment()
                     }}
-                  >
-                    <Feather name="calendar" size={20} color="white" />
-                    <Text style={styles.modalAppointmentButtonText}>Solicitar turno para este servicio</Text>
-                  </TouchableOpacity>
+                  />
+                  </View>
+
                 </ScrollView>
               </>
             )}
@@ -247,7 +262,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   headerTitle: {
-    color: "white",
+    color: Colors.whiteColor,
     fontSize: wp("5%"),
     fontWeight: "bold",
   },
@@ -256,7 +271,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: Colors.whiteColor,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingTop: 30,
@@ -363,7 +378,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   modalContent: {
-    backgroundColor: "white",
+    backgroundColor: Colors.whiteColor,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     maxHeight: hp("85%"),
@@ -446,7 +461,7 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   modalAppointmentButtonText: {
-    color: "white",
+    color: Colors.whiteColor,
     fontSize: wp("4%"),
     fontWeight: "600",
   },

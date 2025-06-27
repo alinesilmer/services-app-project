@@ -1,4 +1,4 @@
-"use client"
+
 import {
   View,
   Text,
@@ -11,7 +11,7 @@ import {
   SafeAreaView,
   RefreshControl,
 } from "react-native"
-import { useState, useCallback } from "react"
+import { useState, useCallback, useEffect } from "react"
 import { router, useFocusEffect } from "expo-router"
 import { Colors } from "../../../constants/Colors"
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
@@ -22,6 +22,7 @@ import AnimationFeedback from "../../../components/AnimationFeedback"
 import ModifyAppointmentModal from "../../../components/ModifyAppointmentModal"
 import mockAppointments from "../../../data/mockAppointments"
 import BackButton from "../../../components/BackButton"
+import { getUserData, isPremiumUser  } from "../../../utils/storage";
 
 const MyAppointments = () => {
   const [selectedAppointment, setSelectedAppointment] = useState(null)
@@ -96,9 +97,21 @@ const MyAppointments = () => {
       setShowModifyModal(true)
     }, 100) 
   }
+const [premium, setPremium] = useState(false);
 
-
-  const isPremiumUser = false
+    useEffect(() => {
+        const loadPremiumStatus = async () => {
+          try {
+            getUserData()
+            const premium = await isPremiumUser();
+            setPremium(premium);
+          } catch (error) {
+            console.error("Error loading premium status:", error);
+          }
+        };
+    
+        loadPremiumStatus();
+      }, []);
 
 
   const handleSaveModifiedAppointment = (updatedAppointment) => {
@@ -190,7 +203,7 @@ const MyAppointments = () => {
           )}
 
           <View style={styles.adContainer}>
-            <AdsImage onPress isPremium={isPremiumUser}/>
+            <AdsImage onPress isPremium={premium}/>
           </View>
         </ScrollView>
       </View>
@@ -306,11 +319,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   welcomeText: {
-    color: "white",
+    color: Colors.whiteColor,
     fontSize: wp("4%"),
   },
   usernameText: {
-    color: "white",
+    color: Colors.whiteColor,
     fontSize: wp("4.5%"),
     fontWeight: "bold",
   },
@@ -351,7 +364,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   appointmentCard: {
-    backgroundColor: "black",
+    backgroundColor: Colors.whiteColor,
     borderRadius: 10,
     padding: 20,
     marginBottom: 15,
@@ -420,7 +433,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   statusText: {
-    color: "white",
+    color: Colors.whiteColor,
     fontSize: wp("3%"),
     fontWeight: "600",
   },
@@ -434,7 +447,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalContent: {
-    backgroundColor: "white",
+    backgroundColor: Colors.whiteColor,
     borderRadius: 10,
     padding: 20,
     margin: 20,
@@ -486,7 +499,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   cancelButtonText: {
-    color: "white",
+    color: Colors.whiteColor,
     fontSize: wp("3.8%"),
     fontWeight: "600",
   },
@@ -498,7 +511,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   changeButtonText: {
-    color: "white",
+    color: Colors.whiteColor,
     fontSize: wp("3.8%"),
     fontWeight: "600",
   },
@@ -509,7 +522,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   animationContainer: {
-    backgroundColor: "white",
+    backgroundColor: Colors.whiteColor,
     borderRadius: 10,
     padding: 30,
     alignItems: "center",

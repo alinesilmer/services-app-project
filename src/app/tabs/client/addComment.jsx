@@ -259,7 +259,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   textInputContainer: {
-    backgroundColor: "white",
+    backgroundColor: Colors.whiteColor,
     borderRadius: 10,
     borderWidth: 2,
     borderColor: Colors.blueColor,
@@ -303,7 +303,7 @@ const styles = StyleSheet.create({
   starsContainer: {
     flexDirection: "row",
     justifyContent: "center",
-    backgroundColor: "#ddd",
+    backgroundColor: Colors.inputGray,
     borderRadius: 10,
     paddingHorizontal: 15,
   },
@@ -331,12 +331,12 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.orangeColor,
   },
   submitButtonText: {
-    color: "white",
+    color: Colors.whiteColor,
     fontSize: wp("4.2%"),
     fontWeight: "600",
   },
   professionalInfo: {
-    backgroundColor: "white",
+    backgroundColor: Colors.whiteColor,
     borderRadius: 10,
     padding: 15,
     marginBottom: hp("3%"),
@@ -362,7 +362,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   animationContainer: {
-    backgroundColor: "white",
+    backgroundColor: Colors.whiteColor,
     borderRadius: 10,
     padding: 30,
     alignItems: "center",

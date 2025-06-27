@@ -8,7 +8,12 @@ export default function AdsImage({ isPremium }) {
   const pool = [
     require("../assets/ads/ads1.jpeg"),
     require("../assets/ads/ads2.jpeg"),
-    // …add as many as you like
+    require("../assets/ads/ads3.jpeg"),
+    require("../assets/ads/ads4.jpeg"),
+    require("../assets/ads/ads5.jpeg"),
+    require("../assets/ads/ads6.png"),
+    require("../assets/ads/ads7.png"),
+    require("../assets/ads/ads8.png"),
   ];
 
   useEffect(() => {

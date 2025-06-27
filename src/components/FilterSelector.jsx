@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.orangeColor,
   },
   label: {
-    color: "white",
+    color: Colors.whiteColor,
     fontSize: wp("3.5%"),
   },
 });

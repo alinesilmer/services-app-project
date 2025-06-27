@@ -171,6 +171,18 @@ export const getUserPremiumData = async (userId) => {
   }
 };
 
+export const isPremiumUser = async () => {
+  try {
+    const profile = await getUserProfile();
+    if (!profile || profile.id === undefined) return false;
+
+    const premiumData = await getUserPremiumData(profile.id);
+    return !!premiumData;
+  } catch {
+    return false;
+  }
+};
+
 export const clearUserPremiumData = async (userId) => {
   try {
     await AsyncStorage.removeItem(getUserPremiumKey(userId));
