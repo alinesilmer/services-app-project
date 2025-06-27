@@ -1,16 +1,7 @@
-// File: tabs/professional/dashboard.js
 "use client"
 
 import React, { useEffect, useState } from "react"
-import {
-  SafeAreaView,
-  StatusBar,
-  ScrollView,
-  RefreshControl,
-  View,
-  Text,
-  StyleSheet,
-} from "react-native"
+import { SafeAreaView, StatusBar, ScrollView, RefreshControl, View, Text, StyleSheet } from "react-native"
 import { useRouter } from "expo-router"
 import SlideUpCard from "../../../components/SlideUpCard"
 import CustomButton from "../../../components/CustomButton"
@@ -20,13 +11,11 @@ import ProfilePic from "../../../components/ProfilePic"
 import LongCard from "../../../components/LongCard"
 import Rate from "../../../components/Rate"
 import { Colors } from "../../../constants/Colors"
+import { Metrics } from "../../../constants/Metrics"
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 import { usePremium } from "../../../hooks/usePremium"
 import { useAdManager } from "../../../hooks/useAdManager"
 import { getCompleteUserData } from "../../../utils/storage"
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen"
 
 export default function ProfessionalDashboard() {
   const router = useRouter()
@@ -106,7 +95,7 @@ export default function ProfessionalDashboard() {
           <View style={styles.userInfoSection}>
             <ProfilePic
               uri={userData?.avatar || "https://randomuser.me/api/portraits/men/73.jpg"}
-              size={wp("20%")}
+              size={Metrics.marginL}
               style={styles.avatar}
             />
             <View style={styles.userTextInfo}>
@@ -168,60 +157,61 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.blueColor
   },
   card: {
-    flex: 1,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20
+    position: "absolute",
+    bottom: 0,
+    height: Metrics.screenM,
+    alignItems: "stretch",
   },
   scrollView: {
     flex: 1,
-    width: "100%"
+    width: wp("100%"),
   },
   scrollContent: {
     flexGrow: 1,
-    padding: wp("4%")
+    padding: Metrics.marginS,
   },
 
   premiumNav: {
     alignItems: "center",
-    marginBottom: hp("2%")
+    marginBottom: Metrics.marginS,
   },
   premiumButton: {
-    width: wp("88%")
+    width: wp("90%"),
   },
 
   userInfoSection: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: hp("3%")
+    marginBottom: Metrics.marginS,
   },
   avatar: {
-    marginRight: wp("4%")
+    marginRight: Metrics.marginS,
   },
   userTextInfo: {
     flex: 1
   },
   userName: {
-    fontSize: hp("2.5%"),
+    fontSize: Metrics.fontXS,
     fontWeight: "bold"
   },
   userProfession: {
-    fontSize: hp("1.8%"),
+    fontSize: Metrics.fontXS,
     color: Colors.grayColor,
-    marginBottom: hp("1%")
+    marginBottom: Metrics.marginS,
   },
   premiumBadge: {
-    fontSize: hp("1.6%"),
+    fontSize: Metrics.fontXS,
     color: Colors.orangeColor,
-    marginTop: hp("0.5%")
+    marginTop: Metrics.marginS,
   },
 
   statsContainer: {
-    marginBottom: hp("3%")
+    marginBottom: Metrics.marginS,
   },
   sectionTitle: {
-    fontSize: hp("2%"),
+    fontSize: Metrics.fontS,
     fontWeight: "bold",
-    marginBottom: hp("1%")
+    marginBottom: Metrics.marginS,
   },
   statsRow: {
     flexDirection: "row",
@@ -231,29 +221,28 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   statNumber: {
-    fontSize: hp("3%"),
+    fontSize: Metrics.fontS,
     fontWeight: "bold",
     color: Colors.orangeColor
   },
   statLabel: {
-    fontSize: hp("1.6%")
+    fontSize: Metrics.fontXS,
   },
 
   quickActionsContainer: {
-    marginBottom: hp("3%"),
+    marginBottom: Metrics.marginS,
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    gap: 20
+    gap: Metrics.marginS,
   },
   actionButton: {
-    marginBottom: hp("2%"),
-    width: wp("88%")
+    marginBottom: Metrics.marginS,
   },
 
   activitySection: {
-    marginBottom: hp("3%"),
+    marginBottom: Metrics.marginS,
     color: Colors.orangeColor
   },
 })

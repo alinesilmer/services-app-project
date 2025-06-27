@@ -1,24 +1,14 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  Platform,
-  TextInput,
-  StyleSheet,
-  ScrollView,
-  SafeAreaView,
-} from "react-native";
+import { View, Text, Platform, TextInput, StyleSheet, ScrollView, SafeAreaView, } from "react-native";
 import { StatusBar } from "react-native";
 import { useRouter } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 import { KeyboardAvoidingView } from "react-native";
 import { Colors } from "../../../constants/Colors";
 import { Fonts } from "../../../constants/Fonts";
+import { Metrics } from "../../../constants/Metrics";
 import { getUserData, isPremiumUser } from "../../../utils/storage";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 import AdsImage from "../../../components/AdsImage";
 import Logo from "../../../components/Logo";
@@ -46,24 +36,23 @@ export default function request() {
 
   return (
     <>
-      <View style={styles.container}>
-        <StatusBar barStyle="light-content" />
-        <SafeAreaView style={styles.safeArea}>
-          <KeyboardAvoidingView
-            style={{ flex: 1 }}
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-          >
+      <StatusBar barStyle="light-content" />
+      <SafeAreaView style={styles.safeArea}>
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+          <View style={styles.container}>
             <BackButton />
             <Logo />
             <SlideUpCard title="Solicitud personalizada" style={styles.card}>
               <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.descriptionContainer}>
                   <Text style={styles.description}>
-                    ¿No encontraste el servicio que necesitás? ¡No hay problema!
+                    ¿No encontraste el servicio que necesitás? {"\n"} ¡No hay problema!
                   </Text>
                   <Text style={styles.description}>
-                    Acá podés crear un pedido personalizado explicando lo que
-                    necesitás.
+                    Acá podés crear un pedido explicando lo que necesitás.
                   </Text>
                 </View>
 
@@ -74,11 +63,11 @@ export default function request() {
                   />
                   <Feather
                     name="x-circle"
-                    size={24}
-                    color="black"
+                    size={Metrics.iconSmall}
+                    color={Colors.textColor}
                     style={[
                       styles.Icon,
-                      { position: "absolute", top: 20, right: 10 },
+                      { position: "absolute", top: Metrics.marginXS, right: Metrics.marginXS },
                     ]}
                   />
                 </View>
@@ -87,7 +76,6 @@ export default function request() {
                   <CustomButton
                     text="Adjuntar foto"
                     onPress={() => router.push("tabs/client/camera")}
-                    width="90%"
                     style={styles.customBotton}
                   />
                 </View>
@@ -96,7 +84,6 @@ export default function request() {
                     text="Confirmar solicitud"
                     onPress={() => router.push("tabs/client/secondRequestAd")}
                     backgroundColor="#e47755"
-                    width="90%"
                     style={styles.customBotton}
                   />
                 </View>
@@ -106,9 +93,9 @@ export default function request() {
                 </View>
               </ScrollView>
             </SlideUpCard>
+          </View>  
           </KeyboardAvoidingView>
         </SafeAreaView>
-      </View>
     </>
   );
 }
@@ -117,6 +104,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.blueColor,
+    alignItems: "center",
+    justifyContent: "center",
   },
   safeArea: {
     flex: 1,
@@ -126,52 +115,53 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     width: wp("100%"),
-    height: hp("72%"),
+    height: Metrics.screenM,
+    alignItems: "stretch",
   },
   headerContainer: {
     alignItems: "center",
-    marginBottom: hp("2%"),
-    marginTop: hp("2%"),
+    marginBottom: Metrics.marginS,
+    marginTop: Metrics.marginS,
   },
   title: {
     fontFamily: Fonts.roboto,
-    fontSize: wp("4,5%"),
+    fontSize: Metrics.fontM,
     fontWeight: "bold",
     textAlign: "center",
   },
   descriptionContainer: {
     alignItems: "center",
-    marginBottom: hp("2%"),
+    marginBottom: Metrics.marginS,
   },
   description: {
     fontFamily: Fonts.roboto,
-    fontSize: wp("5%"),
+    fontSize: Metrics.fontXS,
     color: Colors.orangeColor,
     textAlign: "center",
-    width: wp("80%"),
+    width: "90%",
   },
   rectangle: {
-    width: wp("80%"),
-    height: hp("20%"),
+    width: wp("90%"),
+    height: Metrics.publicityArea,
     backgroundColor: Colors.inputGray,
     borderColor: Colors.blueColor,
-    borderWidth: 3,
+    borderWidth: Metrics.marginXS,
     justifyContent: "flex-start",
     alignItems: "flex-start",
-    marginTop: hp("0.5%"),
-    marginBottom: hp("0.5%"),
-    marginLeft: wp("5%"),
+    marginTop: Metrics.marginS,
+    marginBottom: Metrics.marginS,
+    marginLeft: Metrics.marginS,
   },
   buttonContainer: {
-    width: wp("90%"),
-    marginTop: hp("1%"),
-    marginBottom: hp("1%"),
+    width: wp("100%"),
+    marginTop: Metrics.marginXS,
+    marginBottom: Metrics.marginXS,
     alignItems: "center",
   },
   customBotton: {
     width: wp("90%"),
   },
   imageContainer: {
-    width: wp("90%"),
+    width: wp("100%"),
   },
 });

@@ -1,13 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { Metrics } from '../constants/Metrics';
+import { Colors } from '../constants/Colors';
 import ProfilePic from './ProfilePic'; 
 
 const LongCard = ({ profilePicUri, title, subtitle, children }) => {
   return (
     <View style={styles.card}>
       {profilePicUri && (
-        <ProfilePic uri={profilePicUri} size={70} />
+        <ProfilePic uri={profilePicUri} size={Metrics.iconMedium} />
       )}
       <View style={styles.text}>
         <Text style={styles.title}>{title}</Text>
@@ -21,23 +22,23 @@ const LongCard = ({ profilePicUri, title, subtitle, children }) => {
 const styles = StyleSheet.create({
   card: {
     flexDirection: 'row',
-    backgroundColor: 'white',
-    borderRadius: wp('4%'),
-    padding: wp('4%'),
-    marginVertical: hp('1%'),
+    backgroundColor: Colors.whiteColor,
+    borderRadius: Metrics.radiusS,
+    padding: Metrics.marginM,
+    marginVertical: Metrics.marginS,
     alignItems: 'center',
   },
   text: {
-    marginLeft: wp('4%'),
+    marginLeft: Metrics.marginS,
     flex: 1,
   },
   title: {
-    fontSize: wp('4.5%'),
+    fontSize: Metrics.fontM,
     fontWeight: 'bold',
-    marginBottom: hp('0.5%'),
+    marginBottom: Metrics.marginS,
   },
   subtitle: {
-    fontSize: wp('3.8%'),
+    fontSize: Metrics.fontS,
     color: 'gray',
   },
 });

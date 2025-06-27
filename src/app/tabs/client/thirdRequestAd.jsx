@@ -1,21 +1,12 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  ScrollView,
-  SafeAreaView,
-} from "react-native";
+import { View, Text, StyleSheet, Image, ScrollView, SafeAreaView, } from "react-native";
 import { useRouter } from "expo-router";
 import { StatusBar } from "react-native";
 import { getUserData, isPremiumUser } from "../../../utils/storage";
 import { Colors } from "../../../constants/Colors";
 import { Fonts } from "../../../constants/Fonts";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+import { Metrics } from "../../../constants/Metrics";
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 import AdsImage from "../../../components/AdsImage";
 import Logo from "../../../components/Logo";
@@ -45,9 +36,9 @@ export default function ThirdRequest() {
 
   return (
     <>
-      <View style={styles.containerRequest}>
-        <StatusBar barStyle="light-content" />
-        <SafeAreaView style={styles.safeArea}>
+      <StatusBar barStyle="light-content" />
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.containerRequest}>
           <BackButton />
           <Logo />
           <SlideUpCard
@@ -94,8 +85,8 @@ export default function ThirdRequest() {
               </View>
             </ScrollView>
           </SlideUpCard>
-        </SafeAreaView>
-      </View>
+        </View>
+      </SafeAreaView>
     </>
   );
 }
@@ -104,6 +95,8 @@ export const styles = StyleSheet.create({
   containerRequest: {
     flex: 1,
     backgroundColor: Colors.blueColor,
+    alignItems: "center",
+    justifyContent: "center",
   },
   safeArea: {
     flex: 1,
@@ -113,25 +106,25 @@ export const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     width: wp("100%"),
-    height: hp("72%"),
+    height: Metrics.screenM,
+    alignItems: "stretch",
   },
   headerContainer: {
     alignItems: "center",
-    marginBottom: hp("2%"),
-    marginTop: hp("2%"),
+    marginBottom: Metrics.marginS,
+    marginTop: Metrics.marginS,
   },
   title: {
-    marginTop: 10,
-    fontSize: 20,
+    marginTop: Metrics.marginS,
+    fontSize: Metrics.fontM,
     fontFamily: Fonts.montserrat,
     fontWeight: "bold",
     textAlign: "center",
     width: wp("80%"),
-    paddingLeft: 40,
   },
   textTitle: {
-    marginTop: 20,
-    fontSize: 20,
+    marginTop: Metrics.marginS,
+    fontSize: Metrics.fontM,
     fontFamily: Fonts.montserrat,
     fontWeight: "bold",
     textAlign: "center",
@@ -139,29 +132,28 @@ export const styles = StyleSheet.create({
   },
   text: {
     alignSelf: "flex-start",
-    paddingHorizontal: 20,
+    paddingHorizontal: Metrics.marginM,
   },
   list: {
     color: Colors.textColor,
-    fontSize: 18,
+    fontSize: Metrics.fontS,
     fontFamily: Fonts.montserrat,
-    marginTop: 10,
+    marginTop: Metrics.marginS,
   },
   buttonContainer: {
     width: wp("90%"),
-    marginTop: hp("0.5%"),
-    marginBottom: hp("0.5%"),
+    marginTop: Metrics.marginXS,
+    marginBottom: Metrics.marginXS,
     alignItems: "center",
   },
   customBotton: {
-    width: wp("90%"),
   },
   imageContainer: {
     width: wp("90%"),
   },
   image: {
-    width: 170,
-    height: 170,
+    width: Metrics.screenS * 0.3,
+		height: Metrics.screenS * 0.3,
     alignItems: "center",
     justifyContent: "center",
   },

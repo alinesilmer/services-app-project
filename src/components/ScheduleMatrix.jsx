@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Colors } from '../constants/Colors';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { Metrics } from '../constants/Metrics';
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 const days = ['L', 'M', 'X', 'J', 'V'];
 const horarios = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00'];
@@ -74,7 +75,7 @@ export default function ScheduleMatrix({ apptData, onSlotSelect, selectedAppt })
                   ]}
                   onPress={() => handlePress(cell)}
                 >
-                  <Text style={{ color: getTextColor(status, isSelected), fontWeight: 'bold', fontSize: wp('3.3%') }}>
+                  <Text style={{ color: getTextColor(status, isSelected), fontWeight: 'bold', fontSize: Metrics.fontS }}>
                     {hour}
                   </Text>
                 </TouchableOpacity>
@@ -89,16 +90,16 @@ export default function ScheduleMatrix({ apptData, onSlotSelect, selectedAppt })
 
 const styles = StyleSheet.create({
   table: {
-    marginTop: hp('2%'),
-    width: '100%',
-    minHeight: hp('40%'),
-    borderColor: 'red',
+    marginTop: Metrics.marginS,
+    width: wp("100%"),
+    minHeight: Metrics.screenS,
+    borderColor: Colors.errorColor,
   },
   headerRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: hp('1%'),
-    paddingHorizontal: wp('2%'),
+    marginBottom: Metrics.marginS,
+    paddingHorizontal: Metrics.marginS,
   },
   headerCell: {
     flex: 1,
@@ -106,19 +107,19 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontWeight: 'bold',
-    fontSize: wp('3.8%'),
+    fontSize: Metrics.fontM,
   },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: hp('0.8%'),
-    paddingHorizontal: wp('2%'),
+    marginBottom: Metrics.marginS,
+    paddingHorizontal: Metrics.marginS,
   },
   cell: {
     flex: 1,
-    marginHorizontal: wp('0.3%'),
-    height: hp('5.5%'),
-    borderRadius: 6,
+    marginHorizontal: Metrics.marginS,
+    height: Metrics.screenS,
+    borderRadius: Metrics.radiusS,
     justifyContent: 'center',
     alignItems: 'center',
   },

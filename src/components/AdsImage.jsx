@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { View, Image, TouchableOpacity, StyleSheet, Text } from "react-native";
 import { useRouter } from "expo-router";
+import { Metrics } from "../constants/Metrics";
+import { Colors } from "../constants/Colors";
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 export default function AdsImage({ isPremium }) {
   const [ad, setAd] = useState(null);
@@ -8,7 +11,12 @@ export default function AdsImage({ isPremium }) {
   const pool = [
     require("../assets/ads/ads1.jpeg"),
     require("../assets/ads/ads2.jpeg"),
-    // …add as many as you like
+    require("../assets/ads/ads3.jpeg"),
+    require("../assets/ads/ads4.jpeg"),
+    require("../assets/ads/ads5.jpeg"),
+    require("../assets/ads/ads6.png"),
+    require("../assets/ads/ads7.png"),
+    require("../assets/ads/ads8.png"),
   ];
 
   useEffect(() => {
@@ -29,12 +37,24 @@ export default function AdsImage({ isPremium }) {
 }
 
 const s = StyleSheet.create({
-  wrap: { width:"100%", height:80, marginVertical:20 },
-  img:  { width:"100%", height:"100%" },
-  tag:  {
-    position:"absolute", bottom:5, left:5,
-    backgroundColor:"rgba(0,0,0,0.6)", color:"white",
-    paddingHorizontal:6, paddingVertical:2, borderRadius:4,
-    fontSize:10,
+  wrap: { 
+    width: wp("100%"), 
+    height: Metrics.publicityArea, 
+    marginVertical: Metrics.marginS 
+  },
+  img: {
+    width: wp("100%"), 
+    height: Metrics.publicityArea, 
+  },
+  tag: {
+    position:"absolute", 
+    bottom:5, 
+    left:5,
+    backgroundColor:"rgba(0,0,0,0.6)", 
+    color: Colors.whiteColor,
+    paddingHorizontal: Metrics.marginXS,
+    paddingVertical: Metrics.marginXS,
+    borderRadius: Metrics.radiusS,
+    fontSize: Metrics.fontXS,
   },
 });

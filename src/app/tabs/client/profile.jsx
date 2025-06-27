@@ -1,15 +1,8 @@
 "use client"
 import React, { useEffect, useState } from "react"
-import {
-  SafeAreaView,
-  ScrollView,
-  Text,
-  View,
-  StyleSheet,
-  StatusBar,
-} from "react-native"
+import { SafeAreaView, ScrollView, Text, View, StyleSheet, StatusBar, } from "react-native"
 import { useRouter } from "expo-router"
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 import ProfilePic from "../../../components/ProfilePic"
 import DisplayField from "../../../components/DisplayField"
@@ -21,6 +14,7 @@ import ModalWrapper from "../../../components/ModalWrapper"
 import BottomNavBar from "../../../components/NavBar"
 
 import { Colors } from "../../../constants/Colors"
+import { Metrics } from "../../../constants/Metrics"
 import { usePremium } from "../../../hooks/usePremium"
 import { useProfile } from "../../../hooks/useProfile"
 import { getUserData, logoutUser } from "../../../utils/storage"
@@ -100,7 +94,7 @@ export default function ProfileScreen() {
       <SlideUpCard title="Mi Perfil" style={styles.card}>
         <IconButton
           name="edit"
-          size={24}
+          size={Metrics.iconSmall}
           color={Colors.textColor}
           style={styles.editButton}
           onPress={openModal}
@@ -114,7 +108,7 @@ export default function ProfileScreen() {
               data.avatar ||
               "https://i.pinimg.com/736x/9f/16/72/9f1672710cba6bcb0dfd93201c6d4c00.jpg"
             }
-            size={wp("30%")}
+            size={Metrics.iconXLarge}
             style={styles.avatar}
           />
 
@@ -215,74 +209,71 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: Colors.blueColor,
-    paddingTop: hp("1.5%"),
+    paddingTop: Metrics.marginS,
   },
   card: {
-    flex: 1,
-    width: "100%",
-    marginTop: hp("15%"),
-    padding: wp("5%"),
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    elevation: 10,
+    position: "absolute",
+    bottom: 0,
+    height: Metrics.screenM,
+    alignItems: "stretch",
   },
   scrollView: {
     flex: 1,
   },
   scrollContent: {
     alignItems: "center",
-    paddingBottom: hp("2%"),
+    paddingBottom: Metrics.marginM,
     flexGrow: 1,
   },
   avatar: {
-    marginTop: hp("2%"),
-    borderWidth: 4,
-    borderColor: "white",
+    marginTop: Metrics.marginS,
+    borderWidth: Metrics.marginXS,
+    borderColor: Colors.whiteColor,
   },
   name: {
-    fontSize: wp("5%"),
+    fontSize: Metrics.fontL,
     fontWeight: "700",
     textAlign: "center",
-    marginTop: hp("1%"),
+    marginTop: Metrics.marginS,
   },
   premiumBadge: {
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontM,
     color: Colors.orangeColor,
   },
   trialInfo: {
-    fontSize: wp("3.5%"),
+    fontSize: Metrics.fontS,
     color: Colors.orangeColor,
-    marginBottom: hp("2%"),
+    marginBottom: Metrics.marginS,
   },
   fieldWrapper: {
-    width: wp("100%"),
-    marginVertical: hp("1%"),
+    width: "100%",
+    marginVertical: Metrics.marginS,
   },
   premiumStatusCard: {
-    padding: hp("1%"),
-    marginVertical: hp("2%"),
+    padding: Metrics.marginS,
+    marginVertical: Metrics.marginS,
   },
   premiumStatusText: {
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontM,
     textAlign: "center",
     fontWeight: "bold"
   },
   button: {
-    marginTop: hp("1%"),
+    marginTop: Metrics.marginS,
   },
   buttonsWrapper: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    gap: 20
+    gap: Metrics.marginS,
   },
   editButton: {
     position: "absolute",
-    top: hp("3%"),
-    right: wp("6%"),
+    top: Metrics.marginS,
+    right: Metrics.marginS,
   },
   modalScroll: {
-    paddingBottom: 20,
+    paddingBottom: Metrics.marginS,
   },
 })

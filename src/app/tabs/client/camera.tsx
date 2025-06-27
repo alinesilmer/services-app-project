@@ -1,21 +1,11 @@
-import {
-  CameraView,
-  CameraType,
-  useCameraPermissions,
-  FlashMode,
-} from "expo-camera";
+import {   CameraView, CameraType, useCameraPermissions, FlashMode, } from "expo-camera";
 import { Camera as CameraClass } from "expo-camera";
 import { useState, useEffect, useRef } from "react";
-import {
-  Button,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Image,
-} from "react-native";
+import { Button, StyleSheet, Text, TouchableOpacity, View, Image, } from "react-native";
 import * as MediaLibrary from "expo-media-library";
 import ButtonCamera from "../../../components/ButtonCamera";
+import { Metrics } from "@/src/constants/Metrics";
+import { Colors } from "@/src/constants/Colors";
 import { Feather } from "@expo/vector-icons";
 
 interface Props {
@@ -87,7 +77,7 @@ const Camera: React.FC<Props> = () => {
       >
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
-            <Feather name="refresh-cw" size={18} color="white" />
+            <Feather name="refresh-cw" size={Metrics.iconSmall} color={Colors.whiteColor} />
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.button, { position: "absolute", top: 2, left: 2 }]}
@@ -95,20 +85,20 @@ const Camera: React.FC<Props> = () => {
           >
             <Feather
               name={flash === "on" ? "zap" : "zap-off"}
-              size={18}
-              color="white"
+              size={Metrics.iconSmall}
+              color={Colors.whiteColor}
             />
           </TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={takePicture}>
-            <Feather name="camera" size={18} color="white" />
+            <Feather name="camera" size={Metrics.iconSmall} color={Colors.whiteColor} />
           </TouchableOpacity>
           {image && (
             <View style={styles.buttonContainerTwo}>
               <TouchableOpacity style={styles.button} onPress={saveImage}>
-                <Feather name="check" size={18} color="white" />
+                <Feather name="check" size={Metrics.iconSmall} color={Colors.whiteColor} />
               </TouchableOpacity>
               <TouchableOpacity style={styles.button} onPress={deleteImage}>
-                <Feather name="trash-2" size={18} color="white" />
+                <Feather name="trash-2" size={Metrics.iconSmall} color={Colors.whiteColor} />
               </TouchableOpacity>
             </View>
           )}
@@ -131,12 +121,12 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     backgroundColor: "transparent",
-    margin: 64,
+    margin: Metrics.marginM,
   },
   buttonContainerTwo: {
     position: "absolute",
-    bottom: 10,
-    right: 10,
+    bottom: Metrics.marginM,
+    right: Metrics.marginM,
     flexDirection: "row",
     justifyContent: "space-between",
   },
@@ -144,11 +134,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: "flex-end",
     alignItems: "center",
-    margin: 16,
+    margin: Metrics.marginS,
   },
   image: {
-    width: 300,
-    height: 300,
+    width: Metrics.marginXXL * 1.6,
+    height: Metrics.marginXXL * 1.6,
     resizeMode: "contain",
     aspectRatio: 1,
   },

@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import ApptModal from '../../../components/ApptModal';
 
 import SlideUpCard from '../../../components/SlideUpCard';
 import BackButton from '../../../components/BackButton';
 import { Colors } from '../../../constants/Colors';
+import { Metrics } from '../../../constants/Metrics';
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 import BottomNavBar from '../../../components/NavBar';
 import ScheduleMatrix from '../../../components/ScheduleMatrix';
 
@@ -115,11 +116,13 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: Colors.blueColor,
-    paddingTop: hp('2%')
+    paddingTop: Metrics.safeArea
   },
   container: {
     flex: 1,
-    backgroundColor: Colors.blueColor
+    backgroundColor: Colors.blueColor,
+    alignItems: "center",
+    justifyContent: "center",
   },
   mainContent: {
     flex: 1,
@@ -127,27 +130,21 @@ const styles = StyleSheet.create({
   },
   card: {
     flex: 1,
-    width: wp('100%'),
-    backgroundColor: 'white',
-    paddingTop: hp('2%'),
-    paddingHorizontal: wp('5%'),
-    paddingBottom: hp('2%'),
-    shadowColor: 'black',
-    shadowOffset: { width: 0, height: -4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
+    paddingTop: Metrics.marginS,
+    paddingHorizontal: Metrics.marginS,
+    paddingBottom: Metrics.marginS,
+    shadowColor: Colors.textColor,
+    shadowRadius: Metrics.radiusS,
     elevation: 10,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
     alignItems: 'center',
-    marginTop: hp('18%'),
-    marginBottom: hp('2%'),
-    borderColor: 'blue',
+    marginTop: Metrics.marginS,
+    marginBottom: Metrics.marginS,
+    borderColor: Colors.blueColor
   },
   scrollContent: {
-    paddingBottom: hp('6%'),
-    paddingHorizontal: wp('2%'), 
-    width: '100%',
+    paddingBottom: Metrics.marginS,
+    paddingHorizontal: Metrics.marginS,
+    width: wp("100%"),
     flexGrow: 1,
   }
 });

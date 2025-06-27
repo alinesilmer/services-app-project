@@ -10,8 +10,9 @@
 import React from 'react';
 import { Pressable, StyleSheet } from 'react-native';
 import { Feather } from '@expo/vector-icons';
+import { Metrics } from '../constants/Metrics';
 
-const IconButton = ({ name, size = 24, color = '#000', onPress, style }) => {
+const IconButton = ({ name, size = Metrics.iconSmall, color = '#000', onPress, style }) => {
   return (
     <Pressable
       onPress={onPress}
@@ -30,7 +31,7 @@ export default IconButton;
 
 const styles = StyleSheet.create({
   button: {
-    padding: 8,
+    padding: Metrics.marginS,
   },
   pressed: {
     opacity: 0.6,

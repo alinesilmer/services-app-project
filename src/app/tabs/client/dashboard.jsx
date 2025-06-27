@@ -1,14 +1,6 @@
 "use client"
 import React, { useEffect, useState } from "react"
-import {
-  SafeAreaView,
-  StatusBar,
-  ScrollView,
-  RefreshControl,
-  View,
-  Text,
-  StyleSheet,
-} from "react-native"
+import { SafeAreaView, StatusBar, ScrollView, RefreshControl, View, Text, StyleSheet, } from "react-native"
 import { useRouter } from "expo-router"
 import SlideUpCard from "../../../components/SlideUpCard"
 import CustomButton from "../../../components/CustomButton"
@@ -18,13 +10,11 @@ import ProfilePic from "../../../components/ProfilePic"
 import LongCard from "../../../components/LongCard"
 
 import { Colors } from "../../../constants/Colors"
+import { Metrics } from "../../../constants/Metrics"
 import { usePremium } from "../../../hooks/usePremium"
 import { useAdManager } from "../../../hooks/useAdManager"
 import { getCompleteUserData } from "../../../utils/storage"
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen"
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 export default function ClientDashboard() {
   const router = useRouter()
@@ -69,181 +59,185 @@ export default function ClientDashboard() {
   if (premium.premiumStatus === "expired") subtitle = "Premium Expirado"
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <>
       <StatusBar style="light" backgroundColor={Colors.blueColor} />
+      <SafeAreaView style={styles.safeArea}>
 
-      <SlideUpCard title={greeting} subtitle={subtitle} style={styles.card}>
-        <ScrollView
-          style={styles.scrollView}
-          contentContainerStyle={styles.scrollContent}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-        >
+        <SlideUpCard title={greeting} subtitle={subtitle} style={styles.card}>
+          <ScrollView
+            style={styles.scrollView}
+            contentContainerStyle={styles.scrollContent}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+          >
 
-          <View style={styles.userInfoSection}>
-            <ProfilePic
-              uri={
-                userData?.avatar ||
-                "https://i.pinimg.com/736x/9f/16/72/9f1672710cba6bcb0dfd93201c6d4c00.jpg"
-              }
-              size={wp("20%")}
-              style={styles.avatar}
-            />
-            <View style={styles.userTextInfo}>
-              <Text style={styles.userName}>{userData?.fullName}</Text>
-              {userIsPremium && (
-                <Text style={styles.premiumBadge}>Usuario Premium</Text>
-              )}
+            <View style={styles.userInfoSection}>
+              <ProfilePic
+                uri={
+                  userData?.avatar ||
+                  "https://i.pinimg.com/736x/9f/16/72/9f1672710cba6bcb0dfd93201c6d4c00.jpg"
+                }
+                size={Metrics.iconXLarge}
+                style={styles.avatar}
+              />
+              <View style={styles.userTextInfo}>
+                <Text style={styles.userName}>{userData?.fullName}</Text>
+                {userIsPremium && (
+                  <Text style={styles.premiumBadge}>Usuario Premium</Text>
+                )}
+              </View>
             </View>
-          </View>
 
-          <View style={styles.statsContainer}>
-            <View style={styles.statItem}>
-              <Text style={styles.statNumber}>0</Text>
-              <Text style={styles.statLabel}>Citas</Text>
+            <View style={styles.statsContainer}>
+              <View style={styles.statItem}>
+                <Text style={styles.statNumber}>0</Text>
+                <Text style={styles.statLabel}>Citas</Text>
+              </View>
+              <View style={styles.statItem}>
+                <Text style={styles.statNumber}>0</Text>
+                <Text style={styles.statLabel}>Favoritos</Text>
+              </View>
+              <View style={styles.statItem}>
+                <Text style={styles.statNumber}>0</Text>
+                <Text style={styles.statLabel}>Reseñas</Text>
+              </View>
             </View>
-            <View style={styles.statItem}>
-              <Text style={styles.statNumber}>0</Text>
-              <Text style={styles.statLabel}>Favoritos</Text>
-            </View>
-            <View style={styles.statItem}>
-              <Text style={styles.statNumber}>0</Text>
-              <Text style={styles.statLabel}>Reseñas</Text>
-            </View>
-          </View>
 
-          <View style={styles.actionsContainer}>
-            <CustomButton
-              text="Mi Perfil"
-              onPress={() => router.push("/tabs/client/profile")}
-              style={styles.actionButton}
-            />
-            <CustomButton
-              text="Buscar Profesionales"
-              onPress={() => router.push("/tabs/client/services")}
-              style={styles.actionButton}
-            />
-            <CustomButton
-              text="Solicitud Personalizada"
-              onPress={() => router.push("/tabs/client/requestAd")}
-              style={styles.actionButton}
-            />
-            <CustomButton
-              text={userIsPremium ? "Gestionar Premium" : "Obtener Premium"}
-              onPress={handlePremiumNav}
-              style={styles.premiumButton}
-            />
-            <CustomButton
-              text="Inicio"
-              onPress={() => router.push("/tabs/client/home")}
-              style={styles.actionButton}
-            />
-          </View>
+            <View style={styles.actionsContainer}>
+              <CustomButton
+                text="Mi Perfil"
+                onPress={() => router.push("/tabs/client/profile")}
+                style={styles.actionButton}
+              />
+              <CustomButton
+                text="Buscar Profesionales"
+                onPress={() => router.push("/tabs/client/services")}
+                style={styles.actionButton}
+              />
+              <CustomButton
+                text="Solicitud Personalizada"
+                onPress={() => router.push("/tabs/client/requestAd")}
+                style={styles.actionButton}
+              />
+              <CustomButton
+                text={userIsPremium ? "Gestionar Premium" : "Obtener Premium"}
+                onPress={handlePremiumNav}
+                style={styles.premiumButton}
+              />
+              <CustomButton
+                text="Inicio"
+                onPress={() => router.push("/tabs/client/home")}
+                style={styles.actionButton}
+              />
+            </View>
 
-          <View style={styles.activitySection}>
-            <Text style={styles.sectionTitle}>Actividad Reciente</Text>
-            <LongCard
-              title="No hay actividad"
-              subtitle="Comienza buscando profesionales"
-            />
-          </View>
-        </ScrollView>
-      </SlideUpCard>
+            <View style={styles.activitySection}>
+              <Text style={styles.sectionTitle}>Actividad Reciente</Text>
+              <LongCard
+                title="No hay actividad"
+                subtitle="Comienza buscando profesionales"
+              />
+            </View>
+          </ScrollView>
+        </SlideUpCard>
 
       <Ad visible={showAd} onClose={closeAd} />
       <BottomNavBar />
     </SafeAreaView>
+    </>
   )
 }
 
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: Colors.blueColor
+    backgroundColor: Colors.blueColor,
+    height: Metrics.safeArea
   },
   card: {
-    flex: 1,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20
+    position: "absolute",
+    bottom: 0,
+    height: Metrics.screenM,
+    alignItems: "stretch",
   },
   scrollView: {
     flex: 1,
-    width: "100%",
+    width: wp("100%"),
   },
   scrollContent: {
     flexGrow: 1,
-    padding: wp("4%"),
+    padding: Metrics.marginS,
   },
   premiumNav: {
     alignItems: "center",
-    marginBottom: hp("2%")
+    marginBottom: Metrics.marginS,
   },
   premiumButton: {
-    width: wp("88%")
+    width: wp("90%"),
   },
   userInfoSection: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: hp("3%"),
+    marginBottom: Metrics.marginS,
   },
   avatar: {
-    marginRight: wp("8%"),
+    marginRight: Metrics.marginS,
   },
   userTextInfo: {
     flex: 1
   },
   userName: {
-    fontSize: hp("2.5%"),
+    fontSize: Metrics.fontM,
     fontWeight: "bold",
-    marginLeft: wp("3%"),
+    marginLeft: Metrics.marginS,
   },
   premiumBadge: {
-    fontSize: hp("1.6%"),
+    fontSize: Metrics.fontS,
     color: Colors.greenColor,
-    marginTop: hp("0.5%"),
-    marginLeft: wp("3%"),
+    marginTop: Metrics.marginS,
+    marginLeft: Metrics.marginS,
   },
   statsContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
-    marginBottom: hp("3%"),
+    marginBottom: Metrics.marginS,
   },
   statItem: {
     alignItems: "center"
   },
   statNumber: {
-    fontSize: hp("2.5%"),
+    fontSize: Metrics.fontS,
     fontWeight: "bold",
     color: Colors.orangeColor,
   },
   statLabel: {
-    fontSize: hp("1.6%")
+    fontSize: Metrics.fontS,
   },
   actionsContainer: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    gap: 20,
-    marginBottom: hp("3%"),
-    marginTop: hp("5%")
+    gap: Metrics.marginS,
+    marginBottom: Metrics.marginS,
+    marginTop: Metrics.marginS,
   },
   actionButton: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: hp("2%"),
+    marginBottom: Metrics.marginS,
     width: wp("100%"),
     textAlign: "center",
   },
   activitySection: {
-    marginTop: hp("2%")
+    marginTop: Metrics.marginS,
   },
   sectionTitle: {
-    fontSize: hp("2%"),
+    fontSize: Metrics.fontS,
     fontWeight: "bold",
-    marginBottom: hp("1%"),
+    marginBottom: Metrics.marginS,
     color: Colors.orangeColor,
   },
 })

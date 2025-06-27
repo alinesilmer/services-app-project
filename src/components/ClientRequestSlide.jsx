@@ -1,10 +1,10 @@
 import { Text, View, ScrollView, Image, StyleSheet } from 'react-native';
 import SlideUpCard from './SlideUpCard';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import CustomButton from './CustomButton';
 import { router } from 'expo-router';
 import { getUserProfile } from '../utils/storage';
 import { useEffect, useState } from 'react';
+import { Metrics } from '../constants/Metrics';
 
 export default ClientRequesSlide = ({ title, problems = [], details = [], images = [] }) => {
     const [userProfile, setUserProfile] = useState(null);
@@ -13,7 +13,6 @@ export default ClientRequesSlide = ({ title, problems = [], details = [], images
         const fetchUserProfile = async () => {
             try {
                 const profile = await getUserProfile();
-                console.log('Perfil cargado: ', profile);
                 if (profile) {
                     setUserProfile(profile);
                 }
@@ -27,14 +26,14 @@ export default ClientRequesSlide = ({ title, problems = [], details = [], images
     if (!userProfile) {
         return (
         <View style={styles.container}>
-            <Text style={{ textAlign: "center", marginTop: 50, color: "#fff" }}>
+            <Text style={{ textAlign: "center", marginTop: Metrics.marginS, color: "#fff" }}>
             Cargando perfil...
             </Text>
         </View>
         );
     }
 
-    const handleSendMessage = () => { console.log('USERPROFILE:', userProfile);
+    const handleSendMessage = () => {
       router.push({
         pathname: "/tabs/chat",
         params: {
@@ -88,7 +87,7 @@ export default ClientRequesSlide = ({ title, problems = [], details = [], images
                             />
                             ))
                         ) : (
-                            <Text style={{ marginLeft: 10 }}>No hay imágenes disponibles.</Text>
+                            <Text style={{ marginLeft: Metrics.marginS }}>No hay imágenes disponibles.</Text>
                         )}
                     </ScrollView>
                 </View>
@@ -99,43 +98,42 @@ export default ClientRequesSlide = ({ title, problems = [], details = [], images
 }
 
 const styles = StyleSheet.create({
-    slideUpCard: {
-        flex: 1,
-        marginTop: hp('15%'),
-        borderTopRightRadius: 0,
-        borderTopLeftRadius: wp('40%'),
-        paddingHorizontal: wp('5%'),
-    },
-    problemDescriptionContainer: {
-    },
-    problemDetailsContainer: {
-    },
-    problemPhotoContainer: {
-    },
-    box: {
-        backgroundColor: '#dcdcdc',
-        flex: 1,
-        padding: wp('4%'),
-        marginVertical: hp('0.5%'),
-        borderRadius: wp('2.5%'),
-    },
-    boxTitle: {
-        fontWeight: 900,
-        fontSize: wp('4%'),
-    },
-    img: {
-        width: 200,
-        height: 200,
-        borderColor: '#000',
-        borderWidth: 3,
-        borderStyle: 'solid',
-        borderRadius: wp('2.5%'),
-        margin: wp('1%'),
-    },
-    imageScroll: {
-        flex: 1,
-        flexDirection: 'row',
-        padding: wp('1%'),
-        marginTop: hp('1%'),
-    }
+	slideUpCard: {
+		position: "absolute",
+		bottom: 0,
+		height: Metrics.screenL,
+		alignItems: "stretch",
+		paddingHorizontal: Metrics.marginM,
+	},
+	problemDescriptionContainer: {
+	},
+	problemDetailsContainer: {
+	},
+	problemPhotoContainer: {
+	},
+	box: {
+		backgroundColor: '#dcdcdc',
+		flex: 1,
+		padding: Metrics.marginM,
+		marginVertical: Metrics.marginS,
+		borderRadius: Metrics.radiusS,
+	},
+	boxTitle: {
+		fontWeight: "bold",
+		fontSize: Metrics.fontM,
+	},
+	img: {
+		width: Metrics.screenS * 0.3,
+		height: Metrics.screenS * 0.3,
+		borderColor: '#000',
+		borderWidth: Metrics.marginXS,
+		borderRadius: Metrics.radiusS,
+		margin: Metrics.marginS,
+	},
+	imageScroll: {
+		flex: 1,
+		flexDirection: 'row',
+		padding: Metrics.marginS,
+		marginTop: Metrics.marginS,
+	}
 });

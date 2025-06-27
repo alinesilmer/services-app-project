@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, TextInput } from 'react-native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { Colors } from '../constants/Colors';
+import { Metrics } from '../constants/Metrics';
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 export default function DisplayField({ label, value, editable = false, onChangeText, placeholder }) {
   return (
@@ -24,24 +25,24 @@ export default function DisplayField({ label, value, editable = false, onChangeT
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: wp('4%'),
+    marginBottom: Metrics.marginS,
   },
   label: {
-    fontSize: wp('3%'),
+    fontSize: Metrics.fontS,
     color: Colors.textColor,
-    marginBottom: wp('1%'),
+    marginBottom: Metrics.marginS,
   },
   valueContainer: {
     backgroundColor: Colors.inputGray,
-    width: '80%',
-    height: 40,            
-    borderRadius: 15,      
+    width: wp("80%"),
+    height: Metrics.screenS,            
+    borderRadius: Metrics.radiusS,      
     justifyContent: 'center', 
-    paddingHorizontal: 12, 
-    fontSize: wp('3%'),
+    paddingHorizontal: Metrics.marginS, 
+    fontSize: Metrics.fontM,
   },
   value: {
-    fontSize: wp('4%'),
+    fontSize: Metrics.fontM,
     color: Colors.textColor,
     fontWeight: '500',
   },

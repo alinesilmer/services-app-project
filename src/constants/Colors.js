@@ -8,6 +8,8 @@ const whiteColor = "#f6f6f6";
 const inputGray = "#cecece";
 const subtextColor = "#8f8e8e";
 const starColor = '#FFD700';
+const disabledColor = "#ccc";
+const errorColor = "#F44336";
 
 export const Colors = {
   light: {
@@ -34,4 +36,6 @@ export const Colors = {
   inputGray,
   subtextColor,
   starColor,
+  disabledColor,
+  errorColor,
 };

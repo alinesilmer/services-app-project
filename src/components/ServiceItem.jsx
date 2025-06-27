@@ -7,6 +7,7 @@ import { TouchableOpacity, Text, StyleSheet, View } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Colors } from '../constants/Colors';
+import { Metrics } from '../constants/Metrics';
 import { useRouter } from 'expo-router';
 
 const ServiceItem = ({ label, icon, useFeather = true, route = '/tabs/client/services' }) => {
@@ -33,7 +34,7 @@ const handlePress = () => {
         activeOpacity={0.6}
         onPress={handlePress}
       >
-        <IconComponent name={icon} size={29} color={Colors.blueColor} />
+        <IconComponent name={icon} size={Metrics.iconSmall} color={Colors.blueColor} />
       </TouchableOpacity>
       <Text style={styles.label}>{label}</Text>
     </View>
@@ -43,28 +44,27 @@ const handlePress = () => {
 const styles = StyleSheet.create({
   wrapper: {
     alignItems: 'center',
-    margin: 8,
+    margin: Metrics.marginS,
   },
   item: {
-    width: 80,
-    height: 80,
-    borderStyle: "solid",
+    width: Metrics.marginXXL * 1.6,
+    height: Metrics.marginXXL * 1.6,
     borderColor: Colors.inputGray,
-    borderWidth: 1,
-    backgroundColor: "white",
-    borderRadius: 20,
+    borderWidth: Metrics.marginXS,
+    backgroundColor: Colors.whiteColor,
+    borderRadius: Metrics.radiusS,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 5,
+    padding: Metrics.marginS,
   },
   itemPressed: {
     backgroundColor: "gray", 
     borderColor: Colors.blueColor,
   },
   label: {
-    marginTop: 8,
+    marginTop: Metrics.marginS,
     textAlign: 'center',
-    fontSize: 12,
+    fontSize: Metrics.fontXS,
     color: Colors.textColor,
   },
 });

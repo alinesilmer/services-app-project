@@ -3,6 +3,7 @@
 
 import React from 'react';
 import { Image, StyleSheet } from 'react-native';
+import { Metrics } from '../constants/Metrics';
 
 const Logo = () => {
   return (
@@ -13,10 +14,10 @@ const Logo = () => {
 const styles = StyleSheet.create({
     logo: {
     position: 'absolute',
-    top: 50,
-    width: 400,
-    height: 400,
-    marginBottom: 24,
+    top: Metrics.marginS,
+    width: Metrics.screenS,
+    height: Metrics.screenS,
+    marginBottom: Metrics.marginM,
     resizeMode: 'contain',
   },
 });

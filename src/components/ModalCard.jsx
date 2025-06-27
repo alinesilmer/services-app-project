@@ -8,7 +8,9 @@
 
 import React from 'react';
 import { Modal, View, Text, Pressable, StyleSheet } from 'react-native';
-import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { Colors } from '../constants/Colors';
+import { Metrics } from '../constants/Metrics';
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 const ModalCard = ({ visible, onClose, title, children }) => {
   return (
@@ -32,31 +34,31 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.5)',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: hp(3),
+    paddingTop: Metrics.marginS,
   },
   modalContainer: {
-    backgroundColor: '#fff',
-    padding: wp(5),
-    borderRadius: wp(5),
-    width: wp(80),
+    backgroundColor: Colors.whiteColor,
+    padding: Metrics.marginS,
+    borderRadius: Metrics.radiusS,
+    width: wp("80%"),
     alignItems: 'center',
   },
   title: {
-    fontSize: hp(2.5),
+    fontSize: Metrics.fontM,
     fontWeight: 'bold',
-    marginBottom: hp(1.5),
+    marginBottom: Metrics.marginS,
     textAlign: 'center',
   },
   content: {
-    padding: wp(3),
-    marginBottom: hp(2),
+    padding: Metrics.marginS,
+    marginBottom: Metrics.marginS,
   },
   closeButton: {
     backgroundColor: 'black',
-    paddingHorizontal: wp(5),
-    paddingVertical: hp(1.2),
-    borderRadius: wp(3),
-    marginTop: hp(2),
+    paddingHorizontal: Metrics.marginS,
+    paddingVertical: Metrics.marginS,
+    borderRadius: Metrics.radiusS,
+    marginTop: Metrics.marginS,
   },
   closeText: {
     color: '#fff',

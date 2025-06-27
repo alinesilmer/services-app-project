@@ -4,6 +4,7 @@ import { MotiView } from 'moti';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { Colors } from '../../constants/Colors';
+import { Metrics } from '../../constants/Metrics';
 const { width, height } = Dimensions.get('window');
 
 const SplashScreen = () => {
@@ -12,39 +13,39 @@ const SplashScreen = () => {
 
   const floatingIcons = [
     { 
-      icon: <MaterialIcons name="handyman" size={35} color={Colors.whiteColor} />, 
+      icon: <MaterialIcons name="handyman" size={Metrics.iconLarge} color={Colors.whiteColor} />, 
       delay: 400 
     },
     { 
-      icon: <MaterialIcons name="settings" size={35} color={Colors.whiteColor} />, 
+      icon: <MaterialIcons name="settings" size={Metrics.iconLarge} color={Colors.whiteColor} />, 
       delay: 600 
     },
     { 
-      icon: <MaterialIcons name="dry-cleaning" size={35} color={Colors.whiteColor} />, 
+      icon: <MaterialIcons name="dry-cleaning" size={Metrics.iconLarge} color={Colors.whiteColor} />, 
       delay: 800 
     },
     { 
-      icon: <MaterialIcons name="content-cut" size={35} color={Colors.whiteColor} />, 
+      icon: <MaterialIcons name="content-cut" size={Metrics.iconLarge} color={Colors.whiteColor} />, 
       delay: 1000 
     },
     { 
-      icon: <MaterialIcons name="local-florist" size={35} color={Colors.whiteColor} />, 
+      icon: <MaterialIcons name="local-florist" size={Metrics.iconLarge} color={Colors.whiteColor} />, 
       delay: 1200 
     },
     { 
-      icon: <MaterialIcons name="imagesearch-roller" size={35} color={Colors.whiteColor} />, 
+      icon: <MaterialIcons name="imagesearch-roller" size={Metrics.iconLarge} color={Colors.whiteColor} />, 
       delay: 1400 
     },
     { 
-      icon: <MaterialIcons name="local-dining" size={35} color={Colors.whiteColor} />, 
+      icon: <MaterialIcons name="local-dining" size={Metrics.iconLarge} color={Colors.whiteColor} />, 
       delay: 1600 
     },
     { 
-      icon: <MaterialIcons name="plumbing" size={35} color={Colors.whiteColor} />, 
+      icon: <MaterialIcons name="plumbing" size={Metrics.iconLarge} color={Colors.whiteColor} />, 
       delay: 1800 
     },
     { 
-      icon: <MaterialIcons name="electrical-services" size={35} color={Colors.whiteColor} />, 
+      icon: <MaterialIcons name="electrical-services" size={Metrics.iconLarge} color={Colors.whiteColor} />, 
       delay: 2000 
     },
   ];
@@ -201,13 +202,13 @@ const styles = StyleSheet.create({
     left: 0,
   },
   mainTitle: {
-    fontSize: 50,
+    fontSize: Metrics.fontXL,
     fontWeight: 'bold',
     color: Colors.whiteColor,
-    marginBottom: 8,
+    marginBottom: Metrics.marginS,
   },
   subtitle: {
-    fontSize: 24,
+    fontSize: Metrics.fontL,
     color: Colors.whiteColor,
     opacity: 0.9,
   },
