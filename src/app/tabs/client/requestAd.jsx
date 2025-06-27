@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     marginBottom: Metrics.marginXS,
     alignItems: "center",
   },
-  customBotton: {
+  customButton: {
     width: wp("90%"),
   },
   imageContainer: {

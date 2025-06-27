@@ -1,19 +1,33 @@
+
+"use client";
+
 import React, { useState, useMemo } from 'react';
-import { View, Text, ScrollView, StyleSheet, StatusBar } from 'react-native';
+import {
+  View,
+  Text,
+  Alert,
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+} from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
+
 import CustomButton from '../../components/CustomButton';
+import BackButton from '../../components/BackButton';
 import Logo from '../../components/Logo';
 import SlideUpCard from '../../components/SlideUpCard';
 import ModalCard from '../../components/ModalCard';
 import AnimationFeedback from '../../components/AnimationFeedback';
 import PaymentList from '../../components/PaymentList';
-import { paymentMethods } from '../../utils/paymentMethods';
+
 import { usePremium } from '../../hooks/usePremium';
 import { validateCreditCard } from '../../utils/storage';
 import { getPlanDetails } from '../../utils/pricingPlans';
+import { paymentMethods } from '../../utils/paymentMethods';
 import { Colors } from '../../constants/Colors';
 import { Metrics } from '../../constants/Metrics';
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 export default function SubscriptionFlow() {
   const router = useRouter();
@@ -21,19 +35,24 @@ export default function SubscriptionFlow() {
   const { subscribeToPremium } = usePremium();
 
   const [selectedMethod, setSelectedMethod] = useState(null);
-  const [isValid, setIsValid]               = useState(false);
-  const [paymentData, setPaymentData]       = useState({ number:'', name:'', cvv:'', expiry:'' });
-  const [error, setError]                   = useState('');
-  const [success, setSuccess]               = useState(false);
-  const [failure, setFailure]               = useState(false);
+  const [isValid, setIsValid] = useState(false);
+  const [paymentData, setPaymentData] = useState({
+    number: '',
+    name: '',
+    cvv: '',
+    expiry: '',
+  });
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
+  const [failure, setFailure] = useState(false);
 
-  const mockCards = useMemo(() => [
-    { type: 'visa',       number: '1111111111111111', cvv: '123',  expiry: '12/25', displayNumber: '**** **** **** 1111' },
-    { type: 'mastercard', number: '5555555555554444', cvv: '456',  expiry: '11/26', displayNumber: '**** **** **** 4444' },
-    { type: 'amex',       number: '378282246310005',  cvv: '1234', expiry: '10/27', displayNumber: '**** ****** 0005' },
-  ], []);
+  const dash =
+    userType === 'professional'
+      ? '/tabs/professional/dashboard'
+      : '/tabs/client/dashboard';
 
   const handlePay = async () => {
+    console.log('handlePay called'); 
     if (!isValid || !selectedMethod) {
       setError('Complete todos los campos y seleccione un método.');
       return setFailure(true);
@@ -44,16 +63,12 @@ export default function SubscriptionFlow() {
       return setFailure(true);
     }
     const details = getPlanDetails(planType);
-    const sub = await subscribeToPremium(
+    const res = await subscribeToPremium(
       planType,
-      {
-        ...details,
-        paymentMethod: selectedMethod,
-        cardType: cardRes.cardType
-      },
+      { ...details, paymentMethod: selectedMethod, cardType: cardRes.cardType },
       userType
     );
-    if (sub.success) {
+    if (res.success) {
       setSuccess(true);
     } else {
       setError('Error al procesar el pago.');
@@ -61,70 +76,87 @@ export default function SubscriptionFlow() {
     }
   };
 
-  const dash = userType === 'professional'
-    ? '/tabs/professional/dashboard'
-    : '/tabs/client/dashboard';
+  const mockCards = useMemo(
+    () => [
+      {
+        type: 'visa',
+        number: '1111111111111111',
+        cvv: '123',
+        expiry: '12/25',
+        display: '**** **** **** 1111',
+      },
+      {
+        type: 'mastercard',
+        number: '5555555555554444',
+        cvv: '456',
+        expiry: '11/26',
+        display: '**** **** **** 4444',
+      },
+      {
+        type: 'amex',
+        number: '378282246310005',
+        cvv: '1234',
+        expiry: '10/27',
+        display: '**** ****** 0005',
+      },
+    ],
+    []
+  );
 
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor={Colors.blueColor} />
-      <Logo />
+      <SafeAreaView style={styles.safe}>
+        <BackButton onPress={() => router.back()} />
+        <Logo />
 
-      <SlideUpCard title="Pago" subtitle={`Plan: ${planType}`} style={styles.card}>
-        <ScrollView
-            horizontal={false}                     
+        <SlideUpCard title="Pago" subtitle={`Plan: ${planType}`} style={styles.card}>
+          <ScrollView
             showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false} 
-            alwaysBounceHorizontal={false}         
-            contentContainerStyle={styles.scrollContent}>
-          <PaymentList
-            methods={paymentMethods}
-            selected={selectedMethod}
-            onSelect={setSelectedMethod}
-            onValidityChange={setIsValid}
-            onPaymentDataChange={setPaymentData}
-          />
+            contentContainerStyle={styles.scroll}
+          >
+            <PaymentList
+              methods={paymentMethods}
+              selected={selectedMethod}
+              onSelect={setSelectedMethod}
+              onValidityChange={setIsValid}
+              onPaymentDataChange={setPaymentData}
+            />
 
-          <View style={styles.testCardsContainer}>
-            <Text style={styles.testCardsTitle}>Tarjetas de prueba</Text>
-            {mockCards.map((c) => (
-              <Text key={c.number} style={styles.testCardText}>
-                {c.type.toUpperCase()}: {c.displayNumber} | CVV {c.cvv} | Exp: {c.expiry}
-              </Text>
-            ))}
-          </View>
+            <View style={styles.mockBox}>
+              <Text style={styles.infoTitle}>Tarjetas de prueba</Text>
+              {mockCards.map((c) => (
+                <Text key={c.number} style={styles.mockText}>
+                  {c.type.toUpperCase()}: {c.display} | CVV {c.cvv} | Exp: {c.expiry}
+                </Text>
+              ))}
+            </View>
 
-          <View style={styles.payBtnWrapper}>
-          <CustomButton
-            text="Pagar"
-            onPress={handlePay}
-            disabled={!isValid}
-            style={{ marginTop: Metrics.marginS, marginBottom: Metrics.marginS }}
-          />
-          </View>
-        </ScrollView>
-      </SlideUpCard>
+            <CustomButton
+              text="Pagar"
+              onPress={handlePay}
+              style={{ marginTop: Metrics.marginS, marginBottom: Metrics.marginS }}
+            />
+          </ScrollView>
+        </SlideUpCard>
 
-      <ModalCard
-        visible={success}
-        title="¡Felicidades!"
-        onClose={() => {
-          setSuccess(false);
-          router.push(dash);
-        }}
-      >
-        <AnimationFeedback type="success" />
-        <Text style={styles.messageText}>Bienvenido a Dilo Premium.</Text>
-      </ModalCard>
+        <ModalCard
+          visible={success}
+          title="¡Éxito!"
+          onClose={() => {
+            setSuccess(false);
+            router.push(dash);
+          }}
+        >
+          <AnimationFeedback type="success" />
+          <Text style={styles.infoTitle}>¡Bienvenido a Premium!</Text>
+        </ModalCard>
 
-      <ModalCard
-        visible={failure}
-        title="Error"
-        onClose={() => setFailure(false)}
-      >
-        <AnimationFeedback type="failure" />
-        <Text style={styles.messageText}>{error}</Text>
-      </ModalCard>
+        <ModalCard visible={failure} title="Error" onClose={() => setFailure(false)}>
+          <AnimationFeedback type="failure" />
+          <Text style={styles.infoTitle}>{error}</Text>
+        </ModalCard>
+      </SafeAreaView>
     </View>
   );
 }
@@ -133,46 +165,39 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.blueColor,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  safe: {
+    flex: 1,
+    backgroundColor: Colors.blueColor,
   },
   card: {
-    position: 'absolute',
-    bottom: 0,
-    paddingHorizontal: Metrics.marginS,
+    marginTop: 200,
     height: Metrics.screenM,
+    alignItems: 'stretch',
   },
-  scrollContent: {
+  scroll: {
     flexGrow: 1,
-    paddingHorizontal: Metrics.marginS,
-    paddingTop: Metrics.marginS,
+    alignItems: 'center',
+    paddingVertical: Metrics.marginS,
   },
-  messageText: {
-    fontSize: Metrics.fontM,
-    marginTop: Metrics.marginS,
-    textAlign: 'center',
-  },
-  testCardsContainer: {
+  mockBox: {
     backgroundColor: '#f5f5f5',
     padding: Metrics.marginS,
     borderRadius: Metrics.radiusS,
-    marginTop: Metrics.marginS,
-    width: wp("90%"),
+    width: wp('90%'),
     alignSelf: 'center',
   },
-  testCardsTitle: {
+  infoTitle: {
+    fontSize: Metrics.fontM,
     fontWeight: 'bold',
-    marginBottom: Metrics.marginXS,
-    color: Colors.blueColor,
+    marginBottom: Metrics.marginS,
+    color: Colors.textColor,
   },
-  testCardText: {
+  mockText: {
     fontSize: Metrics.fontXS,
     color: Colors.orangeColor,
     marginBottom: Metrics.marginXS,
   },
-  payBtnWrapper: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  }
 });

@@ -5,7 +5,7 @@ export const MOCK_USERS = [
   {
     fullName: "Mirta Gaona",
     password: "123456",
-    userType: "client",
+    userType: "cliente",
     email: "usuario@example.com",
     birthdate: "1990-01-01",
     province: "Chaco",
@@ -140,6 +140,16 @@ export const registerUser = async (user) => {
     return { success: true };
   } catch {
     return { success: false, message: "Error registering" };
+  }
+};
+
+export const getUserType = async () => {
+  try {
+    const raw = await AsyncStorage.getItem("user_profile");
+    const profile = raw ? JSON.parse(raw) : null;
+    return profile?.userType || null;
+  } catch {
+    return null;
   }
 };
 

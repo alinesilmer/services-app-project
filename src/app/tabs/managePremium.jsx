@@ -1,119 +1,130 @@
+
+"use client";
 import React from 'react';
-import { View, SafeAreaView, ScrollView, Text, StyleSheet, StatusBar } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, StatusBar, SafeAreaView } from 'react-native';
 import { useRouter } from 'expo-router';
-import Logo from '../../components/Logo';
+
 import BackButton from '../../components/BackButton';
+import Logo from '../../components/Logo';
 import SlideUpCard from '../../components/SlideUpCard';
 import CustomButton from '../../components/CustomButton';
 import { usePremium } from '../../hooks/usePremium';
 import { formatPrice } from '../../utils/pricingPlans';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { Colors } from '../../constants/Colors';
 import { Metrics } from '../../constants/Metrics';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 export default function ManagePremium() {
   const router = useRouter();
   const { premium, daysRemaining } = usePremium();
 
-  const statusText = {
-    active:    'Tu Premium está activo',
-    trial:     'Prueba gratuita activa',
-    paused:    'Tu Premium está pausado',
+  const statusTextMap = {
+    inactive: 'No tienes Premium activo',
+    active: 'Tu Premium está activo',
+    trial: 'Prueba gratuita activa',
+    paused: 'Tu Premium está pausado',
     cancelled: 'Tu Premium ha sido cancelado',
-    expired:   'Tu Premium ha expirado'
-  }[premium.premiumStatus] || 'No tienes Premium activo';
+    expired: 'Tu Premium ha expirado',
+  };
 
-  const subtitle = {
-    active:    `Tu plan ${premium.planDetails?.label || premium.premiumType} está activo.`,
-    trial:     `Te quedan ${daysRemaining} días de prueba.`,
-    paused:    'Pausado: reanuda o cancela cuando quieras.',
-    cancelled: 'Cancelado. Puedes reactivarlo.',
-    expired:   'Expirado. Renueva para seguir.'
-  }[premium.premiumStatus] || 'Gestiona tu Premium desde aquí.';
+  const subtitleMap = {
+    inactive: 'Obtén Premium para disfrutar beneficios.',
+    active: `Plan activo: ${premium.planDetails?.label || premium.premiumType}.`,
+    trial: `Quedan ${daysRemaining} días de prueba.`,
+    paused: 'Pausado: reanuda o cancela cuando quieras.',
+    cancelled: 'Cancelado. Reactiva para volver a Premium.',
+    expired: 'Expirado. Renueva para seguir.',
+  };
 
-  const goPremiumRoute = '/auth/goPremium';
+  const statusText = statusTextMap[premium.premiumStatus] || statusTextMap.inactive;
+  const subtitle = subtitleMap[premium.premiumStatus] || subtitleMap.inactive;
+  const goRoute = '/auth/goPremium';
 
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor={Colors.blueColor} />
-      <SafeAreaView style={styles.safeArea}>
+      <SafeAreaView style={styles.safe}>
         <BackButton onPress={() => router.back()} />
         <Logo />
         <SlideUpCard title={statusText} subtitle={subtitle} style={styles.card}>
           <ScrollView contentContainerStyle={styles.scroll}>
             {premium.planDetails && (
-              <View style={styles.planDetailsContainer}>
-                <Text style={styles.planDetailsTitle}>Detalles del plan:</Text>
-                <Text style={styles.planDetailsText}>Plan: {premium.planDetails.label || premium.premiumType}</Text>
-                <Text style={styles.planDetailsText}>Precio: {formatPrice(premium.planDetails.price)}</Text>
+              <View style={styles.planBox}>
+                <Text style={styles.infoTitle}>Detalles del plan:</Text>
+                <Text style={styles.infoItem}>
+                  Plan: {premium.planDetails.label || premium.premiumType}
+                </Text>
+                <Text style={styles.infoItem}>
+                  Precio: {formatPrice(premium.planDetails.price)}
+                </Text>
                 {premium.premiumEndDate && (
-                  <Text style={styles.planDetailsText}>
-                    {premium.premiumStatus === 'trial' ? 'Prueba termina: ' : 'Renovación: '}
+                  <Text style={styles.infoItem}>
+                    {premium.premiumStatus === 'trial' ? 'Termina:' : 'Renovación:'}{' '}
                     {new Date(premium.premiumEndDate).toLocaleDateString()}
                   </Text>
                 )}
               </View>
             )}
 
-            <View style={styles.actionsWrapper}>
-            {(premium.premiumStatus === 'inactive') && (
-              <CustomButton
-                text="Obtener Premium"
-                onPress={() => router.push(goPremiumRoute)}
-                width={wp("100%")}
-              />
-            )}
-            {(premium.premiumStatus === 'active') && (
-              <>
+            <View style={styles.actions}>
+              {premium.premiumStatus === 'inactive' && (
                 <CustomButton
-                  text="Pausar Premium"
-                  onPress={() => router.push('/tabs/pausePremium')}
-                  width={wp("100%")}
+                  text="Obtener Premium"
+                  onPress={() => router.push(goRoute)}
+                  width={wp('100%')}
                 />
-                <CustomButton
-                  text="Cancelar Premium"
-                  onPress={() => router.push('/tabs/stopPremium')}
-                  width={wp("100%")}
-                />
-              </>
-            )}
-            {(premium.premiumStatus === 'trial') && (
-              <>
-                <CustomButton
-                  text="Actualizar a pago"
-                  onPress={() => router.push(goPremiumRoute)}
-                  width={wp("100%")}
-                  style={{ backgroundColor: Colors.orangeColor }}
-                />
-                <CustomButton
-                  text="Cancelar prueba"
-                  onPress={() => router.push('/tabs/stopPremium')}
-                  width={wp("100%")}
-                />
-              </>
-            )}
-            {(premium.premiumStatus === 'paused') && (
-              <>
-                <CustomButton
-                  text="Reanudar Premium"
-                  onPress={() => router.push('/tabs/resumePremium')}
-                  width={wp("100%")}
-                />
-                <CustomButton
-                  text="Cancelar definitivamente"
-                  onPress={() => router.push('/tabs/stopPremium')}
-                  width={wp("100%")}
-                />
-              </>
-            )}
-            {['cancelled','expired'].includes(premium.premiumStatus) && (
-              <CustomButton
-                text="Reactivar Premium"
-                onPress={() => router.push(goPremiumRoute)}
-                width={wp("100%")}
-              />
               )}
-              </View>
+              {premium.premiumStatus === 'active' && (
+                <>
+                  <CustomButton
+                    text="Pausar Premium"
+                    onPress={() => router.push('/tabs/pausePremium')}
+                    width={wp('100%')}
+                  />
+                  <CustomButton
+                    text="Cancelar Premium"
+                    onPress={() => router.push('/tabs/stopPremium')}
+                    width={wp('100%')}
+                  />
+                </>
+              )}
+              {premium.premiumStatus === 'trial' && (
+                <>
+                   <CustomButton
+                   text="Actualizar a pago"
+                   onPress={() => router.push(goRoute)}  
+                   width={wp('100%')}
+                   style={{ backgroundColor: Colors.orangeColor }}
+                 />
+                  <CustomButton
+                    text="Cancelar prueba"
+                    onPress={() => router.push('/tabs/stopPremium')}
+                    width={wp('100%')}
+                  />
+                </>
+              )}
+              {premium.premiumStatus === 'paused' && (
+                <>
+                  <CustomButton
+                    text="Reanudar Premium"
+                    onPress={() => router.push('/tabs/resumePremium')}
+                    width={wp('100%')}
+                  />
+                  <CustomButton
+                    text="Cancelar definitivamente"
+                    onPress={() => router.push('/tabs/stopPremium')}
+                    width={wp('100%')}
+                  />
+                </>
+              )}
+              {['cancelled', 'expired'].includes(premium.premiumStatus) && (
+                <CustomButton
+                  text="Reactivar Premium"
+                  onPress={() => router.push(goRoute)}
+                  width={wp('100%')}
+                />
+              )}
+            </View>
           </ScrollView>
         </SlideUpCard>
       </SafeAreaView>
@@ -125,45 +136,45 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.blueColor,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  safeArea: {
+  safe: {
     flex: 1,
-    backgroundColor: Colors.blueColor
+    backgroundColor: Colors.blueColor,
   },
   card: {
-    position: "absolute",
-    bottom: 0,
+    marginTop: 250,
+    justifyContent: 'center',
     height: Metrics.screenM,
-    alignItems: "stretch",
+    alignItems: 'center',
   },
   scroll: {
     flexGrow: 1,
     alignItems: 'center',
     paddingVertical: Metrics.marginS,
   },
-  planDetailsContainer: {
+  planBox: {
     backgroundColor: Colors.lightGray,
     padding: Metrics.marginS,
     borderRadius: Metrics.radiusS,
+    width: wp('90%'),
+    alignSelf: 'center',
     marginBottom: Metrics.marginS,
-    width: wp("90%"),
   },
-  planDetailsTitle: {
+  infoTitle: {
     fontSize: Metrics.fontM,
     fontWeight: 'bold',
     marginBottom: Metrics.marginS,
+    color: Colors.textColor,
   },
-  planDetailsText: {
+  infoItem: {
     fontSize: Metrics.fontS,
-    marginBottom: Metrics.marginS,
+    marginBottom: Metrics.marginXS,
   },
-  actionsWrapper: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
+  actions: {
+    flexDirection: 'column',
+    alignItems: 'center',
     gap: Metrics.marginS,
-  }
+  },
 });

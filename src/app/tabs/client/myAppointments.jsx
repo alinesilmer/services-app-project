@@ -1,17 +1,18 @@
-"use client"
-import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Platform, ScrollView, Modal, SafeAreaView, RefreshControl, } from "react-native"
+import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Platform, ScrollView, Modal, SafeAreaView, RefreshControl } from "react-native"
 import { useState, useCallback } from "react"
 import { router, useFocusEffect } from "expo-router"
 import { Colors } from "../../../constants/Colors"
 import { Metrics } from "../../../constants/Metrics"
 import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 import { Feather } from "@expo/vector-icons"
+
 import AdsImage from "../../../components/AdsImage"
 import NavBar from "../../../components/NavBar"
 import AnimationFeedback from "../../../components/AnimationFeedback"
 import ModifyAppointmentModal from "../../../components/ModifyAppointmentModal"
 import mockAppointments from "../../../data/mockAppointments"
 import BackButton from "../../../components/BackButton"
+import { usePremium } from "../../../hooks/usePremium" 
 
 const MyAppointments = () => {
   const [selectedAppointment, setSelectedAppointment] = useState(null)
@@ -21,6 +22,9 @@ const MyAppointments = () => {
   const [currentAppointments, setCurrentAppointments] = useState([])
   const [showDeleteAnimation, setShowDeleteAnimation] = useState(false)
   const [appointmentToDelete, setAppointmentToDelete] = useState(null)
+
+  const { premium } = usePremium()
+  const isPremium = premium?.isPremium && ["active", "trial"].includes(premium.premiumStatus)
 
   const loadAppointments = useCallback(() => {
     setCurrentAppointments([...mockAppointments])
@@ -40,21 +44,7 @@ const MyAppointments = () => {
 
   const formatDate = (date) => {
     const days = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
-    const months = [
-      "Enero",
-      "Febrero",
-      "Marzo",
-      "Abril",
-      "Mayo",
-      "Junio",
-      "Julio",
-      "Agosto",
-      "Septiembre",
-      "Octubre",
-      "Noviembre",
-      "Diciembre",
-    ]
-
+    const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
     const appointmentDate = new Date(date)
     return `${days[appointmentDate.getDay()]} ${appointmentDate.getDate()} de ${months[appointmentDate.getMonth()]}`
   }
@@ -77,19 +67,15 @@ const MyAppointments = () => {
       setShowModal(false)
       setShowDeleteAnimation(false)
       setAppointmentToDelete(null)
-    }, 1500) 
+    }, 1500)
   }
 
   const handleRequestChange = () => {
     setShowModal(false)
     setTimeout(() => {
       setShowModifyModal(true)
-    }, 100) 
+    }, 100)
   }
-
-
-  const isPremiumUser = false
-
 
   const handleSaveModifiedAppointment = (updatedAppointment) => {
     const index = mockAppointments.findIndex((apt) => apt.id === updatedAppointment.id)
@@ -107,7 +93,6 @@ const MyAppointments = () => {
     setSelectedAppointment(null)
   }
 
-
   const handleBack = () => {
     router.back()
   }
@@ -115,9 +100,8 @@ const MyAppointments = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={Colors.blueColor} barStyle="light-content" />
-
       <View style={styles.header}>
-        <BackButton/>
+        <BackButton />
         <View style={styles.welcomeContainer}>
           <Text style={styles.welcomeText}>Bienvenido</Text>
           <Text style={styles.usernameText}>Usuario</Text>
@@ -126,7 +110,6 @@ const MyAppointments = () => {
 
       <View style={styles.content}>
         <Text style={styles.title}>MIS TURNOS</Text>
-
         <ScrollView
           showsVerticalScrollIndicator={false}
           style={styles.scrollContainer}
@@ -180,7 +163,7 @@ const MyAppointments = () => {
           )}
 
           <View style={styles.adContainer}>
-            <AdsImage onPress isPremium={isPremiumUser}/>
+            <AdsImage onPress isPremium={isPremium} />
           </View>
         </ScrollView>
       </View>
@@ -339,9 +322,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   appointmentCard: {
-    backgroundColor: "black",
+    backgroundColor: "white",
     borderRadius: Metrics.radiusS,
     padding: Metrics.marginS,
+    borderStyle: "solid",
+    borderWidth: Metrics.marginXS,
+    borderColor: "lightgray",
     marginBottom: Metrics.marginS,
     elevation: 2,
     shadowColor: "#000",

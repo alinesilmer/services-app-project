@@ -19,7 +19,6 @@ import { Metrics } from '../../constants/Metrics';
 //Hooks
 import { useValidation } from '../../hooks/useValidation';
 
-// Screen for Password Recovery
 export default function RecoveryPass() {
   const [email, setEmail] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
@@ -57,11 +56,13 @@ export default function RecoveryPass() {
   return (
     <>
       <StatusBar barStyle="light-content" />
-      <SafeAreaView style={styles.safeArea}>
+      <SafeAreaView style={styles.safeArea} />
+      <BackButton />
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <View style={styles.container}>
-          <BackButton />
-          <Logo />
+        <View style={styles.logoWrapper}>
+      <Logo />
+    </View>
           <SlideUpCard
             title={"Recuperar Contraseña"}
             style={styles.card}
@@ -127,16 +128,20 @@ export default function RecoveryPass() {
           </ModalCard>
         </View>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+        <SafeAreaView style={styles.safeAreaBottom}/>
     </>
   )
 }
 
 const styles = StyleSheet.create({
   safeArea: {
-    flex: 1,
+    flex: 10,
     backgroundColor: Colors.blueColor,
     height: Metrics.safeArea
+  },
+  safeAreaBottom: {
+    backgroundColor: Colors.whiteColor,
+    height: Metrics.safeAreaBottom
   },
   container: {
     flex: 1,
@@ -144,12 +149,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  logoWrapper: {
+    position: 'absolute',
+    width: '100%',
+    alignItems: 'center',
+    zIndex: 1
+  },
   card: {
     position: 'absolute',
     bottom: 0,
     width: wp('100%'),
     height: Metrics.screenS,
     alignItems: 'stretch',
+    zIndex: 10,
   },
   stepsContainer: {
     width: wp('100%'),

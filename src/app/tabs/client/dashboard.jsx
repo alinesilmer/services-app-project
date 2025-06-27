@@ -1,6 +1,14 @@
 "use client"
 import React, { useEffect, useState } from "react"
-import { SafeAreaView, StatusBar, ScrollView, RefreshControl, View, Text, StyleSheet, } from "react-native"
+import {
+  SafeAreaView,
+  StatusBar,
+  ScrollView,
+  RefreshControl,
+  View,
+  Text,
+  StyleSheet,
+} from "react-native"
 import { useRouter } from "expo-router"
 import SlideUpCard from "../../../components/SlideUpCard"
 import CustomButton from "../../../components/CustomButton"
@@ -12,48 +20,78 @@ import LongCard from "../../../components/LongCard"
 import { Colors } from "../../../constants/Colors"
 import { Metrics } from "../../../constants/Metrics"
 import { usePremium } from "../../../hooks/usePremium"
+import { useDispatch } from "react-redux"
 import { useAdManager } from "../../../hooks/useAdManager"
-import { getCompleteUserData } from "../../../utils/storage"
+import {
+  getCompleteUserData,
+  logoutUser
+} from "../../../utils/storage"
 import { widthPercentageToDP as wp } from "react-native-responsive-screen"
+import { logout } from "../../../redux/slices/authSlice";               
+import { resetPremiumState } from "../../../redux/slices/premiumSlice";
 
 export default function ClientDashboard() {
-  const router = useRouter()
-  const { premium, daysRemaining, initializePremium } = usePremium()
-  const { showAd, closeAd, userIsPremium } = useAdManager()
-  const [refreshing, setRefreshing] = useState(false)
-  const [userData, setUserData] = useState(null)
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  const { premium, daysRemaining, initializePremium } = usePremium();
+  const { showAd, closeAd, userIsPremium } = useAdManager();
+
+  const [refreshing, setRefreshing] = useState(false);
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    ;(async () => {
-      const d = await getCompleteUserData()
-      setUserData(d)
-    })()
-    initializePremium()
-  }, [])
+    (async () => {
+      const d = await getCompleteUserData();
+      setUserData(d);
+    })();
+    initializePremium();
+  }, []);
 
   const onRefresh = async () => {
-    setRefreshing(true)
-    const d = await getCompleteUserData()
-    setUserData(d)
-    setRefreshing(false)
-  }
+    setRefreshing(true);
+    const d = await getCompleteUserData();
+    setUserData(d);
+    setRefreshing(false);
+  };
+
+  const isValidUser = () =>
+    !!userData?.fullName && userData.fullName !== "undefined";
+
+  const handleSecureNavigation = (route) => {
+    if (!isValidUser()) router.push("/auth/register");
+    else router.push(route);
+  };
 
   const handlePremiumNav = () => {
-    if (userIsPremium) router.push("/tabs/managePremium")
-    else router.push("/auth/goPremium")
-  }
+    handleSecureNavigation(
+      userIsPremium ? "/tabs/managePremium" : "/auth/goPremium"
+    );
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+      dispatch(logout());
+      dispatch(resetPremiumState());
+      router.replace("/auth/login");
+    } catch (e) {
+      console.error("Error al cerrar sesión", e);
+    }
+  };
 
   const hour = new Date().getHours()
-  const greeting =
-    hour < 12
-      ? `¡Buenos días, ${userData?.fullName}!`
+  const greeting = !isValidUser()
+    ? "¡Bienvenido, Usuario!"
+    : hour < 12
+      ? `¡Buenos días, ${userData.fullName}!`
       : hour < 18
-      ? `¡Buenas tardes, ${userData?.fullName}!`
-      : `¡Buenas noches, ${userData?.fullName}!`
+        ? `¡Buenas tardes, ${userData.fullName}!`
+        : `¡Buenas noches, ${userData.fullName}!`
 
   let subtitle = "Bienvenido a tu panel de usuario"
   if (premium.premiumStatus === "trial")
-    subtitle = `Prueba (${daysRemaining} días restante${daysRemaining !== 1 ? "s" : ""})`
+    subtitle = `Prueba (${daysRemaining} día${daysRemaining !== 1 ? "s" : ""} restante)`
   if (premium.premiumStatus === "active") subtitle = "Premium Activo"
   if (premium.premiumStatus === "paused") subtitle = "Premium Pausado"
   if (premium.premiumStatus === "expired") subtitle = "Premium Expirado"
@@ -62,7 +100,6 @@ export default function ClientDashboard() {
     <>
       <StatusBar style="light" backgroundColor={Colors.blueColor} />
       <SafeAreaView style={styles.safeArea}>
-
         <SlideUpCard title={greeting} subtitle={subtitle} style={styles.card}>
           <ScrollView
             style={styles.scrollView}
@@ -71,18 +108,21 @@ export default function ClientDashboard() {
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
           >
-
             <View style={styles.userInfoSection}>
-              <ProfilePic
-                uri={
-                  userData?.avatar ||
-                  "https://i.pinimg.com/736x/9f/16/72/9f1672710cba6bcb0dfd93201c6d4c00.jpg"
-                }
-                size={Metrics.iconXLarge}
-                style={styles.avatar}
-              />
+              <View style={styles.avatarWrapper}>
+                <ProfilePic
+                  uri={
+                    userData?.avatar ||
+                    "https://i.pinimg.com/736x/9f/16/72/9f1672710cba6bcb0dfd93201c6d4c00.jpg"
+                  }
+                  size={Metrics.iconXLarge}
+                  style={styles.avatar}
+                />
+              </View>
               <View style={styles.userTextInfo}>
-                <Text style={styles.userName}>{userData?.fullName}</Text>
+                <Text style={styles.userName}>
+                  {userData?.fullName || "Usuario"}
+                </Text>
                 {userIsPremium && (
                   <Text style={styles.premiumBadge}>Usuario Premium</Text>
                 )}
@@ -112,12 +152,12 @@ export default function ClientDashboard() {
               />
               <CustomButton
                 text="Buscar Profesionales"
-                onPress={() => router.push("/tabs/client/services")}
+                onPress={() => handleSecureNavigation("/tabs/client/services")}
                 style={styles.actionButton}
               />
               <CustomButton
                 text="Solicitud Personalizada"
-                onPress={() => router.push("/tabs/client/requestAd")}
+                onPress={() => handleSecureNavigation("/tabs/client/requestAd")}
                 style={styles.actionButton}
               />
               <CustomButton
@@ -130,6 +170,11 @@ export default function ClientDashboard() {
                 onPress={() => router.push("/tabs/client/home")}
                 style={styles.actionButton}
               />
+             <CustomButton
+                text="Cerrar Sesión"
+                onPress={handleLogout}
+                style={[styles.actionButton, { backgroundColor: "#DC3545" }]}
+              />
             </View>
 
             <View style={styles.activitySection}>
@@ -141,10 +186,10 @@ export default function ClientDashboard() {
             </View>
           </ScrollView>
         </SlideUpCard>
-
-      <Ad visible={showAd} onClose={closeAd} />
+        <Ad visible={showAd} onClose={closeAd} />
+      </SafeAreaView>
       <BottomNavBar />
-    </SafeAreaView>
+      <SafeAreaView style={styles.safeAreaBottom} />
     </>
   )
 }
@@ -153,7 +198,10 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: Colors.blueColor,
-    height: Metrics.safeArea
+    height: Metrics.safeArea,
+  },
+  safeAreaBottom: {
+    backgroundColor: Colors.blueColor,
   },
   card: {
     position: "absolute",
@@ -169,23 +217,25 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     padding: Metrics.marginS,
   },
-  premiumNav: {
-    alignItems: "center",
-    marginBottom: Metrics.marginS,
-  },
   premiumButton: {
     width: wp("90%"),
   },
   userInfoSection: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
     marginBottom: Metrics.marginS,
+  },
+  avatarWrapper: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
   avatar: {
     marginRight: Metrics.marginS,
   },
   userTextInfo: {
-    flex: 1
+    flex: 1,
   },
   userName: {
     fontSize: Metrics.fontM,
@@ -204,7 +254,7 @@ const styles = StyleSheet.create({
     marginBottom: Metrics.marginS,
   },
   statItem: {
-    alignItems: "center"
+    alignItems: "center",
   },
   statNumber: {
     fontSize: Metrics.fontS,

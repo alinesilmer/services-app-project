@@ -8,7 +8,7 @@ const LongCard = ({ profilePicUri, title, subtitle, children }) => {
   return (
     <View style={styles.card}>
       {profilePicUri && (
-        <ProfilePic uri={profilePicUri} size={Metrics.iconMedium} />
+        <ProfilePic uri={profilePicUri} size={Metrics.iconXLarge} />
       )}
       <View style={styles.text}>
         <Text style={styles.title}>{title}</Text>
@@ -25,6 +25,9 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.whiteColor,
     borderRadius: Metrics.radiusS,
     padding: Metrics.marginM,
+    borderColor: Colors.inputGray,
+    borderStyle: 'solid',
+    borderWidth: 1,
     marginVertical: Metrics.marginS,
     alignItems: 'center',
   },

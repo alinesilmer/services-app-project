@@ -25,7 +25,7 @@ export default function GoPremium() {
   const [errors, setErrors] = useState({})
 
   const normalize = (t) =>
-    ["professional", "client"].includes(t) ? t : "client"
+    ["professional", "cliente"].includes(t) ? t : "cliente"
   useEffect(() => {
     getUserProfile().then((profile) =>
       setUserType(normalize(type || profile?.userType))

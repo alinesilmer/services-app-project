@@ -1,4 +1,4 @@
-// “use client”
+"use client"
 import React, { useEffect, useState, useCallback } from "react"
 import { View, Text, ScrollView, StyleSheet, StatusBar, Pressable, SafeAreaView, Platform, FlatList, } from "react-native"
 import { useRouter, useFocusEffect } from "expo-router"
@@ -15,10 +15,14 @@ import Rate from "../../../components/Rate"
 import { filterServices } from "../../../utils/filterServices"
 import Ad from "../../../components/Ad"
 import { useAdManager } from "../../../hooks/useAdManager"
-import { usePremium } from "../../../hooks/usePremium"
+import { useDispatch } from 'react-redux';
+import { logout } from '../../../redux/slices/authSlice';
+import { resetPremiumState } from '../../../redux/slices/premiumSlice';
+import { logoutUser } from '../../../utils/storage';
 import { Colors } from "../../../constants/Colors"
 import { Metrics } from "../../../constants/Metrics"  
 import { getCompleteUserData } from "../../../utils/storage"
+import { usePremium } from "../../../hooks/usePremium"
 
 const ads = [
   require("../../../assets/videos/propaganda1.mp4"),
@@ -71,6 +75,17 @@ export default function Home() {
     }
   }, [showAd, randomAd])
 
+  const dispatch = useDispatch();
+const handleLogout = async () => {
+  try {
+    await logoutUser();               
+    dispatch(logout());                
+    dispatch(resetPremiumState());     
+    router.replace('/auth/login');
+  } catch (e) {
+    console.error('Error al cerrar sesión', e);
+  }
+};
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="light-content" />
@@ -173,7 +188,8 @@ const styles = StyleSheet.create({
   },
   profileContainer: { 
     flexDirection: "row", 
-    alignItems: "center" 
+    alignItems: "center", 
+    justifyContent: "center"
   },
   profileText: { 
     marginLeft: Metrics.marginS, 
@@ -202,7 +218,7 @@ const styles = StyleSheet.create({
     fontSize: Metrics.fontM,
     fontWeight: "600",
     color: Colors.orangeColor,
-    marginTop: Metrics.marginS,
+    marginTop: Metrics.marginL,
     marginBottom: Metrics.marginS,
     paddingHorizontal: Metrics.marginS,
   },

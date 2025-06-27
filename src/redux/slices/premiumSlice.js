@@ -84,6 +84,45 @@ const premiumSlice = createSlice({
       state.isPremium = false;
       state.isPremiumProf = false;
     },
+
+    renewPremium: (state, { payload: { userId, premiumType } }) => {
+      if (state.currentUserId !== userId) return;
+      const now = new Date();
+      let end = new Date(now);
+      if (["Mensual", "estandar", "plus"].includes(premiumType)) {
+        end.setMonth(end.getMonth() + 1);
+      } else if (["Anual", "Empresarial"].includes(premiumType)) {
+        end.setFullYear(end.getFullYear() + 1);
+      }
+      state.premiumStatus = "active";
+      state.premiumStartDate = now.toISOString();
+      state.premiumEndDate = end.toISOString();
+      state.planDetails = state.planDetails;
+      state.premiumType = premiumType;
+      state.pausedUntil = null;
+      if (state.trialUsed && premiumType === "Prueba") state.trialUsed = false;
+    },
+
+    upgradeFromTrial: (
+      state,
+      { payload: { userId, premiumType, planDetails } }
+    ) => {
+      if (state.currentUserId !== userId) return;
+      const now = new Date();
+      let end = new Date(now);
+      if (["Mensual", "estandar", "plus"].includes(premiumType)) {
+        end.setMonth(end.getMonth() + 1);
+      } else if (["Anual", "Empresarial"].includes(premiumType)) {
+        end.setFullYear(end.getFullYear() + 1);
+      }
+      state.premiumType = premiumType;
+      state.planDetails = planDetails;
+      state.premiumStartDate = now.toISOString();
+      state.premiumEndDate = end.toISOString();
+      state.premiumStatus = "active";
+      state.pausedUntil = null;
+      state.trialUsed = true;
+    },
   },
 });
 
@@ -95,6 +134,8 @@ export const {
   resumePremium,
   cancelPremium,
   expirePremium,
+  renewPremium,
+  upgradeFromTrial,
 } = premiumSlice.actions;
 
 export default premiumSlice.reducer;

@@ -1,93 +1,99 @@
-"use client"
-import React, { useEffect, useState } from "react"
-import { SafeAreaView, ScrollView, Text, View, StyleSheet, StatusBar, } from "react-native"
-import { useRouter } from "expo-router"
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
+'use client';
 
-import ProfilePic from "../../../components/ProfilePic"
-import DisplayField from "../../../components/DisplayField"
-import IconButton from "../../../components/IconButton"
-import SlideUpCard from "../../../components/SlideUpCard"
-import BackButton from "../../../components/BackButton"
-import CustomButton from "../../../components/CustomButton"
-import ModalWrapper from "../../../components/ModalWrapper"
-import BottomNavBar from "../../../components/NavBar"
+import React from 'react';
+import {
+  SafeAreaView,
+  ScrollView,
+  Text,
+  View,
+  StyleSheet,
+  StatusBar,
+} from 'react-native';
+import { useRouter } from 'expo-router';
+import { useDispatch, useSelector } from 'react-redux';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
-import { Colors } from "../../../constants/Colors"
-import { Metrics } from "../../../constants/Metrics"
-import { usePremium } from "../../../hooks/usePremium"
-import { useProfile } from "../../../hooks/useProfile"
-import { getUserData, logoutUser } from "../../../utils/storage"
+import ProfilePic from '../../../components/ProfilePic';
+import DisplayField from '../../../components/DisplayField';
+import IconButton from '../../../components/IconButton';
+import SlideUpCard from '../../../components/SlideUpCard';
+import BackButton from '../../../components/BackButton';
+import CustomButton from '../../../components/CustomButton';
+import ModalWrapper from '../../../components/ModalWrapper';
+import BottomNavBar from '../../../components/NavBar';
+
+import { Colors } from '../../../constants/Colors';
+import { Metrics } from '../../../constants/Metrics';
+import { usePremium } from '../../../hooks/usePremium';
+import { useProfile } from '../../../hooks/useProfile';
+import { logoutUser } from '../../../utils/storage';
+import { logout } from '../../../redux/slices/authSlice';
+import { resetPremiumState } from '../../../redux/slices/premiumSlice';
 
 export default function ProfileScreen() {
-  const router = useRouter()
-  const { premium, daysRemaining } = usePremium()
-  const {
-    data,
-    formData,
-    isModalVisible,
-    openModal,
-    closeModal,
-    saveForm,
-    updateFormData,
-  } = useProfile()
-  const [userData, setUserData] = useState(null)
-
-  useEffect(() => {
-    ;(async () => {
-      try {
-        const d = await getUserData()
-        setUserData(d)
-      } catch (e) {
-        console.error("Error loading user data:", e)
-      }
-    })()
-  }, [])
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const { premium, daysRemaining } = usePremium();
+  const { data: profile, formData, isModalVisible, openModal, closeModal, saveForm, updateFormData } = useProfile();
+  const authUser = useSelector(state => state.auth.user);
+  const userType = authUser?.userType; 
+  const isValidUser = !!authUser;
 
   const isPremiumActive =
-    premium.isPremium && ["active", "trial"].includes(premium.premiumStatus)
+    userType === 'cliente' &&
+    premium.isPremium &&
+    ['active', 'trial'].includes(premium.premiumStatus);
 
   const getPremiumStatusText = () => {
+    if (!isValidUser) return 'Regístrate para obtener Premium';
     switch (premium.premiumStatus) {
-      case "trial":
-        return `Prueba (${daysRemaining} días restantes)`
-      case "active":
-        return "Premium Activo"
-      case "paused":
-        return "Premium Pausado"
-      case "expired":
-        return "Premium Expirado"
-      case "cancelled":
-        return "Premium Cancelado"
+      case 'trial':
+        return `Prueba (${daysRemaining} días restantes)`;
+      case 'active':
+        return 'Premium Activo';
+      case 'paused':
+        return 'Premium Pausado';
+      case 'expired':
+        return 'Premium Expirado';
+      case 'cancelled':
+        return 'Premium Cancelado';
       default:
-        return null
+        return 'Estado Premium desconocido';
     }
-  }
+  };
 
   const getPremiumButtonText = () => {
-    if (["inactive", "expired"].includes(premium.premiumStatus)) {
-      return premium.premiumStatus === "expired"
-        ? "Renovar Premium"
-        : "Obtener Premium"
+    if (!isValidUser) return 'Ir a registro';
+    if (['inactive', 'expired'].includes(premium.premiumStatus)) {
+      return premium.premiumStatus === 'expired' ? 'Renovar Premium' : 'Obtener Premium';
     }
-    return "Gestionar Premium"
-  }
+    return 'Gestionar Premium';
+  };
 
   const handlePremiumAction = () => {
-    if (["inactive", "expired"].includes(premium.premiumStatus)) {
-      router.push("/auth/goPremium")
+    if (!isValidUser) {
+      router.push('/auth/register');
+    } else if (['inactive', 'expired'].includes(premium.premiumStatus)) {
+      router.push('/auth/goPremium');
     } else {
-      router.push("/tabs/managePremium")
+      router.push('/tabs/managePremium');
     }
-  }
+  };
 
   const handleLogout = async () => {
-    await logoutUser()
-    router.replace("/auth/login")
-  }
+    try {
+      await logoutUser();
+      dispatch(logout());
+      dispatch(resetPremiumState());
+      router.replace('/auth/login');
+    } catch (e) {
+      console.error('Error al cerrar sesión', e);
+    }
+  };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <>
+      <SafeAreaView style={styles.safeArea} />
       <StatusBar style="light" backgroundColor={Colors.blueColor} />
       <BackButton onPress={() => router.back()} />
 
@@ -100,109 +106,64 @@ export default function ProfileScreen() {
           onPress={openModal}
         />
 
-        <ScrollView style={styles.scrollView}
-          contentContainerStyle={styles.scrollContent}>
+        <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
           <ProfilePic
-            uri={
-              userData?.avatar ||
-              data.avatar ||
-              "https://i.pinimg.com/736x/9f/16/72/9f1672710cba6bcb0dfd93201c6d4c00.jpg"
-            }
+            uri={profile.avatar || 'https://i.pinimg.com/736x/9f/16/72/9f1672710cba6bcb0dfd93201c6d4c00.jpg'}
             size={Metrics.iconXLarge}
             style={styles.avatar}
           />
 
           <Text style={styles.name}>
-            {userData?.fullName || data.fullName || "Usuario"}
-            {isPremiumActive && (
-              <Text style={styles.premiumBadge}>
-                {" "}
-                {getPremiumStatusText()}
-              </Text>
-            )}
+            {profile.fullName || 'Usuario'}
+            {isPremiumActive && (<Text style={styles.premiumBadge}> {getPremiumStatusText()}</Text>)}
           </Text>
-          {premium.premiumStatus === "trial" && (
-            <Text style={styles.trialInfo}>
-              ¡Actualiza antes de que termine la prueba!
-            </Text>
+
+          {userType === 'cliente' && premium.premiumStatus === 'trial' && (
+            <Text style={styles.trialInfo}>¡Actualiza antes de que termine la prueba!</Text>
           )}
 
-          {[
-            ["Email", userData?.email || data.email],
-            ["Provincia", userData?.province || data.province],
-            ["Ciudad", userData?.department || data.department],
-            ["Dirección", userData?.address || data.address],
-          ].map(([label, value]) => (
-            <DisplayField
-              key={label}
-              label={label}
-              value={value || "No especificado"}
-              style={styles.fieldWrapper}
-            />
+          {[['Email', profile.email], ['Provincia', profile.province], ['Ciudad', profile.department], ['Dirección', profile.address]].map(([label, value]) => (
+            <DisplayField key={label} label={label} value={value || 'No especificado'} style={styles.fieldWrapper} />
           ))}
 
-          {getPremiumStatusText() && (
-            <View style={styles.premiumStatusCard}>
-              <Text style={styles.premiumStatusText}>
-                {getPremiumStatusText()}
-              </Text>
-            </View>
-          )}
+          {userType === 'cliente' && (<View style={styles.premiumStatusCard}><Text style={styles.premiumStatusText}>{getPremiumStatusText()}</Text></View>)}
 
           <View style={styles.buttonsWrapper}>
-          <CustomButton
-            text={getPremiumButtonText()}
-            onPress={handlePremiumAction}
-            style={[
-              styles.button,
-              {
-                backgroundColor: ["inactive", "expired"].includes(
-                  premium.premiumStatus
-                )
-                  ? Colors.orangeColor
-                  : Colors.blueColor,
-              },
-            ]}
-          />
-
-          <CustomButton
-            text="Cerrar Sesión"
-            onPress={handleLogout}
-            style={[styles.button, { backgroundColor: "#DC3545" }]}
-            />
-            
-            </View>
+            {!isValidUser ? (
+              <CustomButton
+                text="Registrarse"
+                onPress={() => router.push('/auth/register')}
+                style={[styles.button, { backgroundColor: Colors.orangeColor }]}
+              />
+            ) : userType === 'cliente' ? (
+              <>
+                <CustomButton text={getPremiumButtonText()} onPress={handlePremiumAction} style={[styles.button, { backgroundColor: ['inactive','expired'].includes(premium.premiumStatus) ? Colors.orangeColor : Colors.blueColor }]} />
+                <CustomButton text="Cerrar Sesión" onPress={handleLogout} style={[styles.button, { backgroundColor: '#DC3545' }]} />
+              </>
+            ) : (
+              <>
+                <CustomButton text="Mis Servicios" onPress={() => router.push('/tabs/professional/services')} style={[styles.button, { backgroundColor: Colors.blueColor }]} />
+                <CustomButton text="Cerrar Sesión" onPress={handleLogout} style={[styles.button, { backgroundColor: '#DC3545' }]} />
+              </>
+            )}
+          </View>
         </ScrollView>
       </SlideUpCard>
 
-      <ModalWrapper
-        visible={isModalVisible}
-        title="Editar Perfil"
-        onCancel={closeModal}
-        onSubmit={saveForm}
-      >
+      <ModalWrapper visible={isModalVisible} title="Editar Perfil" onCancel={closeModal} onSubmit={saveForm}>
         <ScrollView contentContainerStyle={styles.modalScroll}>
-          {[
-            ["Nombre completo", formData.fullName, "fullName"],
-            ["Email", formData.email, "email"],
-            ["Provincia", formData.province, "province"],
-            ["Ciudad", formData.department, "department"],
-            ["Dirección", formData.address, "address"],
-          ].map(([label, val, key]) => (
-            <DisplayField
-              key={key}
-              label={label}
-              value={val}
-              editable
-              onChangeText={(text) => updateFormData(key, text)}
-            />
+          {[['Nombre completo', formData.fullName, 'fullName'], ['Email', formData.email, 'email'], ['Provincia', formData.province, 'province'], ['Ciudad', formData.department, 'department'], ['Dirección', formData.address, 'address']].map(([label, val, key]) => (
+            <DisplayField key={key} label={label} value={val} editable onChangeText={(text) => updateFormData(key, text)} />
           ))}
         </ScrollView>
       </ModalWrapper>
 
-      <BottomNavBar />
-    </SafeAreaView>
-  )
+      <View>
+        <BottomNavBar />
+        <SafeAreaView style={styles.safeAreaBottom} />
+      </View>
+    </>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -211,17 +172,20 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.blueColor,
     paddingTop: Metrics.marginS,
   },
+  safeAreaBottom: {
+    backgroundColor: Colors.blueColor,
+  },
   card: {
-    position: "absolute",
+    position: 'absolute',
     bottom: 0,
-    height: Metrics.screenM,
-    alignItems: "stretch",
+    height: Metrics.screenL,
+    alignItems: 'stretch',
   },
   scrollView: {
     flex: 1,
   },
   scrollContent: {
-    alignItems: "center",
+    alignItems: 'center',
     paddingBottom: Metrics.marginM,
     flexGrow: 1,
   },
@@ -229,12 +193,14 @@ const styles = StyleSheet.create({
     marginTop: Metrics.marginS,
     borderWidth: Metrics.marginXS,
     borderColor: Colors.whiteColor,
+    marginBottom: Metrics.marginS,
   },
   name: {
     fontSize: Metrics.fontL,
-    fontWeight: "700",
-    textAlign: "center",
+    fontWeight: '700',
+    textAlign: 'center',
     marginTop: Metrics.marginS,
+    marginBottom: Metrics.marginM,
   },
   premiumBadge: {
     fontSize: Metrics.fontM,
@@ -246,7 +212,7 @@ const styles = StyleSheet.create({
     marginBottom: Metrics.marginS,
   },
   fieldWrapper: {
-    width: "100%",
+    width: '100%',
     marginVertical: Metrics.marginS,
   },
   premiumStatusCard: {
@@ -255,25 +221,25 @@ const styles = StyleSheet.create({
   },
   premiumStatusText: {
     fontSize: Metrics.fontM,
-    textAlign: "center",
-    fontWeight: "bold"
+    textAlign: 'center',
+    fontWeight: 'bold',
   },
   button: {
     marginTop: Metrics.marginS,
   },
   buttonsWrapper: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
     gap: Metrics.marginS,
   },
   editButton: {
-    position: "absolute",
+    position: 'absolute',
     top: Metrics.marginS,
     right: Metrics.marginS,
   },
   modalScroll: {
     paddingBottom: Metrics.marginS,
   },
-})
+});

@@ -1,8 +1,7 @@
 "use client"
-
 import React, { useState, useEffect, useCallback } from "react"
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet, SafeAreaView, StatusBar, Platform, Modal, } from "react-native"
-import { useLocalSearchParams, router } from "expo-router"
+import { useLocalSearchParams, useRouter } from "expo-router"
 import { Feather } from "@expo/vector-icons"
 import { Colors } from "../../../constants/Colors"
 import { Metrics } from "../../../constants/Metrics"
@@ -20,6 +19,7 @@ import { usePremium } from "../../../hooks/usePremium"
 
 const Appointment = () => {
   const params = useLocalSearchParams()
+  const router = useRouter()
   const { premium } = usePremium()
   const [showTimeSelection, setShowTimeSelection] = useState(false)
   const [selectedTimes, setSelectedTimes] = useState([])
@@ -35,7 +35,6 @@ const Appointment = () => {
     getMinimumDate,
   } = useDatePickerAppointment()
 
-  // derive a boolean: active or trial premium only
   const hasPremium =
     (premium.isPremium || premium.isPremiumProf) &&
     ["active", "trial"].includes(premium.premiumStatus)

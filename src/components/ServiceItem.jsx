@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     height: Metrics.marginXXL * 1.6,
     borderColor: Colors.inputGray,
     borderWidth: Metrics.marginXS,
-    backgroundColor: Colors.whiteColor,
+    backgroundColor: "#d3d3d3",
     borderRadius: Metrics.radiusS,
     justifyContent: 'center',
     alignItems: 'center',
