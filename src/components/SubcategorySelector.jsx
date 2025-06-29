@@ -1,7 +1,8 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Colors } from "../constants/Colors";
-import { widthPercentageToDP as wp } from "react-native-responsive-screen";
+import { Metrics } from "../constants/Metrics";
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 const SubcategorySelector = ({
   selectedService,
@@ -12,7 +13,7 @@ const SubcategorySelector = ({
   if (!selectedService || !subcategories[selectedService.label]) return null;
 
   return (
-    <View style={{ marginTop: 10 }}>
+    <View style={{ marginTop: Metrics.marginS }}>
       {subcategories[selectedService.label].map((sub, index) => (
         <TouchableOpacity
         activeOpacity={0.85}
@@ -34,47 +35,47 @@ const SubcategorySelector = ({
 
 const styles = StyleSheet.create({
   label: {
-    marginTop: 10,
-    marginLeft: "23.6%",
-    fontSize: 13,
+    marginTop: Metrics.marginS,
+    marginLeft: Metrics.marginS,
+    fontSize: Metrics.fontS,
     color: Colors.serviceLabel,
   },
   containerCheck: {
-    width: "70%",
-    marginLeft: "13.6%",
+    width: wp("70%"),
+    marginLeft: Metrics.marginXXL,
     flexDirection: "row",
     alignItems: "center",
   },
   checkboxContainer: {
-    marginBottom: 6,
+    marginBottom: Metrics.marginS,
   },
   checkbox: {
-    width: 20,
-    height: 20,
-    marginTop: 13,
-    borderWidth: 2,
+    width: Metrics.iconXSmall,
+    height: Metrics.iconXSmall,
+    marginTop: Metrics.marginS,
+    borderWidth: Metrics.marginXS,
     borderColor: Colors.inputGray,
-    marginRight: 10,
+    marginRight: Metrics.marginS,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: Colors.blueColor,
-    borderRadius: 4,
+    borderRadius: Metrics.radiusS
   },
   checked: {
-    width: 12,
-    height: 12,
+    width: Metrics.iconXSmall * 0.4,
+    height: Metrics.iconXSmall * 0.4,
     backgroundColor: Colors.orangeColor,
-    borderRadius: 2,
+    borderRadius: Metrics.marginXS,
   },
   subcategoryText: {
-    fontSize: wp("3.5%"),
-    borderRadius:10,
-    padding: 10,
+    fontSize: Metrics.fontXS,
+    borderRadius: Metrics.radiusS,
+    padding: Metrics.marginS,
     color: Colors.textColor,
     backgroundColor: Colors.whiteColor,
     width: wp("70%"),
     borderColor: Colors.inputGray,
-    borderWidth: 1,
+    borderWidth: Metrics.marginXS,
   },
 });
 

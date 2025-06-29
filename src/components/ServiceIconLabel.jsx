@@ -2,10 +2,8 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Feather, FontAwesome5 } from "@expo/vector-icons";
 import { Colors } from "../constants/Colors";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+import { Metrics } from "../constants/Metrics";
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 export default function ServiceIconLabel({ label, icon, useFeather }) {
   const IconComponent = useFeather ? Feather : FontAwesome5;
@@ -13,7 +11,7 @@ export default function ServiceIconLabel({ label, icon, useFeather }) {
   return (
     <View style={styles.selectedService}>
       <View style={styles.item}>
-        <IconComponent name={icon} size={39} color={Colors.textColor} />
+        <IconComponent name={icon} size={Metrics.iconMedium} color={Colors.textColor} />
       </View>
       <View style={{ flex: 1 }}>
         <Text style={styles.selectedLabel}>
@@ -30,31 +28,31 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: wp("5%"),
-    marginTop: hp("2%"),
-    gap: 10,
+    paddingHorizontal: Metrics.marginM,
+    marginTop: Metrics.marginM,
+    gap: Metrics.marginM,
   },
   item: {
-    width: 75,
-    height: 75,
+    width: Metrics.iconXLarge,
+    height: Metrics.iconXLarge,
     borderColor: Colors.inputGray,
-    borderWidth: 1,
-    backgroundColor: "white",
-    borderRadius: 10,
-    padding: 5,
+    borderWidth: Metrics.marginXS,
+    backgroundColor: Colors.whiteColor,
+    borderRadius: Metrics.radiusS,
+    padding: Metrics.marginXS,
     justifyContent: "center",
     alignItems: "center",
   },
   selectedLabel: {
-    fontSize: wp("6%"),
+    fontSize: Metrics.fontL,
     fontWeight: "bold",
     color: Colors.whiteColor,
   },
   divider: {
-    height: wp("1.4%"),
+    height: Metrics.marginXS,
     backgroundColor: Colors.whiteColor,
-    marginVertical: 4,
+    marginVertical: Metrics.marginS,
     width: wp("70%"),
-    alignSelf: "center",
+    alignSelf: "flex-start",
   },
 });

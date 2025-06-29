@@ -2,7 +2,7 @@
 // Props: start boolean to start countdown
 // Returns: { canClose, timer }
 //------------------------------------------------------------------//
-// File: hooks/useAdTimer.js
+// File: src/hooks/useAdTimer.js
 import { useEffect, useState } from "react"
 
 export const useAdTimer = (start) => {

@@ -1,18 +1,7 @@
-// “use client”
+"use client"
 import React, { useEffect, useState, useCallback } from "react"
-import {
-  View,
-  Text,
-  ScrollView,
-  StyleSheet,
-  StatusBar,
-  Pressable,
-  SafeAreaView,
-  Platform,
-  FlatList,
-} from "react-native"
+import { View, Text, ScrollView, StyleSheet, StatusBar, Pressable, SafeAreaView, Platform, FlatList, } from "react-native"
 import { useRouter, useFocusEffect } from "expo-router"
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
 
 import ProfilePicture from "../../../components/ProfilePic"
 import SearchBar from "../../../components/SearchBar"
@@ -26,9 +15,14 @@ import Rate from "../../../components/Rate"
 import { filterServices } from "../../../utils/filterServices"
 import Ad from "../../../components/Ad"
 import { useAdManager } from "../../../hooks/useAdManager"
-import { usePremium } from "../../../hooks/usePremium"
+import { useDispatch } from 'react-redux';
+import { logout } from '../../../redux/slices/authSlice';
+import { resetPremiumState } from '../../../redux/slices/premiumSlice';
+import { logoutUser } from '../../../utils/storage';
 import { Colors } from "../../../constants/Colors"
+import { Metrics } from "../../../constants/Metrics"  
 import { getCompleteUserData } from "../../../utils/storage"
+import { usePremium } from "../../../hooks/usePremium"
 
 const ads = [
   require("../../../assets/videos/propaganda1.mp4"),
@@ -81,6 +75,17 @@ export default function Home() {
     }
   }, [showAd, randomAd])
 
+  const dispatch = useDispatch();
+const handleLogout = async () => {
+  try {
+    await logoutUser();               
+    dispatch(logout());                
+    dispatch(resetPremiumState());     
+    router.replace('/auth/login');
+  } catch (e) {
+    console.error('Error al cerrar sesión', e);
+  }
+};
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="light-content" />
@@ -171,69 +176,73 @@ const styles = StyleSheet.create({
   },
   container: { flex: 1 },
   header: {
-    marginTop: hp("2%"),
-    paddingHorizontal: wp("6%"),
-    paddingBottom: hp("2.5%"),
+    marginTop: Metrics.marginS,
+    paddingHorizontal: Metrics.marginS,
+    paddingBottom: Metrics.marginS,
   },
   topRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: hp("2%"),
+    marginBottom: Metrics.marginS,
   },
-  profileContainer: { flexDirection: "row", alignItems: "center" },
-  profileText: { marginLeft: wp("2%") },
+  profileContainer: { 
+    flexDirection: "row", 
+    alignItems: "center", 
+    justifyContent: "center"
+  },
+  profileText: { 
+    marginLeft: Metrics.marginS, 
+  },
   welcome: {
-    fontSize: wp("4.5%"),
+    fontSize: Metrics.fontM,
     color: Colors.whiteColor,
   },
   username: {
-    fontSize: wp("4.2%"),
+    fontSize: Metrics.fontM,
     fontWeight: "bold",
     color: Colors.whiteColor,
   },
   premiumBadge: {
-    fontSize: wp("3.5%"),
+    fontSize: Metrics.fontS,
     color: Colors.orangeColor,
     fontWeight: "bold",
   },
   content: {
     flex: 1,
     backgroundColor: Colors.whiteColor,
-    borderTopLeftRadius: wp("8%"),
-    borderTopRightRadius: wp("8%"),
-    paddingHorizontal: wp("5%"),
-    paddingTop: hp("2.5%"),
+    paddingHorizontal: Metrics.marginS,
+    paddingTop: Metrics.marginS,
   },
   sectionTitle: {
-    fontSize: wp("4.5%"),
+    fontSize: Metrics.fontM,
     fontWeight: "600",
     color: Colors.orangeColor,
-    marginTop: hp("5%"),
-    marginBottom: hp("1.5%"),
-    paddingHorizontal: wp("1%"),
+    marginTop: Metrics.marginL,
+    marginBottom: Metrics.marginS,
+    paddingHorizontal: Metrics.marginS,
   },
   searchResults: {
     backgroundColor: "#fff",
-    borderRadius: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 12,
+    borderRadius: Metrics.radiusS,
+    paddingVertical: Metrics.marginS,
+    paddingHorizontal: Metrics.marginS,
     elevation: 3,
-    marginTop: 10,
+    marginTop: Metrics.marginS,
   },
   resultItem: {
-    paddingVertical: 8,
-    borderBottomWidth: 1,
+    paddingVertical: Metrics.marginS,
+    borderBottomWidth: Metrics.marginXS,
     borderBottomColor: "#eee",
   },
   resultText: {
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontS,
     color: Colors.textColor,
   },
   noResults: {
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontS,
     textAlign: "center",
-    padding: 10,
+    padding: Metrics.marginS,
     color: "gray",
   },
 })

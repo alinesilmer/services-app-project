@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-import {
-  View, Text, StyleSheet, StatusBar, SafeAreaView, KeyboardAvoidingView, Platform
-} from 'react-native';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { View, Text, StyleSheet, StatusBar, SafeAreaView, KeyboardAvoidingView, Platform } from 'react-native';
 import { useRouter } from 'expo-router';
 
 //Components
@@ -13,14 +10,15 @@ import Logo from '../../components/Logo';
 import ModalCard from '../../components/ModalCard';
 import SlideUpCard from '../../components/SlideUpCard';
 import AnimationFeedback from '../../components/AnimationFeedback';
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 //Constants
 import { Colors } from '../../constants/Colors';
+import { Metrics } from '../../constants/Metrics';
 
 //Hooks
 import { useValidation } from '../../hooks/useValidation';
 
-// Screen for Password Recovery
 export default function RecoveryPass() {
   const [email, setEmail] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
@@ -58,12 +56,15 @@ export default function RecoveryPass() {
   return (
     <>
       <StatusBar barStyle="light-content" />
+      <SafeAreaView style={styles.safeArea} />
+      <BackButton />
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <View style={styles.container}>
-          <BackButton />
-          <Logo />
+        <View style={styles.logoWrapper}>
+      <Logo />
+    </View>
           <SlideUpCard
-            title={"Recuperar\nContraseña"}
+            title={"Recuperar Contraseña"}
             style={styles.card}
           >
             {step === 'email' && (
@@ -127,47 +128,62 @@ export default function RecoveryPass() {
           </ModalCard>
         </View>
       </KeyboardAvoidingView>
-      <SafeAreaView style={{backgroundColor: Colors.whiteColor }} />
+        <SafeAreaView style={styles.safeAreaBottom}/>
     </>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 10,
+    backgroundColor: Colors.blueColor,
+    height: Metrics.safeArea
+  },
+  safeAreaBottom: {
+    backgroundColor: Colors.whiteColor,
+    height: Metrics.safeAreaBottom
+  },
   container: {
     flex: 1,
     backgroundColor: Colors.blueColor,
     alignItems: 'center',
     justifyContent: 'center',
   },
+  logoWrapper: {
+    position: 'absolute',
+    width: '100%',
+    alignItems: 'center',
+    zIndex: 1
+  },
   card: {
     position: 'absolute',
     bottom: 0,
     width: wp('100%'),
-    height: hp('68%'),
+    height: Metrics.screenS,
+    alignItems: 'stretch',
+    zIndex: 10,
   },
   stepsContainer: {
-    width: '100%',
+    width: wp('100%'),
     alignItems: 'center',
   },
   instructionWrapper: {
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#e9e9e9',
-    borderWidth: wp('0.2%'),
+    borderWidth: Metrics.marginXS,
     borderColor: 'gray',
-    height: hp('10%'),
+    height: Metrics.screenS * 0.15,
     width: wp('90%'),
-    borderRadius: wp('5%'),
-    marginBottom: hp('3%'),
+    borderRadius: Metrics.radiusS,
+    marginBottom: Metrics.marginL,
   },
   infoText: {
-    fontSize: hp('1.7%'),
-    marginVertical: hp('1%'),
+    fontSize: Metrics.fontXS,
     textAlign: 'center',
   },
   modalText: {
-    fontSize: hp('2.2%'),
+    fontSize: Metrics.fontS,
     textAlign: 'center',
-    marginTop: hp('2%'),
   },
-});
+})

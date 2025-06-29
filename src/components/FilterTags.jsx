@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet } from "react-native"
 import { Colors } from "../constants/Colors"
+import { Metrics } from "../constants/Metrics"
 
 const FilterTags = ({ selectedSubcategories }) => {
   if (selectedSubcategories.length === 0) return null
@@ -20,31 +21,31 @@ const FilterTags = ({ selectedSubcategories }) => {
 
 const styles = StyleSheet.create({
   selectedFiltersContainer: {
-    marginBottom: 15,
+    marginBottom: Metrics.marginS,
     alignItems: "center",
   },
   selectedFiltersLabel: {
-    fontSize: 14,
+    fontSize: Metrics.fontS,
     color: Colors.whiteColor,
-    marginBottom: 8,
+    marginBottom: Metrics.marginS,
     fontWeight: "bold",
   },
   filterTagsContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "center",
-    gap: 5,
+    gap: Metrics.marginS,
   },
   filterTag: {
     backgroundColor: Colors.orangeColor,
-    borderRadius: 6,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    marginBottom: 5,
+    borderRadius: Metrics.radiusS,
+    paddingHorizontal: Metrics.marginS,
+    paddingVertical: Metrics.marginS,
+    marginBottom: Metrics.marginS,
   },
   filterTagText: {
     color: Colors.whiteColor,
-    fontSize: 12,
+    fontSize: Metrics.fontXS,
     fontWeight: "bold",
   },
 })

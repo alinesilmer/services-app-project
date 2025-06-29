@@ -4,6 +4,9 @@ import { useState, useEffect } from "react"
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from "react-native"
 import { AntDesign } from "@expo/vector-icons"
 import { useLocalSearchParams } from "expo-router"
+import { Colors } from "../constants/Colors"
+import { Metrics } from "../constants/Metrics"
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 const SERVICES = [
   { label: "Plomería", icon: "tool", useFeather: true },
@@ -39,7 +42,7 @@ const Dropdown = ({ initialValue, onSelect }) => {
     <View style={styles.container}>
       <TouchableOpacity style={styles.dropdown} activeOpacity={0.8} onPress={() => setExpanded(!expanded)}>
         <Text style={styles.dropdownText}>{selected ? selected.label : label}</Text>
-        <AntDesign name={expanded ? "up" : "down"} size={18} color="#333" />
+        <AntDesign name={expanded ? "up" : "down"} size={Metrics.iconSmall} color="#333" />
       </TouchableOpacity>
 
       {expanded && (
@@ -64,16 +67,16 @@ const Dropdown = ({ initialValue, onSelect }) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: "86%",
+    width: wp("85%"),
     marginHorizontal: 0,
-    marginTop: 10,
-    marginBottom: 10,
+    marginTop: Metrics.marginS,
+    marginBottom: Metrics.marginS,
     zIndex: 10,
   },
   dropdown: {
     backgroundColor: "white",
-    borderRadius: 10,
-    padding: 12,
+    borderRadius: Metrics.radiusS,
+    padding: Metrics.marginS,
     flexDirection: "row",
     justifyContent: "space-between",
     elevation: 3,
@@ -86,13 +89,13 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
   },
   dropdownText: {
-    fontSize: 18,
-    color: "black",
+    fontSize: Metrics.fontM,
+    color: Colors.textColor,
   },
   dropdownList: {
-    backgroundColor: "white",
-    borderRadius: 10,
-    marginTop: 4,
+    backgroundColor: Colors.whiteColor,
+    borderRadius: Metrics.radiusS,
+    marginTop: Metrics.marginS,
     elevation: 3,
     shadowColor: "#000",
     shadowOffset: {
@@ -107,13 +110,13 @@ const styles = StyleSheet.create({
     maxHeight: 200, 
   },
   item: {
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderBottomWidth: 1,
+    paddingVertical: Metrics.marginS,
+    paddingHorizontal: Metrics.marginS,
+    borderBottomWidth: Metrics.marginXS,
     borderBottomColor: "#f0f0f0",
   },
   itemText: {
-    fontSize: 18,
+    fontSize: Metrics.fontS,
     color: "#000",
   },
 })

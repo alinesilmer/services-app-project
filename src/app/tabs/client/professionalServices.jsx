@@ -1,20 +1,8 @@
 "use client"
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  StatusBar,
-  Platform,
-  ScrollView,
-  Modal,
-  Image,
-  Dimensions,
-} from "react-native"
+import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Platform, ScrollView, Modal, Image, Dimensions, } from "react-native"
 import { useState } from "react"
 import { useLocalSearchParams, router } from "expo-router"
 import { Colors } from "../../../constants/Colors"
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
 import {  Feather } from "@expo/vector-icons"
 import AdsImage from "../../../components/AdsImage"
 import BackButton from "../../../components/BackButton"
@@ -22,6 +10,8 @@ import CustomButton from "../../../components/CustomButton"
 
 import mockProfiles from "../../../data/mockProfiles"
 import mockServices from "../../../data/mockServices"
+import { Metrics } from "../../../constants/Metrics"
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 const { width } = Dimensions.get("window")
 
@@ -148,13 +138,13 @@ const ProfessionalServices = () => {
             >
               <View style={styles.serviceContent}>
                 <View style={styles.serviceIcon}>
-                  <Feather name="image" size={20} color={Colors.blueColor} />
+                  <Feather name="image" size={Metrics.iconSmall} color={Colors.blueColor} />
                 </View>
                 <View style={styles.serviceInfo}>
                   <Text style={styles.serviceName}>{serviceObj.servicio}</Text>
                   <Text style={styles.servicePrice}>{getServicePrice(serviceObj.servicio)}</Text>
                 </View>
-                <Feather name="chevron-right" size={24} color="#ccc" />
+                <Feather name="chevron-right" size={Metrics.iconSmall} color="#ccc" />
               </View>
             </TouchableOpacity>
           ))}
@@ -164,7 +154,7 @@ const ProfessionalServices = () => {
           <Text style={styles.professionalName}>{professional.nombre}</Text>
           <Text style={styles.professionalCategory}>{professional.categoria}</Text>
           <View style={styles.ratingContainer}>
-            <Text style={{color: Colors.orangeColor, fontSize: 20, marginBottom: 6}}>★</Text>
+            <Text style={{color: Colors.orangeColor, fontSize: Metrics.fontS, marginBottom: Metrics.marginS}}>★</Text>
             <Text style={styles.rating}>{professional.calificaciones}</Text>
             <Text style={styles.location}>• {professional.ubicacion}</Text>
           </View>
@@ -188,7 +178,7 @@ const ProfessionalServices = () => {
                 <View style={styles.modalHeader}>
                   <Text style={styles.modalTitle}>{selectedService.name}</Text>
                   <TouchableOpacity onPress={() => setShowServiceModal(false)}>
-                    <Feather name="x" size={24} color="#666" />
+                    <Feather name="x" size={Metrics.iconSmall} color="#666" />
                   </TouchableOpacity>
                 </View>
 
@@ -220,7 +210,7 @@ const ProfessionalServices = () => {
                       handleRequestAppointment()
                     }}
                   >
-                    <Feather name="calendar" size={20} color="white" />
+                    <Feather name="calendar" size={Metrics.iconSmall} color={Colors.whiteColor} />
                     <Text style={styles.modalAppointmentButtonText}>Solicitar turno para este servicio</Text>
                   </TouchableOpacity>
                 </ScrollView>
@@ -237,18 +227,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.blueColor,
+    alignItems: "center",
+    justifyContent: "center",
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: wp("5%"),
+    paddingHorizontal: Metrics.marginS,
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight + 10 : 50,
-    paddingBottom: 20,
+    paddingBottom: Metrics.marginS,
   },
   headerTitle: {
-    color: "white",
-    fontSize: wp("5%"),
+    color: Colors.whiteColor,
+    fontSize: Metrics.fontL,
     fontWeight: "bold",
   },
   placeholder: {
@@ -256,106 +248,104 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    backgroundColor: "white",
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    paddingTop: 30,
-    paddingHorizontal: wp("5%"),
+    backgroundColor: Colors.whiteColor,
+    paddingTop: Metrics.marginS,
+    paddingHorizontal: Metrics.marginS,
   },
   servicesHeader: {
     alignItems: "center",
-    marginBottom: 30,
+    marginBottom: Metrics.marginS,
   },
   servicesSubtitle: {
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontM,
     fontWeight: "600",
     color: "#666",
     textAlign: "center",
-    marginTop: 5,
+    marginTop: Metrics.marginS,
   },
   priceNote: {
-    fontSize: wp("3%"),
+    fontSize: Metrics.fontS,
     color: "#ff6b6b",
     textAlign: "center",
-    marginTop: 10,
+    marginTop: Metrics.marginS,
     fontStyle: "italic",
   },
   servicesContainer: {
-    marginBottom: 30,
+    marginBottom: Metrics.marginS,
   },
   serviceItem: {
     backgroundColor: "#f8f9fa",
-    borderRadius: 15,
-    marginBottom: 10,
+    borderRadius: Metrics.radiusS,
+    marginBottom: Metrics.marginS,
     elevation: 2,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
-    shadowRadius: 2,
+    shadowRadius: Metrics.radiusS,
   },
   serviceContent: {
     flexDirection: "row",
     alignItems: "center",
-    padding: 15,
+    padding: Metrics.marginS,
   },
   serviceIcon: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: Metrics.iconLarge,
+    height: Metrics.iconLarge,
+    borderRadius: Metrics.radiusS,
     backgroundColor: "#e3f2fd",
     justifyContent: "center",
     alignItems: "center",
-    marginRight: 15,
+    marginRight: Metrics.marginS,
   },
   serviceInfo: {
     flex: 1,
   },
   serviceName: {
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontM,
     fontWeight: "600",
     color: "#333",
-    marginBottom: 3,
+    marginBottom: Metrics.marginS,
   },
   servicePrice: {
-    fontSize: wp("3.5%"),
+    fontSize: Metrics.fontS,
     color: "#666",
   },
   professionalInfo: {
     backgroundColor: "#f8f9fa",
-    borderRadius: 15,
-    padding: 20,
-    marginBottom: 30,
+    borderRadius: Metrics.radiusS,
+    padding: Metrics.marginS,
+    marginBottom: Metrics.marginS,
     alignItems: "center",
   },
   professionalName: {
-    fontSize: wp("5%"),
+    fontSize: Metrics.fontM,
     fontWeight: "bold",
     color: "#333",
-    marginBottom: 5,
+    marginBottom: Metrics.marginS,
   },
   professionalCategory: {
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontS,
     color: "#666",
-    marginBottom: 10,
+    marginBottom: Metrics.marginS,
   },
   ratingContainer: {
     flexDirection: "row",
     alignItems: "center",
   },
   rating: {
-    fontSize: wp("3.5%"),
+    fontSize:Metrics.fontS,
     color: "#333",
-    marginLeft: 5,
+    marginLeft: Metrics.marginS,
   },
   location: {
-    fontSize: wp("3.5%"),
+    fontSize:Metrics.fontS,
     color: "#666",
-    marginLeft: 5,
+    marginLeft: Metrics.marginS,
   },
   actionButtons: {
     alignItems: "center",
-    gap: 15,
-    marginBottom: 30,
+    gap: Metrics.marginS,
+    marginBottom: Metrics.marginS,
   },
   modalOverlay: {
     flex: 1,
@@ -364,60 +354,60 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     backgroundColor: "white",
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
-    maxHeight: hp("85%"),
-    paddingBottom: 20,
+    borderTopLeftRadius: Metrics.radiusM,
+    borderTopRightRadius: Metrics.radiusM,
+    maxHeight: "85%",
+    paddingBottom: Metrics.marginS,
   },
   modalHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 20,
+    padding: Metrics.marginS,
     borderBottomWidth: 1,
     borderBottomColor: "#f0f0f0",
   },
   modalTitle: {
-    fontSize: wp("5.5%"),
+    fontSize: Metrics.fontM,
     fontWeight: "bold",
     color: "#333",
     flex: 1,
   },
   modalPriceContainer: {
     alignItems: "center",
-    paddingVertical: 20,
+    paddingVertical: Metrics.marginS,
     borderBottomWidth: 1,
     borderBottomColor: "#f0f0f0",
-    marginHorizontal: 20,
+    marginHorizontal: Metrics.marginS,
   },
   modalPrice: {
-    fontSize: wp("6%"),
+    fontSize: Metrics.fontM,
     fontWeight: "bold",
     color: Colors.blueColor,
   },
   modalPriceNote: {
-    fontSize: wp("3%"),
+    fontSize: Metrics.fontS,
     color: "#666",
-    marginTop: 5,
+    marginTop: Metrics.marginS
   },
   modalDescriptionContainer: {
-    padding: 20,
+    padding: Metrics.marginS
   },
   modalDescription: {
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontS,
     color: "#666",
-    lineHeight: wp("5.5%"),
+    lineHeight: Metrics.marginXS,
     textAlign: "center",
   },
   photoGallery: {
-    paddingHorizontal: 20,
-    marginBottom: 20,
+    paddingHorizontal: Metrics.marginS,
+    marginBottom: Metrics.marginS,
   },
   galleryTitle: {
-    fontSize: wp("4.5%"),
+    fontSize: Metrics.fontM,
     fontWeight: "bold",
     color: "#333",
-    marginBottom: 15,
+    marginBottom: Metrics.marginS,
     textAlign: "center",
   },
   photosGrid: {
@@ -427,34 +417,34 @@ const styles = StyleSheet.create({
   },
   photoContainer: {
     width: (width - 60) / 2 - 5, 
-    marginBottom: 10,
+    marginBottom: Metrics.marginS
   },
   photo: {
-    width: "100%",
-    height: 120,
-    borderRadius: 10,
+    width: wp("100%"),
+    height: Metrics.screenS,
+    borderRadius: Metrics.radiusS,
     backgroundColor: "#f0f0f0",
   },
   modalAppointmentButton: {
     backgroundColor: Colors.blueColor,
-    borderRadius: 25,
-    paddingVertical: 15,
-    marginHorizontal: 20,
+    borderRadius: Metrics.radiusS,
+    paddingVertical: Metrics.marginS,
+    marginHorizontal: Metrics.marginS,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    gap: 10,
+    gap: Metrics.marginS,
   },
   modalAppointmentButtonText: {
-    color: "white",
-    fontSize: wp("4%"),
+    color: Colors.whiteColor,
+    fontSize: Metrics.fontS,
     fontWeight: "600",
   },
   messageButton: {
     backgroundColor: "#000",
-    paddingVertical: hp("2%"),
-    paddingHorizontal: wp("8%"),
-    borderRadius: 25,
+    paddingVertical: Metrics.marginS,
+    paddingHorizontal: Metrics.marginS,
+    borderRadius: Metrics.radiusS,
     elevation: 3,
     shadowColor: "#000",
     shadowOffset: {
@@ -462,13 +452,13 @@ const styles = StyleSheet.create({
       height: 2,
     },
     shadowOpacity: 0.2,
-    shadowRadius: 4,
+    shadowRadius: Metrics.radiusS,
   },
   appointmentButton: {
     backgroundColor: "#000",
-    paddingVertical: hp("2%"),
-    paddingHorizontal: wp("8%"),
-    borderRadius: 25,
+    paddingVertical: Metrics.marginS,
+    paddingHorizontal: Metrics.marginS,
+    borderRadius: Metrics.radiusS,
     elevation: 3,
     shadowColor: "#000",
     shadowOffset: {
@@ -476,11 +466,11 @@ const styles = StyleSheet.create({
       height: 2,
     },
     shadowOpacity: 0.2,
-    shadowRadius: 4,
+    shadowRadius: Metrics.radiusS,
   },
   buttonText: {
     color: Colors.whiteColor,
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontS,
     fontWeight: "600",
     textAlign: "center",
   },

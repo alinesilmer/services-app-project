@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Colors } from '../constants/Colors';
+import { Metrics } from '../constants/Metrics';
 
 const ApptModal = ({ visible, onClose, appt, onAccept, onCancel }) => {
   if (!appt) return null;
@@ -15,14 +16,14 @@ const ApptModal = ({ visible, onClose, appt, onAccept, onCancel }) => {
       <View style={styles.overlay}>
         <View style={styles.modalContent}>
           <Text style={styles.title}>Detalle del Turno</Text>
-          <Text>Día: {appt.day}</Text>
-          <Text>Hora: {appt.hour} hs</Text>
-          <Text>Estado: {appt.status}</Text>
+          <Text style={styles.textStyle}>Día: {appt.day}</Text>
+          <Text style={styles.textStyle}>Hora: {appt.hour} hs</Text>
+          <Text style={styles.textStyle}>Estado: {appt.status}</Text>
 					{appt.clientDetails && (
-						<Text>Cliente: {appt.clientDetails}</Text>
+						<Text style={styles.textStyle}>Cliente: {appt.clientDetails}</Text>
 					)}
 					{appt.apptDetails && (
-						<Text>Servicio: {appt.apptDetails}</Text>
+						<Text style={styles.textStyle}>Servicio: {appt.apptDetails}</Text>
 					)}
 
           {appt.status === 'PENDIENTE' ? (
@@ -52,41 +53,47 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000aa',
   },
   modalContent: {
-    margin: 20,
-    backgroundColor: '#fff',
-    padding: 24,
-    borderRadius: 10,
+    margin: Metrics.marginM,
+    backgroundColor: Colors.whiteColor,
+    padding: Metrics.marginXL,
+    borderRadius: Metrics.radiusS,
     elevation: 5,
   },
   title: {
-    fontSize: 18,
+    fontSize: Metrics.fontL,
     fontWeight: 'bold',
-    marginBottom: 12,
+    marginBottom: Metrics.marginM,
+  },
+  textStyle: {
+    fontSize: Metrics.fontS,
+    paddingLeft: Metrics.marginS,
+    marginBottom: Metrics.marginS,
   },
   buttonGroup: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginTop: 20,
+    justifyContent: 'space-between',
+    marginTop: Metrics.marginM,
   },
   accept: {
-    backgroundColor: '#198754',
-    padding: 10,
-    borderRadius: 8,
+    backgroundColor: Colors.orangeColor,
+    padding: Metrics.marginM,
+    borderRadius: Metrics.radiusS,
   },
   cancel: {
-    backgroundColor: '#DC3545',
-    padding: 10,
-    borderRadius: 8,
+    backgroundColor: Colors.textColor,
+    padding: Metrics.marginM,
+    borderRadius: Metrics.radiusS,
   },
   close: {
     backgroundColor: Colors.textColor,
-    padding: 10,
-    marginTop: 20,
-    borderRadius: 8,
+    padding: Metrics.marginM,
+    marginTop: Metrics.marginM,
+    borderRadius: Metrics.radiusS,
     alignItems: 'center',
   },
   buttonText: {
-    color: '#fff',
+    fontSize: Metrics.fontXS,
+    color: Colors.whiteColor,
     fontWeight: 'bold',
   },
 });

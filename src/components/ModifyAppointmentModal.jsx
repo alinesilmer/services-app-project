@@ -2,8 +2,9 @@
 import { useState, useEffect } from "react"
 import { View, Text, StyleSheet, TouchableOpacity, Modal, ScrollView, Alert } from "react-native"
 import { Feather } from "@expo/vector-icons"
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
 import { Colors } from "../constants/Colors"
+import { Metrics } from "../constants/Metrics"
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 import DatePickerAppointment from "./DatePickerAppointment"
 import AnimationFeedback from "./AnimationFeedback"
 import { generateTimeSlots } from "../utils/timeSlotGenerator"
@@ -163,7 +164,7 @@ const ModifyAppointmentModal = ({ visible, appointment, onClose, onSave }) => {
           <View style={styles.header}>
             <Text style={styles.title}>Modificar Turno</Text>
             <TouchableOpacity activeOpacity={0.7} onPress={handleClose}>
-              <Feather name="x" size={24} color="#666" />
+              <Feather name="x" size={Metrics.iconSmall} color="#666" />
             </TouchableOpacity>
           </View>
 
@@ -222,7 +223,7 @@ const ModifyAppointmentModal = ({ visible, appointment, onClose, onSave }) => {
 
             {hasChanges && (
               <View style={styles.changesIndicator}>
-                <Feather name="info" size={20} color="#fff" />
+                <Feather name="info" size={Metrics.iconSmall} color="#fff" />
                 <Text style={styles.changesText}>Tienes cambios sin guardar</Text>
               </View>
             )}
@@ -267,39 +268,39 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   container: {
-    backgroundColor: "white",
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
-    height: hp("85%"),
+    backgroundColor: Colors.whiteColor,
+    borderTopLeftRadius: Metrics.radiusM,
+    borderTopRightRadius: Metrics.radiusM,
+    height: Metrics.screenS,
     flexDirection: "column",
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 20,
-    borderBottomWidth: 1,
+    padding: Metrics.marginS,
+    borderBottomWidth: Metrics.marginXS,
     borderBottomColor: "#f0f0f0",
   },
   title: {
-    fontSize: wp("5.5%"),
+    fontSize: Metrics.fontM,
     fontWeight: "bold",
     color: Colors.orangeColor,
   },
   content: {
     flex: 1,
-    paddingHorizontal: 20,
+    paddingHorizontal: Metrics.marginS,
   },
   professionalInfo: {
     backgroundColor: "#f8f9fa",
-    borderRadius: 10,
-    padding: 15,
-    marginVertical: 15,
+    borderRadius: Metrics.radiusS,
+    padding: Metrics.marginS,
+    marginVertical: Metrics.marginS,
   },
   professionalInfoText: {
-    fontSize: wp("3.8%"),
+    fontSize: Metrics.fontS,
     color: "#666",
-    marginBottom: 5,
+    marginBottom: Metrics.marginS,
   },
   professionalName: {
     fontWeight: "bold",
@@ -313,38 +314,38 @@ const styles = StyleSheet.create({
     marginVertical: 15,
   },
   sectionTitle: {
-    fontSize: wp("4.5%"),
+    fontSize: Metrics.fontM,
     fontWeight: "bold",
     color: "#333",
-    marginBottom: 10,
+    marginBottom: Metrics.marginS,
   },
   currentInfo: {
     backgroundColor: "#e9ecef",
-    borderRadius: 10,
-    padding: 12,
-    marginBottom: 15,
+    borderRadius: Metrics.radiusS,
+    padding: Metrics.marginS,
+    marginBottom: Metrics.marginS,
   },
   currentLabel: {
-    fontSize: wp("3.5%"),
+    fontSize: Metrics.fontS,
     color: "#666",
-    marginBottom: 3,
+    marginBottom: Metrics.marginXS,
   },
   currentValue: {
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontS,
     fontWeight: "600",
     color: "#333",
   },
   timeSelection: {
     backgroundColor: "#f8f9fa",
-    borderRadius: 15,
-    padding: 15,
+    borderRadius: Metrics.radiusS,
+    padding: Metrics.marginS,
   },
   timeSlotContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: 12,
-    borderBottomWidth: 1,
+    paddingVertical: Metrics.marginXS,
+    borderBottomWidth: Metrics.marginXS,
     borderBottomColor: "#e9ecef",
   },
   timeSlotContent: {
@@ -353,21 +354,21 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   timeSlotLabel: {
-    fontSize: wp("4.5%"),
+    fontSize: Metrics.fontS,
     fontWeight: "bold",
     color: Colors.orangeColor,
-    marginRight: 15,
+    marginRight: Metrics.marginS,
     width: 30,
   },
   timeSlotTime: {
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontS,
     color: "#333",
   },
   checkbox: {
     width: 24,
     height: 24,
-    borderRadius: 4,
-    borderWidth: 2,
+    borderRadius: Metrics.radiusS,
+    borderWidth: Metrics.marginXS,
     borderColor: Colors.orangeColor,
     justifyContent: "center",
     alignItems: "center",
@@ -379,14 +380,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: Colors.orangeColor,
-    borderRadius: 10,
-    padding: 12,
-    marginVertical: 15,
+    borderRadius: Metrics.radiusS,
+    padding: Metrics.marginS,
+    marginVertical: Metrics.marginS,
   },
   changesText: {
-    fontSize: wp("3.8%"),
+    fontSize: Metrics.fontS,
     color: "#fff",
-    marginLeft: 8,
+    marginLeft: Metrics.marginS,
     fontWeight: "500",
   },
   bottomSpacer: {
@@ -397,36 +398,36 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 15,
     paddingBottom: 30,
-    gap: 15,
-    backgroundColor: "white",
-    borderTopWidth: 1,
+    gap: Metrics.marginS,
+    backgroundColor: Colors.whiteColor,
+    borderTopWidth: Metrics.marginXS,
     borderTopColor: "#f0f0f0",
   },
   cancelButton: {
     flex: 1,
     backgroundColor: "#000",
-    borderRadius: 10,
-    paddingVertical: 15,
+    borderRadius: Metrics.radiusS,
+    paddingVertical: Metrics.marginS,
     alignItems: "center",
   },
   cancelButtonText: {
-    color: "white",
-    fontSize: wp("4%"),
+    color: Colors.whiteColor,
+    fontSize: Metrics.fontS,
     fontWeight: "600",
   },
   saveButton: {
     flex: 1,
     backgroundColor: Colors.orangeColor,
-    borderRadius: 10,
-    paddingVertical: 15,
+    borderRadius: Metrics.radiusS,
+    paddingVertical: Metrics.marginS,
     alignItems: "center",
   },
   saveButtonDisabled: {
     backgroundColor: "#e9ecef",
   },
   saveButtonText: {
-    color: "white",
-    fontSize: wp("4%"),
+    color: Colors.whiteColor,
+    fontSize: Metrics.fontS,
     fontWeight: "600",
   },
   saveButtonTextDisabled: {
@@ -441,24 +442,24 @@ const styles = StyleSheet.create({
   },
   animationContainer: {
     backgroundColor: "white",
-    borderRadius: 10,
-    padding: 30,
+    borderRadius: Metrics.radiusS,
+    padding: Metrics.marginS,
     alignItems: "center",
     minWidth: wp("70%"),
   },
   successTitle: {
-    fontSize: wp("5%"),
+    fontSize: Metrics.fontM,
     fontWeight: "bold",
     color: "#333",
-    marginTop: 15,
+    marginTop: Metrics.marginS,
     textAlign: "center",
   },
   successMessage: {
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontS,
     color: "#666",
-    marginTop: 10,
+    marginTop: Metrics.marginXS,
     textAlign: "center",
-    lineHeight: wp("5.5%"),
+    lineHeight: Metrics.marginXS,
   },
 })
 

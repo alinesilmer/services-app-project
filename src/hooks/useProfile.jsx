@@ -86,7 +86,6 @@ export const useProfile = () => {
       setData(formData);
       setIsModalVisible(false);
       
-      console.log('Profile saved successfully:', profileToSave);
     } catch (error) {
       console.error('Error saving profile:', error);
     }

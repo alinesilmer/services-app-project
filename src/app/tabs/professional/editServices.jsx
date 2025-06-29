@@ -1,20 +1,12 @@
-import {
-    FlatList,
-    SafeAreaView,
-    StatusBar,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View
-} from "react-native";
+import { FlatList, SafeAreaView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useState, useEffect } from "react";
 import { Colors } from "../../../constants/Colors";
+import { Metrics } from "../../../constants/Metrics";
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 import NavBar from "../../../components/NavBar";
 import SlideUpCard from "../../../components/SlideUpCard";
 import Services from "../../../data/mockServices";
 import mockServices from "../../../data/mockServices";
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { getCompleteUserData } from "../../../utils/storage"; 
 import ProfilePic from "../../../components/ProfilePic";
 import BackButton from "../../../components/BackButton";
@@ -62,7 +54,7 @@ export default function ProfessionalServices() {
             <SafeAreaView style={styles.safeArea}>
           <StatusBar style="light" backgroundColor={Colors.primary} />
           <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ color: 'white', fontSize: 18 }}>Cargando perfil...</Text>
+            <Text style={{ color: Colors.whiteColor, fontSize: Metrics.fontS }}>Cargando perfil...</Text>
           </View>
         </SafeAreaView>
       );
@@ -146,7 +138,7 @@ export default function ProfessionalServices() {
             </View>
             
 
-            <Text style={[styles.userProfile, { marginLeft: wp('-40%')}]}>Servicios que Ofrezco{'\n'}</Text>
+            <Text style={[styles.userProfile, { marginLeft: -Metrics.marginM}]}>Servicios que Ofrezco{'\n'}</Text>
             <ScrollView showsVerticalScrollIndicator={false} style={ styles.scroll}>
                 <View style={styles.servicesContainer}>
                     {professionalServices.map((serviceObj, index) => (
@@ -158,7 +150,7 @@ export default function ProfessionalServices() {
                         >
                             <View style={styles.serviceContent}>
                                 <View style={styles.serviceIcon}>
-                                    <Feather name="image" size={20} color={Colors.blueColor} />
+                                    <Feather name="image" size={Metrics.iconSmall} color={Colors.blueColor} />
                                 </View>
                                 <View style={styles.serviceInfo}>
                                     <Text style={styles.serviceName}>{serviceObj.servicio}</Text>
@@ -166,10 +158,10 @@ export default function ProfessionalServices() {
                                 </View>
                                 <View style={styles.editIcons}>
                                     <TouchableOpacity onPress={() => openServiceModal(serviceObj)}>
-                                        <Feather name="edit-3" size={24} color="black" />
+                                        <Feather name="edit-3" size={Metrics.iconSmall} color={Colors.textColor} />
                                     </TouchableOpacity>
                                     <TouchableOpacity onPress={() => handleDeleteService(serviceObj.id)}>
-                                        <Feather name="trash-2" size={24} color="red" />
+                                        <Feather name="trash-2" size={Metrics.iconSmall} color={Colors.errorColor} />
                                     </TouchableOpacity>
                                 </View>
                             </View>
@@ -203,14 +195,14 @@ export default function ProfessionalServices() {
                 placeholder='Nombre del servicio'
                 value={serviceName}
                 onChangeText={setServiceName}
-                style= {{ borderBottomWidth: 1, marginBottom: 10 }}
+                style= {{ borderBottomWidth: Metrics.marginXS, marginBottom: Metrics.marginS }}
             />
             <TextInput
                 placeholder='Precio del servicio'
                 value={servicePrice}
                 onChangeText={setServicePrice}
                 keyboardType="numeric"
-                style= {{ borderBottomWidth: 1, marginBottom: 10 }}
+                style= {{ borderBottomWidth: Metrics.marginXS, marginBottom: Metrics.marginS }}
             />
         </ModalWrapper>
         <NavBar />
@@ -220,89 +212,90 @@ export default function ProfessionalServices() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Colors.blueColor
+        backgroundColor: Colors.blueColor,
+        alignItems: "center",
+        justifyContent: "center",
     },
     editTitle: {
-        marginTop: hp('4%'),
+        marginTop: Metrics.marginS,
         marginHorizontal: 'auto',
-        fontSize: wp('8%'),
+        fontSize: Metrics.fontM,
         fontWeight: 900,
-        color: 'white',
+        color: Colors.whiteColor
     },
     profileContainer: {
         flexDirection: 'row',
         width: wp('100%'),
         justifyContent: 'space-evenly',
-        marginBottom: hp('5%'),
+        marginBottom: Metrics.marginS,
     },
     profilePhoto: {
         borderColor: '#000',
-        borderWidth: wp('1%'),
-        borderStyle: 'solid',
-        borderRadius: '50%',
+        borderWidth: Metrics.marginXS,
+        borderRadius: Metrics.radiusM,
     },
     userProfile: {
-        fontSize: wp('5%'),
+        fontSize: Metrics.fontM,
         fontWeight: 700,
         marginVertical: 'auto',
     },
     userAddress: {
-        fontSize: wp('4%'),
+        fontSize: Metrics.fontS
     },
     slideUpCard: {
-        borderTopLeftRadius: wp('40%'),
-        borderTopRightRadius: wp('0'),
-        marginTop: hp('10'),
-        height: hp('80%'),
+        position: "absolute",
+        bottom: 0,
+        height: Metrics.screenM,
+        alignItems: "stretch",
     },
     servicesContainer: {
-        marginBottom: 0,
+        marginBottom: Metrics.marginXS,
     },
     serviceItem: {
         backgroundColor: "#f8f9fa",
-        borderRadius: 15,
-        marginBottom: 10,
+        borderRadius: Metrics.radiusS,
+        marginBottom: Metrics.marginS,
         elevation: 2,
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.1,
-        shadowRadius: 2,
+        shadowRadius: Metrics.radiusS
     },
     serviceContent: {
         flexDirection: "row",
         alignItems: "center",
-        padding: 15,
-        minWidth: wp('65%'),
+        padding: Metrics.marginS,
+        minWidth: '65%',
     },
     serviceIcon: {
         width: 40,
         height: 40,
-        borderRadius: 20,
+        borderRadius: Metrics.radiusS,
         backgroundColor: "#e3f2fd",
         justifyContent: "center",
         alignItems: "center",
-        marginRight: 15,
+        marginRight: Metrics.marginS,
     },
     serviceInfo: {
         flex: 1,
     },
     editIcons: {
-        width: wp('17%'),
+        width: Metrics.iconMedium,
         flexDirection: 'row',
         justifyContent: 'space-around',
     },
     serviceName: {
-        fontSize: wp("4%"),
+        fontSize: Metrics.fontL,
         fontWeight: "600",
         color: "#333",
-        marginBottom: 3,
+        marginBottom: Metrics.marginS,
     },
     servicePrice: {
-        fontSize: wp("3.5%"),
+        fontSize: Metrics.fontM,
         color: "#666",
     },
     scroll: { 
-        paddingHorizontal: wp('1%'),
+        paddingHorizontal: Metrics.marginS,
         width: wp('85%'),
     }
 });

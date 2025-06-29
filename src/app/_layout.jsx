@@ -1,16 +1,17 @@
-import React, { useEffect } from "react"
-import * as SplashScreen from "expo-splash-screen"
-import { Stack } from "expo-router"
-import { Provider } from "react-redux"
-import { PersistGate } from "redux-persist/integration/react"
-import { store, persistor } from "../redux/store"
+'use client';
+import React, { useEffect } from 'react';
+import * as SplashScreen from 'expo-splash-screen';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { Stack } from 'expo-router';
+import { store, persistor } from '../redux/store';
 
-SplashScreen.preventAutoHideAsync()
+SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   useEffect(() => {
-    SplashScreen.hideAsync()
-  }, [])
+    SplashScreen.hideAsync();
+  }, []);
 
   return (
     <Provider store={store}>
@@ -21,5 +22,5 @@ export default function RootLayout() {
         </Stack>
       </PersistGate>
     </Provider>
-  )
+  );
 }

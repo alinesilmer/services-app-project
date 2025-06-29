@@ -2,11 +2,11 @@
 import { View, Text, StyleSheet, StatusBar, Platform, Image, ScrollView, TouchableOpacity } from "react-native"
 import { useLocalSearchParams, router } from "expo-router"
 import { Colors } from "../../../constants/Colors"
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
+import { Metrics } from "../../../constants/Metrics"
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 import NavBar from "../../../components/NavBar"
 import BackButton from "../../../components/BackButton"
 import SlideUpCard from "../../../components/SlideUpCard"
-
 
 const ProfileDetail = () => {
   const params = useLocalSearchParams()
@@ -170,30 +170,30 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: Colors.blueColor,
-    paddingVertical: hp("2%"),
-    paddingHorizontal: wp("5%"),
-    paddingTop: hp("2%"),
-    height: hp("15%"),
+    paddingVertical: Metrics.marginXXL,
+    paddingHorizontal: Metrics.marginL,
+    paddingTop: Metrics.marginS,
+    height: Metrics.navBarArea,
   },
   headerText: {
     color: Colors.whiteColor,
-    fontSize: wp("6%"),
+    fontSize: Metrics.fontM,
     fontWeight: "bold",
     letterSpacing: 1,
   },
   profileImageContainer: {
     position: "absolute",
-    top: hp("12%"),
+    top: Metrics.marginXXL,
     left: 0,
     right: 0,
     alignItems: "center",
     zIndex: 10,
   },
   profileImage: {
-    width: wp("20%"),
-    height: wp("20%"),
-    borderRadius: wp("17.5%"),
-    borderWidth: 1,
+    width: Metrics.iconMedium,
+    height: Metrics.iconMedium,
+    borderRadius: Metrics.radiusM,
+    borderWidth: Metrics.marginXS,
     borderColor: Colors.whiteColor,
     backgroundColor: Colors.blueColor,
   },
@@ -202,26 +202,26 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     flex: 1,
-    width: "100%",
+    width: wp("100%"),
   },
   scrollContent: {
-    paddingHorizontal: wp("5%"),
-    paddingVertical: wp("2%"),
+    paddingHorizontal: Metrics.marginS,
+    paddingVertical: Metrics.marginS,
   },
   profileName: {
-    fontSize: wp("5%"),
+    fontSize: Metrics.fontL,
     fontWeight: "bold",
     color: Colors.whiteColor,
     textAlign: "center",
     letterSpacing: 1,
-    marginTop: hp("4%"),
+    marginTop: Metrics.marginM,
   },
   ratingSection: {
     alignItems: "center",
     backgroundColor: Colors.whiteColor,
-    paddingVertical: hp("0.2%"),
-    borderRadius: 10,
-    marginBottom: hp("2%"),
+    paddingVertical: Metrics.marginS,
+    borderRadius: Metrics.radiusS,
+    marginBottom: Metrics.marginS,
     elevation: 3,
     shadowColor: "#000",
     shadowOffset: {
@@ -229,107 +229,107 @@ const styles = StyleSheet.create({
       height: 0,
     },
     shadowOpacity: 0.1,
-    shadowRadius: 4,
+    shadowRadius: Metrics.radiusS
   },
   starsContainer: {
     flexDirection: "row",
-    marginBottom: hp("1%"),
+    marginBottom: Metrics.marginS,
   },
   starFilled: {
-    fontSize: wp("6%"),
+    fontSize: Metrics.fontS,
     color: Colors.orangeColor,
   },
   starFilledComment: {
-    fontSize: wp("4"),
+    fontSize: Metrics.fontS,
     color: Colors.orangeColor,
   },
   starEmpty: {
-    fontSize: wp("6%"),
+    fontSize: Metrics.fontS,
     color: "#777",
   },
   ratingText: {
-    fontSize: wp("2.4"),
+    fontSize: Metrics.fontS,
     color: "#666",
   },
   infoSection: {
-    marginBottom: hp("%"),
+    marginBottom: Metrics.marginS,
   },
   infoRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: hp("1.5%"),
+    marginBottom: Metrics.marginS,
   },
   infoIcon: {
-    fontSize: wp("4%"),
-    marginRight: wp("2%"),
+    fontSize: Metrics.fontS,
+    marginRight: Metrics.marginS,
     color: Colors.orangeColor,
   },
   infoLabel: {
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontS,
     fontWeight: "600",
     color: "#333",
-    marginRight: wp("2%"),
+    marginRight: Metrics.marginS,
   },
   infoValue: {
-    fontSize: wp("3.2%"),
+    fontSize: Metrics.fontS,
     color: "#666",
     flex: 1,
   },
   reviewSection: {
-    marginBottom: hp("1%"),
+    marginBottom: Metrics.marginS,
   },
   reviewHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: hp("0.5%"),
+    marginBottom: Metrics.marginS,
   },
   reviewerName: {
-    fontSize: wp("3%"),
+    fontSize: Metrics.fontS,
     fontWeight: "bold",
     color: "#333",
-    marginRight: wp("2%"),
+    marginRight: Metrics.marginS,
   },
   reviewStars: {
     flexDirection: "row",
   },
   reviewText: {
-    fontSize: wp("3%"),
+    fontSize: Metrics.fontS,
     color: "#666",
     fontStyle: "italic",
-    lineHeight: wp("5%"),
+    lineHeight: Metrics.marginXS,
   },
   allCommentsButton: {
     alignItems: "center",
-    marginBottom: hp("3%"),
+    marginBottom: Metrics.marginS,
   },
   allCommentsText: {
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontM,
     color: Colors.blueColor,
     fontWeight: "600",
   },
   squareButtonsContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
-    marginHorizontal: wp("5%"),
-    marginBottom: hp("2%"),
+    marginHorizontal: Metrics.marginM,
+    marginBottom: Metrics.marginM,
   },
   squareButton: {
     backgroundColor: "#fff",
-    width: wp("25%"),
-    height: wp("25%"),
-    borderRadius: 10,
+    width: Metrics.iconMedium,
+    height: Metrics.iconMedium,
+    borderRadius: Metrics.radiusS,
     justifyContent: "center",
     alignItems: "center",
     elevation: 2,
-    borderWidth: 1,
-    borderColor: "black",
+    borderWidth: Metrics.marginXS,
+    borderColor: Colors.textColor,
   },
   squareButtonIcon: {
-    fontSize: wp("6%"),
-    marginBottom: hp("0.5%"),
+    fontSize: Metrics.iconSmall,
+    marginBottom: Metrics.marginS,
   },
   squareButtonText: {
-    fontSize: wp("3%"),
+    fontSize: Metrics.fontS,
     fontWeight: "600",
     textAlign: "center",
   },
@@ -339,9 +339,9 @@ const styles = StyleSheet.create({
   },
   messageButton: {
     backgroundColor: "#000",
-    paddingVertical: hp("2%"),
-    paddingHorizontal: wp("6%"),
-    borderRadius: 10,
+    paddingVertical: Metrics.marginS,
+    paddingHorizontal: Metrics.marginS,
+    borderRadius: Metrics.radiusS,
     elevation: 3,
     shadowColor: "#000",
     shadowOffset: {
@@ -349,14 +349,14 @@ const styles = StyleSheet.create({
       height: 2,
     },
     shadowOpacity: 0.2,
-    shadowRadius: 4,
+    shadowRadius: Metrics.radiusS,
     justifyContent: "space-between",
   },
   appointmentButton: {
     backgroundColor: "#000",
-    paddingVertical: hp("2%"),
-    paddingHorizontal: wp("6%"),
-    borderRadius: 10,
+    paddingVertical: Metrics.marginS,
+    paddingHorizontal: Metrics.marginS,
+    borderRadius: Metrics.radiusS,
     elevation: 3,
     shadowColor: "#000",
     shadowOffset: {
@@ -364,12 +364,12 @@ const styles = StyleSheet.create({
       height: 2,
     },
     shadowOpacity: 0.2,
-    shadowRadius: 4,
+    shadowRadius: Metrics.radiusS,
     justifyContent: "space-between",
   },
   buttonText: {
     color: Colors.whiteColor,
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontS,
     fontWeight: "600",
   },
 })

@@ -1,5 +1,7 @@
-// “use client”
-import React from "react";
+// File: src/components/Ad.jsx
+"use client";
+
+import React from 'react'
 import {
   Modal,
   View,
@@ -8,31 +10,41 @@ import {
   Pressable,
   StyleSheet,
   Text,
-} from "react-native";
-import { Video } from "expo-av";
-import LottieView from "lottie-react-native";
-import { Feather } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
-import { useAdTimer } from "../hooks/useAdTimer";
+} from 'react-native'
+import { Video } from 'expo-av'
+import LottieView from 'lottie-react-native'
+import { Feather } from '@expo/vector-icons'
+import { useRouter } from 'expo-router'
 
-export default function Ad({ visible, onClose, source, type = "image" }) {
-  const { canClose, timer } = useAdTimer(visible);
-  const router = useRouter();
+import { useAdManager } from '../hooks/useAdManager'
+import { useAdTimer }   from '../hooks/useAdTimer'
+import { Metrics } from '../constants/Metrics'
+import { Colors }  from '../constants/Colors'
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen'
+
+export default function Ad({ source, type = 'image' }) {
+  const { showAd, closeAd } = useAdManager()
+  const { canClose }        = useAdTimer(showAd)
+  const router              = useRouter()
 
   return (
-    <Modal visible={visible} transparent animationType="fade">
+    <Modal visible={showAd} transparent animationType="fade">
       <View style={styles.overlay}>
         <View style={styles.adContainer}>
           <TouchableOpacity
             style={styles.closeButton}
-            onPress={onClose}
+            onPress={closeAd}
             disabled={!canClose}
           >
             {canClose ? (
-              <Feather name="x" size={32} color="white" />
+              <Feather
+                name="x"
+                size={Metrics.iconSmall}
+                color={Colors.whiteColor}
+              />
             ) : (
               <LottieView
-                source={require("../assets/animations/loading-ad.json")}
+                source={require('../assets/animations/loading-ad.json')}
                 autoPlay
                 loop
                 style={styles.lottie}
@@ -40,12 +52,12 @@ export default function Ad({ visible, onClose, source, type = "image" }) {
             )}
           </TouchableOpacity>
 
-          {type === "image" ? (
+          {type === 'image' ? (
             <Image source={source} style={styles.media} resizeMode="cover" />
           ) : (
             <Video
               source={source}
-              shouldPlay={visible}
+              shouldPlay={showAd}
               isLooping
               resizeMode="cover"
               style={styles.media}
@@ -54,27 +66,55 @@ export default function Ad({ visible, onClose, source, type = "image" }) {
 
           <Pressable
             onPress={() => {
-              onClose();
-              router.push("/auth/goPremium");
+              closeAd()
+              router.push('/auth/goPremium')
             }}
             style={styles.premiumLink}
           >
             <Text style={styles.premiumText}>
-              ¿Cansado de anuncios? {"\n"}¡Obtén Premium aquí!
+              ¿Cansado de anuncios?{'\n'}¡Obtén Premium aquí!
             </Text>
           </Pressable>
         </View>
       </View>
     </Modal>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
-  overlay:       { flex:1, backgroundColor:"rgba(0,0,0,0.7)", justifyContent:"center", alignItems:"center" },
-  adContainer:   { width:"90%", height:"80%", backgroundColor:"black", borderRadius:20, overflow:"hidden" },
-  closeButton:   { position:"absolute", top:20, right:20, zIndex:2, padding:10, backgroundColor:"rgba(0,0,0,0.5)", borderRadius:20 },
-  lottie:        { width:50, height:50 },
-  media:         { width:"100%", height:"100%" },
-  premiumLink:   { position:"absolute", bottom:20, alignSelf:"center" },
-  premiumText:   { color:"white", textAlign:"center", textDecorationLine:"underline" },
-});
+  overlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.7)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  adContainer: {
+    width: wp('90%'),
+    height: Metrics.screenM,
+    backgroundColor: 'black',
+    borderRadius: Metrics.radiusS,
+    overflow: 'hidden',
+  },
+  closeButton: {
+    position: 'absolute',
+    top: Metrics.marginS,
+    right: Metrics.marginM,
+    zIndex: 2,
+    padding: Metrics.marginS,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    borderRadius: Metrics.radiusS,
+  },
+  lottie: { width: 50, height: 50 },
+  media: { width: wp('100%'), height: Metrics.screenS },
+  premiumLink: {
+    position: 'absolute',
+    bottom: Metrics.marginM,
+    alignSelf: 'center',
+  },
+  premiumText: {
+    color: 'white',
+    fontSize: Metrics.fontXS,
+    textAlign: 'center',
+    textDecorationLine: 'underline',
+  },
+})

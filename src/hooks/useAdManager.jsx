@@ -1,41 +1,36 @@
+
 import { useEffect, useRef, useState } from "react"
 import { useSelector } from "react-redux"
 
 export const useAdManager = () => {
   const [showAd, setShowAd] = useState(false)
-  const premium = useSelector((state) => state.premium)
-  const timerRef = useRef()
+  const premium = useSelector((s) => s.premium)
+  const userData = useSelector((s) => s.auth.user)
+  const timerRef = useRef(null)
 
   const userIsPremium = () =>
     (premium.isPremium || premium.isPremiumProf) &&
     ["active", "trial"].includes(premium.premiumStatus)
 
   useEffect(() => {
-    if (!userIsPremium()) {
+    if (userData?.fullName && !userIsPremium()) {
       setShowAd(true)
-      scheduleNextAd()
+      timerRef.current = setTimeout(() => setShowAd(true), 1 * 60 * 1000)
     } else {
       setShowAd(false)
       clearTimeout(timerRef.current)
     }
 
     return () => clearTimeout(timerRef.current)
-  }, [premium])
+  }, [userData?.fullName, premium.premiumStatus])
 
-  function scheduleNextAd() {
-    clearTimeout(timerRef.current)
-    if (userIsPremium()) return
-    timerRef.current = setTimeout(() => setShowAd(true), 7 * 60 * 1000)
-  }
-
-  function closeAd() {
+  const closeAd = () => {
     setShowAd(false)
-    scheduleNextAd()
+    clearTimeout(timerRef.current)
+    if (!userIsPremium()) {
+      timerRef.current = setTimeout(() => setShowAd(true), 1 * 60 * 1000)
+    }
   }
 
-  return {
-    showAd,
-    closeAd,
-    userIsPremium: userIsPremium(),
-  }
+  return { showAd, closeAd, userIsPremium: userIsPremium() }
 }

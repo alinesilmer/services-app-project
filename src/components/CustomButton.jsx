@@ -5,8 +5,9 @@
 
 import React from 'react';
 import { Text, StyleSheet, Pressable } from 'react-native';
+import { Metrics } from '../constants/Metrics';
 import { Colors } from '../constants/Colors';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 const CustomButton = ({ text, onPress, width = '90%', backgroundColor, disabled = false }) => {
   return (
@@ -37,28 +38,28 @@ if (disabled) {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#000',
-    padding: 16,
-    borderRadius: 10,
+    backgroundColor: Colors.textColor,
+    padding: Metrics.marginM,
+    borderRadius: Metrics.radiusS,
     alignItems: 'center',
-    marginVertical: hp('0,5%'),
+    marginVertical: Metrics.safeArea,
   },
   buttonPressed: {
     backgroundColor: Colors.orangeColor,
   },
   text: {
-    fontSize: 16,
-    color: 'white',
+    fontSize: Metrics.fontS,
+    color: Colors.whiteColor,
     fontWeight: 'bold',
     textAlign: 'center',
   },
   buttonDisabled: {
-    backgroundColor: '#ccc',
+    backgroundColor: Colors.disabledColor,
     opacity: 1,
   },
   textDisabled: {
     color: '#eee',
-    width: "90%"
+    width: wp("100%"),
   }
 });
 

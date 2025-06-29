@@ -1,20 +1,9 @@
 "use client";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  ScrollView,
-  TouchableOpacity,
-  RefreshControl,
-} from "react-native";
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, RefreshControl } from "react-native";
 import { useState, useCallback } from "react";
 import { useLocalSearchParams, router, useFocusEffect } from "expo-router";
 import { Colors } from "../../../constants/Colors";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+import { Metrics } from "../../../constants/Metrics";
 import { Feather, MaterialIcons } from "@expo/vector-icons";
 import profiles from "../../../data/mockProfiles";
 import opinions from "../../../data/mockOpinions";
@@ -56,7 +45,7 @@ const ProfessionalProfile = () => {
     );
   }
 
-  const renderStars = (rating, size = wp("4%")) => {
+  const renderStars = (rating, size = Metrics.iconSmall) => {
     const stars = [];
     const fullStars = Math.floor(rating);
     const hasHalfStar = rating % 1 !== 0;
@@ -123,7 +112,7 @@ const ProfessionalProfile = () => {
           <Text style={styles.profileName}>{profile.nombre}</Text>
           <MaterialIcons
             name="verified"
-            size={24}
+            size={Metrics.iconSmall}
             color="#4CAF50"
             style={styles.verifiedIcon}
           />
@@ -131,7 +120,7 @@ const ProfessionalProfile = () => {
 
         <View style={styles.ratingContainer}>
           <View style={styles.starsContainer}>
-            {renderStars(profile.calificaciones, wp("6%"))}
+            {renderStars(profile.calificaciones, Metrics.iconSmall)}
           </View>
           <Text style={styles.ratingText}>{profile.calificaciones}</Text>
         </View>
@@ -143,7 +132,7 @@ const ProfessionalProfile = () => {
           style={styles.addCommentButton}
           onPress={handleAddComment}
         >
-          <Feather name="plus" size={20} color="#666" />
+          <Feather name="plus" size={Metrics.iconSmall} color="#666" />
           <Text style={styles.addCommentText}>Agregar comentario</Text>
         </TouchableOpacity>
 
@@ -179,7 +168,7 @@ const ProfessionalProfile = () => {
                   </Text>
                 </View>
                 <View style={styles.opinionStars}>
-                  {renderStars(Number.parseFloat(opinion.puntaje), wp("3.5%"))}
+                  {renderStars(Number.parseFloat(opinion.puntaje), Metrics.iconSmall)}
                 </View>
               </View>
               <Text style={styles.opinionText}>{opinion.opinion}</Text>
@@ -206,54 +195,54 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.blueColor,
+    alignItems: "center",
+    justifyContent: "center",
   },
   profileImageContainer: {
     alignItems: "center",
-    marginBottom: hp("2%"),
-    marginTop: hp("6%"),
+    marginBottom: Metrics.marginS,
+    marginTop: Metrics.marginS,
   },
   profileImage: {
-    width: wp("30%"),
-    height: wp("30%"),
-    borderRadius: wp("16%"),
-    borderWidth: 4,
-    borderColor: "white",
+    width: Metrics.iconMedium,
+    height: Metrics.iconMedium,
+    borderRadius: Metrics.radiusS,
+    borderWidth: Metrics.marginXS,
+    borderColor: Colors.whiteColor,
   },
   content: {
     flex: 1,
-    backgroundColor: "white",
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    paddingTop: hp("1%"),
-    paddingHorizontal: wp("2%"),
+    backgroundColor: Colors.whiteColor,
+    paddingTop: Metrics.marginS,
+    paddingHorizontal: Metrics.marginS,
   },
   nameContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: hp("1%"),
+    marginBottom: Metrics.marginS,
   },
   profileName: {
-    fontSize: wp("9%"),
+    fontSize: Metrics.fontM,
     fontWeight: "bold",
     color: "#000",
-    marginRight: 8,
+    marginRight: Metrics.marginS,
   },
   verifiedIcon: {
-    marginLeft: 5,
+    marginLeft: Metrics.marginS,
   },
   ratingContainer: {
     alignItems: "center",
-    marginBottom: hp("3%"),
+    marginBottom: Metrics.marginS,
   },
   starsContainer: {
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: Colors.whiteColor,
-    paddingVertical: hp("0.7%"),
-    paddingHorizontal: hp("4%"),
-    borderRadius: 10,
-    marginBottom: hp("1%"),
+    paddingVertical: Metrics.marginS,
+    paddingHorizontal: Metrics.marginS,
+    borderRadius: Metrics.radiusS,
+    marginBottom: Metrics.marginS,
     elevation: 3,
     shadowColor: "#000",
     shadowOffset: {
@@ -261,61 +250,61 @@ const styles = StyleSheet.create({
       height: 0,
     },
     shadowOpacity: 0.1,
-    shadowRadius: 4,
+    shadowRadius: Metrics.radiusS
   },
   ratingText: {
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontS,
     color: "#000",
     fontWeight: "600",
   },
   description: {
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontS,
     color: "#000",
     textAlign: "center",
-    lineHeight: wp("5.5%"),
-    marginBottom: hp("3%"),
-    paddingHorizontal: wp("2%"),
+    lineHeight: Metrics.marginXS,
+    marginBottom: Metrics.marginS,
+    paddingHorizontal: Metrics.marginS,
   },
   addCommentButton: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#ccc",
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 10,
-    marginBottom: hp("3%"),
+    paddingVertical: Metrics.marginS,
+    paddingHorizontal: Metrics.marginS,
+    borderRadius: Metrics.radiusS,
+    marginBottom: Metrics.marginS,
     alignSelf: "center",
   },
   addCommentText: {
-    fontSize: wp("3.5%"),
+    fontSize: Metrics.fontS,
     color: "#000",
-    marginLeft: 8,
+    marginLeft: Metrics.marginS,
     fontWeight: "500",
   },
   opinionsContainer: {
-    marginBottom: hp("3%"),
+    marginBottom: Metrics.marginS,
   },
   opinionsTitle: {
-    fontSize: wp("4.5%"),
+    fontSize: Metrics.fontS,
     fontWeight: "bold",
     color: "#333",
-    marginBottom: 15,
+    marginBottom: Metrics.marginS,
   },
   newBadge: {
     color: Colors.orangeColor,
-    fontSize: wp("3.5%"),
+    fontSize: Metrics.fontS,
   },
   opinionCard: {
     backgroundColor: "#e9e9e9",
-    borderRadius: 10,
-    padding: 15,
-    marginBottom: 10,
+    borderRadius: Metrics.radiusS,
+    padding: Metrics.marginS,
+    marginBottom: Metrics.marginS,
     position: "relative",
   },
   newOpinionCard: {
     backgroundColor: "#E8F5E8",
-    borderLeftWidth: 4,
+    borderLeftWidth: Metrics.marginXS,
     borderLeftColor: "#4CAF50",
   },
   newIndicator: {
@@ -324,14 +313,14 @@ const styles = StyleSheet.create({
     right: 10,
     width: 8,
     height: 8,
-    borderRadius: 4,
+    borderRadius: Metrics.radiusS,
     backgroundColor: Colors.orangeColor,
   },
   opinionHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 1,
+    marginBottom: Metrics.marginS,
   },
   opinionUserInfo: {
     flexDirection: "row",
@@ -339,49 +328,49 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   opinionAvatar: {
-    width: 55,
-    height: 55,
-    borderRadius: 50,
+    width: Metrics.iconLarge,
+    height: Metrics.iconLarge,
+    borderRadius: Metrics.radiusM,
     backgroundColor: Colors.blueColor,
     justifyContent: "center",
     alignItems: "center",
-    marginRight: 10,
+    marginRight: Metrics.marginS,
   },
   opinionAvatarText: {
-    color: "white",
-    fontSize: wp("5%"),
+    color: Colors.whiteColor,
+    fontSize: Metrics.fontS,
     fontWeight: "bold",
   },
   opinionUserName: {
-    fontSize: wp("3.5%"),
+    fontSize: Metrics.fontS,
     fontWeight: "600",
     color: "#",
   },
   newText: {
     color: Colors.orangeColor,
-    fontSize: wp("3%"),
+    fontSize: Metrics.fontS,
   },
   opinionStars: {
     flexDirection: "row",
   },
   opinionText: {
-    fontSize: wp("3%"),
+    fontSize: Metrics.fontS,
     color: "#333",
-    lineHeight: wp("5%"),
-    marginLeft: wp("14%"),
+    lineHeight: Metrics.marginXS,
+    marginLeft: Metrics.marginS,
     fontStyle: "italic",
   },
   noOpinionsContainer: {
     alignItems: "center",
-    paddingVertical: 30,
+    paddingVertical: Metrics.marginS,
   },
   noOpinionsText: {
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontS,
     color: "#666",
-    marginBottom: 5,
+    marginBottom: Metrics.marginS,
   },
   noOpinionsSubtext: {
-    fontSize: wp("3.5%"),
+    fontSize: Metrics.fontS,
     color: "#999",
   },
 });

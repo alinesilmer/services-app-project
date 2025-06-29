@@ -1,24 +1,15 @@
-import {
-    FlatList,
-    SafeAreaView,
-    StatusBar,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View
-} from "react-native";
-import { getUserProfile, saveUserProfile } from "../../../utils/storage";
+import { FlatList, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useState, useEffect } from "react";
 import { Colors } from "../../../constants/Colors";
+import { Metrics } from "../../../constants/Metrics";
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 import NavBar from "../../../components/NavBar";
 import IconButton from "../../../components/IconButton";
 import SlideUpCard from "../../../components/SlideUpCard";
 import Services from "../../../data/mockServices";
 import { categoriesIcons } from "../../../data/mockCategories";
 import mockServices from "../../../data/mockServices";
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { getCompleteUserData } from "../../../utils/storage"; 
-import ServiceItem from "../../../components/ServiceItem";
 import BackButton from "../../../components/BackButton";
 import { Feather } from "@expo/vector-icons";
 import { ScrollView } from "react-native";
@@ -41,7 +32,7 @@ export default function ProfessionalServices() {
             <SafeAreaView style={styles.safeArea}>
           <StatusBar style="light" backgroundColor={Colors.primary} />
           <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ color: 'white', fontSize: 18 }}>Cargando perfil...</Text>
+            <Text style={{ color: Colors.whiteColor, fontSize: Metrics.fontM }}>Cargando perfil...</Text>
           </View>
         </SafeAreaView>
       );
@@ -71,7 +62,7 @@ export default function ProfessionalServices() {
         <SlideUpCard title={`Servicios\nPrecios`} style={styles.slideUpCard}>
             <IconButton
                 name="edit"
-                size={24}
+                size={Metrics.iconMedium}
                 color={Colors.textColor}
                 style={styles.editButton}
                 onPress={() => router.push('/tabs/professional/editServices')}
@@ -114,91 +105,93 @@ export default function ProfessionalServices() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Colors.blueColor
+        backgroundColor: Colors.blueColor,
+        alignItems: "center",
+        justifyContent: "center",
     },
     slideUpCard: {
-        borderTopLeftRadius: wp('40%'),
-        borderTopRightRadius: wp('0'),
-        marginTop: hp('10'),
-        maxHeight: hp('88'),
+        position: "absolute",
+        bottom: 0,
+        height: Metrics.screenM,
+        alignItems: "stretch",
     },
     editButton: {
-        marginTop: '-25%',
-        marginLeft: '80%',
+        marginTop: Metrics.marginM,
+        marginLeft: Metrics.marginM,
     },
     squareButtonsContainer: {
         flexDirection: "row",
         flexWrap: 'wrap',
         justifyContent: "space-around",
         alignItems: 'center',
-        marginTop: wp('17%'),
-        marginHorizontal: wp("5%"),
-        marginBottom: hp("2%"),
-        gap: wp('2%'),
-        width: wp(80),
+        marginTop: Metrics.marginS,
+        marginHorizontal: Metrics.marginS,
+        marginBottom: Metrics.marginS,
+        gap: Metrics.marginS,
+        width: wp('80%'),
     },
     squareButton: {
         backgroundColor: "#fff",
-        width: wp("25%"),
-        height: wp("25%"),
-        borderRadius: 15,
+        width: Metrics.iconLarge,
+        height: Metrics.iconLarge,
+        borderRadius: Metrics.radiusS,
         justifyContent: "center",
         alignItems: "center",
         elevation: 2,
-        borderWidth: 1,
-        borderColor: "black",
+        borderWidth: Metrics.marginXS,
+        borderColor: Colors.textColor
     },
     squareButtonIcon: {
-        fontSize: wp("6%"),
-        marginBottom: hp("0.5%"),
+        fontSize: Metrics.iconXLarge,
+        marginBottom: Metrics.marginS,
     },
     squareButtonText: {
-        fontSize: wp("3%"),
+        fontSize: Metrics.fontXS,
         fontWeight: "600",
         textAlign: "center",
     },
     servicesContainer: {
-        marginBottom: 0,
+        marginBottom: Metrics.marginXS,
     },
     serviceItem: {
         backgroundColor: "#f8f9fa",
-        borderRadius: 15,
-        marginBottom: 10,
+        borderRadius: Metrics.radiusS,
+        marginBottom: Metrics.marginS,
         elevation: 2,
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.1,
-        shadowRadius: 2,
+        shadowRadius: Metrics.radiusS
     },
     serviceContent: {
         flexDirection: "row",
         alignItems: "center",
-        padding: 15,
+        padding: Metrics.marginS,
         minWidth: wp('65%'),
     },
     serviceIcon: {
-        width: 40,
-        height: 40,
-        borderRadius: 20,
+        width: Metrics.iconXLarge,
+        height: Metrics.iconXLarge,
+        borderRadius: Metrics.radiusS,
         backgroundColor: "#e3f2fd",
         justifyContent: "center",
         alignItems: "center",
-        marginRight: 15,
+        marginRight: Metrics.marginS,
     },
     serviceInfo: {
         flex: 1,
     },
     serviceName: {
-        fontSize: wp("4%"),
+        fontSize: Metrics.fontL,
         fontWeight: "600",
         color: "#333",
-        marginBottom: 3,
+        marginBottom: Metrics.marginS,
     },
     servicePrice: {
-        fontSize: wp("3.5%"),
+        fontSize: Metrics.fontM,
         color: "#666",
     },
     scroll: { 
-        paddingHorizontal: wp('1%'),
+        paddingHorizontal: Metrics.marginS,
     }
 });

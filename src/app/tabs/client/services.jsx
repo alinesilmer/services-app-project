@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react"
 import { View, ScrollView, Text, StyleSheet, StatusBar, Platform } from "react-native"
 import { useLocalSearchParams, router } from "expo-router"
 import { Colors } from "../../../constants/Colors"
+import { Metrics } from "../../../constants/Metrics"
 import SearchBar from "../../../components/SearchBar"
 import ServiceIconLabel from "../../../components/ServiceIconLabel"
 import ServiceDropdown from "../../../components/ServiceDropdown"
@@ -95,7 +96,7 @@ useEffect(() => {
           />
         )}
 
-        <Text style={styles.label}>¿Qué servicio está{"\n"} buscando?</Text>
+        <Text style={styles.label}>¿Qué servicio está buscando?</Text>
         <ServiceDropdown onSelect={setSelectedService} />
 
         <Text style={styles.label}>Elegir categoría</Text>
@@ -133,9 +134,9 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   label: {
-    marginTop: 13,
-    marginLeft: "23.6%",
-    fontSize: 15,
+    marginTop: Metrics.marginM,
+    marginLeft: Metrics.marginM,
+    fontSize: Metrics.fontS,
     color: Colors.serviceLabel,
   },
 })

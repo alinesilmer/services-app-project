@@ -1,23 +1,14 @@
 import { useLocalSearchParams } from 'expo-router';
-import {
-    KeyboardAvoidingView,
-    Platform,
-    TextInput,
-    Pressable,
-    StatusBar,
-    StyleSheet,
-    Text,
-    View,
-    Button
-} from "react-native";
+import { KeyboardAvoidingView, Platform, TextInput, Pressable, StatusBar, StyleSheet, Text, View, Button } from "react-native";
 import { Colors } from '../../../constants/Colors';
+import { Metrics } from '../../../constants/Metrics';
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 import BackButton from '../../../components/BackButton';
 import CustomButtom from '../../../components/CustomButton';
 import ProfilePic from '../../../components/ProfilePic';
 import SlideUpCard from '../../../components/SlideUpCard';
 import NavBar from '../../../components/NavBar';
 import Rate from '../../../components/Rate';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Alert, ScrollView } from 'react-native';
 import { Feather, FontAwesome5 } from '@expo/vector-icons';
 import { router } from 'expo-router';
@@ -52,24 +43,24 @@ const Inputs = ({ nombre, setNombre, profesion, setProfesion, descripcion, setDe
 
 const pickerSelectStyles = {
     inputIOS: {
-        fontSize: 16,
-        padding: 12,
-        borderWidth: 2,
+        fontSize: Metrics.fontS,
+        padding: Metrics.marginS,
+        borderWidth: Metrics.marginXS,
         borderColor: '#ccc',
-        borderRadius: 8,
+        borderRadius: Metrics.radiusS,
         backgroundColor: '#fff',
-        color: 'black',
-        marginBottom: 10,
+        color: Colors.textColor,
+        marginBottom: Metrics.marginS,
     },
     inputAndroid: {
-        fontSize: 16,
-        padding: 10,
-        borderWidth: 2,
+        fontSize: Metrics.fontS,
+        padding: Metrics.marginS,
+        borderWidth: Metrics.marginXS,
         borderColor: '#ccc',
-        borderRadius: 8,
+        borderRadius: Metrics.radiusS,
         backgroundColor: '#fff',
-        color: 'black',
-        marginBottom: 10,
+        color: Colors.textColor,
+        marginBottom: Metrics.marginS,
     },
 };
 
@@ -117,7 +108,7 @@ export default function HomeScreen() {
 
     return (
         <View style={styles.container}>
-            <StatusBar barStyle="auto" />
+            <StatusBar barStyle="light-content" />
             <BackButton />
             <View style={styles.profileContainer}>
             <ProfilePic uri={userProfile?.avatar} size="100" />
@@ -136,15 +127,15 @@ export default function HomeScreen() {
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 style={{ flex: 1 }}
-                keyboardVerticalOffset={hp('20%')}
+                keyboardVerticalOffset={Metrics.navBarArea}
             >
                 <ScrollView
                     showsVerticalScrollIndicator={false}
-                    contentContainerStyle={{ paddingBottom: 40 }}
+                    contentContainerStyle={{ paddingBottom: Metrics.marginS }}
                     keyboardShouldPersistTaps="handled"
                 >
 
-                    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10, padding: 10 }}>
+                    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: Metrics.marginS, padding: Metrics.marginS }}>
                         {coloresDisponibles.map((color) => (
                             <Pressable
                             key={color}
@@ -153,7 +144,7 @@ export default function HomeScreen() {
                                 backgroundColor: color,
                                 width: 40,
                                 height: 40,
-                                borderRadius: 20,
+                                borderRadius: Metrics.radiusS,
                                 borderWidth: colorFondo === color ? 3 : 1,
                                 borderColor: colorFondo === color ? '#000' : '#ccc',
                             }}
@@ -205,27 +196,28 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: Colors.blueColor,
         flex: 1,
-        alignItems: 'center'
+        alignItems: "center",
+        justifyContent: "center",
     },
     profileContainer: {
         flexDirection: 'row',
         width: wp('80%'),
-        height: hp('11%'),
-        padding: 4,
+        height: Metrics.screenM,
+        padding: Metrics.marginS,
         justifyContent: 'space-between',
-        marginTop: 160
+        marginTop: Metrics.marginM,
     },
     titleRateContainer: {
         flex: 1,
         flexDirection: 'column',
-        width: '73%',
+        width: wp('80%'),
         alignItems: 'center',
         justifyContent: 'center',
-        gap: '10%'
+        gap: Metrics.marginS,
     },
     title: {
-        color: 'white',
-        fontSize: wp('5%'),
+        color: Colors.whiteColor,
+        fontSize: Metrics.fontL,
         fontWeight: 'bold'
     },
     rateContainer: {
@@ -234,28 +226,25 @@ const styles = StyleSheet.create({
         backgroundColor: 'orange'
     },
     slideUpCard: {
-        flex: 1,
-        borderTopRightRadius: wp('30%'),
-        borderTopLeftRadius: 0,
-        marginTop: hp('1%'),
-        justifyContent: 'flex-start',
-        paddingBottom: 0
+        position: "absolute",
+        bottom: 0,
+        height: Metrics.screenM,
+        alignItems: "stretch",
     },
     prevView: {
         backgroundColor: 'darkseagreen',
-        width: '100%',
-        height: 200,
+        width: wp('100%'),
+        height: Metrics.screenM,
         zIndex: 1,
         flexDirection: 'row',
-        borderRadius: 3,
-        borderWidth: 2,
+        borderRadius: Metrics.radiusS,
+        borderWidth: Metrics.marginXS,
         borderColor: '#030',
-        borderStyle: 'solid',
         position: 'relative'
     },
     encabezadoContainer: {
-        width: '100%',
-        paddingLeft: '4%',
+        width: wp('100%'),
+        paddingLeft: Metrics.marginS,
         marginBottom: -11,
         zIndex: 2,
     },
@@ -265,8 +254,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'darkseagreen',
         width: '20%',
         textAlign: 'center',
-        borderRadius: 3,
-        borderWidth: 2,
+        borderRadius: Metrics.radiusS,
+        borderWidth: Metrics.marginXS,
         borderColor: '#030',
         borderStyle: 'solid',
     },
@@ -275,13 +264,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'transparent',
-        paddingLeft: '1%',
-        paddingRight: '7%',
-        width: '33.3%',
-        height: '100%',
+        paddingLeft: Metrics.marginS,
+        paddingRight: Metrics.marginS,
+        width: '35%',
+        height: Metrics.screenM,
         position: 'absolute',
         left: 0,
-        gap: '20%'
+        gap: Metrics.marginS,
     },
     centerView: {
         flex: 1,
@@ -289,8 +278,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'transparent',
         width: '45%',
-        height: '100%',
-        borderRadius: '50%',
+        height: Metrics.screenM,
+        borderRadius: Metrics.radiusM,
         position: 'absolute',
         left: '50%',
         transform: [{ translateX: '-50%' }],
@@ -302,54 +291,54 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'lightgreen',
-        width: '90%',
-        height: '90%',
-        borderRadius: '50%',
+        width: wp('90%'),
+        height: Metrics.screenS,
+        borderRadius: Metrics.radiusM,
         elevation: 10,
-        padding: 1,
+        padding: Metrics.marginXS,
     },
     rightView: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        paddingLeft: '7%',
-        paddingRight: '1%',
+        paddingLeft: Metrics.marginS,
+        paddingRight: Metrics.marginS,
         backgroundColor: 'transparent',
-        width: '33.3%',
+        width: '30%',
         height: '100%',
         position: 'absolute',
         right: 1
     },
     textToEdit: {
         textAlign: 'center',
-        fontSize: 20
+        fontSize: Metrics.fontS,
     },
     contenedor: {
-        marginTop: '8%',
+        marginTop: Metrics.marginS,
         width: wp('90%'),
-        gap: 12,
+        gap: Metrics.marginS,
     },
     input: {
-        borderWidth: 3,
+        borderWidth: Metrics.marginXS,
         borderColor: '#ccc',
-        borderRadius: 8,
-        padding: 10,
-        fontSize: 16,
+        borderRadius: Metrics.radiusS,
+        padding: Metrics.marginS,
+        fontSize: Metrics.fontS,
         backgroundColor: '#fff',
-        marginBottom: 10
+        marginBottom: Metrics.marginS,
     },
     textArea: {
-        height: 100,
+        height: "100%",
     },
-        selectorContainer: {
-        marginTop: 20,
+    selectorContainer: {
+        marginTop: Metrics.marginS,
         width: wp('90%'),
         alignSelf: 'center',
     },
     label: {
-        fontSize: 16,
+        fontSize: Metrics.fontS,
         fontWeight: 'bold',
-        marginBottom: 6,
+        marginBottom: Metrics.marginS,
         color: '#333',
     }
 });

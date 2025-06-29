@@ -1,13 +1,25 @@
+'use client';
+
 import React, { useState } from 'react';
-import { View, Text, Alert, StyleSheet, SafeAreaView, StatusBar } from 'react-native';
+import {
+  View,
+  Text,
+  Alert,
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+} from 'react-native';
 import { useRouter } from 'expo-router';
+
+import CustomButton from '../../components/CustomButton';
 import BackButton from '../../components/BackButton';
 import Logo from '../../components/Logo';
 import SlideUpCard from '../../components/SlideUpCard';
-import CustomButton from '../../components/CustomButton';
 import { usePremium } from '../../hooks/usePremium';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Colors } from '../../constants/Colors';
+import { Metrics } from '../../constants/Metrics';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 export default function PausePremium() {
   const router = useRouter();
@@ -16,25 +28,25 @@ export default function PausePremium() {
 
   const handlePause = () => {
     Alert.alert(
-      "Pausar Premium",
-      "¿Quieres pausar tu Premium por 6 meses?",
+      'Pausar Premium',
+      '¿Quieres pausar tu Premium por 6 meses sin perder datos? No se cobrará durante la pausa.',
       [
-        { text: "Cancelar", style: "cancel" },
+        { text: 'Cancelar', style: 'cancel' },
         {
-          text: "Pausar",
+          text: 'Pausar',
           onPress: async () => {
             setIsLoading(true);
-            const result = await pausePremiumPlan(6);
+            const res = await pausePremiumPlan(6);
             setIsLoading(false);
-            if (result.success) {
-              Alert.alert("Premium pausado", "Podrás reanudarlo cuando quieras.", [
-                { text: "OK", onPress: () => router.push("tabs/managePremium") }
+            if (res.success) {
+              Alert.alert('Premium pausado', 'Podrás reanudar cuando quieras.', [
+                { text: 'OK', onPress: () => router.push('/tabs/managePremium') },
               ]);
             } else {
-              Alert.alert("Error", "No se pudo pausar el Premium.");
+              Alert.alert('Error', 'No se pudo pausar.');
             }
-          }
-        }
+          },
+        },
       ]
     );
   };
@@ -42,27 +54,29 @@ export default function PausePremium() {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor={Colors.blueColor} />
-      <SafeAreaView style={styles.safeArea}>
+      <SafeAreaView style={styles.safe}>
         <BackButton onPress={() => router.back()} />
         <Logo />
         <SlideUpCard
           title="Pausar Premium"
-          subtitle="Pausa tu Premium por hasta 6 meses."
+          subtitle="Pausa tu Premium por hasta 6 meses conservando tus datos."
           style={styles.card}
         >
-          <View style={styles.benefitsBox}>
-            <Text style={styles.benefitsTitle}>Beneficios de pausar:</Text>
-            <Text style={styles.benefitItem}>• Conservas tus datos</Text>
-            <Text style={styles.benefitItem}>• No se cobra durante la pausa</Text>
-            <Text style={styles.benefitItem}>• Puedes reanudar cuando quieras</Text>
-          </View>
-          <CustomButton
-            text={isLoading ? "Pausando..." : "Confirmar pausa"}
-            onPress={handlePause}
-            disabled={isLoading}
-            width="90%"
-            style={{ marginTop: hp('3%') }}
-          />
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={styles.infoBox}>
+              <Text style={styles.infoTitle}>Beneficios de pausar:</Text>
+              <Text style={styles.infoItem}>• No se cobra durante la pausa</Text>
+              <Text style={styles.infoItem}>• Mantienes tu configuración</Text>
+            </View>
+
+            <CustomButton
+              text={isLoading ? 'Pausando...' : 'Confirmar pausa'}
+              onPress={handlePause}
+              disabled={isLoading}
+              width={wp('90%')}
+              style={{ marginTop: Metrics.marginS }}
+            />
+          </ScrollView>
         </SlideUpCard>
       </SafeAreaView>
     </View>
@@ -70,11 +84,36 @@ export default function PausePremium() {
 }
 
 const styles = StyleSheet.create({
-  container:     { flex:1, backgroundColor: Colors.blueColor },
-  safeArea:      { flex:1, backgroundColor: Colors.blueColor },
-  card:          { position:'absolute', bottom:0, width:wp('100%'), height:hp('70%') },
-  benefitsBox:   { backgroundColor: Colors.lightGray, padding:wp('4%'),
-                   borderRadius:wp('2%'), width:wp('90%'), alignSelf:'center' },
-  benefitsTitle: { fontSize:hp('2%'), fontWeight:'bold', marginBottom:hp('1%') },
-  benefitItem:   { fontSize:hp('1.8%'), marginBottom:hp('0.5%') },
+  container: { 
+    flex: 1, 
+    backgroundColor: Colors.blueColor,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  safeArea: { 
+    flex: 1, 
+    backgroundColor: Colors.blueColor 
+  },
+  card: { 
+    flex: 1,
+    marginTop: 200,
+    height: Metrics.screenM,
+    alignItems: "stretch",
+  },
+  benefitsBox: { 
+    backgroundColor: Colors.lightGray, 
+    padding: Metrics.marginS,
+    borderRadius: Metrics.radiusS, 
+    width: wp('90%'),
+    alignSelf:'center' 
+  },
+  benefitsTitle: { 
+    fontSize: Metrics.fontM, 
+    fontWeight: 'bold', 
+    marginBottom: Metrics.marginS,
+  },
+  benefitItem: { 
+    fontSize: Metrics.fontS, 
+    marginBottom: Metrics.marginS,
+  },
 });

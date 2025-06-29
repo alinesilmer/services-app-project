@@ -1,23 +1,10 @@
 "use client";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  Modal,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  Image,
-} from "react-native";
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Modal, KeyboardAvoidingView, Platform,
+ScrollView, Image, } from "react-native";
 import { useState } from "react";
 import { useLocalSearchParams, router } from "expo-router";
 import { Colors } from "../../../constants/Colors";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+import { Metrics } from "../../../constants/Metrics";
 import { Feather } from "@expo/vector-icons";
 import opinions from "../../../data/mockOpinions";
 import AnimationFeedback from "../../../components/AnimationFeedback";
@@ -147,7 +134,7 @@ const AddComment = () => {
           <View style={styles.textInputContainer}>
             <Feather
               name="search"
-              size={20}
+              size={Metrics.iconSmall}
               color="#999"
               style={styles.searchIcon}
             />
@@ -220,134 +207,136 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.whiteColor,
+    alignItems: "center",
+    justifyContent: "center",
   },
   scrollContainer: {
     flex: 1,
-    paddingHorizontal: wp("3%"),
-    paddingTop: hp("2%"),
+    paddingHorizontal: Metrics.marginS,
+    paddingTop: Metrics.marginS,
   },
   header: {
-    marginBottom: hp("1%"),
+    marginBottom: Metrics.marginS,
   },
   headerContent: {
-    paddingTop: 35,
+    paddingTop: Metrics.marginS,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
   },
   headerText: {
-    fontSize: wp("4.2%"),
+    fontSize: Metrics.fontM,
     color: "#AE6355",
     flex: 1,
-    marginRight: 15,
+    marginRight: Metrics.marginS,
     fontStyle: "italic",
   },
   userAvatar: {
-    width: 60,
-    height: 60,
-    borderRadius:10,
-    borderWidth: 3,
-    borderColor: "black",
+    width: Metrics.iconXLarge,
+    height: Metrics.iconXLarge,
+    borderRadius: Metrics.radiusS,
+    borderWidth: Metrics.marginXS,
+    borderColor: Colors.textColor,
   },
   inputContainer: {
-    marginBottom: hp("3%"),
+    marginBottom: Metrics.marginS,
   },
   inputLabel: {
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontS,
     color: Colors.blueColor,
-    marginBottom: 10,
+    marginBottom: Metrics.marginS,
     fontWeight: "600",
   },
   textInputContainer: {
-    backgroundColor: "white",
-    borderRadius: 10,
-    borderWidth: 2,
+    backgroundColor: Colors.whiteColor,
+    borderRadius: Metrics.radiusS,
+    borderWidth: Metrics.marginXS,
     borderColor: Colors.blueColor,
-    paddingHorizontal: 15,
-    paddingVertical: 15,
-    minHeight: hp("20%"),
+    paddingHorizontal: Metrics.marginS,
+    paddingVertical: Metrics.marginS,
+    minHeight: "20%",
     elevation: 2,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
-    shadowRadius: 2,
+    shadowRadius: Metrics.radiusS,
   },
   searchIcon: {
     position: "absolute",
-    top: 15,
-    left: 15,
+    top: Metrics.marginXS,
+    left: Metrics.marginXS,
   },
   textInput: {
-    fontSize: wp("3.8%"),
+    fontSize: Metrics.fontS,
     color: "#333",
     textAlignVertical: "top",
-    paddingLeft: 30,
-    paddingTop: 0,
+    paddingLeft: Metrics.marginS,
+    paddingTop: Metrics.marginS,
     flex: 1,
   },
   wordCount: {
     textAlign: "right",
-    fontSize: wp("3%"),
+    fontSize: Metrics.fontXS,
     color: "#666",
-    marginTop: 5,
+    marginTop: Metrics.marginS,
   },
   ratingContainer: {
-    marginBottom: hp("3%"),
+    marginBottom: Metrics.marginS,
   },
   ratingLabel: {
-    fontSize: wp("3%"),
+    fontSize: Metrics.fontS,
     color: Colors.blueColor,
-    marginBottom: 15,
+    marginBottom: Metrics.marginS,
     fontWeight: "600",
   },
   starsContainer: {
     flexDirection: "row",
     justifyContent: "center",
     backgroundColor: "#ddd",
-    borderRadius: 10,
-    paddingHorizontal: 15,
+    borderRadius: Metrics.radiusS,
+    paddingHorizontal: Metrics.marginS,
   },
   starButton: {
-    marginHorizontal: 8,
+    marginHorizontal: Metrics.marginS,
   },
   starText: {
-    fontSize: wp("10%"),
-    paddingBottom: wp("2%")
+    fontSize: Metrics.fontS,
+    paddingBottom: Metrics.marginS,
   },
   submitButton: {
     backgroundColor: "#000",
-    borderRadius: 10,
-    paddingVertical: hp("2%"),
-    paddingHorizontal: wp("8%"),
+    borderRadius: Metrics.radiusS,
+    paddingVertical: Metrics.marginS,
+    paddingHorizontal: Metrics.marginS,
     alignItems: "center",
-    marginBottom: hp("3%"),
+    marginBottom: Metrics.marginS,
     elevation: 3,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
-    shadowRadius: 4,
+    shadowRadius: Metrics.radiusS,
   },
   submitButtonDisabled: {
     backgroundColor: Colors.orangeColor,
   },
   submitButtonText: {
-    color: "white",
-    fontSize: wp("4.2%"),
+    color: Colors.whiteColor,
+    fontSize: Metrics.fontS,
     fontWeight: "600",
   },
   professionalInfo: {
-    backgroundColor: "white",
-    borderRadius: 10,
-    padding: 15,
-    marginBottom: hp("3%"),
+    backgroundColor: Colors.whiteColor,
+    borderRadius: Metrics.radiusS,
+    padding: Metrics.marginS,
+    marginBottom: Metrics.marginS,
     elevation: 1,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
-    shadowRadius: 2,
+    shadowRadius: Metrics.radiusS
   },
   professionalInfoText: {
-    fontSize: wp("3.5%"),
+    fontSize: Metrics.fontS,
     color: "#444",
     textAlign: "center",
   },
@@ -362,19 +351,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   animationContainer: {
-    backgroundColor: "white",
-    borderRadius: 10,
-    padding: 30,
+    backgroundColor: Colors.whiteColor,
+    borderRadius: Metrics.radiusS,
+    padding: Metrics.marginS,
     alignItems: "center",
     elevation: 10,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 0.3,
-    shadowRadius: 10,
+    shadowRadius: Metrics.radiusS
   },
   animationText: {
-    marginTop: 15,
-    fontSize: wp("4%"),
+    marginTop: Metrics.marginS,
+    fontSize: Metrics.fontS,
     fontWeight: "600",
     color: "#333",
     textAlign: "center",

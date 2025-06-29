@@ -3,31 +3,26 @@
 // Returns: errors object with messages for invalid fields
 //------------------------------------------------------------------//
 
-export const useValidation = (fields = {}) => {
+
+export const useValidation = fields => {
+
   const errors = {};
 
-  Object.entries(fields).forEach(([key, value]) => {
-    if (typeof value !== 'boolean' && (value === '' || value == null)) {
-      errors[key] = 'Este campo es obligatorio';
-    }
+  Object.entries(fields).forEach(([k, v]) => {
+    
+    if(typeof v!=='boolean'&&(v===''||v==null)) errors[k]='Este campo es obligatorio';
   });
 
   if (fields.birthdate) {
-    const today = new Date();
-    const birth = new Date(fields.birthdate);
-    const age = today.getFullYear() - birth.getFullYear();
-    const monthDiff = today.getMonth() - birth.getMonth();
-    const dayDiff = today.getDate() - birth.getDate();
+    
+    const birth = new Date(fields.birthdate), now = new Date();
+    let age = now.getFullYear() - birth.getFullYear();
+    const m = now.getMonth() - birth.getMonth();
 
-    const isUnderage = (
-      age < 18 ||
-      (age === 18 && monthDiff < 0) ||
-      (age === 18 && monthDiff === 0 && dayDiff < 0)
-    );
+    
+    if (m < 0 || (m === 0 && now.getDate() < birth.getDate())) age--;
 
-    if (isUnderage) {
-      errors.birthdate = 'Debes ser mayor de 18 años para registrarte';
-    }
+    if (age < 18) errors.birthdate = 'Debes ser mayor de 18 años';
   }
 
   return errors;

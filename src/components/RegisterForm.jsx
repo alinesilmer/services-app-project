@@ -8,8 +8,8 @@ import CheckBox from 'expo-checkbox';
 import CustomInput from './CustomInput';
 import DatePicker from './DatePicker';
 import CustomButton from './CustomButton';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Colors } from '../constants/Colors';
+import { Metrics } from '../constants/Metrics';
 
 const RegisterForm = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
@@ -96,20 +96,20 @@ const RegisterForm = ({ onSubmit }) => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingBottom: hp('4%'),
-    paddingHorizontal: wp('6%')
+    paddingBottom: Metrics.marginS,
+    paddingHorizontal: Metrics.marginS,
   },
   checkRow: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginBottom: hp('2%')
+    marginBottom: Metrics.marginS,
   },
   checkItem: {
     flexDirection: 'row',
     alignItems: 'center'
   },
   checkLabel: {
-    marginLeft: 8,
+    marginLeft: Metrics.marginS,
     color: Colors.textColor
   },
   checkLabelActive: {
@@ -118,19 +118,19 @@ const styles = StyleSheet.create({
   termsRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: hp('2%')
+    marginVertical: Metrics.marginS,
   },
   termsText: {
     color: Colors.textColor,
-    marginLeft: 4
+    marginLeft: Metrics.marginS,
   },
   link: {
     color: Colors.orangeColor
   },
   errorText: {
-    color: 'red',
-    fontSize: wp('3.5%'),
-    marginBottom: hp('1%')
+    color: Colors.errorColor,
+    fontSize: Metrics.fontS,
+    marginBottom: Metrics.marginS,
   }
 });
 

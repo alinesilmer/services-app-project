@@ -2,7 +2,8 @@
 import { View, Text, TouchableOpacity, StyleSheet, Platform } from "react-native"
 import DateTimePicker from "@react-native-community/datetimepicker"
 import { Feather } from "@expo/vector-icons"
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
+import { Metrics } from "../constants/Metrics"
+import { Colors } from "../constants/Colors"
 
 const DatePickerAppointment = ({ label = "Seleccionar fecha", value, onChange, show, onPress, minimumDate, style }) => {
   const formatDate = (date) => {
@@ -35,7 +36,7 @@ const DatePickerAppointment = ({ label = "Seleccionar fecha", value, onChange, s
             <Text style={styles.label}>{label}</Text>
             <Text style={styles.dateText}>{value ? formatDate(value) : "Seleccionar fecha"}</Text>
           </View>
-          <Feather name="calendar" size={24} color="#1a2f68" />
+          <Feather name="calendar" size={Metrics.iconSmall} color={Colors.textColor} />
         </View>
       </TouchableOpacity>
 
@@ -55,14 +56,14 @@ const DatePickerAppointment = ({ label = "Seleccionar fecha", value, onChange, s
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 10,
+    marginVertical: Metrics.marginS,
   },
   dateButton: {
     backgroundColor: "#f8f9fa",
-    borderRadius: 12,
-    borderWidth: 1,
+    borderRadius: Metrics.radiusS,
+    borderWidth: Metrics.marginXS,
     borderColor: "#e9ecef",
-    padding: 15,
+    padding: Metrics.marginM,
   },
   dateButtonContent: {
     flexDirection: "row",
@@ -73,15 +74,15 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   label: {
-    fontSize: wp("3.5%"),
-    color: "#666",
-    marginBottom: 5,
+    fontSize: Metrics.fontS,
+    color: Colors.textColor,
+    marginBottom: Metrics.marginS,
     fontWeight: "500",
   },
   dateText: {
-    fontSize: wp("4%"),
-    color: "#333",
-    fontWeight: "600",
+    fontSize: Metrics.fontM,
+    color: Colors.textColor,
+    fontWeight: "bold",
   },
 })
 
