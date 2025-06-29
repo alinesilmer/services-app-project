@@ -9,7 +9,6 @@ import {
   ScrollView,
   Modal,
   Image,
-  Dimensions,
 } from "react-native"
 import { useState, useEffect } from "react"
 import { useLocalSearchParams, router } from "expo-router"
@@ -22,30 +21,19 @@ import CustomButton from "../../../components/CustomButton"
 
 import mockProfiles from "../../../data/mockProfiles"
 import mockServices from "../../../data/mockServices"
-import { getUserData, isPremiumUser } from "../../../utils/storage";
+import { usePremium } from "../../../hooks/usePremium"
 
-const { width } = Dimensions.get("window")
 
 const ProfessionalServices = () => {
   const params = useLocalSearchParams()
   const [selectedService, setSelectedService] = useState(null)
   const [showServiceModal, setShowServiceModal] = useState(false)
 
-    const [premium, setPremium] = useState(false);
-
-    useEffect(() => {
-        const loadPremiumStatus = async () => {
-          try {
-            getUserData()
-            const premium = await isPremiumUser();
-            setPremium(premium);
-          } catch (error) {
-            console.error("Error loading premium status:", error);
-          }
-        };
-    
-        loadPremiumStatus();
-      }, []);
+    const { premium } = usePremium()
+  
+      const userIsPremium =
+        (premium.isPremium || premium.isPremiumProf) &&
+        ["active", "trial"].includes(premium.premiumStatus)
 
   const professional = mockProfiles.find((profile) => profile.id === Number.parseInt(params.professionalId))
 
@@ -193,7 +181,7 @@ const ProfessionalServices = () => {
           />
         </View>
 
-        <AdsImage onPress isPremium={premium} />
+        <AdsImage onPress isPremium={userIsPremium} />
       </ScrollView>
 
       <Modal visible={showServiceModal} transparent={true} animationType="slide">

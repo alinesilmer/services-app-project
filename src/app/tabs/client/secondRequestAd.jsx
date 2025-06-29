@@ -6,29 +6,23 @@ import { Feather } from "@expo/vector-icons";
 import { Colors } from "../../../constants/Colors";
 import { Fonts } from "../../../constants/Fonts";
 import { Metrics } from "../../../constants/Metrics";
-import { getUserData, UsePremium } from "../../../utils/storage"; 
-import { widthPercentageToDP as wp } from "react-native-responsive-screen";
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
+
 
 import AdsImage from "../../../components/AdsImage";
 import Logo from "../../../components/Logo";
 import BackButton from "../../../components/BackButton";
 import CustomButton from "../../../components/CustomButton";
+import { usePremium } from "../../../hooks/usePremium"
 import SlideUpCard from "../../../components/SlideUpCard";
 
 export default function SecondRequest() {
   const router = useRouter();
-  const [premium, setPremium] = useState(false);
-
-  useEffect(() => {
-    const loadPremiumStatus = async () => {
-      try {
-        getUserData();
-        const premium = await UsePremium();
-        setPremium(premium);
-      } catch (error) {}
-    };
-    loadPremiumStatus();
-  }, []);
+    const { premium } = usePremium()
+  
+      const userIsPremium =
+        (premium.isPremium || premium.isPremiumProf) &&
+        ["active", "trial"].includes(premium.premiumStatus)
 
   return (
     <>
@@ -100,7 +94,7 @@ export default function SecondRequest() {
               </View>
 
               <View style={styles.imageContainer}>
-                <AdsImage onPress isPremium={premium} />
+                <AdsImage onPress isPremium={userIsPremium} />
               </View>
             </ScrollView>
           </SlideUpCard>

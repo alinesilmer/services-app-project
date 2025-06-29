@@ -23,7 +23,6 @@ import AnimationFeedback from "../../../components/AnimationFeedback"
 import ModifyAppointmentModal from "../../../components/ModifyAppointmentModal"
 import mockAppointments from "../../../data/mockAppointments"
 import BackButton from "../../../components/BackButton"
-import { getUserData, isPremiumUser  } from "../../../utils/storage";
 import { usePremium } from "../../../hooks/usePremium"
 
 const MyAppointments = () => {
@@ -36,7 +35,6 @@ const MyAppointments = () => {
   const [appointmentToDelete, setAppointmentToDelete] = useState(null)
 
   const { premium } = usePremium()
-  const isPremium = premium?.isPremium && ["active", "trial"].includes(premium.premiumStatus)
 
   const loadAppointments = useCallback(() => {
     setCurrentAppointments([...mockAppointments])
@@ -89,19 +87,9 @@ const MyAppointments = () => {
     }, 100)
   }
 
-    useEffect(() => {
-        const loadPremiumStatus = async () => {
-          try {
-            getUserData()
-            const premium = await isPremiumUser();
-            setPremium(premium);
-          } catch (error) {
-            console.error("Error loading premium status:", error);
-          }
-        };
-    
-        loadPremiumStatus();
-      }, []);
+      const userIsPremium =
+        (premium.isPremium || premium.isPremiumProf) &&
+        ["active", "trial"].includes(premium.premiumStatus)
 
 
   const handleSaveModifiedAppointment = (updatedAppointment) => {
@@ -190,7 +178,7 @@ const MyAppointments = () => {
           )}
 
           <View style={styles.adContainer}>
-            <AdsImage onPress isPremium={premium}/>
+            <AdsImage onPress isPremium={userIsPremium}/>
           </View>
         </ScrollView>
       </View>
