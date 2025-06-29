@@ -19,12 +19,7 @@ import { KeyboardAvoidingView } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Colors } from "../../../constants/Colors";
 import { Fonts } from "../../../constants/Fonts";
-import { getUserData, UsePremium } from "../../../utils/storage";
 import { Metrics } from "../../../constants/Metrics";
-import {
-  widthPercentageToDP as wp,
-} from "react-native-responsive-screen";
-
 import AdsImage from "../../../components/AdsImage";
 import Logo from "../../../components/Logo";
 import BackButton from "../../../components/BackButton";
@@ -176,7 +171,7 @@ export default function request() {
                   <CustomButton
                     text={selectedImage ? "Cambiar foto" : "Adjuntar foto"}
                     onPress={() => setShowImageModal(true)}
-                    width="90%"
+                    width={Metrics.animationXXXL}
                     style={styles.customBotton}
                   />
                 </View>
@@ -186,8 +181,7 @@ export default function request() {
                     text="Confirmar solicitud"
                     onPress={handleConfirmRequest}
                     backgroundColor="#e47755"
-                    width="90%"
-                    style={styles.customBotton}
+                    width={Metrics.animationXXXL}
                   />
                 </View>
 
@@ -293,61 +287,61 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     alignItems: "center",
-    marginBottom: hp("2%"),
-    marginTop: hp("2%"),
+    marginBottom: Metrics.marginS,
+    marginTop: Metrics.marginS,
   },
   title: {
     fontFamily: Fonts.roboto,
-    fontSize: wp("4,5%"),
+    fontSize: Metrics.fontM,
     fontWeight: "bold",
     textAlign: "center",
   },
   descriptionContainer: {
     alignItems: "center",
-    marginBottom: hp("2%"),
+    marginBottom: Metrics.marginS,
   },
   description: {
     fontFamily: Fonts.roboto,
-    fontSize: wp("5%"),
+    fontSize: Metrics.fontS,
     color: Colors.orangeColor,
     textAlign: "center",
-    width: wp("80%"),
+    width: Metrics.animationXXL,
   },
   rectangle: {
-    width: wp("80%"),
-    height: hp("20%"),
+    width: Metrics.animationXXXL,
+    height: Metrics.animationL,
     backgroundColor: Colors.whiteColor,
     borderColor: Colors.blueColor,
     borderWidth: 3,
     borderRadius: 6,
     justifyContent: "flex-start",
     alignItems: "flex-start",
-    marginTop: hp("0.5%"),
-    marginBottom: hp("0.5%"),
-    marginLeft: wp("5%"),
+    marginTop: Metrics.marginS,
+    marginBottom: Metrics.marginS,
+    marginLeft: Metrics.marginS,
   },
   text: {
     textAlignVertical: "top",
-    width: wp("80%"),
-    height: hp("20%"),
+    width: Metrics.animationXXL,
+    height: Metrics.animationL,
     padding: 10,
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontS,
   },
   selectedImageContainer: {
     alignItems: "center",
-    marginVertical: hp("2%"),
+    marginVertical: Metrics.marginS,
     position: "relative",
   },
   selectedImage: {
-    width: wp("80%"),
-    height: hp("25%"),
+    width: Metrics.animationXXL,
+    height: Metrics.animationL,
     borderRadius: 10,
     resizeMode: "cover",
   },
   removeImageButton: {
     position: "absolute",
     top: 10,
-    right: wp("12%"),
+    right: Metrics.marginM,
     backgroundColor: "rgba(220, 53, 69, 0.8)",
     borderRadius: 15,
     width: 30,
@@ -356,16 +350,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonContainer: {
-    width: wp("90%"),
-    marginTop: hp("1%"),
-    marginBottom: hp("1%"),
+    width: Metrics.animationXXXL,
+    marginTop: Metrics.marginS,
+    marginBottom: Metrics.marginS,
     alignItems: "center",
   },
-  customBotton: {
-    width: wp("90%"),
-  },
   imageContainer: {
-    width: wp("90%"),
+    width: Metrics.animationXXXL,
   },
   modalOverlay: {
     flex: 1,
@@ -387,7 +378,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "#f0f0f0",
   },
   modalTitle: {
-    fontSize: wp("5%"),
+    fontSize: Metrics.marginS,
     fontWeight: "bold",
     color: "#333",
   },
@@ -395,7 +386,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   modalSubtitle: {
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontS,
     color: "#666",
     marginBottom: 20,
     textAlign: "center",
@@ -428,13 +419,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   optionTitle: {
-    fontSize: wp("4.5%"),
+    fontSize: Metrics.fontS,
     fontWeight: "600",
     color: "#333",
     marginBottom: 3,
   },
   optionDescription: {
-    fontSize: wp("3.5%"),
+    fontSize: Metrics.fontS,
     color: "#666",
   },
   cancelButton: {
@@ -446,7 +437,7 @@ const styles = StyleSheet.create({
   },
   cancelButtonText: {
     color: "white",
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontS,
     fontWeight: "600",
   },
   modalButtonContainer: {

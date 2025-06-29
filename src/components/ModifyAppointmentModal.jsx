@@ -158,6 +158,7 @@ const ModifyAppointmentModal = ({ visible, appointment, onClose, onSave }) => {
   if (!appointment) return null
 
   return (
+    
     <Modal visible={visible} transparent={true} animationType="slide" onRequestClose={onClose}>
       <View style={styles.overlay}>
         <View style={styles.container}>
@@ -282,7 +283,9 @@ const styles = StyleSheet.create({
     borderBottomColor: "#f0f0f0",
   },
   title: {
-    fontSize: Metrics.fontM,
+    marginTop: Metrics.marginM,
+    marginLeft: Metrics.marginS,
+    fontSize: Metrics.fontL,
     fontWeight: "bold",
     color: Colors.orangeColor,
   },

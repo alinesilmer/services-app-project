@@ -479,7 +479,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.orangeColor,
     borderRadius: Metrics.radiusS,
-    paddingVertical: Metrics.marginXXL,
+    paddingVertical: Metrics.marginS,
     alignItems: "center",
   },
   changeButtonText: {
