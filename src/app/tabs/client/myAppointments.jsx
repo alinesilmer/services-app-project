@@ -15,7 +15,6 @@ import { useState, useCallback, useEffect } from "react"
 import { router, useFocusEffect } from "expo-router"
 import { Colors } from "../../../constants/Colors"
 import { Metrics } from "../../../constants/Metrics"
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 import { Feather } from "@expo/vector-icons"
 
 import AdsImage from "../../../components/AdsImage"
@@ -25,6 +24,7 @@ import ModifyAppointmentModal from "../../../components/ModifyAppointmentModal"
 import mockAppointments from "../../../data/mockAppointments"
 import BackButton from "../../../components/BackButton"
 import { getUserData, isPremiumUser  } from "../../../utils/storage";
+import { usePremium } from "../../../hooks/usePremium"
 
 const MyAppointments = () => {
   const [selectedAppointment, setSelectedAppointment] = useState(null)
@@ -278,7 +278,6 @@ const MyAppointments = () => {
           <View style={styles.animationContainer}>
             <AnimationFeedback type="delete" />
             <Text style={styles.deleteTitle}>Turno Cancelado</Text>
-            <Text style={styles.deleteMessage}>El turno ha sido cancelado exitosamente</Text>
           </View>
         </View>
       </Modal>
@@ -307,11 +306,11 @@ const styles = StyleSheet.create({
   },
   welcomeText: {
     color: Colors.whiteColor,
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontM,
   },
   usernameText: {
     color: Colors.whiteColor,
-    fontSize: wp("4.5%"),
+    fontSize: Metrics.fontM,
     fontWeight: "bold",
   },
   content: {
@@ -419,7 +418,7 @@ const styles = StyleSheet.create({
   },
   statusText: {
     color: Colors.whiteColor,
-    fontSize: wp("3%"),
+    fontSize: Metrics.fontS,
     fontWeight: "600",
   },
   adContainer: {
@@ -436,8 +435,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 20,
     margin: 20,
-    width: wp("90%"),
-    maxHeight: "80%",
+    width: Metrics.animationXL,
+    maxHeight: Metrics.animationXXL,
   },
   modalHeader: {
     flexDirection: "row",
@@ -485,19 +484,19 @@ const styles = StyleSheet.create({
   },
   cancelButtonText: {
     color: Colors.whiteColor,
-    fontSize: wp("3.8%"),
+    fontSize: Metrics.fontS,
     fontWeight: "600",
   },
   changeButton: {
     flex: 1,
     backgroundColor: Colors.orangeColor,
     borderRadius: Metrics.radiusS,
-    paddingVertical: Metrics.marginS,
+    paddingVertical: Metrics.marginXXL,
     alignItems: "center",
   },
   changeButtonText: {
     color: Colors.whiteColor,
-    fontSize: wp("3.8%"),
+    fontSize: Metrics.fontS,
     fontWeight: "600",
   },
   animationOverlay: {
@@ -509,15 +508,16 @@ const styles = StyleSheet.create({
   animationContainer: {
     backgroundColor: Colors.whiteColor,
     borderRadius: 10,
-    padding: 30,
+    padding: 2,
     alignItems: "center",
-    minWidth: wp("70%"),
+    minWidth: Metrics.animationXL,
   },
   deleteTitle: {
     fontSize: Metrics.fontS,
     fontWeight: "bold",
     color: "#333",
     marginTop: Metrics.marginS,
+    marginBottom: Metrics.marginL,
     textAlign: "center",
   },
   deleteMessage: {

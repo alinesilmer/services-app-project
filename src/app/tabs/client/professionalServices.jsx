@@ -14,6 +14,7 @@ import {
 import { useState, useEffect } from "react"
 import { useLocalSearchParams, router } from "expo-router"
 import { Colors } from "../../../constants/Colors"
+import { Metrics } from "../../../constants/Metrics"
 import {  Feather } from "@expo/vector-icons"
 import AdsImage from "../../../components/AdsImage"
 import BackButton from "../../../components/BackButton"
@@ -264,7 +265,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     color: Colors.whiteColor,
-    fontSize: wp("5%"),
+    fontSize: Metrics.fontM,
     fontWeight: "bold",
   },
   placeholder: {
@@ -276,7 +277,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingTop: 30,
-    paddingHorizontal: wp("5%"),
+    paddingHorizontal: Metrics.mar,
   },
   servicesHeader: {
     alignItems: "center",
@@ -382,7 +383,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.whiteColor,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
-    maxHeight: hp("85%"),
+    maxHeight: Metrics.ionXXL,
     paddingBottom: 20,
   },
   modalHeader: {
@@ -446,7 +447,7 @@ const styles = StyleSheet.create({
     marginBottom: Metrics.marginS
   },
   photo: {
-    width: wp("100%"),
+    width: Metrics,screenS,
     height: Metrics.screenS,
     borderRadius: Metrics.radiusS,
     backgroundColor: "#f0f0f0",
@@ -463,7 +464,7 @@ const styles = StyleSheet.create({
   },
   modalAppointmentButtonText: {
     color: Colors.whiteColor,
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontS,
     fontWeight: "600",
   },
   messageButton: {

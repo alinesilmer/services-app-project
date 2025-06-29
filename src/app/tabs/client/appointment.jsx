@@ -5,7 +5,6 @@ import { useLocalSearchParams, useRouter } from "expo-router"
 import { Feather } from "@expo/vector-icons"
 import { Colors } from "../../../constants/Colors"
 import { Metrics } from "../../../constants/Metrics"
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 import AdsImage from "../../../components/AdsImage"
 import DatePickerAppointment from "../../../components/DatePickerAppointment"
@@ -167,9 +166,6 @@ const Appointment = () => {
             <View style={styles.animationContainer}>
               <AnimationFeedback type="success" />
               <Text style={styles.successTitle}>¡Éxito!</Text>
-              <Text style={styles.successMessage}>
-                {`Se ${selectedTimes.length > 1 ? "han" : "ha"} confirmado ${selectedTimes.length} turno${selectedTimes.length > 1 ? "s" : ""}`}
-              </Text>
             </View>
           </View>
         </Modal>
@@ -206,7 +202,7 @@ const Appointment = () => {
         <View style={styles.actionButton}>
           <CustomButton text={"Volver atrás"} onPress={handleBack}/>
           </View>
-           <View style={styles.actionButton}>
+          <View style={styles.actionButton}>
           <CustomButton text={"Confirmar fecha"} onPress={handleDateConfirm} backgroundColor={Colors.orangeColor}/>
         </View>
       </ScrollView>
@@ -240,7 +236,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.whiteColor,
     borderRadius: 15,
     padding: 20,
-    marginBottom: hp("3%"),
+    marginBottom: Metrics.marginS,
     elevation: 2,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
@@ -271,7 +267,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.whiteColor,
     borderRadius: 15,
     padding: 20,
-    marginBottom: hp("3%"),
+    marginBottom: Metrics.marginS,
     elevation: 2,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
@@ -321,7 +317,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 30,
     alignItems: "center",
-    minWidth: wp("70%"),
+    minWidth: Metrics.animationXL,
   },
   successTitle: {
     fontSize: Metrics.radiusS,

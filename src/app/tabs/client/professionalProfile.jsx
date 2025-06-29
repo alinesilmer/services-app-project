@@ -338,7 +338,7 @@ const styles = StyleSheet.create({
   },
   opinionAvatarText: {
     color: Colors.whiteColor,
-    fontSize: wp("5%"),
+    fontSize: Metrics.fontS,
     fontWeight: "bold",
   },
   opinionUserName: {

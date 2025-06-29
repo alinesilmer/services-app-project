@@ -251,7 +251,6 @@ const ModifyAppointmentModal = ({ visible, appointment, onClose, onSave }) => {
               <View style={styles.animationContainer}>
                 <AnimationFeedback type="success" />
                 <Text style={styles.successTitle}>¡Turno Modificado!</Text>
-                <Text style={styles.successMessage}>Los cambios se han guardado exitosamente</Text>
               </View>
             </View>
           </Modal>
@@ -453,13 +452,6 @@ const styles = StyleSheet.create({
     color: "#333",
     marginTop: Metrics.marginS,
     textAlign: "center",
-  },
-  successMessage: {
-    fontSize: Metrics.fontS,
-    color: "#666",
-    marginTop: Metrics.marginXS,
-    textAlign: "center",
-    lineHeight: Metrics.marginXS,
   },
 })
 

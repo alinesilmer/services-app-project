@@ -321,14 +321,14 @@ const styles = StyleSheet.create({
   },
   submitButtonText: {
     color: Colors.whiteColor,
-    fontSize: wp("4.2%"),
+    fontSize: Metrics.fontS,
     fontWeight: "600",
   },
   professionalInfo: {
     backgroundColor: Colors.whiteColor,
     borderRadius: 10,
     padding: 15,
-    marginBottom: hp("3%"),
+    marginBottom: Metrics.marginS,
     elevation: 1,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },

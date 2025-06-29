@@ -40,5 +40,8 @@ export const Metrics = {
   screenL: verticalScale(600),
 
   animationS: scale(24),
-  animationL: verticalScale(120)
+  animationL: verticalScale(120),
+  animationXL: scale(288),
+  animationXXL: scale(350),
+  animationXXXL: scale(370)
 };
