@@ -55,9 +55,10 @@ export default function StopPremium() {
   };
 
   return (
-    <View style={styles.container}>
+    <>
       <StatusBar barStyle="light-content" backgroundColor={Colors.blueColor} />
       <SafeAreaView style={styles.safe}>
+            <View style={styles.container}>
         <BackButton onPress={() => router.back()} />
         <Logo />
         <SlideUpCard
@@ -82,8 +83,9 @@ export default function StopPremium() {
             />
           </ScrollView>
         </SlideUpCard>
+        </View>
       </SafeAreaView>
-    </View>
+    </>
   );
 }
 

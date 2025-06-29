@@ -59,7 +59,7 @@ const CustomInput = ({
 const styles = StyleSheet.create({
   container: {
     marginBottom: Metrics.marginS,
-    width: wp("100%"),
+    width: wp("90%"),
   },
   label: {
     fontFamily: Fonts.roboto,
