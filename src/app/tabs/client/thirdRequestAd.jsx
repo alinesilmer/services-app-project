@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Image, ScrollView, SafeAreaView, } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  ScrollView,
+  SafeAreaView,
+} from "react-native";
 import { useRouter } from "expo-router";
 import { StatusBar } from "react-native";
-import { getUserData, isPremiumUser } from "../../../utils/storage";
 import { Colors } from "../../../constants/Colors";
 import { Fonts } from "../../../constants/Fonts";
 import { Metrics } from "../../../constants/Metrics";
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
+import{ getUserData,UsePremium } from "../../../utils/storage"; 
+import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 
 import AdsImage from "../../../components/AdsImage";
 import { usePremium } from "../../../hooks/usePremium"
@@ -96,9 +103,8 @@ export const styles = StyleSheet.create({
   card: {
     position: "absolute",
     bottom: 0,
-    width: wp("100%"),
     height: Metrics.screenM,
-    alignItems: "stretch",
+    alignItems: "center",
   },
   headerContainer: {
     alignItems: "center",
@@ -137,14 +143,13 @@ export const styles = StyleSheet.create({
     marginBottom: Metrics.marginXS,
     alignItems: "center",
   },
-  customBotton: {
-  },
+  customBotton: {},
   imageContainer: {
     width: wp("90%"),
   },
   image: {
     width: Metrics.screenS * 0.3,
-		height: Metrics.screenS * 0.3,
+    height: Metrics.screenS * 0.3,
     alignItems: "center",
     justifyContent: "center",
   },

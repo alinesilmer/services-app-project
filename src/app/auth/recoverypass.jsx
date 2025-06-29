@@ -161,7 +161,6 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   stepsContainer: {
-    justifyContent: 'center',
     alignItems: 'center',
   },
   instructionWrapper: {

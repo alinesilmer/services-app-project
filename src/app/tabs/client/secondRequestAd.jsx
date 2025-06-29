@@ -40,7 +40,9 @@ export default function SecondRequest() {
                   color={Colors.orangeColor}
                   fontWeight="bold"
                 />
-                <Text style={[styles.titleTwo, { marginLeft: Metrics.marginS }]}>
+                <Text
+                  style={[styles.titleTwo, { marginLeft: Metrics.marginS }]}
+                >
                   ¡SE NECESITA!
                 </Text>
               </View>
@@ -65,7 +67,9 @@ export default function SecondRequest() {
                   color={Colors.orangeColor}
                   fontWeight="bold"
                 />
-                <Text style={[styles.titleTwo, { marginLeft: Metrics.marginS }]}>
+                <Text
+                  style={[styles.titleTwo, { marginLeft: Metrics.marginS }]}
+                >
                   ¡SE NECESITA!
                 </Text>
               </View>
@@ -83,7 +87,7 @@ export default function SecondRequest() {
 
               <View style={styles.buttonContainer}>
                 <CustomButton
-                  text="Agregar solicitud personalizada"
+                  text="Agregar solicitud"
                   onPress={() => router.push("tabs/client/requestAd")}
                   backgroundColor="#e47755"
                 />
@@ -114,9 +118,8 @@ const styles = StyleSheet.create({
   card: {
     position: "absolute",
     bottom: 0,
-    width: wp("100%"),
     height: Metrics.screenM,
-    alignItems: "stretch",
+    alignItems: "center",
   },
   headerContainer: {
     alignItems: "center",

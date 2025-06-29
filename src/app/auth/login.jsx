@@ -185,8 +185,6 @@ const styles = StyleSheet.create({
   scrollContent: {
     flexGrow: 1,
     gap: Metrics.marginS,
-    alignItems: "center",
-    justifyContent: "center",
     paddingBottom: Metrics.marginL,
   },
   linksContainer: {

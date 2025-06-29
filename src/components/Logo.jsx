@@ -12,9 +12,10 @@ const Logo = () => {
 };
 
 const styles = StyleSheet.create({
-    logo: {
+  logo: {
     position: 'absolute',
     top: Metrics.marginS,
+    right: -Metrics.marginXXL,
     width: Metrics.screenS,
     height: Metrics.screenS,
     marginBottom: Metrics.marginM,

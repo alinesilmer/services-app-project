@@ -1,36 +1,39 @@
-
-import { useEffect, useRef, useState } from "react"
-import { useSelector } from "react-redux"
+import { useEffect, useRef, useState, useMemo, useCallback } from 'react'
+import { useSelector } from 'react-redux'
+import { useAdTimer } from './useAdTimer'
 
 export const useAdManager = () => {
+  const premium = useSelector(s => s.premium)
+  const user = useSelector(s => s.auth.user)
   const [showAd, setShowAd] = useState(false)
-  const premium = useSelector((s) => s.premium)
-  const userData = useSelector((s) => s.auth.user)
+  const { canClose, timer } = useAdTimer(showAd)
   const timerRef = useRef(null)
 
-  const userIsPremium = () =>
-    (premium.isPremium || premium.isPremiumProf) &&
-    ["active", "trial"].includes(premium.premiumStatus)
+  const isPremium = useMemo(() => {
+    return (
+      (premium.isPremium || premium.isPremiumProf) &&
+      ['active', 'trial'].includes(premium.premiumStatus)
+    )
+  }, [premium.isPremium, premium.isPremiumProf, premium.premiumStatus])
 
   useEffect(() => {
-    if (userData?.fullName && !userIsPremium()) {
-      setShowAd(true)
-      timerRef.current = setTimeout(() => setShowAd(true), 1 * 60 * 1000)
-    } else {
-      setShowAd(false)
-      clearTimeout(timerRef.current)
-    }
+    clearTimeout(timerRef.current)
+    setShowAd(false)
 
+    if (!user || isPremium) return
+
+    timerRef.current = setTimeout(() => setShowAd(true), 60000)
     return () => clearTimeout(timerRef.current)
-  }, [userData?.fullName, premium.premiumStatus])
+  }, [user, isPremium])
 
-  const closeAd = () => {
+  const closeAd = useCallback(() => {
+    if (!canClose) return
     setShowAd(false)
     clearTimeout(timerRef.current)
-    if (!userIsPremium()) {
-      timerRef.current = setTimeout(() => setShowAd(true), 1 * 60 * 1000)
+    if (user && !isPremium) {
+      timerRef.current = setTimeout(() => setShowAd(true), 60000)
     }
-  }
+  }, [canClose, isPremium, user])
 
-  return { showAd, closeAd, userIsPremium: userIsPremium() }
+  return { showAd, closeAd, canClose, timer, isPremium }
 }

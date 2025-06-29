@@ -1,5 +1,6 @@
-"use client"
-import React, { useEffect, useState } from "react"
+"use client";
+
+import React, { useEffect, useState } from "react";
 import {
   SafeAreaView,
   StatusBar,
@@ -8,26 +9,25 @@ import {
   View,
   Text,
   StyleSheet,
-} from "react-native"
-import { useRouter } from "expo-router"
-import SlideUpCard from "../../../components/SlideUpCard"
-import CustomButton from "../../../components/CustomButton"
-import Ad from "../../../components/Ad"
-import BottomNavBar from "../../../components/NavBar"
-import ProfilePic from "../../../components/ProfilePic"
-import LongCard from "../../../components/LongCard"
+} from "react-native";
+import { useRouter } from "expo-router";
+import { useDispatch } from "react-redux";
 
-import { Colors } from "../../../constants/Colors"
-import { Metrics } from "../../../constants/Metrics"
-import { usePremium } from "../../../hooks/usePremium"
-import { useDispatch } from "react-redux"
-import { useAdManager } from "../../../hooks/useAdManager"
-import {
-  getCompleteUserData,
-  logoutUser
-} from "../../../utils/storage"
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
-import { logout } from "../../../redux/slices/authSlice";               
+import SlideUpCard from "../../../components/SlideUpCard";
+import CustomButton from "../../../components/CustomButton";
+import Ad from "../../../components/Ad";
+import BottomNavBar from "../../../components/NavBar";
+import ProfilePic from "../../../components/ProfilePic";
+import LongCard from "../../../components/LongCard";
+
+import { Colors } from "../../../constants/Colors";
+import { Metrics } from "../../../constants/Metrics";
+import { widthPercentageToDP as wp } from "react-native-responsive-screen";
+
+import { usePremium } from "../../../hooks/usePremium";
+import { useAdManager } from "../../../hooks/useAdManager";
+import { getCompleteUserData, logoutUser } from "../../../utils/storage";
+import { logout } from "../../../redux/slices/authSlice";
 import { resetPremiumState } from "../../../redux/slices/premiumSlice";
 
 export default function ClientDashboard() {
@@ -36,6 +36,7 @@ export default function ClientDashboard() {
 
   const { premium, daysRemaining, initializePremium } = usePremium();
   const { showAd, closeAd, userIsPremium } = useAdManager();
+  const isPremium = usePremium(); 
 
   const [refreshing, setRefreshing] = useState(false);
   const [userData, setUserData] = useState(null);
@@ -64,9 +65,10 @@ export default function ClientDashboard() {
   };
 
   const handlePremiumNav = () => {
-    handleSecureNavigation(
-      userIsPremium ? "/tabs/managePremium" : "/auth/goPremium"
-    );
+    const route = isPremium
+      ? "/tabs/managePremium"
+      : "/auth/goPremium";
+    handleSecureNavigation(route);
   };
 
   const handleLogout = async () => {
@@ -80,21 +82,24 @@ export default function ClientDashboard() {
     }
   };
 
-  const hour = new Date().getHours()
+  const hour = new Date().getHours();
   const greeting = !isValidUser()
     ? "¡Bienvenido, Usuario!"
     : hour < 12
-      ? `¡Buenos días, ${userData.fullName}!`
-      : hour < 18
-        ? `¡Buenas tardes, ${userData.fullName}!`
-        : `¡Buenas noches, ${userData.fullName}!`
+    ? `¡Buenos días, ${userData.fullName}!`
+    : hour < 18
+    ? `¡Buenas tardes, ${userData.fullName}!`
+    : `¡Buenas noches, ${userData.fullName}!`;
 
-  let subtitle = "Bienvenido a tu panel de usuario"
+  let subtitle = "Bienvenido a tu panel de usuario";
   if (premium.premiumStatus === "trial")
-    subtitle = `Prueba (${daysRemaining} día${daysRemaining !== 1 ? "s" : ""} restante)`
-  if (premium.premiumStatus === "active") subtitle = "Premium Activo"
-  if (premium.premiumStatus === "paused") subtitle = "Premium Pausado"
-  if (premium.premiumStatus === "expired") subtitle = "Premium Expirado"
+    subtitle = `Prueba (${daysRemaining} día${
+      daysRemaining !== 1 ? "s" : ""
+    } restante)`;
+  if (premium.premiumStatus === "active") subtitle = "Premium Activo";
+  if (premium.premiumStatus === "paused") subtitle = "Premium Pausado";
+  if (premium.premiumStatus === "expired")
+    subtitle = "Premium Expirado";
 
   return (
     <>
@@ -190,11 +195,13 @@ export default function ClientDashboard() {
         </View>
         <Ad visible={showAd} onClose={closeAd} />
       </SafeAreaView>
+
       <BottomNavBar />
       <SafeAreaView style={styles.safeAreaBottom} />
     </>
-  )
+  );
 }
+
 
 const styles = StyleSheet.create({
   safeArea: {
