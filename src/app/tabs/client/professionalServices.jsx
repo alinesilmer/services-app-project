@@ -1,8 +1,20 @@
 "use client"
-import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Platform, ScrollView, Modal, Image, Dimensions, } from "react-native"
-import { useState } from "react"
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  StatusBar,
+  Platform,
+  ScrollView,
+  Modal,
+  Image,
+  Dimensions,
+} from "react-native"
+import { useState, useEffect } from "react"
 import { useLocalSearchParams, router } from "expo-router"
 import { Colors } from "../../../constants/Colors"
+import { Metrics } from "../../../constants/Metrics"
 import {  Feather } from "@expo/vector-icons"
 import AdsImage from "../../../components/AdsImage"
 import BackButton from "../../../components/BackButton"
@@ -10,8 +22,7 @@ import CustomButton from "../../../components/CustomButton"
 
 import mockProfiles from "../../../data/mockProfiles"
 import mockServices from "../../../data/mockServices"
-import { Metrics } from "../../../constants/Metrics"
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
+import { getUserData, isPremiumUser } from "../../../utils/storage";
 
 const { width } = Dimensions.get("window")
 
@@ -19,6 +30,22 @@ const ProfessionalServices = () => {
   const params = useLocalSearchParams()
   const [selectedService, setSelectedService] = useState(null)
   const [showServiceModal, setShowServiceModal] = useState(false)
+
+    const [premium, setPremium] = useState(false);
+
+    useEffect(() => {
+        const loadPremiumStatus = async () => {
+          try {
+            getUserData()
+            const premium = await isPremiumUser();
+            setPremium(premium);
+          } catch (error) {
+            console.error("Error loading premium status:", error);
+          }
+        };
+    
+        loadPremiumStatus();
+      }, []);
 
   const professional = mockProfiles.find((profile) => profile.id === Number.parseInt(params.professionalId))
 
@@ -63,7 +90,6 @@ const ProfessionalServices = () => {
     return selectedPhotos
   }
 
-  const isPremiumUser = false
 
   const getServicePrice = (serviceName) => {
     const service = mockServices.find(
@@ -167,7 +193,7 @@ const ProfessionalServices = () => {
           />
         </View>
 
-        <AdsImage onPress isPremium={isPremiumUser} />
+        <AdsImage onPress isPremium={premium} />
       </ScrollView>
 
       <Modal visible={showServiceModal} transparent={true} animationType="slide">
@@ -202,17 +228,16 @@ const ProfessionalServices = () => {
                       ))}
                     </View>
                   </View>
-
-                  <TouchableOpacity
-                    style={styles.modalAppointmentButton}
-                    onPress={() => {
+                  <View style={{ alignItems:"center"}}>
+                  <CustomButton 
+                  text={"Solicitar turno para este servicio"}
+                      onPress={() => {
                       setShowServiceModal(false)
                       handleRequestAppointment()
                     }}
-                  >
-                    <Feather name="calendar" size={Metrics.iconSmall} color={Colors.whiteColor} />
-                    <Text style={styles.modalAppointmentButtonText}>Solicitar turno para este servicio</Text>
-                  </TouchableOpacity>
+                  />
+                  </View>
+
                 </ScrollView>
               </>
             )}
@@ -240,7 +265,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     color: Colors.whiteColor,
-    fontSize: Metrics.fontL,
+    fontSize: Metrics.fontM,
     fontWeight: "bold",
   },
   placeholder: {
@@ -249,8 +274,10 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     backgroundColor: Colors.whiteColor,
-    paddingTop: Metrics.marginS,
-    paddingHorizontal: Metrics.marginS,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    paddingTop: 30,
+    paddingHorizontal: Metrics.mar,
   },
   servicesHeader: {
     alignItems: "center",
@@ -353,11 +380,11 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   modalContent: {
-    backgroundColor: "white",
-    borderTopLeftRadius: Metrics.radiusM,
-    borderTopRightRadius: Metrics.radiusM,
-    maxHeight: "85%",
-    paddingBottom: Metrics.marginS,
+    backgroundColor: Colors.whiteColor,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+    maxHeight: Metrics.ionXXL,
+    paddingBottom: 20,
   },
   modalHeader: {
     flexDirection: "row",
@@ -420,7 +447,7 @@ const styles = StyleSheet.create({
     marginBottom: Metrics.marginS
   },
   photo: {
-    width: wp("100%"),
+    width: Metrics,screenS,
     height: Metrics.screenS,
     borderRadius: Metrics.radiusS,
     backgroundColor: "#f0f0f0",
