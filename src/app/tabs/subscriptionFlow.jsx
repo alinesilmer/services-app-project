@@ -182,7 +182,6 @@ const styles = StyleSheet.create({
   },
   scroll: {
     flexGrow: 1,
-    alignItems: 'center',
     paddingVertical: Metrics.marginS,
   },
   mockBox: {

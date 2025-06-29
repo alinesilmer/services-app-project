@@ -106,7 +106,7 @@ const Appointment = () => {
         <View style={styles.header}>
           <BackButton onPress={handleBack} />
         </View>
-        <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+        <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
           <Text style={styles.title}>
             Selecciona horarios disponibles para tu turno
           </Text>
@@ -180,7 +180,7 @@ const Appointment = () => {
       <View style={styles.header}>
         <BackButton onPress={handleBack} />
       </View>
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <Text style={styles.title}>
           Selecciona la fecha para tu turno
         </Text>
