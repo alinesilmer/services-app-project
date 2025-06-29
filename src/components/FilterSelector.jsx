@@ -66,6 +66,6 @@ const styles = StyleSheet.create({
   },
   label: {
     color: Colors.whiteColor,
-    fontSize: Metrics.fontS,
+    fontSize: wp("3.5%"),
   },
 });
