@@ -171,7 +171,7 @@ export default function Chat() {
 
       <KeyboardAvoidingView
         style={[styles.chatWrapper, { marginVertical: Metrics.marginS }]}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        behavior={Platform.OS === "android" ? "padding" : "height"}
         keyboardVerticalOffset={90}
       >
         <ScrollView ref={scrollViewRef} style={styles.messagesContainer} contentContainerStyle={styles.scrollContent}>

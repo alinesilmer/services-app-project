@@ -18,6 +18,7 @@ import profiles from "../../../data/mockProfiles"
 import { useProfileFiltering } from "../../../hooks/useProfileFiltering"
 import BackButton from "../../../components/BackButton"
 import { getUserData, isPremiumUser, isUserLoggedIn } from "../../../utils/storage";
+import { usePremium } from "../../../hooks/usePremium"
 
 const service = () => {
 
@@ -32,7 +33,6 @@ useEffect(() => {
   checkLoginStatus()
 }, [])
 
-  const [premium, setPremium] = useState(false);
   const { label, icon, useFeather } = useLocalSearchParams()
 
   const initialService = label ? { label, icon, useFeather: useFeather === "true" } : null
@@ -47,20 +47,11 @@ useEffect(() => {
     getSelectedSubcategoriesArray,
     filteredProfiles,
   } = useProfileFiltering(profiles, initialService)
-
-  useEffect(() => {
-      const loadPremiumStatus = async () => {
-        try {
-          getUserData()
-          const premium = await isPremiumUser();
-          setPremium(premium);
-        } catch (error) {
-          console.error("Error loading premium status:", error);
-        }
-      };
+    const { premium } = usePremium()
   
-      loadPremiumStatus();
-    }, []);
+      const userIsPremium =
+        (premium.isPremium || premium.isPremiumProf) &&
+        ["active", "trial"].includes(premium.premiumStatus)
 
   const handleProfilePress = (prof) => {
       if (!isLoggedIn) {
@@ -114,7 +105,7 @@ useEffect(() => {
 
         <FilterTags selectedSubcategories={getSelectedSubcategoriesArray()} />
 
-        <AdsImage onPress isPremium={premium}/>
+        <AdsImage onPress isPremium={userIsPremium}/>
 
         <ProfileGrid
           profiles={filteredProfiles}

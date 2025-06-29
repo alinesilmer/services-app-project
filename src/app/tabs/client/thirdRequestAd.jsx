@@ -16,6 +16,7 @@ import{ getUserData,UsePremium } from "../../../utils/storage";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 
 import AdsImage from "../../../components/AdsImage";
+import { usePremium } from "../../../hooks/usePremium"
 import Logo from "../../../components/Logo";
 import BackButton from "../../../components/BackButton";
 import CustomButton from "../../../components/CustomButton";
@@ -25,18 +26,11 @@ const image = require("../../../assets/images/aireVentana.png");
 
 export default function ThirdRequest() {
   const router = useRouter();
-  const [premium, setPremium] = useState(false);
-
-  useEffect(() => {
-    const loadPremiumStatus = async () => {
-      try {
-        getUserData();
-        const premium = await UsePremium();
-        setPremium(premium);
-      } catch (error) {}
-    };
-    loadPremiumStatus();
-  }, []);
+    const { premium } = usePremium()
+  
+      const userIsPremium =
+        (premium.isPremium || premium.isPremiumProf) &&
+        ["active", "trial"].includes(premium.premiumStatus)
 
   return (
     <>
@@ -85,7 +79,7 @@ export default function ThirdRequest() {
               </View>
 
               <View>
-                <AdsImage onPress isPremium={premium} />
+                <AdsImage onPress isPremium={userIsPremium} />
               </View>
             </ScrollView>
           </SlideUpCard>

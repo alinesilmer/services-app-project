@@ -111,7 +111,7 @@ const AddComment = () => {
   return (
     <KeyboardAvoidingView
       style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      behavior={Platform.OS === "android" ? "padding" : "height"}
     >
       <ScrollView
         style={styles.scrollContainer}
