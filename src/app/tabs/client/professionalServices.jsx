@@ -16,7 +16,6 @@ import { Colors } from "../../../constants/Colors"
 import { Metrics } from "../../../constants/Metrics"
 import {  Feather } from "@expo/vector-icons"
 import AdsImage from "../../../components/AdsImage"
-import BackButton from "../../../components/BackButton"
 import CustomButton from "../../../components/CustomButton"
 
 import mockProfiles from "../../../data/mockProfiles"
@@ -132,7 +131,6 @@ const ProfessionalServices = () => {
       <StatusBar backgroundColor={Colors.blueColor} barStyle="light-content" />
 
       <View style={styles.header}>
-        <BackButton/>
         <Text style={styles.headerTitle}>Servicios</Text>
         <View style={styles.placeholder} />
       </View>
