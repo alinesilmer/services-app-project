@@ -107,7 +107,7 @@ export default function SubscriptionFlow() {
       <StatusBar barStyle="light-content" backgroundColor={Colors.blueColor} />
       <SafeAreaView style={styles.safe}>
         <View style={styles.container}>
-          <BackButton onPress={() => router.back()} />
+          <BackButton />
           <Logo />
 
           <SlideUpCard title="Pago" subtitle={`Plan: ${planType}`} style={styles.card}>
@@ -135,7 +135,7 @@ export default function SubscriptionFlow() {
               <CustomButton
                 text="Pagar"
                 onPress={handlePay}
-                style={{ marginTop: Metrics.marginS, marginBottom: Metrics.marginS }}
+                style={{ marginTop: Metrics.marginXS, marginBottom: Metrics.marginXS }}
               />
             </ScrollView>
           </SlideUpCard>

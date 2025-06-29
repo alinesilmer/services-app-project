@@ -4,6 +4,7 @@ import { Text, View, SafeAreaView, StyleSheet, TextInput, TouchableOpacity, Keyb
   ScrollView, StatusBar, } from "react-native"
 import { Colors } from "../../constants/Colors"
 import { Metrics } from "../../constants/Metrics"
+import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 import { useLocalSearchParams, router } from "expo-router"
 
 import SearchBar from "../../components/SearchBar"
@@ -232,9 +233,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   headerWrapper: {
-    marginHorizontal: Metrics.marginS,
-    marginTop: Metrics.marginS,
-    marginBottom: Metrics.marginS,
+    marginHorizontal: Metrics.marginXXL,
+    marginTop: Metrics.marginXXL,
+    marginBottom: Metrics.marginM,
   },
   title: {
     fontSize: Metrics.fontL,
@@ -268,19 +269,19 @@ const styles = StyleSheet.create({
   chatHeader: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: Metrics.marginS,
+    paddingHorizontal: Metrics.marginL,
   },
   chatHeaderText: {
     flex: 1,
-    marginLeft: Metrics.marginS,
+    marginLeft: Metrics.marginXL,
   },
   chatName: {
-    fontSize: Metrics.fontS,
+    fontSize: Metrics.fontM,
     fontWeight: "600",
     color: Colors.whiteColor
   },
   chatSpecialty: {
-    fontSize: Metrics.fontXS,
+    fontSize: Metrics.fontS,
     color: "#ccc",
   },
   statusDot: {
@@ -293,9 +294,9 @@ const styles = StyleSheet.create({
   },
   chatWrapper: {
     flex: 1,
+    width: wp("100%"),
+    bottom: 0,
     backgroundColor: Colors.whiteColor,
-    borderTopLeftRadius: Metrics.radiusS,
-    borderTopRightRadius: Metrics.radiusS,
     overflow: "hidden",
   },
   messagesContainer: {
@@ -303,7 +304,7 @@ const styles = StyleSheet.create({
     padding: Metrics.marginS,
   },
   scrollContent: {
-    paddingBottom: Metrics.marginS,
+    paddingBottom: Metrics.marginM,
   },
   emptyStateContainer: {
     flex: 1,
