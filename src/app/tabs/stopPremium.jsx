@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   },
   card: {
     flex: 1,
-    marginTop: 200,
+    marginTop: Metrics.screenXS,
     height: Metrics.screenM,
     alignItems: "stretch",
   },

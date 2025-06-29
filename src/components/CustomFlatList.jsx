@@ -25,6 +25,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   chat: {
-    width: wp('95%'),
+    width: wp('90%'),
   },
 });

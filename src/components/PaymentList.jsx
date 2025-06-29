@@ -30,7 +30,7 @@ const PaymentList = ({ methods, selected, onSelect, onValidityChange, onPaymentD
               </View>
               <Feather
                 name={isOpen ? 'chevron-up' : 'chevron-down'}
-                size={20}
+                size={Metrics.iconSmall}
                 color={Colors.dark}
               />
             </Pressable>
@@ -80,11 +80,11 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   item: {
-    backgroundColor: 'white',
+    backgroundColor: Colors.whiteColor,
     borderRadius: Metrics.radiusS,
     marginBottom: Metrics.marginS,
     overflow: 'hidden',
-    width: wp("100%"),
+    width: wp("90%"),
   },
   itemOpen: {
     borderColor: Colors.orangeColor,

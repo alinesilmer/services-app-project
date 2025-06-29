@@ -8,7 +8,7 @@ export const pricingPlans = [
 ];
 
 export const clientPlans = {
-  headers: ["", "MENSUAL", "ANUAL"],
+  headers: ["", "Mensual", "Anual"],
   rows: [
     { id: "price",    label: "Precio",           values: ["$9.99/mes", "$99.99/año"] },
     { id: "ads",      label: "Sin Anuncios",      values: ["✅", "✅"] },
@@ -18,7 +18,7 @@ export const clientPlans = {
 };
 
 export const professionalPlans = {
-  headers: ["", "ESTÁNDAR", "PLUS"],
+  headers: ["", "Standard", "Plus"],
   rows: [
     { id: "price",             label: "Precio",               values: ["2 US$/mes", "5 US$/mes"] },
     { id: "advertising_days",  label: "Días de Publicidad",    values: ["4 días\npor mes", "4 días\npor semana"] },

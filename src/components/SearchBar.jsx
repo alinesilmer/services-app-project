@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     backgroundColor: Colors.whiteColor,
-    paddingHorizontal: Metrics.marginS,
+    paddingHorizontal: Metrics.marginM,
     alignItems: 'center',
     borderRadius: Metrics.radiusS,
     height: Metrics.searchBarArea,
@@ -33,8 +33,8 @@ const styles = StyleSheet.create({
     marginBottom: Metrics.marginS
   },
   icon: {
-    marginLeft: Metrics.marginM,
-    marginRight: Metrics.marginM
+    marginLeft: Metrics.marginS,
+    marginRight: Metrics.marginS
   },
   input: {
     flex: 1,
