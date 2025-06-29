@@ -106,7 +106,7 @@ export default function ProfileScreen() {
           onPress={openModal}
         />
 
-        <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
+        <ScrollView contentContainerStyle={styles.scrollView}>
           <ProfilePic
             uri={profile.avatar || 'https://i.pinimg.com/736x/9f/16/72/9f1672710cba6bcb0dfd93201c6d4c00.jpg'}
             size={Metrics.iconXLarge}
@@ -183,6 +183,9 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
+        alignItems: 'center',
+    paddingBottom: Metrics.marginM,
+    flexGrow: 1,
   },
   scrollContent: {
     alignItems: 'center',

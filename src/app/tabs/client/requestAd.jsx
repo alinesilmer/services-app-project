@@ -14,25 +14,16 @@ import AdsImage from "../../../components/AdsImage";
 import Logo from "../../../components/Logo";
 import BackButton from "../../../components/BackButton";
 import CustomButton from "../../../components/CustomButton";
+import { usePremium } from "../../../hooks/usePremium"
 import SlideUpCard from "../../../components/SlideUpCard";
 
 export default function request() {
   const router = useRouter();
-  const [premium, setPremium] = useState(false);
-
-  useEffect(() => {
-    const loadPremiumStatus = async () => {
-      try {
-        getUserData();
-        const premium = await isPremiumUser();
-        setPremium(premium);
-      } catch (error) {
-        console.error("Error loading premium status:", error);
-      }
-    };
-
-    loadPremiumStatus();
-  }, []);
+    const { premium } = usePremium()
+  
+      const userIsPremium =
+        (premium.isPremium || premium.isPremiumProf) &&
+        ["active", "trial"].includes(premium.premiumStatus)
 
   return (
     <>
@@ -40,7 +31,7 @@ export default function request() {
       <SafeAreaView style={styles.safeArea}>
         <KeyboardAvoidingView
           style={{ flex: 1 }}
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          behavior={Platform.OS === "android" ? "padding" : "height"}
         >
           <View style={styles.container}>
             <BackButton />
@@ -89,7 +80,7 @@ export default function request() {
                 </View>
 
                 <View style={styles.imageContainer}>
-                  <AdsImage onPress isPremium={premium} />
+                  <AdsImage onPress isPremium={userIsPremium} />
                 </View>
               </ScrollView>
             </SlideUpCard>

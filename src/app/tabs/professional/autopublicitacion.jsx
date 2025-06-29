@@ -125,7 +125,7 @@ export default function HomeScreen() {
 
             <SlideUpCard style={styles.slideUpCard} title="Publicidad" subtitle="Personalización">
             <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                behavior={Platform.OS === 'android' ? 'padding' : 'height'}
                 style={{ flex: 1 }}
                 keyboardVerticalOffset={Metrics.navBarArea}
             >

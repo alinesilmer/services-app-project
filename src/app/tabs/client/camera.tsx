@@ -9,7 +9,6 @@ import { Colors } from "@/src/constants/Colors";
 import { Feather } from "@expo/vector-icons";
 
 interface Props {
-  // No props necesarios
 }
 
 const Camera: React.FC<Props> = () => {
