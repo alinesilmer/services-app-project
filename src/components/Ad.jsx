@@ -1,7 +1,5 @@
-// File: src/components/Ad.jsx
 "use client";
-
-import React from 'react'
+import React, { useState, useEffect } from "react";
 import {
   Modal,
   View,
@@ -10,70 +8,64 @@ import {
   Pressable,
   StyleSheet,
   Text,
-} from 'react-native'
-import { Video } from 'expo-av'
-import LottieView from 'lottie-react-native'
-import { Feather } from '@expo/vector-icons'
-import { useRouter } from 'expo-router'
+} from "react-native";
+import { Video } from "expo-av";
+import LottieView from "lottie-react-native";
+import { Feather } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 
-import { useAdManager } from '../hooks/useAdManager'
-import { useAdTimer }   from '../hooks/useAdTimer'
-import { Metrics } from '../constants/Metrics'
-import { Colors }  from '../constants/Colors'
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen'
+import { useAd } from "../context/AdContext";
+import { Metrics } from "../constants/Metrics";
+import { Colors } from "../constants/Colors";
+import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 
-export default function Ad({ source, type = 'image' }) {
-  const { showAd, closeAd } = useAdManager()
-  const { canClose }        = useAdTimer(showAd)
-  const router              = useRouter()
+const adsList = [
+  {
+    type: "video",
+    source: require("../assets/videos/propaganda1.mp4"),
+  },
+  {
+    type: "video",
+    source: require("../assets/videos/propaganda2.mp4"),
+  }
+];
+
+export default function Ad() {
+  const { showAd, closeAd, canClose } = useAd()
+  const router = useRouter()
+  const [randomAd, setRandomAd] = useState(null)
+
+  useEffect(() => {
+    if (showAd) {
+      const idx = Math.floor(Math.random() * adsList.length)
+      setRandomAd(adsList[idx])
+    } else {
+      setRandomAd(null)
+    }
+  }, [showAd])
+
+  if (!randomAd) return null
 
   return (
-    <Modal visible={showAd} transparent animationType="fade">
+    <Modal visible={showAd} transparent animationType='fade'>
       <View style={styles.overlay}>
         <View style={styles.adContainer}>
-          <TouchableOpacity
-            style={styles.closeButton}
-            onPress={closeAd}
-            disabled={!canClose}
-          >
+          <TouchableOpacity style={styles.closeButton} onPress={closeAd} disabled={!canClose}>
             {canClose ? (
-              <Feather
-                name="x"
-                size={Metrics.iconSmall}
-                color={Colors.whiteColor}
-              />
+              <Feather name='x' size={Metrics.iconSmall} color={Colors.whiteColor} />
             ) : (
-              <LottieView
-                source={require('../assets/animations/loading-ad.json')}
-                autoPlay
-                loop
-                style={styles.lottie}
-              />
+              <LottieView source={require('../assets/animations/loading-ad.json')} autoPlay loop style={styles.lottie} />
             )}
           </TouchableOpacity>
 
-          {type === 'image' ? (
-            <Image source={source} style={styles.media} resizeMode="cover" />
+          {randomAd.type === 'image' ? (
+            <Image source={randomAd.source} style={styles.media} resizeMode='cover' />
           ) : (
-            <Video
-              source={source}
-              shouldPlay={showAd}
-              isLooping
-              resizeMode="cover"
-              style={styles.media}
-            />
+            <Video source={randomAd.source} shouldPlay={showAd} isLooping resizeMode='cover' style={styles.media} />
           )}
 
-          <Pressable
-            onPress={() => {
-              closeAd()
-              router.push('/auth/goPremium')
-            }}
-            style={styles.premiumLink}
-          >
-            <Text style={styles.premiumText}>
-              ¿Cansado de anuncios?{'\n'}¡Obtén Premium aquí!
-            </Text>
+          <Pressable onPress={() => { closeAd(); router.push('/auth/goPremium') }} style={styles.premiumLink}>
+            <Text style={styles.premiumText}>¿Cansado de anuncios?{"\n"}¡Obtén Premium aquí!</Text>
           </Pressable>
         </View>
       </View>
@@ -84,37 +76,37 @@ export default function Ad({ source, type = 'image' }) {
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.7)',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "rgba(0,0,0,0.7)",
+    justifyContent: "center",
+    alignItems: "center",
   },
   adContainer: {
-    width: wp('90%'),
+    width: wp("90%"),
     height: Metrics.screenM,
-    backgroundColor: 'black',
+    backgroundColor: "black",
     borderRadius: Metrics.radiusS,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   closeButton: {
-    position: 'absolute',
+    position: "absolute",
     top: Metrics.marginS,
     right: Metrics.marginM,
     zIndex: 2,
     padding: Metrics.marginS,
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: "rgba(0,0,0,0.5)",
     borderRadius: Metrics.radiusS,
   },
   lottie: { width: 50, height: 50 },
-  media: { width: wp('100%'), height: Metrics.screenS },
+  media: { width: wp("100%"), height: Metrics.screenS },
   premiumLink: {
-    position: 'absolute',
+    position: "absolute",
     bottom: Metrics.marginM,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   premiumText: {
-    color: 'white',
+    color: "white",
     fontSize: Metrics.fontXS,
-    textAlign: 'center',
-    textDecorationLine: 'underline',
+    textAlign: "center",
+    textDecorationLine: "underline",
   },
-})
+});

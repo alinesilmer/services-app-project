@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useMemo } from 'react';
@@ -181,6 +180,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     alignItems: 'center',
     paddingVertical: Metrics.marginS,
+    justifyContent: "center",
   },
   mockBox: {
     backgroundColor: '#f5f5f5',

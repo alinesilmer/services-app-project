@@ -157,6 +157,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Metrics.marginS,  
     paddingTop: Metrics.marginS,
     paddingBottom: Metrics.marginL,
+    justifyContent: "center",
   },
   tableContainer: {
     width: wp("95%"),              
