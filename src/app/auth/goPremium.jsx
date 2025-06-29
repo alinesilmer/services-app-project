@@ -59,10 +59,10 @@ export default function GoPremium() {
   }
 
   return (
-        <View style={styles.container}>
+    <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor={Colors.blueColor} />
       <BackButton onPress={() => router.back()} />
-        <Logo />
+      <Logo />
 
         <SlideUpCard
           title={isProf ? "Publicitá tu servicio" : "Disfruta sin límites"}
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
     paddingBottom: Metrics.marginL,
   },
   tableContainer: {
-    width: wp("95%"),              
+    width: wp("85%"),              
     marginBottom: Metrics.marginS,
     backgroundColor: Colors.lightGray,
     borderRadius: Metrics.radiusS,
