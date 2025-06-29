@@ -429,7 +429,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   photoContainer: {
-    width: (width - 60) / 2,
+    width: "48%",
     aspectRatio: 1,
     marginBottom: Metrics.marginS,
     borderRadius: Metrics.radiusS,
