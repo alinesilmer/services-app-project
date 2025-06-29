@@ -69,7 +69,8 @@ export default PaymentList;
 
 const styles = StyleSheet.create({
   container: { 
-    width: wp("100%"), 
+    width: wp("90%"), 
+    justifyContent: 'center'
   },
   header: {
     fontSize: Metrics.fontS,

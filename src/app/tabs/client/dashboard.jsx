@@ -100,92 +100,94 @@ export default function ClientDashboard() {
     <>
       <StatusBar style="light" backgroundColor={Colors.blueColor} />
       <SafeAreaView style={styles.safeArea}>
-        <SlideUpCard title={greeting} subtitle={subtitle} style={styles.card}>
-          <ScrollView
-            style={styles.scrollView}
-            contentContainerStyle={styles.scrollContent}
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }
-          >
-            <View style={styles.userInfoSection}>
-              <View style={styles.avatarWrapper}>
-                <ProfilePic
-                  uri={
-                    userData?.avatar ||
-                    "https://i.pinimg.com/736x/9f/16/72/9f1672710cba6bcb0dfd93201c6d4c00.jpg"
-                  }
-                  size={Metrics.iconXLarge}
-                  style={styles.avatar}
+        <View style={styles.container}>
+          <SlideUpCard title={greeting} subtitle={subtitle} style={styles.card}>
+            <ScrollView
+              style={styles.scrollView}
+              contentContainerStyle={styles.scrollContent}
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }
+            >
+              <View style={styles.userInfoSection}>
+                <View style={styles.avatarWrapper}>
+                  <ProfilePic
+                    uri={
+                      userData?.avatar ||
+                      "https://i.pinimg.com/736x/9f/16/72/9f1672710cba6bcb0dfd93201c6d4c00.jpg"
+                    }
+                    size={Metrics.iconXLarge}
+                    style={styles.avatar}
+                  />
+                </View>
+                <View style={styles.userTextInfo}>
+                  <Text style={styles.userName}>
+                    {userData?.fullName || "Usuario"}
+                  </Text>
+                  {userIsPremium && (
+                    <Text style={styles.premiumBadge}>Usuario Premium</Text>
+                  )}
+                </View>
+              </View>
+
+              <View style={styles.statsContainer}>
+                <View style={styles.statItem}>
+                  <Text style={styles.statNumber}>0</Text>
+                  <Text style={styles.statLabel}>Citas</Text>
+                </View>
+                <View style={styles.statItem}>
+                  <Text style={styles.statNumber}>0</Text>
+                  <Text style={styles.statLabel}>Favoritos</Text>
+                </View>
+                <View style={styles.statItem}>
+                  <Text style={styles.statNumber}>0</Text>
+                  <Text style={styles.statLabel}>Reseñas</Text>
+                </View>
+              </View>
+
+              <View style={styles.actionsContainer}>
+                <CustomButton
+                  text="Mi Perfil"
+                  onPress={() => router.push("/tabs/client/profile")}
+                  style={styles.actionButton}
+                />
+                <CustomButton
+                  text="Buscar Profesionales"
+                  onPress={() => handleSecureNavigation("/tabs/client/services")}
+                  style={styles.actionButton}
+                />
+                <CustomButton
+                  text="Solicitud Personalizada"
+                  onPress={() => handleSecureNavigation("/tabs/client/requestAd")}
+                  style={styles.actionButton}
+                />
+                <CustomButton
+                  text={userIsPremium ? "Gestionar Premium" : "Obtener Premium"}
+                  onPress={handlePremiumNav}
+                  style={styles.premiumButton}
+                />
+                <CustomButton
+                  text="Inicio"
+                  onPress={() => router.push("/tabs/client/home")}
+                  style={styles.actionButton}
+                />
+              <CustomButton
+                  text="Cerrar Sesión"
+                  onPress={handleLogout}
+                  style={[styles.actionButton, { backgroundColor: "#DC3545" }]}
                 />
               </View>
-              <View style={styles.userTextInfo}>
-                <Text style={styles.userName}>
-                  {userData?.fullName || "Usuario"}
-                </Text>
-                {userIsPremium && (
-                  <Text style={styles.premiumBadge}>Usuario Premium</Text>
-                )}
-              </View>
-            </View>
 
-            <View style={styles.statsContainer}>
-              <View style={styles.statItem}>
-                <Text style={styles.statNumber}>0</Text>
-                <Text style={styles.statLabel}>Citas</Text>
+              <View style={styles.activitySection}>
+                <Text style={styles.sectionTitle}>Actividad Reciente</Text>
+                <LongCard
+                  title="No hay actividad"
+                  subtitle="Comienza buscando profesionales"
+                />
               </View>
-              <View style={styles.statItem}>
-                <Text style={styles.statNumber}>0</Text>
-                <Text style={styles.statLabel}>Favoritos</Text>
-              </View>
-              <View style={styles.statItem}>
-                <Text style={styles.statNumber}>0</Text>
-                <Text style={styles.statLabel}>Reseñas</Text>
-              </View>
-            </View>
-
-            <View style={styles.actionsContainer}>
-              <CustomButton
-                text="Mi Perfil"
-                onPress={() => router.push("/tabs/client/profile")}
-                style={styles.actionButton}
-              />
-              <CustomButton
-                text="Buscar Profesionales"
-                onPress={() => handleSecureNavigation("/tabs/client/services")}
-                style={styles.actionButton}
-              />
-              <CustomButton
-                text="Solicitud Personalizada"
-                onPress={() => handleSecureNavigation("/tabs/client/requestAd")}
-                style={styles.actionButton}
-              />
-              <CustomButton
-                text={userIsPremium ? "Gestionar Premium" : "Obtener Premium"}
-                onPress={handlePremiumNav}
-                style={styles.premiumButton}
-              />
-              <CustomButton
-                text="Inicio"
-                onPress={() => router.push("/tabs/client/home")}
-                style={styles.actionButton}
-              />
-             <CustomButton
-                text="Cerrar Sesión"
-                onPress={handleLogout}
-                style={[styles.actionButton, { backgroundColor: "#DC3545" }]}
-              />
-            </View>
-
-            <View style={styles.activitySection}>
-              <Text style={styles.sectionTitle}>Actividad Reciente</Text>
-              <LongCard
-                title="No hay actividad"
-                subtitle="Comienza buscando profesionales"
-              />
-            </View>
-          </ScrollView>
+            </ScrollView>
         </SlideUpCard>
+        </View>
         <Ad visible={showAd} onClose={closeAd} />
       </SafeAreaView>
       <BottomNavBar />
@@ -202,6 +204,12 @@ const styles = StyleSheet.create({
   },
   safeAreaBottom: {
     backgroundColor: Colors.blueColor,
+  },
+  container: {
+    flex: 1,
+    backgroundColor: Colors.blueColor,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   card: {
     position: "absolute",

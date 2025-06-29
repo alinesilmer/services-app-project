@@ -54,16 +54,18 @@ const styles = StyleSheet.create({
     width: wp("100%"),
   },
   label  : { 
-    fontWeight: 'bold', 
+    fontSize: Metrics.fontS,
     marginBottom: Metrics.marginXS, 
     color: Colors.textColor 
   },
   input  : {
-    padding: Metrics.marginS,
+    width: wp("90%"),
+    padding: Metrics.marginM,
     borderRadius: Metrics.radiusS,
     backgroundColor: Colors.inputGray
   },
   inputText: {
+    fontSize: Metrics.fontXS,
     color: Colors.textColor,
     backgroundColor: Colors.inputGray
    },
