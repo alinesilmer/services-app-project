@@ -90,8 +90,8 @@ export default function ScheduleMatrix({ apptData, onSlotSelect, selectedAppt })
 
 const styles = StyleSheet.create({
   table: {
-    marginTop: Metrics.marginS,
-    width: wp("100%"),
+    marginTop: Metrics.marginM,
+    width: wp("90%"),
     minHeight: Metrics.screenS,
     borderColor: Colors.errorColor,
   },
@@ -117,8 +117,8 @@ const styles = StyleSheet.create({
   },
   cell: {
     flex: 1,
-    marginHorizontal: Metrics.marginS,
-    height: Metrics.screenS,
+    marginHorizontal: Metrics.marginXS,
+    height: Metrics.searchBarArea,
     borderRadius: Metrics.radiusS,
     justifyContent: 'center',
     alignItems: 'center',

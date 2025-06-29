@@ -16,7 +16,7 @@ export default function welcome() {
   return (
     <>
       <StatusBar barStyle="light-content" />
-      <SafeAreaView style={{ height: Metrics.safeArea, backgroundColor: Colors.whiteColor }} />
+      <SafeAreaView style={{ height: Metrics.safeArea, backgroundColor: Colors.blueColor }} />
       <View style={styles.container}>
           <Logo />
           <SlideUpCard

@@ -9,7 +9,7 @@ import { Metrics } from '../constants/Metrics';
 import { Colors } from '../constants/Colors';
 import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
-const CustomButton = ({ text, onPress, width = '90%', backgroundColor, disabled = false }) => {
+const CustomButton = ({ text, onPress, width = '95%', backgroundColor, disabled = false }) => {
   return (
     <Pressable
       onPress={disabled ? null : onPress}
