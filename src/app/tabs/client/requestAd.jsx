@@ -19,9 +19,12 @@ import { KeyboardAvoidingView } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Colors } from "../../../constants/Colors";
 import { Fonts } from "../../../constants/Fonts";
+import { getUserData, UsePremium } from "../../../utils/storage";
 import { Metrics } from "../../../constants/Metrics";
-import { getUserData, isPremiumUser } from "../../../utils/storage";
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 
 import AdsImage from "../../../components/AdsImage";
 import Logo from "../../../components/Logo";
@@ -40,7 +43,7 @@ export default function request() {
     const loadPremiumStatus = async () => {
       try {
         getUserData();
-        const premium = await isPremiumUser();
+        const premium = await UsePremium();
         setPremium(premium);
       } catch (error) {}
     };
@@ -130,23 +133,24 @@ export default function request() {
 
   return (
     <>
-      <StatusBar barStyle="light-content" />
-      <SafeAreaView style={styles.safeArea}>
-        <KeyboardAvoidingView
-          style={{ flex: 1 }}
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-        >
-          <View style={styles.container}>
+      <View style={styles.container}>
+        <StatusBar barStyle="light-content" />
+        <SafeAreaView style={styles.safeArea}>
+          <KeyboardAvoidingView
+            style={{ flex: 1 }}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+          >
             <BackButton />
             <Logo />
             <SlideUpCard title="Solicitud personalizada" style={styles.card}>
               <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.descriptionContainer}>
                   <Text style={styles.description}>
-                    ¿No encontraste el servicio que necesitás? {"\n"} ¡No hay problema!
+                    ¿No encontraste el servicio que necesitás? ¡No hay problema!
                   </Text>
                   <Text style={styles.description}>
-                    Acá podés crear un pedido explicando lo que necesitás.
+                    Acá podés crear un pedido personalizado explicando lo que
+                    necesitás.
                   </Text>
                 </View>
 
@@ -190,6 +194,7 @@ export default function request() {
                     text="Confirmar solicitud"
                     onPress={handleConfirmRequest}
                     backgroundColor="#e47755"
+                    width="90%"
                     style={styles.customBotton}
                   />
                 </View>
@@ -199,7 +204,6 @@ export default function request() {
                 </View>
               </ScrollView>
             </SlideUpCard>
-          </View>  
           </KeyboardAvoidingView>
         </SafeAreaView>
       </View>
@@ -284,8 +288,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.blueColor,
-    alignItems: "center",
-    justifyContent: "center",
   },
   safeArea: {
     flex: 1,
@@ -294,31 +296,30 @@ const styles = StyleSheet.create({
   card: {
     position: "absolute",
     bottom: 0,
-    width: wp("100%"),
     height: Metrics.screenM,
-    alignItems: "stretch",
+    alignItems: "center",
   },
   headerContainer: {
     alignItems: "center",
-    marginBottom: Metrics.marginS,
-    marginTop: Metrics.marginS,
+    marginBottom: hp("2%"),
+    marginTop: hp("2%"),
   },
   title: {
     fontFamily: Fonts.roboto,
-    fontSize: Metrics.fontM,
+    fontSize: wp("4,5%"),
     fontWeight: "bold",
     textAlign: "center",
   },
   descriptionContainer: {
     alignItems: "center",
-    marginBottom: Metrics.marginS,
+    marginBottom: hp("2%"),
   },
   description: {
     fontFamily: Fonts.roboto,
-    fontSize: Metrics.fontXS,
+    fontSize: wp("5%"),
     color: Colors.orangeColor,
     textAlign: "center",
-    width: "90%",
+    width: wp("80%"),
   },
   rectangle: {
     width: wp("80%"),
@@ -363,12 +364,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonContainer: {
-    width: wp("100%"),
-    marginTop: Metrics.marginXS,
-    marginBottom: Metrics.marginXS,
+    width: wp("90%"),
+    marginTop: hp("1%"),
+    marginBottom: hp("1%"),
     alignItems: "center",
   },
-  customButton: {
+  customBotton: {
     width: wp("90%"),
   },
   imageContainer: {
