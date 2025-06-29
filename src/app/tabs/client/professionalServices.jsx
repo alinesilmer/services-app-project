@@ -149,7 +149,7 @@ const ProfessionalServices = () => {
         <View style={styles.placeholder} />
       </View>
 
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.servicesHeader}>
           <Text style={styles.servicesSubtitle}>PRECIOS ESTIMADOS</Text>
           <Text style={styles.priceNote}>(*) Los precios pueden variar según el tipo de servicio.</Text>
@@ -447,7 +447,7 @@ const styles = StyleSheet.create({
     marginBottom: Metrics.marginS
   },
   photo: {
-    width: Metrics,screenS,
+    width: Metrics.screenS,
     height: Metrics.screenS,
     borderRadius: Metrics.radiusS,
     backgroundColor: "#f0f0f0",

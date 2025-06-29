@@ -168,7 +168,7 @@ const ModifyAppointmentModal = ({ visible, appointment, onClose, onSave }) => {
             </TouchableOpacity>
           </View>
 
-          <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+          <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
             <View style={styles.professionalInfo}>
               <Text style={styles.professionalInfoText}>
                 Profesional: <Text style={styles.professionalName}>{appointment.professionalName}</Text>
