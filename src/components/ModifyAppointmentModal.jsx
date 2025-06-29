@@ -398,9 +398,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 15,
     paddingBottom: 30,
-    gap: Metrics.marginS,
+    gap: 15,
     backgroundColor: Colors.whiteColor,
-    borderTopWidth: Metrics.marginXS,
+    borderTopWidth: 1,
     borderTopColor: "#f0f0f0",
   },
   cancelButton: {
@@ -412,7 +412,7 @@ const styles = StyleSheet.create({
   },
   cancelButtonText: {
     color: Colors.whiteColor,
-    fontSize: Metrics.fontS,
+    fontSize: wp("4%"),
     fontWeight: "600",
   },
   saveButton: {
@@ -427,7 +427,7 @@ const styles = StyleSheet.create({
   },
   saveButtonText: {
     color: Colors.whiteColor,
-    fontSize: Metrics.fontS,
+    fontSize: wp("4%"),
     fontWeight: "600",
   },
   saveButtonTextDisabled: {
@@ -441,9 +441,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   animationContainer: {
-    backgroundColor: "white",
-    borderRadius: Metrics.radiusS,
-    padding: Metrics.marginS,
+    backgroundColor: Colors.whiteColor,
+    borderRadius: 10,
+    padding: 30,
     alignItems: "center",
     minWidth: wp("70%"),
   },

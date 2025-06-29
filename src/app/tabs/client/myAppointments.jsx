@@ -1,5 +1,17 @@
-import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Platform, ScrollView, Modal, SafeAreaView, RefreshControl } from "react-native"
-import { useState, useCallback } from "react"
+
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  StatusBar,
+  Platform,
+  ScrollView,
+  Modal,
+  SafeAreaView,
+  RefreshControl,
+} from "react-native"
+import { useState, useCallback, useEffect } from "react"
 import { router, useFocusEffect } from "expo-router"
 import { Colors } from "../../../constants/Colors"
 import { Metrics } from "../../../constants/Metrics"
@@ -12,7 +24,7 @@ import AnimationFeedback from "../../../components/AnimationFeedback"
 import ModifyAppointmentModal from "../../../components/ModifyAppointmentModal"
 import mockAppointments from "../../../data/mockAppointments"
 import BackButton from "../../../components/BackButton"
-import { usePremium } from "../../../hooks/usePremium" 
+import { getUserData, isPremiumUser  } from "../../../utils/storage";
 
 const MyAppointments = () => {
   const [selectedAppointment, setSelectedAppointment] = useState(null)
@@ -76,6 +88,21 @@ const MyAppointments = () => {
       setShowModifyModal(true)
     }, 100)
   }
+
+    useEffect(() => {
+        const loadPremiumStatus = async () => {
+          try {
+            getUserData()
+            const premium = await isPremiumUser();
+            setPremium(premium);
+          } catch (error) {
+            console.error("Error loading premium status:", error);
+          }
+        };
+    
+        loadPremiumStatus();
+      }, []);
+
 
   const handleSaveModifiedAppointment = (updatedAppointment) => {
     const index = mockAppointments.findIndex((apt) => apt.id === updatedAppointment.id)
@@ -163,7 +190,7 @@ const MyAppointments = () => {
           )}
 
           <View style={styles.adContainer}>
-            <AdsImage onPress isPremium={isPremium} />
+            <AdsImage onPress isPremium={premium}/>
           </View>
         </ScrollView>
       </View>
@@ -280,11 +307,11 @@ const styles = StyleSheet.create({
   },
   welcomeText: {
     color: Colors.whiteColor,
-    fontSize: Metrics.fontM,
+    fontSize: wp("4%"),
   },
   usernameText: {
     color: Colors.whiteColor,
-    fontSize: Metrics.fontM,
+    fontSize: wp("4.5%"),
     fontWeight: "bold",
   },
   content: {
@@ -322,13 +349,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   appointmentCard: {
-    backgroundColor: "white",
-    borderRadius: Metrics.radiusS,
-    padding: Metrics.marginS,
-    borderStyle: "solid",
-    borderWidth: Metrics.marginXS,
-    borderColor: "lightgray",
-    marginBottom: Metrics.marginS,
+    backgroundColor: Colors.whiteColor,
+    borderRadius: 10,
+    padding: 20,
+    marginBottom: 15,
     elevation: 2,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
@@ -395,7 +419,7 @@ const styles = StyleSheet.create({
   },
   statusText: {
     color: Colors.whiteColor,
-    fontSize: Metrics.fontS,
+    fontSize: wp("3%"),
     fontWeight: "600",
   },
   adContainer: {
@@ -409,9 +433,9 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     backgroundColor: Colors.whiteColor,
-    borderRadius: Metrics.radiusS,
-    padding: Metrics.marginS,
-    margin: Metrics.marginS,
+    borderRadius: 10,
+    padding: 20,
+    margin: 20,
     width: wp("90%"),
     maxHeight: "80%",
   },
@@ -461,7 +485,7 @@ const styles = StyleSheet.create({
   },
   cancelButtonText: {
     color: Colors.whiteColor,
-    fontSize: Metrics.fontS,
+    fontSize: wp("3.8%"),
     fontWeight: "600",
   },
   changeButton: {
@@ -473,7 +497,7 @@ const styles = StyleSheet.create({
   },
   changeButtonText: {
     color: Colors.whiteColor,
-    fontSize: Metrics.fontS,
+    fontSize: wp("3.8%"),
     fontWeight: "600",
   },
   animationOverlay: {
@@ -484,8 +508,8 @@ const styles = StyleSheet.create({
   },
   animationContainer: {
     backgroundColor: Colors.whiteColor,
-    borderRadius: Metrics.radiusS,
-    padding: Metrics.marginS,
+    borderRadius: 10,
+    padding: 30,
     alignItems: "center",
     minWidth: wp("70%"),
   },

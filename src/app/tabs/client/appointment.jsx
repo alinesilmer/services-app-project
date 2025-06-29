@@ -217,9 +217,7 @@ const Appointment = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.blueColor,
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: "#fff",
   },
   header: {
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight + 10 : 50,
@@ -240,9 +238,9 @@ const styles = StyleSheet.create({
   },
   selectedDateContainer: {
     backgroundColor: Colors.whiteColor,
-    borderRadius: Metrics.radiusS,
-    padding: Metrics.marginS,
-    marginBottom: Metrics.marginS,
+    borderRadius: 15,
+    padding: 20,
+    marginBottom: hp("3%"),
     elevation: 2,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
@@ -271,9 +269,9 @@ const styles = StyleSheet.create({
   },
   timeSelectionContainer: {
     backgroundColor: Colors.whiteColor,
-    borderRadius: Metrics.radiusS,
-    padding: Metrics.marginS,
-    marginBottom: Metrics.marginS,
+    borderRadius: 15,
+    padding: 20,
+    marginBottom: hp("3%"),
     elevation: 2,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
@@ -320,8 +318,8 @@ const styles = StyleSheet.create({
   },
   animationContainer: {
     backgroundColor: Colors.whiteColor,
-    borderRadius: Metrics.radiusS,
-    padding: Metrics.marginS,
+    borderRadius: 20,
+    padding: 30,
     alignItems: "center",
     minWidth: wp("70%"),
   },
