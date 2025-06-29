@@ -23,7 +23,6 @@ import { getUserData, UsePremium } from "../../../utils/storage";
 import { Metrics } from "../../../constants/Metrics";
 import {
   widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
 import AdsImage from "../../../components/AdsImage";
@@ -35,22 +34,14 @@ import SlideUpCard from "../../../components/SlideUpCard";
 
 export default function request() {
   const router = useRouter();
-  const [premium, setPremium] = useState(false);
+  const { premium } = usePremium()
   const [showImageModal, setShowImageModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [requestText, setRequestText] = useState("");
 
-  useEffect(() => {
-    const loadPremiumStatus = async () => {
-      try {
-        getUserData();
-        const premium = await UsePremium();
-        setPremium(premium);
-      } catch (error) {}
-    };
-
-    loadPremiumStatus();
-  }, []);
+  const hasPremium =
+    (premium.isPremium || premium.isPremiumProf) &&
+    ["active", "trial"].includes(premium.premiumStatus)
 
   const requestPermissions = async () => {
     if (Platform.OS !== "web") {
@@ -201,7 +192,7 @@ export default function request() {
                 </View>
 
                 <View style={styles.imageContainer}>
-                  <AdsImage isPremium={premium} />
+                  <AdsImage isPremium={hasPremium} />
                 </View>
               </ScrollView>
             </SlideUpCard>
