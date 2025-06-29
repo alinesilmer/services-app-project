@@ -96,8 +96,8 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.5)",
     borderRadius: Metrics.radiusS,
   },
-  lottie: { width: 50, height: 50 },
-  media: { width: wp("100%"), height: Metrics.screenS },
+  lottie: { width: Metrics.animationS, height: Metrics.animationS },
+  media: { width: Metrics.screenL, height: Metrics.screenS },
   premiumLink: {
     position: "absolute",
     bottom: Metrics.marginM,

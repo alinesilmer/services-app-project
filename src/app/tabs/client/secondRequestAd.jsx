@@ -6,8 +6,8 @@ import { Feather } from "@expo/vector-icons";
 import { Colors } from "../../../constants/Colors";
 import { Fonts } from "../../../constants/Fonts";
 import { Metrics } from "../../../constants/Metrics";
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
-import { getUserData, isPremiumUser } from "../../../utils/storage";
+import { getUserData, UsePremium } from "../../../utils/storage"; 
+import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 
 import AdsImage from "../../../components/AdsImage";
 import Logo from "../../../components/Logo";
@@ -23,13 +23,10 @@ export default function SecondRequest() {
     const loadPremiumStatus = async () => {
       try {
         getUserData();
-        const premium = await isPremiumUser();
+        const premium = await UsePremium();
         setPremium(premium);
-      } catch (error) {
-        console.error("Error loading premium status:", error);
-      }
+      } catch (error) {}
     };
-
     loadPremiumStatus();
   }, []);
 
@@ -49,7 +46,9 @@ export default function SecondRequest() {
                   color={Colors.orangeColor}
                   fontWeight="bold"
                 />
-                <Text style={[styles.titleTwo, { marginLeft: Metrics.marginS }]}>
+                <Text
+                  style={[styles.titleTwo, { marginLeft: Metrics.marginS }]}
+                >
                   ¡SE NECESITA!
                 </Text>
               </View>
@@ -74,7 +73,9 @@ export default function SecondRequest() {
                   color={Colors.orangeColor}
                   fontWeight="bold"
                 />
-                <Text style={[styles.titleTwo, { marginLeft: Metrics.marginS }]}>
+                <Text
+                  style={[styles.titleTwo, { marginLeft: Metrics.marginS }]}
+                >
                   ¡SE NECESITA!
                 </Text>
               </View>
@@ -92,7 +93,7 @@ export default function SecondRequest() {
 
               <View style={styles.buttonContainer}>
                 <CustomButton
-                  text="Agregar solicitud personalizada"
+                  text="Agregar solicitud"
                   onPress={() => router.push("tabs/client/requestAd")}
                   backgroundColor="#e47755"
                 />
@@ -123,9 +124,8 @@ const styles = StyleSheet.create({
   card: {
     position: "absolute",
     bottom: 0,
-    width: wp("100%"),
     height: Metrics.screenM,
-    alignItems: "stretch",
+    alignItems: "center",
   },
   headerContainer: {
     alignItems: "center",

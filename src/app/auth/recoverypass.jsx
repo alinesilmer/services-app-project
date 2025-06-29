@@ -57,12 +57,14 @@ export default function RecoveryPass() {
     <>
       <StatusBar barStyle="light-content" />
       <SafeAreaView style={styles.safeArea} />
-      <BackButton />
-      <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-        <View style={styles.container}>
-        <View style={styles.logoWrapper}>
       <Logo />
-    </View>
+      <BackButton />
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
+      >
+        <View style={styles.container}>
           <SlideUpCard
             title={"Recuperar Contraseña"}
             style={styles.card}
@@ -74,6 +76,7 @@ export default function RecoveryPass() {
                     Ingresa tu correo electrónico para recibir un código.
                   </Text>
                 </View>
+
                 <CustomInput
                   label="Correo Electrónico"
                   placeholder="ejemplo@gmail.com"
@@ -112,6 +115,7 @@ export default function RecoveryPass() {
                   value={newPassword}
                   onChangeText={setNewPassword}
                   secureTextEntry
+                  width={wp("90%")}
                 />
                 <CustomButton text="Cambiar Contraseña" onPress={handleChangePassword} />
               </View>
@@ -128,14 +132,14 @@ export default function RecoveryPass() {
           </ModalCard>
         </View>
       </KeyboardAvoidingView>
-        <SafeAreaView style={styles.safeAreaBottom}/>
+      <SafeAreaView style={styles.safeAreaBottom}/>
     </>
   )
 }
 
 const styles = StyleSheet.create({
   safeArea: {
-    flex: 10,
+    flex: 1,
     backgroundColor: Colors.blueColor,
     height: Metrics.safeArea
   },
@@ -149,22 +153,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  logoWrapper: {
-    position: 'absolute',
-    width: '100%',
-    alignItems: 'center',
-    zIndex: 1
-  },
   card: {
     position: 'absolute',
     bottom: 0,
-    width: wp('100%'),
     height: Metrics.screenS,
     alignItems: 'stretch',
     zIndex: 10,
   },
   stepsContainer: {
-    width: wp('100%'),
     alignItems: 'center',
   },
   instructionWrapper: {

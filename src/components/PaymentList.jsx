@@ -13,7 +13,7 @@ const PaymentList = ({ methods, selected, onSelect, onValidityChange, onPaymentD
   const [saveDetails, setSaveDetails] = useState(false);
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: Metrics.marginS }}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.header}>¿Con qué método deseas pagar?</Text>
 
       {methods.map(method => {
@@ -69,7 +69,9 @@ export default PaymentList;
 
 const styles = StyleSheet.create({
   container: { 
-    width: wp("100%"), 
+    width: wp("90%"), 
+    justifyContent: 'center',
+    paddingBottom: Metrics.marginS
   },
   header: {
     fontSize: Metrics.fontS,

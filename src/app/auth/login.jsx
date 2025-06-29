@@ -84,71 +84,72 @@ export default function Login() {
     <>
       <StatusBar barStyle="light-content" />
       <SafeAreaView style={styles.safeArea} />
-      <View style={styles.logoWrapper}>
         <Logo />
-        </View>
-      <BackButton />
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      >
-        <View style={styles.container}>
-          <SlideUpCard
-            title="Inicio"
-            subtitle="Por favor, ingrese su correo para continuar"
-            style={styles.card}
-          >
-            <ScrollView
-              contentContainerStyle={styles.scrollContent}
-              showsVerticalScrollIndicator={false}
+        <BackButton />
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
+        >
+          <View style={styles.container}>
+            <SlideUpCard
+              title="Inicio"
+              subtitle="Por favor, ingrese su correo para continuar"
+              style={styles.card}
             >
-              <CustomInput
-                style={styles.inputs}
-                label="Email"
-                placeholder="Email"
-                value={email}
-                onChangeText={setEmail}
-                error={errors.email}
-              />
-              <CustomInput
-                style={styles.inputs}
-                label="Contraseña"
-                placeholder="********"
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry={secureTextEntry}
-                isPassword
-                icon={icon}
-                onIconPress={toggleVisibility}
-                error={errors.password}
-              />
+              <ScrollView
+                contentContainerStyle={styles.scrollContent}
+                keyboardShouldPersistTaps="handled"
+                showsVerticalScrollIndicator={false}
+              >
+                <CustomInput
+                  style={styles.inputs}
+                  label="Email"
+                  placeholder="Email"
+                  value={email}
+                  onChangeText={setEmail}
+                  error={errors.email}
+                />
+                <CustomInput
+                  style={styles.inputs}
+                  label="Contraseña"
+                  placeholder="********"
+                  value={password}
+                  onChangeText={setPassword}
+                  secureTextEntry={secureTextEntry}
+                  isPassword
+                  icon={icon}
+                  onIconPress={toggleVisibility}
+                  error={errors.password}
+                />
 
-              <CustomButton
-                text="Ingresar"
-                onPress={handleLogin}
-                disabled={loading}
-              />
-              <View style={styles.linksContainer}>
-                <Pressable onPress={() => router.push('/auth/recoverypass')}>
-                  <Text style={styles.linkRecovery}>
-                    ¿Olvidaste tu contraseña?
-                  </Text>
-                </Pressable>
-                <Pressable onPress={() => router.push('/auth/register')}>
-                  <Text style={styles.linkRegister}>
-                    Haz click aquí{`\n`}para registrarte
-                  </Text>
-                </Pressable>
-                <Pressable onPress={() => router.replace('/tabs/client/home')}>
-                  <Text style={styles.linkNoRegister}>
-                    Continuar sin registrarme
-                  </Text>
-                </Pressable>
-              </View>
-            </ScrollView>
-          </SlideUpCard>
-        </View>
-      </KeyboardAvoidingView>
+                <CustomButton
+                  text="Ingresar"
+                  onPress={handleLogin}
+                  disabled={loading}
+                />
+                <View style={styles.linksContainer}>
+                  <Pressable onPress={() => router.push('/auth/recoverypass')}>
+                    <Text style={styles.linkRecovery}>
+                      ¿Olvidaste tu contraseña?
+                    </Text>
+                  </Pressable>
+                  <Pressable onPress={() => router.push('/auth/register')}>
+                    <Text style={styles.linkRegister}>
+                      Haz click aquí{`\n`}para registrarte
+                    </Text>
+                  </Pressable>
+                  <Pressable onPress={() => router.replace('/tabs/client/home')}>
+                    <Text style={styles.linkNoRegister}>
+                      Continuar sin registrarme
+                    </Text>
+                  </Pressable>
+                </View>
+                
+              </ScrollView>
+            </SlideUpCard>
+          </View>
+        </KeyboardAvoidingView>
       <ModalCard
         visible={showLoginError}
         title="Error de inicio de sesión"
@@ -175,10 +176,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  logoWrapper: {
-    display: "flex",
-    justifyContent: "center",
-  },
   card: {
     position: "absolute",
     bottom: 0,
@@ -188,8 +185,6 @@ const styles = StyleSheet.create({
   scrollContent: {
     flexGrow: 1,
     gap: Metrics.marginS,
-    alignItems: "center",
-    justifyContent: "center",
     paddingBottom: Metrics.marginL,
   },
   linksContainer: {

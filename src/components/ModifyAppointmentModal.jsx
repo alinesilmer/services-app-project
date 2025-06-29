@@ -168,7 +168,7 @@ const ModifyAppointmentModal = ({ visible, appointment, onClose, onSave }) => {
             </TouchableOpacity>
           </View>
 
-          <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+          <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
             <View style={styles.professionalInfo}>
               <Text style={styles.professionalInfoText}>
                 Profesional: <Text style={styles.professionalName}>{appointment.professionalName}</Text>
@@ -251,7 +251,6 @@ const ModifyAppointmentModal = ({ visible, appointment, onClose, onSave }) => {
               <View style={styles.animationContainer}>
                 <AnimationFeedback type="success" />
                 <Text style={styles.successTitle}>¡Turno Modificado!</Text>
-                <Text style={styles.successMessage}>Los cambios se han guardado exitosamente</Text>
               </View>
             </View>
           </Modal>
@@ -398,9 +397,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 15,
     paddingBottom: 30,
-    gap: Metrics.marginS,
+    gap: 15,
     backgroundColor: Colors.whiteColor,
-    borderTopWidth: Metrics.marginXS,
+    borderTopWidth: 1,
     borderTopColor: "#f0f0f0",
   },
   cancelButton: {
@@ -412,7 +411,7 @@ const styles = StyleSheet.create({
   },
   cancelButtonText: {
     color: Colors.whiteColor,
-    fontSize: Metrics.fontS,
+    fontSize: wp("4%"),
     fontWeight: "600",
   },
   saveButton: {
@@ -427,7 +426,7 @@ const styles = StyleSheet.create({
   },
   saveButtonText: {
     color: Colors.whiteColor,
-    fontSize: Metrics.fontS,
+    fontSize: wp("4%"),
     fontWeight: "600",
   },
   saveButtonTextDisabled: {
@@ -441,9 +440,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   animationContainer: {
-    backgroundColor: "white",
-    borderRadius: Metrics.radiusS,
-    padding: Metrics.marginS,
+    backgroundColor: Colors.whiteColor,
+    borderRadius: 10,
+    padding: 30,
     alignItems: "center",
     minWidth: wp("70%"),
   },
@@ -453,13 +452,6 @@ const styles = StyleSheet.create({
     color: "#333",
     marginTop: Metrics.marginS,
     textAlign: "center",
-  },
-  successMessage: {
-    fontSize: Metrics.fontS,
-    color: "#666",
-    marginTop: Metrics.marginXS,
-    textAlign: "center",
-    lineHeight: Metrics.marginXS,
   },
 })
 

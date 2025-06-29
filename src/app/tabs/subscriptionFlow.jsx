@@ -103,41 +103,43 @@ export default function SubscriptionFlow() {
   );
 
   return (
-    <View style={styles.container}>
+    <>
       <StatusBar barStyle="light-content" backgroundColor={Colors.blueColor} />
       <SafeAreaView style={styles.safe}>
-        <BackButton onPress={() => router.back()} />
-        <Logo />
+        <View style={styles.container}>
+          <BackButton onPress={() => router.back()} />
+          <Logo />
 
-        <SlideUpCard title="Pago" subtitle={`Plan: ${planType}`} style={styles.card}>
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={styles.scroll}
-          >
-            <PaymentList
-              methods={paymentMethods}
-              selected={selectedMethod}
-              onSelect={setSelectedMethod}
-              onValidityChange={setIsValid}
-              onPaymentDataChange={setPaymentData}
-            />
+          <SlideUpCard title="Pago" subtitle={`Plan: ${planType}`} style={styles.card}>
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={styles.scroll}
+            >
+              <PaymentList
+                methods={paymentMethods}
+                selected={selectedMethod}
+                onSelect={setSelectedMethod}
+                onValidityChange={setIsValid}
+                onPaymentDataChange={setPaymentData}
+              />
 
-            <View style={styles.mockBox}>
-              <Text style={styles.infoTitle}>Tarjetas de prueba</Text>
-              {mockCards.map((c) => (
-                <Text key={c.number} style={styles.mockText}>
-                  {c.type.toUpperCase()}: {c.display} | CVV {c.cvv} | Exp: {c.expiry}
-                </Text>
-              ))}
-            </View>
+              <View style={styles.mockBox}>
+                <Text style={styles.infoTitle}>Tarjetas de prueba</Text>
+                {mockCards.map((c) => (
+                  <Text key={c.number} style={styles.mockText}>
+                    {c.type.toUpperCase()}: {c.display} | CVV {c.cvv} | Exp: {c.expiry}
+                  </Text>
+                ))}
+              </View>
 
-            <CustomButton
-              text="Pagar"
-              onPress={handlePay}
-              style={{ marginTop: Metrics.marginS, marginBottom: Metrics.marginS }}
-            />
-          </ScrollView>
-        </SlideUpCard>
+              <CustomButton
+                text="Pagar"
+                onPress={handlePay}
+                style={{ marginTop: Metrics.marginS, marginBottom: Metrics.marginS }}
+              />
+            </ScrollView>
+          </SlideUpCard>
+        </View>
 
         <ModalCard
           visible={success}
@@ -156,7 +158,7 @@ export default function SubscriptionFlow() {
           <Text style={styles.infoTitle}>{error}</Text>
         </ModalCard>
       </SafeAreaView>
-    </View>
+    </>
   );
 }
 
@@ -172,13 +174,13 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.blueColor,
   },
   card: {
-    marginTop: 200,
+    position: 'absolute',
+    bottom: 0,
     height: Metrics.screenM,
     alignItems: 'stretch',
   },
   scroll: {
     flexGrow: 1,
-    alignItems: 'center',
     paddingVertical: Metrics.marginS,
     justifyContent: "center",
   },
