@@ -99,8 +99,7 @@ export default ClientRequesSlide = ({ title, problems = [], details = [], images
 
 const styles = StyleSheet.create({
 	slideUpCard: {
-		position: "absolute",
-		bottom: 0,
+        marginTop: Metrics.topSpace,
 		height: Metrics.screenL,
 		alignItems: "stretch",
 		paddingHorizontal: Metrics.marginM,

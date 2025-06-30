@@ -1,4 +1,4 @@
-import { Image, StyleSheet, View } from "react-native";
+import { Image, SafeAreaView, StyleSheet, View } from "react-native";
 import { Colors } from "../../../constants/Colors";
 import { Metrics } from "../../../constants/Metrics";
 import BackButton from "../../../components/BackButton";
@@ -12,7 +12,7 @@ export default function ClientRequest(){
     details = JSON.parse(details || '[]');
     images = JSON.parse(images || '[]');
 
-    return(<View style={styles.container}>
+    return(<SafeAreaView style={styles.container}>
         <BackButton />
 
         <ClientRequestSlide
@@ -22,51 +22,13 @@ export default function ClientRequest(){
             images={images}
         />
         <NavBar />
-    </View>);
+    </SafeAreaView>);
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: Colors.blueColor,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    slideUpCard: {
-        position: "absolute",
-        bottom: 0,
-        height: Metrics.screenM,
-        alignItems: "stretch",
-    },
-    problemDescriptionContainer: {
-    },
-    problemDetailsContainer: {
-    },
-    problemPhotoContainer: {
-    },
-    box: {
-        backgroundColor: '#dcdcdc',
-        flex: 1,
-        padding: Metrics.marginS,
-        marginVertical: Metrics.marginS,
-        borderRadius: Metrics.radiusS
-    },
-    boxTitle: {
-        fontWeight: 900,
-        fontSize: Metrics.fontM,
-    },
-    img: {
-        width: 200,
-        height: 200,
-        borderColor: '#000',
-        borderWidth: Metrics.marginXS,
-        borderRadius: Metrics.radiusS,
-        margin: Metrics.marginS,
-    },
-    imageScroll: {
-        flex: 1,
-        flexDirection: 'row',
-        padding: Metrics.marginS,
-        marginTop: Metrics.marginS,
+        alignContent: 'center'
     }
 });

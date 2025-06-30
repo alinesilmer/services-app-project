@@ -1,5 +1,5 @@
 "use client";
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, RefreshControl, } from "react-native";
+import { View, Text, SafeAreaView, StyleSheet, ScrollView, TouchableOpacity, RefreshControl, } from "react-native";
 import { useState, useCallback, useEffect } from "react";
 import { useLocalSearchParams, } from "expo-router";
 import { Colors } from "../../../constants/Colors";
@@ -118,9 +118,9 @@ export default function ProfessionalRate() {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.profileImageContainer}>
-        <ProfilePic uri={userProfile?.avatar} size='140'/>
+        <ProfilePic uri={userProfile?.avatar} size='120'/>
       </View>
 
       <BackButton />
@@ -153,7 +153,7 @@ export default function ProfessionalRate() {
         <View style={ styles.editingContainer}>
           {editingDescription ? (
             <>
-              <View style={{ width: wp("100%"), position: 'relative' }}>
+              <View style={{ width: "100%", position: 'relative' }}>
                 <CustomInput
                   placeholder="Describe tus servicios..."
                   value={description}
@@ -161,9 +161,8 @@ export default function ProfessionalRate() {
                   error=""
                   isPassword={false}
                   style={{
-                    minHeight: Metrics.marginS,
-                    paddingTop: Metrics.marginS,
-                    paddingBottom: Metrics.marginS,
+                    width: '88%',
+                    padding: Metrics.marginS,
                     textAlignVertical: "top",
                   }}
                 />
@@ -188,7 +187,7 @@ export default function ProfessionalRate() {
                   styles.addCommentButton,
                   {
                     backgroundColor: Colors.blueColor,
-                    marginTop: Metrics.marginS,
+                    margin: Metrics.marginS,
                   },
                 ]}
                 onPress={() => {
@@ -257,7 +256,7 @@ export default function ProfessionalRate() {
                   </Text>
                 </View>
                 <View style={styles.opinionStars}>
-                  {renderStars(Number.parseFloat(opinion.puntaje), Metrics.marginS)}
+                  {renderStars(Number.parseFloat(opinion.puntaje), Metrics.marginM)}
                 </View>
               </View>
               <Text style={styles.opinionText}>{opinion.opinion}</Text>
@@ -277,7 +276,7 @@ export default function ProfessionalRate() {
         </View>
       </ScrollView>
       <NavBar />
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -288,8 +287,8 @@ const styles = StyleSheet.create({
   },
   profileImageContainer: {
     alignItems: "center",
-    marginBottom: Metrics.marginS,
-    marginTop: Metrics.marginS,
+    marginBottom: Metrics.marginM,
+    marginTop: Metrics.marginXXL,
   },
   profileImage: {
     width: Metrics.marginS,
@@ -301,8 +300,10 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     backgroundColor: Colors.whiteColor,
-    paddingTop: Metrics.marginS,
-    paddingHorizontal: Metrics.marginS,
+    paddingTop: Metrics.marginXL,
+    paddingHorizontal: Metrics.marginM,
+    borderTopLeftRadius: Metrics.radiusM,
+    borderTopRightRadius: Metrics.radiusM,
   },
   nameContainer: {
     flexDirection: "row",
@@ -349,25 +350,23 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   description: {
+    flex: 1,
+    textAlign: 'center',
+    justifyContent: 'center',
     fontSize: Metrics.fontXS,
-    color: "#000",
-    width: wp("70%"),
-    textAlign: "center",
-    lineHeight: Metrics.marginXS,
-    marginBottom: Metrics.marginS,
-    paddingHorizontal: Metrics.marginS,
-    color: '#aaa'
+    width: "70%",
+    margin: Metrics.marginS,
+    color: '#aaa',
   },
   addCommentButton: {
     flexDirection: "row",
-    alignItems: "flex-end",
+    alignItems: "center",
     justifyContent: "center",
     backgroundColor: "transparent",
     paddingVertical: Metrics.marginS,
-    paddingHorizontal: Metrics.marginS,
+    paddingHorizontal: Metrics.marginL,
     borderRadius: Metrics.radiusS,
     marginBottom: Metrics.marginS,
-    alignSelf: "center",
   },
   addCommentText: {
     fontSize: Metrics.fontS,
@@ -449,7 +448,6 @@ const styles = StyleSheet.create({
   opinionText: {
     fontSize: Metrics.fontS,
     color: "#333",
-    lineHeight: Metrics.marginXS,
     marginLeft: Metrics.marginS,
     fontStyle: "italic",
   },
@@ -468,7 +466,8 @@ const styles = StyleSheet.create({
   },
   editingContainer: {
     alignItems: "center",
-    marginBottom: Metrics.marginS,
+    marginBottom: Metrics.marginXL,
     marginLeft: Metrics.marginS,
+    height: Metrics.publicityArea,
   }
 });

@@ -32,6 +32,7 @@ export const Metrics = {
   safeArea: verticalScale(10),
   searchBarArea: verticalScale(40),
   navBarArea: verticalScale(60),
+  topSpace: verticalScale(70),
   publicityArea: verticalScale(80),
   editPublicity: verticalScale(150),
   publicityHome: verticalScale(200),
