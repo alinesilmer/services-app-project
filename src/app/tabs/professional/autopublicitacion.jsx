@@ -122,8 +122,8 @@ export default function HomeScreen() {
             <BackButton />
 
             <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                style={styles.slideUpCardContainer}
+                behavior={Platform.OS === 'android' ? 'padding' : 'height'}
+                style={{ flex: 1 }}
                 keyboardVerticalOffset={Metrics.navBarArea}
             >
                 <View style={styles.profileContainer}>
@@ -192,6 +192,7 @@ export default function HomeScreen() {
                         <CustomButtom
                             text="Finalizar edición"
                             onPress={finalizarEdicion}
+                            width='90%'
                         />
                     </ScrollView>
                 </SlideUpCard>
@@ -235,11 +236,6 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         backgroundColor: 'orange'
-    },
-    slideUpCardContainer: {
-        flex: 1,
-        margin: 0,
-        padding: 0,
     },
     slideUpCard: { maxHeight: Metrics.screenM},
     prevView: {
