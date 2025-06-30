@@ -1,24 +1,38 @@
 "use client"
-import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Platform, ScrollView, Modal, Image, Dimensions, } from "react-native"
-import { useState } from "react"
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  StatusBar,
+  Platform,
+  ScrollView,
+  Modal,
+  Image,
+} from "react-native"
+import { useState, useEffect } from "react"
 import { useLocalSearchParams, router } from "expo-router"
 import { Colors } from "../../../constants/Colors"
+import { Metrics } from "../../../constants/Metrics"
 import {  Feather } from "@expo/vector-icons"
 import AdsImage from "../../../components/AdsImage"
-import BackButton from "../../../components/BackButton"
 import CustomButton from "../../../components/CustomButton"
 
 import mockProfiles from "../../../data/mockProfiles"
 import mockServices from "../../../data/mockServices"
-import { Metrics } from "../../../constants/Metrics"
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
+import { usePremium } from "../../../hooks/usePremium"
 
-const { width } = Dimensions.get("window")
 
 const ProfessionalServices = () => {
   const params = useLocalSearchParams()
   const [selectedService, setSelectedService] = useState(null)
   const [showServiceModal, setShowServiceModal] = useState(false)
+
+    const { premium } = usePremium()
+  
+      const userIsPremium =
+        (premium.isPremium || premium.isPremiumProf) &&
+        ["active", "trial"].includes(premium.premiumStatus)
 
   const professional = mockProfiles.find((profile) => profile.id === Number.parseInt(params.professionalId))
 
@@ -36,16 +50,16 @@ const ProfessionalServices = () => {
 
   const generateServicePhotos = (serviceName) => {
     const basePhotos = [
-      "https://randomuser.me/api/portraits/men/1.jpg",
-      "https://randomuser.me/api/portraits/women/1.jpg",
-      "https://randomuser.me/api/portraits/men/2.jpg",
-      "https://randomuser.me/api/portraits/women/2.jpg",
-      "https://randomuser.me/api/portraits/men/3.jpg",
-      "https://randomuser.me/api/portraits/women/3.jpg",
-      "https://randomuser.me/api/portraits/men/4.jpg",
-      "https://randomuser.me/api/portraits/women/4.jpg",
-      "https://randomuser.me/api/portraits/men/5.jpg",
-      "https://randomuser.me/api/portraits/women/5.jpg",
+      "https://https://media.istockphoto.com/id/1049775258/es/foto/sonriendo-a-apuesto-electricista-reparaci%C3%B3n-caja-el%C3%A9ctrica-con-alicates-en-corredor-y-mirando.jpg?s=612x612&w=0&k=20&c=z9-BkHlmyIyleDNSrZj3nx65WizQy8YeYluaPdyRV5k=.me/api/portraits/men/1.jpg",
+      "https://img.freepik.com/foto-gratis/manitas-sitio-construccion-proceso-perforacion-pared-perforador_169016-12114.jpg?semt=ais_items_boosted&w=740/api/portraits/women/1.jpg",
+      "https://img.freepik.com/fotos-premium/carpinteria-carpinteria-fabricacion-muebles-carpintero-profesional-cortando-madera-carpinteria-concepto-industrial_310913-414.jpg/2.jpg",
+      "https://wallpapers.com/images/hd/service-plumber-plumbing-system-maintenance-x0tn63qvfcup31a7.jpg",
+      "https://cdn.computerhoy.com/sites/navi.axelspringer.es/public/media/image/2020/02/programador-1869619.jpg?tf=3840x",
+      "https://i.pinimg.com/564x/17/de/74/17de74b9a0064dc323112e37413b243b.jpg",
+      "https://i.pinimg.com/736x/5e/58/33/5e5833be1e13accc4999107c93b8b660.jpg",
+      "https://i.pinimg.com/564x/ca/01/61/ca01610b13c82ac39876fba08fb3abb6.jpg",
+      "https://blog.discmakers.com/wp-content/uploads/2023/09/MusicCareerSuccess_Pt2_Feature.jpg",
+      "https://t3.ftcdn.net/jpg/03/32/90/02/360_F_332900228_GuKd5nAhZDXXQo9V7FroTvGucFruIXLP.jpg",
     ]
 
     const numPhotos = Math.floor(Math.random() * 3) + 4
@@ -63,7 +77,6 @@ const ProfessionalServices = () => {
     return selectedPhotos
   }
 
-  const isPremiumUser = false
 
   const getServicePrice = (serviceName) => {
     const service = mockServices.find(
@@ -118,12 +131,11 @@ const ProfessionalServices = () => {
       <StatusBar backgroundColor={Colors.blueColor} barStyle="light-content" />
 
       <View style={styles.header}>
-        <BackButton/>
         <Text style={styles.headerTitle}>Servicios</Text>
         <View style={styles.placeholder} />
       </View>
 
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.servicesHeader}>
           <Text style={styles.servicesSubtitle}>PRECIOS ESTIMADOS</Text>
           <Text style={styles.priceNote}>(*) Los precios pueden variar según el tipo de servicio.</Text>
@@ -167,7 +179,7 @@ const ProfessionalServices = () => {
           />
         </View>
 
-        <AdsImage onPress isPremium={isPremiumUser} />
+        <AdsImage onPress isPremium={userIsPremium} />
       </ScrollView>
 
       <Modal visible={showServiceModal} transparent={true} animationType="slide">
@@ -182,15 +194,12 @@ const ProfessionalServices = () => {
                   </TouchableOpacity>
                 </View>
 
-                <ScrollView showsVerticalScrollIndicator={false}>
                   <View style={styles.modalPriceContainer}>
                     <Text style={styles.modalPrice}>{selectedService.price}</Text>
                     <Text style={styles.modalPriceNote}>*Precio estimado</Text>
                   </View>
 
-                  <View style={styles.modalDescriptionContainer}>
-                    <Text style={styles.modalDescription}>{selectedService.description}</Text>
-                  </View>
+                  <ScrollView showsVerticalScrollIndicator={false}>
 
                   <View style={styles.photoGallery}>
                     <Text style={styles.galleryTitle}>Galería de trabajos</Text>
@@ -202,17 +211,16 @@ const ProfessionalServices = () => {
                       ))}
                     </View>
                   </View>
-
-                  <TouchableOpacity
-                    style={styles.modalAppointmentButton}
-                    onPress={() => {
+                  <View style={{ alignItems:"center"}}>
+                  <CustomButton 
+                  text={"Solicitar turno para este servicio"}
+                      onPress={() => {
                       setShowServiceModal(false)
                       handleRequestAppointment()
                     }}
-                  >
-                    <Feather name="calendar" size={Metrics.iconSmall} color={Colors.whiteColor} />
-                    <Text style={styles.modalAppointmentButtonText}>Solicitar turno para este servicio</Text>
-                  </TouchableOpacity>
+                  />
+                  </View>
+
                 </ScrollView>
               </>
             )}
@@ -240,7 +248,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     color: Colors.whiteColor,
-    fontSize: Metrics.fontL,
+    fontSize: Metrics.fontM,
     fontWeight: "bold",
   },
   placeholder: {
@@ -249,8 +257,10 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     backgroundColor: Colors.whiteColor,
-    paddingTop: Metrics.marginS,
-    paddingHorizontal: Metrics.marginS,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    paddingTop: 30,
+    paddingHorizontal: Metrics.mar,
   },
   servicesHeader: {
     alignItems: "center",
@@ -353,11 +363,11 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   modalContent: {
-    backgroundColor: "white",
-    borderTopLeftRadius: Metrics.radiusM,
-    borderTopRightRadius: Metrics.radiusM,
-    maxHeight: "85%",
-    paddingBottom: Metrics.marginS,
+    backgroundColor: Colors.whiteColor,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+    maxHeight: Metrics.ionXXL,
+    paddingBottom: 20,
   },
   modalHeader: {
     flexDirection: "row",
@@ -378,7 +388,7 @@ const styles = StyleSheet.create({
     paddingVertical: Metrics.marginS,
     borderBottomWidth: 1,
     borderBottomColor: "#f0f0f0",
-    marginHorizontal: Metrics.marginS,
+    marginHorizontal: Metrics.marginM,
   },
   modalPrice: {
     fontSize: Metrics.fontM,
@@ -394,6 +404,7 @@ const styles = StyleSheet.create({
     padding: Metrics.marginS
   },
   modalDescription: {
+    marginTop: Metrics.marginS,
     fontSize: Metrics.fontS,
     color: "#666",
     lineHeight: Metrics.marginXS,
@@ -416,14 +427,22 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   photoContainer: {
-    width: (width - 60) / 2 - 5, 
-    marginBottom: Metrics.marginS
+    width: "48%",
+    aspectRatio: 1,
+    marginBottom: Metrics.marginS,
+    borderRadius: Metrics.radiusS,
+    overflow: "hidden",
+    backgroundColor: "#f5f5f5",
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
   },
   photo: {
-    width: wp("100%"),
-    height: Metrics.screenS,
-    borderRadius: Metrics.radiusS,
-    backgroundColor: "#f0f0f0",
+    width: "100%",
+    height: "100%",
+    resizeMode: "cover",
   },
   modalAppointmentButton: {
     backgroundColor: Colors.blueColor,

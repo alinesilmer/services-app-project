@@ -6,6 +6,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import LottieView from 'lottie-react-native'; 
+import { Metrics } from '../constants/Metrics';
 
 const AnimationFeedback = ({ type }) => {
   let source;
@@ -40,9 +41,10 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: Metrics.marginS,
   },
   animation: {
-    width: '40%',
-    height: '40%',
+    width: Metrics.animationL,
+    height: Metrics.animationL,
   },
 });

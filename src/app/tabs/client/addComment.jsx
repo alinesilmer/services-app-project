@@ -111,7 +111,7 @@ const AddComment = () => {
   return (
     <KeyboardAvoidingView
       style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      behavior={Platform.OS === "android" ? "padding" : "height"}
     >
       <ScrollView
         style={styles.scrollContainer}
@@ -249,8 +249,8 @@ const styles = StyleSheet.create({
   },
   textInputContainer: {
     backgroundColor: Colors.whiteColor,
-    borderRadius: Metrics.radiusS,
-    borderWidth: Metrics.marginXS,
+    borderRadius: 10,
+    borderWidth: 2,
     borderColor: Colors.blueColor,
     paddingHorizontal: Metrics.marginS,
     paddingVertical: Metrics.marginS,
@@ -292,9 +292,9 @@ const styles = StyleSheet.create({
   starsContainer: {
     flexDirection: "row",
     justifyContent: "center",
-    backgroundColor: "#ddd",
-    borderRadius: Metrics.radiusS,
-    paddingHorizontal: Metrics.marginS,
+    backgroundColor: Colors.inputGray,
+    borderRadius: 10,
+    paddingHorizontal: 15,
   },
   starButton: {
     marginHorizontal: Metrics.marginS,
@@ -326,8 +326,8 @@ const styles = StyleSheet.create({
   },
   professionalInfo: {
     backgroundColor: Colors.whiteColor,
-    borderRadius: Metrics.radiusS,
-    padding: Metrics.marginS,
+    borderRadius: 10,
+    padding: 15,
     marginBottom: Metrics.marginS,
     elevation: 1,
     shadowColor: "#000",
@@ -352,8 +352,8 @@ const styles = StyleSheet.create({
   },
   animationContainer: {
     backgroundColor: Colors.whiteColor,
-    borderRadius: Metrics.radiusS,
-    padding: Metrics.marginS,
+    borderRadius: 10,
+    padding: 30,
     alignItems: "center",
     elevation: 10,
     shadowColor: "#000",

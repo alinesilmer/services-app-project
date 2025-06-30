@@ -47,7 +47,7 @@ const Dropdown = ({ initialValue, onSelect }) => {
 
       {expanded && (
         <View style={styles.dropdownList}>
-          <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={true} nestedScrollEnabled={true}>
+          <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={true} nestedScrollEnabled={true}>
             {SERVICES.map((item) => (
               <TouchableOpacity
                 key={item.label}

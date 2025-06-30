@@ -1,48 +1,36 @@
-"use client"
-import React, { useEffect, useState, useCallback } from "react"
-import { View, Text, ScrollView, StyleSheet, StatusBar, Pressable, SafeAreaView, Platform, FlatList, } from "react-native"
-import { useRouter, useFocusEffect } from "expo-router"
+'use client';
+import React, { useEffect, useState, useCallback } from 'react'
+import { View, Text, ScrollView, StyleSheet, StatusBar, Pressable, SafeAreaView, Platform, FlatList } from 'react-native'
+import { useRouter, useFocusEffect } from 'expo-router'
+import { useDispatch } from 'react-redux'
 
-import ProfilePicture from "../../../components/ProfilePic"
-import SearchBar from "../../../components/SearchBar"
-import BottomNavBar from "../../../components/NavBar"
-import ServiceList from "../../../components/ServiceList"
-import PublicityProfessional from "../../../components/PublicityProfessional"
-import Notifications from "../../../components/Notifications"
-import LongCard from "../../../components/LongCard"
-import allServices from "../../../data/mockServices"
-import Rate from "../../../components/Rate"
-import { filterServices } from "../../../utils/filterServices"
-import Ad from "../../../components/Ad"
-import { useAdManager } from "../../../hooks/useAdManager"
-import { useDispatch } from 'react-redux';
-import { logout } from '../../../redux/slices/authSlice';
-import { resetPremiumState } from '../../../redux/slices/premiumSlice';
-import { logoutUser } from '../../../utils/storage';
-import { Colors } from "../../../constants/Colors"
-import { Metrics } from "../../../constants/Metrics"  
-import { getCompleteUserData } from "../../../utils/storage"
-import { usePremium } from "../../../hooks/usePremium"
-
-const ads = [
-  require("../../../assets/videos/propaganda1.mp4"),
-  require("../../../assets/videos/propaganda2.mp4"),
-  require("../../../assets/videos/propaganda3.mp4"),
-  require("../../../assets/videos/propaganda4.mp4"),
-  require("../../../assets/videos/propaganda5.mp4"),
-]
+import ProfilePicture from '../../../components/ProfilePic'
+import SearchBar from '../../../components/SearchBar'
+import BottomNavBar from '../../../components/NavBar'
+import ServiceList from '../../../components/ServiceList'
+import PublicityProfessional from '../../../components/PublicityProfessional'
+import Notifications from '../../../components/Notifications'
+import LongCard from '../../../components/LongCard'
+import allServices from '../../../data/mockServices'
+import Rate from '../../../components/Rate'
+import { filterServices } from '../../../utils/filterServices'
+import { logout } from '../../../redux/slices/authSlice'
+import { resetPremiumState } from '../../../redux/slices/premiumSlice'
+import { logoutUser } from '../../../utils/storage'
+import { Colors } from '../../../constants/Colors'
+import { Metrics } from '../../../constants/Metrics'
+import { getCompleteUserData } from '../../../utils/storage'
+import { usePremium } from '../../../hooks/usePremium'
 
 export default function Home() {
   const router = useRouter()
-  const { premium } = usePremium()
-  const userIsPremium =
-    (premium.isPremium || premium.isPremiumProf) &&
-    ["active", "trial"].includes(premium.premiumStatus)
+  const dispatch = useDispatch()
 
-  const { showAd, closeAd } = useAdManager()
-  const [randomAd, setRandomAd] = useState(null)
-  const [username, setUsername] = useState("Usuario")
-  const [search, setSearch] = useState("")
+  const { premium } = usePremium()
+  const userIsPremium = (premium.isPremium || premium.isPremiumProf) && ['active','trial'].includes(premium.premiumStatus)
+
+  const [username, setUsername] = useState('Usuario')
+  const [search, setSearch] = useState('')
 
   const filteredResults = filterServices(search, allServices)
 
@@ -51,41 +39,23 @@ export default function Home() {
       const data = await getCompleteUserData()
       if (data.fullName) setUsername(data.fullName)
     } catch (e) {
-      console.error("Error loading user data:", e)
+      console.error('Error loading user data:', e)
     }
   }, [])
 
-  useEffect(() => {
-    loadUserData()
-  }, [loadUserData])
+  useEffect(() => { loadUserData() }, [loadUserData])
+  useFocusEffect(useCallback(() => { loadUserData() }, [loadUserData]))
 
-  useFocusEffect(
-    useCallback(() => {
-      loadUserData()
-    }, [loadUserData])
-  )
-
-  useEffect(() => {
-    if (showAd && !randomAd) {
-      const idx = Math.floor(Math.random() * ads.length)
-      setRandomAd(ads[idx])
-    }
-    if (!showAd) {
-      setRandomAd(null)
-    }
-  }, [showAd, randomAd])
-
-  const dispatch = useDispatch();
-const handleLogout = async () => {
-  try {
-    await logoutUser();               
-    dispatch(logout());                
-    dispatch(resetPremiumState());     
-    router.replace('/auth/login');
-  } catch (e) {
-    console.error('Error al cerrar sesión', e);
+  const handleLogout = async () => {
+    try {
+      await logoutUser()
+      dispatch(logout())
+      dispatch(resetPremiumState())
+      router.replace('/auth/login')
+    } catch (e) { console.error('Error al cerrar sesi\u00f3n', e) }
   }
-};
+
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="light-content" />
@@ -159,10 +129,6 @@ const handleLogout = async () => {
         </View>
 
         <BottomNavBar />
-
-        {!userIsPremium && randomAd && (
-          <Ad visible={showAd} onClose={closeAd} source={randomAd} type="video" />
-        )}
       </View>
     </SafeAreaView>
   )

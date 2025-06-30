@@ -5,7 +5,6 @@ import { useLocalSearchParams, useRouter } from "expo-router"
 import { Feather } from "@expo/vector-icons"
 import { Colors } from "../../../constants/Colors"
 import { Metrics } from "../../../constants/Metrics"
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 import AdsImage from "../../../components/AdsImage"
 import DatePickerAppointment from "../../../components/DatePickerAppointment"
@@ -107,7 +106,7 @@ const Appointment = () => {
         <View style={styles.header}>
           <BackButton onPress={handleBack} />
         </View>
-        <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+        <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
           <Text style={styles.title}>
             Selecciona horarios disponibles para tu turno
           </Text>
@@ -167,9 +166,6 @@ const Appointment = () => {
             <View style={styles.animationContainer}>
               <AnimationFeedback type="success" />
               <Text style={styles.successTitle}>¡Éxito!</Text>
-              <Text style={styles.successMessage}>
-                {`Se ${selectedTimes.length > 1 ? "han" : "ha"} confirmado ${selectedTimes.length} turno${selectedTimes.length > 1 ? "s" : ""}`}
-              </Text>
             </View>
           </View>
         </Modal>
@@ -184,7 +180,7 @@ const Appointment = () => {
       <View style={styles.header}>
         <BackButton onPress={handleBack} />
       </View>
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <Text style={styles.title}>
           Selecciona la fecha para tu turno
         </Text>
@@ -206,7 +202,7 @@ const Appointment = () => {
         <View style={styles.actionButton}>
           <CustomButton text={"Volver atrás"} onPress={handleBack}/>
           </View>
-           <View style={styles.actionButton}>
+          <View style={styles.actionButton}>
           <CustomButton text={"Confirmar fecha"} onPress={handleDateConfirm} backgroundColor={Colors.orangeColor}/>
         </View>
       </ScrollView>
@@ -217,9 +213,7 @@ const Appointment = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.blueColor,
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: "#fff",
   },
   header: {
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight + 10 : 50,
@@ -240,8 +234,8 @@ const styles = StyleSheet.create({
   },
   selectedDateContainer: {
     backgroundColor: Colors.whiteColor,
-    borderRadius: Metrics.radiusS,
-    padding: Metrics.marginS,
+    borderRadius: 15,
+    padding: 20,
     marginBottom: Metrics.marginS,
     elevation: 2,
     shadowColor: "#000",
@@ -271,8 +265,8 @@ const styles = StyleSheet.create({
   },
   timeSelectionContainer: {
     backgroundColor: Colors.whiteColor,
-    borderRadius: Metrics.radiusS,
-    padding: Metrics.marginS,
+    borderRadius: 15,
+    padding: 20,
     marginBottom: Metrics.marginS,
     elevation: 2,
     shadowColor: "#000",
@@ -320,10 +314,10 @@ const styles = StyleSheet.create({
   },
   animationContainer: {
     backgroundColor: Colors.whiteColor,
-    borderRadius: Metrics.radiusS,
-    padding: Metrics.marginS,
+    borderRadius: 20,
+    padding: 30,
     alignItems: "center",
-    minWidth: wp("70%"),
+    minWidth: Metrics.animationXL,
   },
   successTitle: {
     fontSize: Metrics.radiusS,

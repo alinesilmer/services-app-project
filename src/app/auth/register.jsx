@@ -87,13 +87,14 @@ export default function Register() {
     <>
       <StatusBar barStyle="light-content" />
       <SafeAreaView style={styles.safeArea} />
+      <Logo />
+      <BackButton />
       <KeyboardAvoidingView
         style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        behavior={Platform.OS === 'android' ? 'padding' : 'padding'}
+        keyboardVerticalOffset={Platform.OS === 'android' ? 0 : 0}
       >
         <View style={styles.container}>
-          <Logo />
-
           <SlideUpCard
             title="Crear una Cuenta"
             subtitle="Por favor, ingrese sus datos para registrarse"
@@ -298,7 +299,7 @@ const styles = StyleSheet.create({
     marginBottom: Metrics.marginS,
   },
   inputs: {
-    width: wp('100%'),
+    width: wp('90%'),
     fontSize: Metrics.fontXS,
   },
 })

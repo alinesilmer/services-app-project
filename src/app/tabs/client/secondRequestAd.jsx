@@ -7,31 +7,22 @@ import { Colors } from "../../../constants/Colors";
 import { Fonts } from "../../../constants/Fonts";
 import { Metrics } from "../../../constants/Metrics";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen"
-import { getUserData, isPremiumUser } from "../../../utils/storage";
+
 
 import AdsImage from "../../../components/AdsImage";
 import Logo from "../../../components/Logo";
 import BackButton from "../../../components/BackButton";
 import CustomButton from "../../../components/CustomButton";
+import { usePremium } from "../../../hooks/usePremium"
 import SlideUpCard from "../../../components/SlideUpCard";
 
 export default function SecondRequest() {
   const router = useRouter();
-  const [premium, setPremium] = useState(false);
-
-  useEffect(() => {
-    const loadPremiumStatus = async () => {
-      try {
-        getUserData();
-        const premium = await isPremiumUser();
-        setPremium(premium);
-      } catch (error) {
-        console.error("Error loading premium status:", error);
-      }
-    };
-
-    loadPremiumStatus();
-  }, []);
+    const { premium } = usePremium()
+  
+      const userIsPremium =
+        (premium.isPremium || premium.isPremiumProf) &&
+        ["active", "trial"].includes(premium.premiumStatus)
 
   return (
     <>
@@ -49,7 +40,9 @@ export default function SecondRequest() {
                   color={Colors.orangeColor}
                   fontWeight="bold"
                 />
-                <Text style={[styles.titleTwo, { marginLeft: Metrics.marginS }]}>
+                <Text
+                  style={[styles.titleTwo, { marginLeft: Metrics.marginS }]}
+                >
                   ¡SE NECESITA!
                 </Text>
               </View>
@@ -74,7 +67,9 @@ export default function SecondRequest() {
                   color={Colors.orangeColor}
                   fontWeight="bold"
                 />
-                <Text style={[styles.titleTwo, { marginLeft: Metrics.marginS }]}>
+                <Text
+                  style={[styles.titleTwo, { marginLeft: Metrics.marginS }]}
+                >
                   ¡SE NECESITA!
                 </Text>
               </View>
@@ -92,14 +87,14 @@ export default function SecondRequest() {
 
               <View style={styles.buttonContainer}>
                 <CustomButton
-                  text="Agregar solicitud personalizada"
+                  text="Agregar solicitud"
                   onPress={() => router.push("tabs/client/requestAd")}
                   backgroundColor="#e47755"
                 />
               </View>
 
               <View style={styles.imageContainer}>
-                <AdsImage onPress isPremium={premium} />
+                <AdsImage onPress isPremium={userIsPremium} />
               </View>
             </ScrollView>
           </SlideUpCard>
@@ -123,9 +118,8 @@ const styles = StyleSheet.create({
   card: {
     position: "absolute",
     bottom: 0,
-    width: wp("100%"),
     height: Metrics.screenM,
-    alignItems: "stretch",
+    alignItems: "center",
   },
   headerContainer: {
     alignItems: "center",

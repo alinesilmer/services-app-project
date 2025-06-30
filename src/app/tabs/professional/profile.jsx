@@ -85,7 +85,7 @@ export default function ProfessionalProfileScreen() {
 
   const handleLogout = async () => {
     await logoutUser();
-    router.replace("/welcome");
+    router.replace("/login");
   };
 
   return (

@@ -14,21 +14,23 @@ export default function welcome() {
   const router = useRouter();
 
   return (
-    <View style={styles.container}>
+    <>
       <StatusBar barStyle="light-content" />
-      <SafeAreaView style={{ height: Metrics.safeArea, backgroundColor: Colors.whiteColor }} />
-        <Logo />
-        <SlideUpCard
-          title="Bienvenido a Dilo"
-          subtitle="Donde calidad y rapidez se unen"
-          style={styles.card}
-        >
-          <View style={styles.buttonContainer}>
-            <CustomButton text="Iniciar Sesión" onPress={() => router.push('/auth/login')} />
-            <CustomButton text="Registrarme" onPress={() => router.push('/auth/register')} />
-          </View>
-        </SlideUpCard>
-    </View>
+      <SafeAreaView style={{ height: Metrics.safeArea, backgroundColor: Colors.blueColor }} />
+      <View style={styles.container}>
+          <Logo />
+          <SlideUpCard
+            title="Bienvenido a Dilo"
+            subtitle="Donde calidad y rapidez se unen"
+            style={styles.card}
+          >
+            <View style={styles.buttonContainer}>
+              <CustomButton text="Iniciar Sesión" onPress={() => router.push('/auth/login')} />
+              <CustomButton text="Registrarme" onPress={() => router.push('/auth/register')} />
+            </View>
+          </SlideUpCard>
+        </View>
+    </>
   );
 }
 

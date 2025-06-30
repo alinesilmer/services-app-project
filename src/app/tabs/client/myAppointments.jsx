@@ -1,9 +1,20 @@
-import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Platform, ScrollView, Modal, SafeAreaView, RefreshControl } from "react-native"
-import { useState, useCallback } from "react"
+
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  StatusBar,
+  Platform,
+  ScrollView,
+  Modal,
+  SafeAreaView,
+  RefreshControl,
+} from "react-native"
+import { useState, useCallback, useEffect } from "react"
 import { router, useFocusEffect } from "expo-router"
 import { Colors } from "../../../constants/Colors"
 import { Metrics } from "../../../constants/Metrics"
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 import { Feather } from "@expo/vector-icons"
 
 import AdsImage from "../../../components/AdsImage"
@@ -12,7 +23,7 @@ import AnimationFeedback from "../../../components/AnimationFeedback"
 import ModifyAppointmentModal from "../../../components/ModifyAppointmentModal"
 import mockAppointments from "../../../data/mockAppointments"
 import BackButton from "../../../components/BackButton"
-import { usePremium } from "../../../hooks/usePremium" 
+import { usePremium } from "../../../hooks/usePremium"
 
 const MyAppointments = () => {
   const [selectedAppointment, setSelectedAppointment] = useState(null)
@@ -24,7 +35,6 @@ const MyAppointments = () => {
   const [appointmentToDelete, setAppointmentToDelete] = useState(null)
 
   const { premium } = usePremium()
-  const isPremium = premium?.isPremium && ["active", "trial"].includes(premium.premiumStatus)
 
   const loadAppointments = useCallback(() => {
     setCurrentAppointments([...mockAppointments])
@@ -76,6 +86,11 @@ const MyAppointments = () => {
       setShowModifyModal(true)
     }, 100)
   }
+
+      const userIsPremium =
+        (premium.isPremium || premium.isPremiumProf) &&
+        ["active", "trial"].includes(premium.premiumStatus)
+
 
   const handleSaveModifiedAppointment = (updatedAppointment) => {
     const index = mockAppointments.findIndex((apt) => apt.id === updatedAppointment.id)
@@ -163,7 +178,7 @@ const MyAppointments = () => {
           )}
 
           <View style={styles.adContainer}>
-            <AdsImage onPress isPremium={isPremium} />
+            <AdsImage onPress isPremium={userIsPremium}/>
           </View>
         </ScrollView>
       </View>
@@ -251,7 +266,6 @@ const MyAppointments = () => {
           <View style={styles.animationContainer}>
             <AnimationFeedback type="delete" />
             <Text style={styles.deleteTitle}>Turno Cancelado</Text>
-            <Text style={styles.deleteMessage}>El turno ha sido cancelado exitosamente</Text>
           </View>
         </View>
       </Modal>
@@ -322,13 +336,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   appointmentCard: {
-    backgroundColor: "white",
-    borderRadius: Metrics.radiusS,
-    padding: Metrics.marginS,
-    borderStyle: "solid",
-    borderWidth: Metrics.marginXS,
-    borderColor: "lightgray",
-    marginBottom: Metrics.marginS,
+    backgroundColor: Colors.whiteColor,
+    borderRadius: 10,
+    padding: 20,
+    marginBottom: 15,
     elevation: 2,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
@@ -409,11 +420,11 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     backgroundColor: Colors.whiteColor,
-    borderRadius: Metrics.radiusS,
-    padding: Metrics.marginS,
-    margin: Metrics.marginS,
-    width: wp("90%"),
-    maxHeight: "80%",
+    borderRadius: 10,
+    padding: 20,
+    margin: 20,
+    width: Metrics.animationXL,
+    maxHeight: Metrics.animationXXL,
   },
   modalHeader: {
     flexDirection: "row",
@@ -484,16 +495,17 @@ const styles = StyleSheet.create({
   },
   animationContainer: {
     backgroundColor: Colors.whiteColor,
-    borderRadius: Metrics.radiusS,
-    padding: Metrics.marginS,
+    borderRadius: 10,
+    padding: 2,
     alignItems: "center",
-    minWidth: wp("70%"),
+    minWidth: Metrics.animationXL,
   },
   deleteTitle: {
     fontSize: Metrics.fontS,
     fontWeight: "bold",
     color: "#333",
     marginTop: Metrics.marginS,
+    marginBottom: Metrics.marginL,
     textAlign: "center",
   },
   deleteMessage: {

@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
     paddingVertical: Metrics.marginS,
     borderRadius: Metrics.radiusS,
     marginTop: Metrics.marginS,
+    marginBottom: Metrics.marginS,
   },
   closeText: {
     color: '#fff',

@@ -99,14 +99,14 @@ export default PaymentForm;
 
 const styles = StyleSheet.create({
   container: {
-    width: wp("100%"),
+    width: wp("90%"),
     backgroundColor: '#F5F5F5',
     borderRadius: Metrics.radiusS,
     padding: Metrics.marginS,
     marginTop: Metrics.marginS,
   },
   input: {
-    width: wp("100%"),
+    width: wp("80%"),
     fontSize: Metrics.fontXS,
   }
 });

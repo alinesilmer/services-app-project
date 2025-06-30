@@ -1,5 +1,6 @@
-"use client"
-import React, { useEffect, useState } from "react"
+"use client";
+
+import React, { useEffect, useState } from "react";
 import {
   SafeAreaView,
   StatusBar,
@@ -8,26 +9,25 @@ import {
   View,
   Text,
   StyleSheet,
-} from "react-native"
-import { useRouter } from "expo-router"
-import SlideUpCard from "../../../components/SlideUpCard"
-import CustomButton from "../../../components/CustomButton"
-import Ad from "../../../components/Ad"
-import BottomNavBar from "../../../components/NavBar"
-import ProfilePic from "../../../components/ProfilePic"
-import LongCard from "../../../components/LongCard"
+} from "react-native";
+import { useRouter } from "expo-router";
+import { useDispatch } from "react-redux";
 
-import { Colors } from "../../../constants/Colors"
-import { Metrics } from "../../../constants/Metrics"
-import { usePremium } from "../../../hooks/usePremium"
-import { useDispatch } from "react-redux"
-import { useAdManager } from "../../../hooks/useAdManager"
-import {
-  getCompleteUserData,
-  logoutUser
-} from "../../../utils/storage"
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
-import { logout } from "../../../redux/slices/authSlice";               
+import SlideUpCard from "../../../components/SlideUpCard";
+import CustomButton from "../../../components/CustomButton";
+import Ad from "../../../components/Ad";
+import BottomNavBar from "../../../components/NavBar";
+import ProfilePic from "../../../components/ProfilePic";
+import LongCard from "../../../components/LongCard";
+
+import { Colors } from "../../../constants/Colors";
+import { Metrics } from "../../../constants/Metrics";
+import { widthPercentageToDP as wp } from "react-native-responsive-screen";
+
+import { usePremium } from "../../../hooks/usePremium";
+import { useAdManager } from "../../../hooks/useAdManager";
+import { getCompleteUserData, logoutUser } from "../../../utils/storage";
+import { logout } from "../../../redux/slices/authSlice";
 import { resetPremiumState } from "../../../redux/slices/premiumSlice";
 
 export default function ClientDashboard() {
@@ -36,6 +36,7 @@ export default function ClientDashboard() {
 
   const { premium, daysRemaining, initializePremium } = usePremium();
   const { showAd, closeAd, userIsPremium } = useAdManager();
+  const isPremium = usePremium(); 
 
   const [refreshing, setRefreshing] = useState(false);
   const [userData, setUserData] = useState(null);
@@ -64,9 +65,10 @@ export default function ClientDashboard() {
   };
 
   const handlePremiumNav = () => {
-    handleSecureNavigation(
-      userIsPremium ? "/tabs/managePremium" : "/auth/goPremium"
-    );
+    const route = isPremium
+      ? "/tabs/managePremium"
+      : "/auth/goPremium";
+    handleSecureNavigation(route);
   };
 
   const handleLogout = async () => {
@@ -80,119 +82,126 @@ export default function ClientDashboard() {
     }
   };
 
-  const hour = new Date().getHours()
+  const hour = new Date().getHours();
   const greeting = !isValidUser()
     ? "¡Bienvenido, Usuario!"
     : hour < 12
-      ? `¡Buenos días, ${userData.fullName}!`
-      : hour < 18
-        ? `¡Buenas tardes, ${userData.fullName}!`
-        : `¡Buenas noches, ${userData.fullName}!`
+    ? `¡Buenos días, ${userData.fullName}!`
+    : hour < 18
+    ? `¡Buenas tardes, ${userData.fullName}!`
+    : `¡Buenas noches, ${userData.fullName}!`;
 
-  let subtitle = "Bienvenido a tu panel de usuario"
+  let subtitle = "Bienvenido a tu panel de usuario";
   if (premium.premiumStatus === "trial")
-    subtitle = `Prueba (${daysRemaining} día${daysRemaining !== 1 ? "s" : ""} restante)`
-  if (premium.premiumStatus === "active") subtitle = "Premium Activo"
-  if (premium.premiumStatus === "paused") subtitle = "Premium Pausado"
-  if (premium.premiumStatus === "expired") subtitle = "Premium Expirado"
+    subtitle = `Prueba (${daysRemaining} día${
+      daysRemaining !== 1 ? "s" : ""
+    } restante)`;
+  if (premium.premiumStatus === "active") subtitle = "Premium Activo";
+  if (premium.premiumStatus === "paused") subtitle = "Premium Pausado";
+  if (premium.premiumStatus === "expired")
+    subtitle = "Premium Expirado";
 
   return (
     <>
       <StatusBar style="light" backgroundColor={Colors.blueColor} />
       <SafeAreaView style={styles.safeArea}>
-        <SlideUpCard title={greeting} subtitle={subtitle} style={styles.card}>
-          <ScrollView
-            style={styles.scrollView}
-            contentContainerStyle={styles.scrollContent}
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }
-          >
-            <View style={styles.userInfoSection}>
-              <View style={styles.avatarWrapper}>
-                <ProfilePic
-                  uri={
-                    userData?.avatar ||
-                    "https://i.pinimg.com/736x/9f/16/72/9f1672710cba6bcb0dfd93201c6d4c00.jpg"
-                  }
-                  size={Metrics.iconXLarge}
-                  style={styles.avatar}
+        <View style={styles.container}>
+          <SlideUpCard title={greeting} subtitle={subtitle} style={styles.card}>
+            <ScrollView
+              style={styles.scrollView}
+              contentContainerStyle={styles.scrollContent}
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }
+            >
+              <View style={styles.userInfoSection}>
+                <View style={styles.avatarWrapper}>
+                  <ProfilePic
+                    uri={
+                      userData?.avatar ||
+                      "https://i.pinimg.com/736x/9f/16/72/9f1672710cba6bcb0dfd93201c6d4c00.jpg"
+                    }
+                    size={Metrics.iconXLarge}
+                    style={styles.avatar}
+                  />
+                </View>
+                <View style={styles.userTextInfo}>
+                  <Text style={styles.userName}>
+                    {userData?.fullName || "Usuario"}
+                  </Text>
+                  {userIsPremium && (
+                    <Text style={styles.premiumBadge}>Usuario Premium</Text>
+                  )}
+                </View>
+              </View>
+
+              <View style={styles.statsContainer}>
+                <View style={styles.statItem}>
+                  <Text style={styles.statNumber}>0</Text>
+                  <Text style={styles.statLabel}>Citas</Text>
+                </View>
+                <View style={styles.statItem}>
+                  <Text style={styles.statNumber}>0</Text>
+                  <Text style={styles.statLabel}>Favoritos</Text>
+                </View>
+                <View style={styles.statItem}>
+                  <Text style={styles.statNumber}>0</Text>
+                  <Text style={styles.statLabel}>Reseñas</Text>
+                </View>
+              </View>
+
+              <View style={styles.actionsContainer}>
+                <CustomButton
+                  text="Mi Perfil"
+                  onPress={() => router.push("/tabs/client/profile")}
+                  style={styles.actionButton}
+                />
+                <CustomButton
+                  text="Buscar Profesionales"
+                  onPress={() => handleSecureNavigation("/tabs/client/services")}
+                  style={styles.actionButton}
+                />
+                <CustomButton
+                  text="Solicitud Personalizada"
+                  onPress={() => handleSecureNavigation("/tabs/client/requestAd")}
+                  style={styles.actionButton}
+                />
+                <CustomButton
+                  text={userIsPremium ? "Gestionar Premium" : "Obtener Premium"}
+                  onPress={handlePremiumNav}
+                  style={styles.premiumButton}
+                />
+                <CustomButton
+                  text="Inicio"
+                  onPress={() => router.push("/tabs/client/home")}
+                  style={styles.actionButton}
+                />
+              <CustomButton
+                  text="Cerrar Sesión"
+                  onPress={handleLogout}
+                  style={[styles.actionButton, { backgroundColor: "#DC3545" }]}
                 />
               </View>
-              <View style={styles.userTextInfo}>
-                <Text style={styles.userName}>
-                  {userData?.fullName || "Usuario"}
-                </Text>
-                {userIsPremium && (
-                  <Text style={styles.premiumBadge}>Usuario Premium</Text>
-                )}
-              </View>
-            </View>
 
-            <View style={styles.statsContainer}>
-              <View style={styles.statItem}>
-                <Text style={styles.statNumber}>0</Text>
-                <Text style={styles.statLabel}>Citas</Text>
+              <View style={styles.activitySection}>
+                <Text style={styles.sectionTitle}>Actividad Reciente</Text>
+                <LongCard
+                  title="No hay actividad"
+                  subtitle="Comienza buscando profesionales"
+                />
               </View>
-              <View style={styles.statItem}>
-                <Text style={styles.statNumber}>0</Text>
-                <Text style={styles.statLabel}>Favoritos</Text>
-              </View>
-              <View style={styles.statItem}>
-                <Text style={styles.statNumber}>0</Text>
-                <Text style={styles.statLabel}>Reseñas</Text>
-              </View>
-            </View>
-
-            <View style={styles.actionsContainer}>
-              <CustomButton
-                text="Mi Perfil"
-                onPress={() => router.push("/tabs/client/profile")}
-                style={styles.actionButton}
-              />
-              <CustomButton
-                text="Buscar Profesionales"
-                onPress={() => handleSecureNavigation("/tabs/client/services")}
-                style={styles.actionButton}
-              />
-              <CustomButton
-                text="Solicitud Personalizada"
-                onPress={() => handleSecureNavigation("/tabs/client/requestAd")}
-                style={styles.actionButton}
-              />
-              <CustomButton
-                text={userIsPremium ? "Gestionar Premium" : "Obtener Premium"}
-                onPress={handlePremiumNav}
-                style={styles.premiumButton}
-              />
-              <CustomButton
-                text="Inicio"
-                onPress={() => router.push("/tabs/client/home")}
-                style={styles.actionButton}
-              />
-             <CustomButton
-                text="Cerrar Sesión"
-                onPress={handleLogout}
-                style={[styles.actionButton, { backgroundColor: "#DC3545" }]}
-              />
-            </View>
-
-            <View style={styles.activitySection}>
-              <Text style={styles.sectionTitle}>Actividad Reciente</Text>
-              <LongCard
-                title="No hay actividad"
-                subtitle="Comienza buscando profesionales"
-              />
-            </View>
-          </ScrollView>
+            </ScrollView>
         </SlideUpCard>
+        </View>
         <Ad visible={showAd} onClose={closeAd} />
       </SafeAreaView>
+
       <BottomNavBar />
       <SafeAreaView style={styles.safeAreaBottom} />
     </>
-  )
+  );
 }
+
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -202,6 +211,12 @@ const styles = StyleSheet.create({
   },
   safeAreaBottom: {
     backgroundColor: Colors.blueColor,
+  },
+  container: {
+    flex: 1,
+    backgroundColor: Colors.blueColor,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   card: {
     position: "absolute",

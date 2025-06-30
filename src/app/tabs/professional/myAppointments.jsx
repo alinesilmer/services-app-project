@@ -91,19 +91,26 @@ export default function ScheduleScreen() {
         <BackButton style={styles.backButton} />
         <View style={styles.container}>
           <SlideUpCard title="Agenda" subtitle="<<<  06/04/25  -  13/04/25  >>>" style={styles.card}>
-            <ScheduleMatrix 
-              apptData={apptData}
-              onSlotSelect={handleSlotSelect} 
-              selectedAppt={selectedAppt}
-            />
+            <ScrollView
+              contentContainerStyle={styles.scrollContent}
+              keyboardShouldPersistTaps="handled"
+              showsVerticalScrollIndicator={false}
+            >
+              <ScheduleMatrix 
+                apptData={apptData}
+                onSlotSelect={handleSlotSelect} 
+                selectedAppt={selectedAppt}
+              />
 
-            <ApptModal
-              visible={!!selectedAppt}
-              onClose={() => setSelectedAppt(null)}
-              appt={selectedAppt}
-              onAccept={handleAccept}
-              onCancel={handleCancel}
-            />
+              <ApptModal
+                visible={!!selectedAppt}
+                onClose={() => setSelectedAppt(null)}
+                appt={selectedAppt}
+                onAccept={handleAccept}
+                onCancel={handleCancel}
+              />
+
+            </ScrollView>
           </SlideUpCard>
         </View>
       <BottomNavBar />
@@ -129,22 +136,14 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start'
   },
   card: {
-    flex: 1,
-    paddingTop: Metrics.marginS,
-    paddingHorizontal: Metrics.marginS,
-    paddingBottom: Metrics.marginS,
-    shadowColor: Colors.textColor,
-    shadowRadius: Metrics.radiusS,
-    elevation: 10,
-    alignItems: 'center',
-    marginTop: Metrics.marginS,
-    marginBottom: Metrics.marginS,
-    borderColor: Colors.blueColor
+    position: "absolute",
+    bottom: 0,
+    height: Metrics.screenM,
+    alignItems: "stretch",
   },
   scrollContent: {
-    paddingBottom: Metrics.marginS,
-    paddingHorizontal: Metrics.marginS,
-    width: wp("100%"),
     flexGrow: 1,
-  }
+    gap: Metrics.marginS,
+    paddingBottom: Metrics.marginL,
+  },
 });
