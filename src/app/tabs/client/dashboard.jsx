@@ -167,7 +167,7 @@ export default function ClientDashboard() {
                   style={styles.actionButton}
                 />
                 <CustomButton
-                  text={userIsPremium ? "Gestionar Premium" : "Obtener Premium"}
+                  text={isUserPremium ? "Gestionar Premium" : "Obtener Premium"}
                   onPress={handlePremiumNav}
                   style={styles.premiumButton}
                 />
