@@ -25,6 +25,7 @@ export const Metrics = {
   iconMedium: scale(30),
   iconLarge: scale(36),
   iconXLarge: scale(48),
+  iconXXLarge: scale(60),
 
   buttonHeight: verticalScale(48),
 
@@ -32,10 +33,13 @@ export const Metrics = {
   searchBarArea: verticalScale(40),
   navBarArea: verticalScale(60),
   publicityArea: verticalScale(80),
+  editPublicity: verticalScale(150),
   publicityHome: verticalScale(200),
 
   screenXS: verticalScale(300),
+  screenSM: verticalScale(350),
   screenS: verticalScale(400),
+  screenMM: verticalScale(450),
   screenM: verticalScale(500),
   screenL: verticalScale(600),
 };

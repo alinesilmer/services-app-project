@@ -1,5 +1,15 @@
 import { useLocalSearchParams } from 'expo-router';
-import { KeyboardAvoidingView, Platform, TextInput, Pressable, StatusBar, StyleSheet, Text, View, Button } from "react-native";
+import {
+    KeyboardAvoidingView,
+    Platform,
+    TextInput,
+    Pressable,
+    SafeAreaView,
+    StatusBar,
+    StyleSheet,
+    Text,
+    View
+} from "react-native";
 import { Colors } from '../../../constants/Colors';
 import { Metrics } from '../../../constants/Metrics';
 import { widthPercentageToDP as wp } from "react-native-responsive-screen"
@@ -35,7 +45,7 @@ const Inputs = ({ nombre, setNombre, profesion, setProfesion, descripcion, setDe
       value={descripcion}
       onChangeText={setDescripcion}
       multiline
-      numberOfLines={4}
+      numberOfLines={3}
       textAlignVertical='top'
     />
   </View>
@@ -106,106 +116,107 @@ export default function HomeScreen() {
         router.replace('/tabs/professional/home?publicitado=true');
     }
 
-    return (
+    return (<SafeAreaView style={styles.safeArea}>
         <View style={styles.container}>
             <StatusBar barStyle="light-content" />
             <BackButton />
-            <View style={styles.profileContainer}>
-            <ProfilePic uri={userProfile?.avatar} size="100" />
-            <View style={styles.titleRateContainer}>
-                <Text style={styles.title}>
-                    HOLA, { userProfile
-                            ? userProfile.fullName.toUpperCase() || 'Profesional'
-                            : 'cargando...'
-                    }
-                </Text>
-                <Rate rating={3} reviews={95} />
-            </View>
-            </View>
 
-            <SlideUpCard style={styles.slideUpCard} title="Publicidad" subtitle="Personalización">
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                style={{ flex: 1 }}
+                style={styles.slideUpCardContainer}
                 keyboardVerticalOffset={Metrics.navBarArea}
             >
-                <ScrollView
-                    showsVerticalScrollIndicator={false}
-                    contentContainerStyle={{ paddingBottom: Metrics.marginS }}
-                    keyboardShouldPersistTaps="handled"
-                >
-
-                    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: Metrics.marginS, padding: Metrics.marginS }}>
-                        {coloresDisponibles.map((color) => (
-                            <Pressable
-                            key={color}
-                            onPress={() => setColorFondo(color)}
-                            style={{
-                                backgroundColor: color,
-                                width: 40,
-                                height: 40,
-                                borderRadius: Metrics.radiusS,
-                                borderWidth: colorFondo === color ? 3 : 1,
-                                borderColor: colorFondo === color ? '#000' : '#ccc',
-                            }}
-                            />
-                        ))}
+                <View style={styles.profileContainer}>
+                    <ProfilePic uri={userProfile?.avatar} size="100" />
+                    <View style={styles.titleRateContainer}>
+                        <Text style={styles.title}>
+                            HOLA, { userProfile
+                                    ? userProfile.fullName.toUpperCase() || 'Profesional'
+                                    : 'cargando...'
+                            }
+                        </Text>
+                        <Rate rating={3} reviews={95} />
                     </View>
+                </View>
 
-                    <View style={[styles.encabezadoContainer]}>
-                        <Text style={[styles.encabezado, { backgroundColor: colorFondo }]}>Vista Previa</Text>
-                    </View>
 
-                    <View style={[styles.prevView, { backgroundColor: colorFondo }]}>
-                        <View style={styles.leftView}>
-                            <Text style={styles.textToEdit}>{nombre || 'Martín Joaquín Gonzalez'}</Text>
-                            <Text style={styles.textToEdit}>{profesion || 'Peluquería'}</Text>
+                <SlideUpCard style={styles.slideUpCard} title="Publicidad" subtitle="Personalización">
+                    <ScrollView
+                        showsVerticalScrollIndicator={false}
+                        contentContainerStyle={{ flexGrow: 1 }}
+                    >
+                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: Metrics.marginS, padding: Metrics.marginS, }}>
+                            {coloresDisponibles.map((color) => (
+                                <Pressable
+                                    key={color}
+                                    onPress={() => setColorFondo(color)}
+                                    style={{
+                                        backgroundColor: color,
+                                        width: 35,
+                                        height: 35,
+                                        borderRadius: Metrics.radiusS,
+                                        borderWidth: colorFondo === color ? 3 : 1,
+                                        borderColor: colorFondo === color ? 'black' : '#ccc',
+                                    }}
+                                />
+                            ))}
                         </View>
-                        <View style={styles.centerView}>
-                            <View style={styles.innerCenterView}>
-                                <Text>{descripcion || 'Descripción...'}</Text>
+
+                        <View style={[styles.encabezadoContainer]}>
+                            <Text style={[styles.encabezado, { backgroundColor: colorFondo }]}>Vista Previa</Text>
+                        </View>
+
+                        <View style={[styles.prevView, { backgroundColor: colorFondo }]}>
+                            <View style={styles.leftView}>
+                                <Text style={styles.textToEdit}>{nombre || 'Martín Joaquín Gonzalez'}</Text>
+                                <Text style={styles.textToEdit}>{profesion || 'Peluquería'}</Text>
+                            </View>
+                            <View style={styles.centerView}>
+                                <View style={styles.innerCenterView}>
+                                    <Text style={{textAlign: 'center'}}>{descripcion || 'Descripción...'}</Text>
+                                </View>
+                            </View>
+                            <View style={styles.rightView}>
+                                <Text style={[styles.textToEdit, { textAlign:'center' }]}>(+) Agregar una imagen descriptiva</Text>
                             </View>
                         </View>
-                        <View style={styles.rightView}>
-                            <Text style={styles.textToEdit}>(+) Agregar una imagen descriptiva</Text>
-                        </View>
-                    </View>
 
-                    <Inputs
-                        nombre={nombre}
-                        setNombre={setNombre}
-                        profesion={profesion}
-                        setProfesion={setProfesion}
-                        descripcion={descripcion}
-                        setDescripcion={setDescripcion}
-                    />
-                    <CustomButtom
-                        text="Finalizar edición"
-                        onPress={finalizarEdicion}
-                    />
-                </ScrollView>
+                        <Inputs
+                            nombre={nombre}
+                            setNombre={setNombre}
+                            profesion={profesion}
+                            setProfesion={setProfesion}
+                            descripcion={descripcion}
+                            setDescripcion={setDescripcion}
+                        />
+                        <CustomButtom
+                            text="Finalizar edición"
+                            onPress={finalizarEdicion}
+                        />
+                    </ScrollView>
+                </SlideUpCard>
             </KeyboardAvoidingView>
-            </SlideUpCard>
-
-            <NavBar />
         </View>
-    );
+        <NavBar />
+    </SafeAreaView>);
 }
 
 const styles = StyleSheet.create({
-    container: {
+    safeArea: {
+        flex: 1,
         backgroundColor: Colors.blueColor,
+        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    },
+    container: {
         flex: 1,
         alignItems: "center",
-        justifyContent: "center",
     },
     profileContainer: {
         flexDirection: 'row',
-        width: wp('80%'),
-        height: Metrics.screenM,
+        width: '95%',
         padding: Metrics.marginS,
         justifyContent: 'space-between',
-        marginTop: Metrics.marginM,
+        marginTop: Metrics.marginTotal,
     },
     titleRateContainer: {
         flex: 1,
@@ -225,16 +236,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'orange'
     },
-    slideUpCard: {
-        position: "absolute",
-        bottom: 0,
-        height: Metrics.screenM,
-        alignItems: "stretch",
+    slideUpCardContainer: {
+        flex: 1,
+        margin: 0,
+        padding: 0,
     },
+    slideUpCard: { maxHeight: Metrics.screenM},
     prevView: {
-        backgroundColor: 'darkseagreen',
-        width: wp('100%'),
-        height: Metrics.screenM,
+        width: '90.7%',
+        height: Metrics.editPublicity,
         zIndex: 1,
         flexDirection: 'row',
         borderRadius: Metrics.radiusS,
@@ -244,14 +254,13 @@ const styles = StyleSheet.create({
     },
     encabezadoContainer: {
         width: wp('100%'),
-        paddingLeft: Metrics.marginS,
+        paddingLeft: Metrics.marginL,
         marginBottom: -11,
         zIndex: 2,
     },
     encabezado: {
         fontWeight: 'bold',
         color: '#fff',
-        backgroundColor: 'darkseagreen',
         width: '20%',
         textAlign: 'center',
         borderRadius: Metrics.radiusS,
@@ -261,29 +270,23 @@ const styles = StyleSheet.create({
     },
     leftView: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: 'space-around',
+        alignItems: 'flex-start',
         backgroundColor: 'transparent',
         paddingLeft: Metrics.marginS,
-        paddingRight: Metrics.marginS,
+        paddingRight: Metrics.marginM,
         width: '35%',
-        height: Metrics.screenM,
+        height: '100%',
         position: 'absolute',
         left: 0,
-        gap: Metrics.marginS,
     },
     centerView: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'transparent',
         width: '45%',
-        height: Metrics.screenM,
-        borderRadius: Metrics.radiusM,
+        height: '90%',
         position: 'absolute',
         left: '50%',
         transform: [{ translateX: '-50%' }],
-        top: 0,
+        top: '5%',
         zIndex: 1
     },
     innerCenterView: {
@@ -291,31 +294,31 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'lightgreen',
-        width: wp('90%'),
-        height: Metrics.screenS,
-        borderRadius: Metrics.radiusM,
+        borderRadius: '50%',
         elevation: 10,
         padding: Metrics.marginXS,
     },
     rightView: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
-        paddingLeft: Metrics.marginS,
+        alignItems: 'flex-end',
+        paddingLeft: Metrics.marginL,
         paddingRight: Metrics.marginS,
         backgroundColor: 'transparent',
         width: '30%',
         height: '100%',
         position: 'absolute',
-        right: 1
+        right: 0
     },
     textToEdit: {
-        textAlign: 'center',
+        textAlign: 'flex-start',
         fontSize: Metrics.fontS,
     },
     contenedor: {
         marginTop: Metrics.marginS,
-        width: wp('90%'),
+        marginBottom: 0,
+        paddingBottom: 0,
+        width: '90%',
         gap: Metrics.marginS,
     },
     input: {
@@ -328,7 +331,7 @@ const styles = StyleSheet.create({
         marginBottom: Metrics.marginS,
     },
     textArea: {
-        height: "100%",
+        height: Metrics.editPublicity,
     },
     selectorContainer: {
         marginTop: Metrics.marginS,

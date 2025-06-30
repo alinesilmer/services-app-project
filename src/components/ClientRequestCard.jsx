@@ -38,8 +38,7 @@ export const ClientRequestCard = ({ item }) => {
 
 const styles = StyleSheet.create({
 	requestCard: {
-		width: wp("100%"),
-		margin: Metrics.marginS,
+		margin: Metrics.marginXS,
 		padding: Metrics.marginS,
 		paddingHorizontal: Metrics.marginS,
 		borderRadius: Metrics.radiusS,
@@ -52,7 +51,7 @@ const styles = StyleSheet.create({
 	alertStyle: {
 		flex: 1,
 		flexDirection: 'row',
-		width: wp("90%"),
+		width: "80%",
 		justifyContent: 'space-evenly',
 		marginVertical: Metrics.marginS,
 	},
@@ -70,7 +69,7 @@ const styles = StyleSheet.create({
 		paddingVertical: '4%',
 		borderRadius: Metrics.radiusS,
 		alignItems: 'center',
-		width: wp("90%"),
+		width: "97%",
 		zIndex: 1,
 	},
 	botonPresionado: {

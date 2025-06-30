@@ -228,7 +228,56 @@ export const ClientRequest = [
     ],
     images: [
       'https://asocolderma.org.co/sites/default/files/styles/wide/public/article/unas_0.jpg',
-      'https://avisador.com.uy/wp-content/uploads/2022/07/gn1.jpg'
+      'https://avisador.com.uy/wp-content/uploads/2022/07/gn1.jpg',
+      'https://e-an.americatv.com.pe/util-e-interesante-unas-debiles-y-quebradizas-causas-tratamientos-n486215-938x528-1056148.jpg'
+    ]
+  },
+  {
+    title: 'Tratamiento Facial Hidratante a Domicilio',
+    category: 'Belleza',
+    problems: [
+      'Piel seca o deshidratada',
+      'Desea una limpieza profunda del rostro'
+    ],
+    details: [
+      'Duración estimada: 60 minutos',
+      'Incluye limpieza, exfoliación, mascarilla hidratante y masaje facial'
+    ],
+    images: [
+      'https://fotografias.antena3.com/clipping/cmsimages02/2023/07/28/73F1D1BA-9E63-4AF9-8D20-D95F660593FF/piel-seca_104.jpg',
+      'https://cosmeticosmarmuerto.es/cdn/shop/articles/Piel_deshidratada.webp',
+      'https://professionalbeauty.com.ar/wp-content/uploads/2021/06/serum-anti-acne-300x300.jpg'
+    ]
+  },
+  {
+    title: 'Depilación con Cera a Domicilio',
+    category: 'Belleza',
+    problems: [
+      'Vello corporal no deseado',
+      'Piel sensible que requiere cuidado especial'
+    ],
+    details: [
+      'Duración estimada: 30 a 50 minutos según zona',
+      'Se utilizan ceras hipoalergénicas y técnicas suaves para evitar irritación'
+    ],
+    images: [
+      'https://img.freepik.com/foto-gratis/vista-lateral-hombre-pelo-pecho-posando_23-2149615815.jpg',
+      'https://centrosbedda.com/wp-content/uploads/2024/02/hombre-revelando-su-axila.jpg',
+    ]
+  },
+  {
+    title: 'Maquillaje Profesional para Eventos a Domicilio',
+    category: 'Belleza',
+    problems: [
+      'Tiene un evento importante y necesita verse impecable',
+      'Desea maquillaje duradero y personalizado'
+    ],
+    details: [
+      'Duración estimada: 75 minutos',
+      'Incluye preparación de piel, maquillaje completo y fijación de larga duración'
+    ],
+    images: [
+      'https://www.maybelline.es/-/media/project/loreal/brand-sites/mny/emea/iberic/tips-and-trends/face-makeup-tutorials/en-que-orden-debo-aplicar-mi-maquillaje/maybelline-espana-en-que-orden-debo-aplicar-mi-maquillaje-3.jpg',
     ]
   }
 ];

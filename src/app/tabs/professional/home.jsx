@@ -1,5 +1,15 @@
 import { useLocalSearchParams } from 'expo-router';
-import { Alert, Pressable, ScrollView, StatusBar, StyleSheet, Text, View } from "react-native";
+import {
+    Alert,
+    Platform,
+    Pressable,
+    SafeAreaView,
+    ScrollView,
+    StatusBar,
+    StyleSheet,
+    Text,
+    View
+} from "react-native";
 import { Colors } from '../../../constants/Colors';
 import { Metrics } from '../../../constants/Metrics';
 import { widthPercentageToDP as wp } from "react-native-responsive-screen"
@@ -59,7 +69,7 @@ export default Home = () => {
 
     const Icono = ({nom='spa', size=Metrics.iconMedium}) => (
         <View style={styles.icoContainer}>
-            <FontAwesome5 name={nom} size={size} color="#bbb" />
+            <FontAwesome5 name={nom} size={size} color={Colors.disabledColor} />
         </View>
     );
 
@@ -79,86 +89,83 @@ export default Home = () => {
         />);
     }
 
-    return (<View style={styles.container}>
+    return (<SafeAreaView style={styles.safeArea}>
         <StatusBar barStyle='auto'/>
-        <BackButton />
-        <View style={styles.profileContainer}>
-            <ProfilePic uri={userProfile?.avatar} size={Metrics.iconXLarge}/>
-            <View style={styles.titleRateContainer}>
-                <Text style={styles.title}>
-                    HOLA, {userProfile
-                            ? userProfile.fullName.toUpperCase() || 'Profesional'
-                            : 'cargando...'
-                    }
-                </Text>
-                <Pressable onPress={() => router.push({
-                    pathname: '/tabs/professional/rateScreen',
-                    params: {
-                        rating:3,
-                        reviews: 95
-                    }
-                })}>
-                    <Rate rating={3} reviews={95}/>
-                </Pressable>
+        <View style={styles.container}>
+            <View style={styles.profileContainer}>
+                <ProfilePic uri={userProfile?.avatar} size={Metrics.iconXLarge}/>
+                <View style={styles.titleRateContainer}>
+                    <Text style={styles.title}>
+                        HOLA, {userProfile
+                                ? userProfile.fullName.toUpperCase() || 'Profesional'
+                                : 'cargando...'
+                        }
+                    </Text>
+                    <Pressable onPress={() => router.push({
+                        pathname: '/tabs/professional/rateScreen',
+                        params: {
+                            rating:3,
+                            reviews: 95
+                        }
+                    })}>
+                        <Rate rating={3} reviews={95}/>
+                    </Pressable>
+                </View>
             </View>
-        </View>
-        <View style={styles.iconsContainer}>
-            <View style={styles.iconView}>
-                <Icono />
-                <Text style={{textAlign: 'center', color: '#bbb'}}>Belleza</Text>
+            <View style={styles.iconsContainer}>
+                <View style={styles.iconView}>
+                    <Icono />
+                    <Text style={styles.iconText}>Belleza</Text>
+                </View>
+                <Feather name='chevron-right' size={30} color={Colors.disabledColor}/>
+                <View style={styles.iconView}>
+                    <Icono nom='cut'/>
+                    <Text style={styles.iconText}>Peluquería</Text>
+                </View>
             </View>
-            <Feather name='chevron-right' size={30} color={'#bbb'}/>
-            <View style={styles.iconView}>
-                <Icono nom='cut'/>
-                <Text style={{textAlign: 'center', color: '#bbb'}}>Peluquería</Text>
-            </View>
-        </View>
-        
-        {isPublicitado ? (
-        <CustomButton text="Ya estás publicitado" disabled />
-        ) : (
-        <CustomButton
-            text="Publicitate"
-            onPress={() => router.push('/tabs/professional/autopublicitacion')}
-        />
-        )}
+            
+            {isPublicitado ? (
+            <CustomButton text="Ya estás publicitado" disabled />
+            ) : (
+            <CustomButton
+                text="Publicitate"
+                onPress={() => router.push('/tabs/professional/autopublicitacion')}
+            />
+            )}
 
-        <SlideUpCard style={styles.slideUpCard}>
-            <View style={styles.buttonContainer}>
-                <Text style={styles.simpleText}>Trabajos completados: 22</Text>
-                <Text style={styles.simpleText}>Valoración de clientes: 95</Text>
-                <Text style={styles.simpleText}>Solicitudes recibidas: 3</Text>
-            </View>
-            <ClientRequestFlatList />
-        </SlideUpCard>
-        <NavBar />
-    </View>);
+            <SlideUpCard style={styles.slideUpCard}>
+                <View style={styles.buttonContainer}>
+                    <Text style={styles.simpleText}>Trabajos completados: 22</Text>
+                    <Text style={styles.simpleText}>Valoración de clientes: 95</Text>
+                    <Text style={styles.simpleText}>Solicitudes recibidas: 3</Text>
+                </View>
+                <ClientRequestFlatList />
+            </SlideUpCard>
+        </View>
+            <NavBar />
+    </SafeAreaView>);
 }
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: Colors.blueColor,
+    safeArea: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
+        backgroundColor: Colors.blueColor,
+        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    },
+    container: {
+        flex: 1,
+        alignItems: 'center'
     },
     profileContainer: {
         flexDirection: 'row',
-        width: wp('80%'),
-        height: Metrics.screenM,
+        height: Metrics.publicityArea,
         padding: Metrics.marginS,
-        justifyContent: 'space-between',
-        marginTop: Metrics.marginM,
-    },
-    photo: {
-        borderWidth: Metrics.marginS
+        alignItems: 'center',
+        marginTop: Metrics.marginS,
     },
     titleRateContainer: {
         flex: 1,
-        flexDirection: 'column',
-        width: wp('75%'),
         alignItems: 'center',
-        justifyContent: 'center',
         gap: Metrics.marginS,
     },
     title: {
@@ -175,20 +182,27 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         alignItems: 'center',
-        width: wp('65%'),
-        marginTop: Metrics.marginS,
-        marginBottom: Metrics.marginS,
+        marginVertical: Metrics.marginL,
+        width: '100%',
+    },
+    iconView: {
+        gap: Metrics.marginS,
+    },
+    iconText: {
+        textAlign: 'center',
+        color: Colors.disabledColor,
     },
     slideUpCard: {
         position: "absolute",
         bottom: 0,
-        height: Metrics.screenM,
+        height: Metrics.screenSM,
         alignItems: "stretch",
     },
     buttonContainer: {
         marginTop: Metrics.marginS,
         width: wp('80%'),
         padding: Metrics.marginS,
+        paddingLeft: Metrics.marginXL,
         gap: Metrics.marginS,
     },
     scroll: {
@@ -247,18 +261,16 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     icoContainer: {
-        padding: Metrics.marginS,
+        width: Metrics.iconXXLarge,
+        height: Metrics.iconXXLarge,
         borderRadius: Metrics.radiusS,
         borderWidth: Metrics.marginXS,
-        borderColor: '#bbb',
+        borderColor: Colors.disabledColor,
         alignItems: 'center',
-        height:  Metrics.iconMedium,
-        width: Metrics.iconMedium,
         justifyContent: 'center',
-        alignItems: 'center',
         backgroundColor: '#88888855'
     },
     simpleText: {
         fontSize: Metrics.fontS
-    }
+    },
 });
