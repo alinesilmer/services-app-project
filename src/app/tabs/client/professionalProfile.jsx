@@ -288,7 +288,7 @@ const styles = StyleSheet.create({
   opinionsTitle: {
     fontSize: Metrics.fontS,
     fontWeight: "bold",
-    color: "#333",
+    color: Colors.text333,
     marginBottom: Metrics.marginS,
   },
   newBadge: {
@@ -355,7 +355,7 @@ const styles = StyleSheet.create({
   },
   opinionText: {
     fontSize: Metrics.fontS,
-    color: "#333",
+    color: Colors.text333,
     marginLeft: Metrics.marginS,
     fontStyle: "italic",
   },

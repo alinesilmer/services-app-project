@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
   serviceName: {
     fontSize: Metrics.fontS,
     fontWeight: "bold",
-    color: "#333",
+    color: Colors.text333,
     marginBottom: Metrics.marginS,
   },
   servicePrice: {

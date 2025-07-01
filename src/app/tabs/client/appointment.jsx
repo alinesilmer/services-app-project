@@ -261,7 +261,7 @@ const styles = StyleSheet.create({
   },
   dateInputText: {
     fontSize: Metrics.fontS,
-    color: "#333",
+    color: Colors.text333,
   },
   timeSelectionContainer: {
     backgroundColor: Colors.whiteColor,
@@ -289,7 +289,7 @@ const styles = StyleSheet.create({
   },
   timeSlotTime: {
     fontSize: Metrics.fontS,
-    color: "#333",
+    color: Colors.text333,
   },
   checkbox: {
     width: Metrics.iconMedium,
@@ -322,7 +322,7 @@ const styles = StyleSheet.create({
   successTitle: {
     fontSize: Metrics.radiusS,
     fontWeight: "bold",
-    color: "#333",
+    color: Colors.text333,
     marginTop: Metrics.marginS,
     textAlign: "center",
   },

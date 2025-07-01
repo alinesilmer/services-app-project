@@ -42,7 +42,7 @@ const Dropdown = ({ initialValue, onSelect }) => {
     <View style={styles.container}>
       <TouchableOpacity style={styles.dropdown} activeOpacity={0.8} onPress={() => setExpanded(!expanded)}>
         <Text style={styles.dropdownText}>{selected ? selected.label : label}</Text>
-        <AntDesign name={expanded ? "up" : "down"} size={Metrics.iconSmall} color="#333" />
+        <AntDesign name={expanded ? "up" : "down"} size={Metrics.iconSmall} color={Colors.text333} />
       </TouchableOpacity>
 
       {expanded && (

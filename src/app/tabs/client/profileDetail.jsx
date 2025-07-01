@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
   infoLabel: {
     fontSize: Metrics.fontS,
     fontWeight: "bold",
-    color: "#333",
+    color: Colors.text333,
     marginRight: Metrics.marginS,
   },
   infoValue: {
@@ -288,7 +288,7 @@ const styles = StyleSheet.create({
   reviewerName: {
     fontSize: Metrics.fontS,
     fontWeight: "bold",
-    color: "#333",
+    color: Colors.text333,
     marginRight: Metrics.marginS,
   },
   reviewStars: {

@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: wp("5%"),
     fontWeight: "bold",
-    color: "#333",
+    color: Colors.text333,
   },
   closeButton: {
     padding: 5,

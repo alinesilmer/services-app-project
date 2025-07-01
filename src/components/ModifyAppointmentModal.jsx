@@ -310,7 +310,7 @@ const styles = StyleSheet.create({
   },
   professionText: {
     fontWeight: "bold",
-    color: "#333",
+    color: Colors.text333,
   },
   section: {
     marginVertical: 15,
@@ -318,7 +318,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: Metrics.fontM,
     fontWeight: "bold",
-    color: "#333",
+    color: Colors.text333,
     marginBottom: Metrics.marginS,
   },
   currentInfo: {
@@ -335,7 +335,7 @@ const styles = StyleSheet.create({
   currentValue: {
     fontSize: Metrics.fontS,
     fontWeight: "bold",
-    color: "#333",
+    color: Colors.text333,
   },
   timeSelection: {
     backgroundColor: "#f8f9fa",
@@ -364,7 +364,7 @@ const styles = StyleSheet.create({
   },
   timeSlotTime: {
     fontSize: Metrics.fontS,
-    color: "#333",
+    color: Colors.text333,
   },
   checkbox: {
     width: 24,
@@ -452,7 +452,7 @@ const styles = StyleSheet.create({
   successTitle: {
     fontSize: Metrics.fontM,
     fontWeight: "bold",
-    color: "#333",
+    color: Colors.text333,
     marginTop: Metrics.marginS,
     textAlign: "center",
   },

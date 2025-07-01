@@ -313,7 +313,7 @@ const styles = StyleSheet.create({
   serviceName: {
     fontSize: Metrics.fontM,
     fontWeight: "bold",
-    color: "#333",
+    color: Colors.text333,
     marginBottom: Metrics.marginS,
   },
   servicePrice: {
@@ -330,7 +330,7 @@ const styles = StyleSheet.create({
   professionalName: {
     fontSize: Metrics.fontM,
     fontWeight: "bold",
-    color: "#333",
+    color: Colors.text333,
     marginBottom: Metrics.marginS,
   },
   professionalCategory: {
@@ -344,7 +344,7 @@ const styles = StyleSheet.create({
   },
   rating: {
     fontSize:Metrics.fontS,
-    color: "#333",
+    color: Colors.text333,
     marginLeft: Metrics.marginS,
   },
   location: {
@@ -380,7 +380,7 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: Metrics.fontM,
     fontWeight: "bold",
-    color: "#333",
+    color: Colors.text333,
     flex: 1,
   },
   modalPriceContainer: {
@@ -417,7 +417,7 @@ const styles = StyleSheet.create({
   galleryTitle: {
     fontSize: Metrics.fontM,
     fontWeight: "bold",
-    color: "#333",
+    color: Colors.text333,
     marginBottom: Metrics.marginS,
     textAlign: "center",
   },

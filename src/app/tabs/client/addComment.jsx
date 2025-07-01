@@ -268,7 +268,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     fontSize: Metrics.fontS,
-    color: "#333",
+    color: Colors.text333,
     textAlignVertical: "top",
     paddingLeft: Metrics.marginS,
     paddingTop: Metrics.marginS,
@@ -365,7 +365,7 @@ const styles = StyleSheet.create({
     marginTop: Metrics.marginS,
     fontSize: Metrics.fontS,
     fontWeight: "bold",
-    color: "#333",
+    color: Colors.text333,
     textAlign: "center",
   },
 });

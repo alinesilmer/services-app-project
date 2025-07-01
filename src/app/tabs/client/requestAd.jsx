@@ -163,7 +163,7 @@ export default function request() {
                       style={styles.removeImageButton}
                       onPress={removeImage}
                     >
-                      <Feather name="x" size={Metrics.iconSmall} color={Colors.light.background} />
+                      <Feather name="x" size={Metrics.iconSmall} color={Colors.textColor} />
                     </TouchableOpacity>
                   </View>
                 )}
@@ -344,7 +344,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: Metrics.marginS,
     right: Metrics.marginM,
-    backgroundColor: "rgba(220, 53, 69, 0.8)",
     borderRadius: Metrics.radiusS,
     width: 30,
     height: 30,
