@@ -77,6 +77,12 @@ export default function ThirdRequest() {
                   style={styles.customBotton}
                 />
               </View>
+              <View style={styles.buttonContainer}>
+                  <CustomButton
+                  text="Inicio"
+                  onPress={() => router.push("tabs/client/home")}
+                  style={styles.customBotton}/>
+              </View>
 
               <View>
                 <AdsImage onPress isPremium={userIsPremium} />

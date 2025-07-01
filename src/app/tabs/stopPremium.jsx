@@ -19,7 +19,6 @@ import SlideUpCard from '../../components/SlideUpCard';
 import { usePremium } from '../../hooks/usePremium';
 import { Colors } from '../../constants/Colors';
 import { Metrics } from '../../constants/Metrics';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 export default function StopPremium() {
   const router = useRouter();
@@ -77,7 +76,7 @@ export default function StopPremium() {
               text={isLoading ? 'Cancelando...' : 'Cancelar definitivamente'}
               onPress={handleCancel}
               disabled={isLoading}
-              width={wp('90%')}
+              width={Metrics.animationXL}
               style={{ backgroundColor: Colors.redColor, marginTop: Metrics.marginS }}
             />
           </ScrollView>
@@ -112,7 +111,7 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
   },
   buttonContainer: {
-    width: wp("90%"),
+    width: Metrics.animationXL,
     alignItems: "center",
     marginTop: Metrics.marginS,
     marginBottom: Metrics.marginS,

@@ -1,7 +1,6 @@
 import { Text, View, StyleSheet, StatusBar, ScrollView, SafeAreaView } from 'react-native';
 import { Colors } from '../../constants/Colors'
 import { Metrics } from '../../constants/Metrics';
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 import SlideUpCard from '../../components/SlideUpCard';
 import BackButton from '../../components/BackButton';
@@ -68,7 +67,7 @@ export default function TermsProf() {
   },
   scrollView: {
 		flexGrow: 1,
-		width: wp('90%'),
+    width: Metrics.animationXL,
 		alignSelf: 'center',
 		paddingBottom: Metrics.marginL, 
 	},
