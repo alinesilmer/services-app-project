@@ -90,6 +90,7 @@ const ProfessionalProfile = () => {
       params: {
         profileId: profile.id,
         professionalName: profile.nombre,
+        professionalAvatar: profile.avatar,
       },
     });
   };
@@ -200,13 +201,13 @@ const styles = StyleSheet.create({
   },
   profileImageContainer: {
     alignItems: "center",
-    marginBottom: Metrics.marginS,
-    marginTop: Metrics.marginS,
+    marginBottom: Metrics.marginL,
+    marginTop: Metrics.marginXXL,
   },
   profileImage: {
-    width: Metrics.iconMedium,
-    height: Metrics.iconMedium,
-    borderRadius: Metrics.radiusS,
+    width: Metrics.iconXXXLarge,
+    height: Metrics.iconXXXLarge,
+    borderRadius: Metrics.radiusL,
     borderWidth: Metrics.marginXS,
     borderColor: Colors.whiteColor,
   },
@@ -215,6 +216,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.whiteColor,
     paddingTop: Metrics.marginS,
     paddingHorizontal: Metrics.marginS,
+    borderTopRightRadius: Metrics.radiusL,
+    borderTopLeftRadius: Metrics.radiusL,
   },
   nameContainer: {
     flexDirection: "row",
@@ -261,7 +264,6 @@ const styles = StyleSheet.create({
     fontSize: Metrics.fontS,
     color: "#000",
     textAlign: "center",
-    lineHeight: Metrics.marginXS,
     marginBottom: Metrics.marginS,
     paddingHorizontal: Metrics.marginS,
   },

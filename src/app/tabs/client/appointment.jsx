@@ -230,7 +230,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginVertical: Metrics.marginL,
     fontWeight: "500",
-    lineHeight: Metrics.marginXS,
   },
   selectedDateContainer: {
     backgroundColor: Colors.whiteColor,
