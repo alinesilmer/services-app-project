@@ -12,8 +12,6 @@ import { StatusBar } from "react-native";
 import { Colors } from "../../../constants/Colors";
 import { Fonts } from "../../../constants/Fonts";
 import { Metrics } from "../../../constants/Metrics";
-import{ getUserData,UsePremium } from "../../../utils/storage"; 
-import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 
 import AdsImage from "../../../components/AdsImage";
 import { usePremium } from "../../../hooks/usePremium"
@@ -71,18 +69,12 @@ export default function ThirdRequest() {
               </View>
 
               <View style={styles.buttonContainer}>
-                <CustomButton
-                  text="Cancelar solicitud"
-                  onPress={() => router.push("tabs/client/secondRequestAd")}
-                  style={styles.customBotton}
-                />
-              </View>
-              <View style={styles.buttonContainer}>
                   <CustomButton
                   text="Inicio"
                   onPress={() => router.push("tabs/client/home")}
                   style={styles.customBotton}/>
               </View>
+
 
               <View>
                 <AdsImage onPress isPremium={userIsPremium} />
@@ -123,7 +115,7 @@ export const styles = StyleSheet.create({
     fontFamily: Fonts.montserrat,
     fontWeight: "bold",
     textAlign: "center",
-    width: wp("80%"),
+    width: Metrics.animationXL,
   },
   textTitle: {
     marginTop: Metrics.marginS,
@@ -144,14 +136,14 @@ export const styles = StyleSheet.create({
     marginTop: Metrics.marginS,
   },
   buttonContainer: {
-    width: wp("90%"),
+    width: Metrics.animationXL,
     marginTop: Metrics.marginXS,
     marginBottom: Metrics.marginXS,
     alignItems: "center",
   },
   customBotton: {},
   imageContainer: {
-    width: wp("90%"),
+    width: Metrics.animationXL,
   },
   image: {
     width: Metrics.screenS * 0.3,

@@ -1,7 +1,6 @@
 import { Text, View, StyleSheet, Pressable } from 'react-native';
 import { Colors } from '../constants/Colors';
 import { Metrics } from '../constants/Metrics';
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 import { Feather } from '@expo/vector-icons';
 import { router } from 'expo-router';
 

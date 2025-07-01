@@ -22,7 +22,6 @@ import LongCard from "../../../components/LongCard";
 
 import { Colors } from "../../../constants/Colors";
 import { Metrics } from "../../../constants/Metrics";
-import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 
 import { usePremium } from "../../../hooks/usePremium";
 import { useAdManager } from "../../../hooks/useAdManager";
@@ -226,14 +225,14 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    width: wp("95%"),
+    width: Metrics.animationXL,
   },
   scrollContent: {
     flexGrow: 1,
     padding: Metrics.marginS,
   },
   premiumButton: {
-    width: wp("90%"),
+    width: Metrics.animationXL,
   },
   userInfoSection: {
     flexDirection: "row",
@@ -293,12 +292,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginBottom: Metrics.marginM,
-    width: wp("90%"),
+    width: Metrics.animationXL,
     textAlign: "center",
   },
   activitySection: {
     marginTop: Metrics.marginS,
-    width: wp("88%"),
+    width: Metrics.animationXL,
   },
   sectionTitle: {
     fontSize: Metrics.fontS,

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
+import { Metrics } from '../constants/Metrics';
 
 const CustomFlatList = ({ data, renderItem, keyExtractor, style }) => {
   return (
@@ -25,6 +25,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   chat: {
-    width: wp('90%'),
+    width: Metrics.animationXL,
   },
 });

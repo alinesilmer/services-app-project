@@ -12,7 +12,6 @@ import LongCard from "../../../components/LongCard"
 import Rate from "../../../components/Rate"
 import { Colors } from "../../../constants/Colors"
 import { Metrics } from "../../../constants/Metrics"
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 import { usePremium } from "../../../hooks/usePremium"
 import { useAdManager } from "../../../hooks/useAdManager"
 import { getCompleteUserData } from "../../../utils/storage"
@@ -176,7 +175,7 @@ const styles = StyleSheet.create({
     marginBottom: Metrics.marginS,
   },
   premiumButton: {
-    width: wp("90%"),
+    width: Metrics.animationXL,
   },
 
   userInfoSection: {
