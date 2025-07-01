@@ -73,6 +73,7 @@ export const useProfile = () => {
     try {
       // Guardar el perfil con la estructura correcta
       const profileToSave = {
+        avatar: 'https://i.pinimg.com/736x/9f/16/72/9f1672710cba6bcb0dfd93201c6d4c00.jpg',
         fullName: formData.fullName,
         email: formData.email,
         province: formData.province,

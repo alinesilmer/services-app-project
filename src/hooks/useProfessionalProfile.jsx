@@ -79,6 +79,7 @@ export function useProfile() {
     try {
       // Guardar el perfil con la estructura correcta
       const profileToSave = {
+        avatar: 'https://www.iconpacks.net/icons/2/free-user-icon-3296-thumb.png',
         fullName: formData.fullName,
         email: formData.email,
         province: formData.province,

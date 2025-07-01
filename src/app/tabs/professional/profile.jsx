@@ -16,7 +16,7 @@ import { Colors }      from "../../../constants/Colors";
 import { Metrics } from "../../../constants/Metrics";
 import { usePremium }  from "../../../hooks/usePremium";
 import { useProfile }  from "../../../hooks/useProfile";
-import { getUserData, logoutUser } from "../../../utils/storage";
+import { getUserProfile, logoutUser } from "../../../utils/storage";
 
 export default function ProfessionalProfileScreen() {
   const router = useRouter();
@@ -35,7 +35,7 @@ export default function ProfessionalProfileScreen() {
   useEffect(() => {
     (async () => {
       try {
-        const d = await getUserData();
+        const d = await getUserProfile();
         setUserData(d);
       } catch (err) {
         console.error("Error loading user data:", err);
@@ -110,7 +110,7 @@ export default function ProfessionalProfileScreen() {
               uri={
                 userData?.avatar ||
                 data.avatar ||
-                "https://randomuser.me/api/portraits/men/73.jpg"
+                "https://i.pinimg.com/736x/9f/16/72/9f1672710cba6bcb0dfd93201c6d4c00.jpg"
               }
               size={Metrics.iconXLarge}
               style={styles.avatar}
@@ -118,6 +118,7 @@ export default function ProfessionalProfileScreen() {
 
             <View style={styles.userProfWrapper}>
               <Text style={styles.name}>
+                {console.log('DATOS: ', data)}
                 {userData?.fullName || data.fullName || "Profesional"}
               </Text>
               {isPremiumActive && (

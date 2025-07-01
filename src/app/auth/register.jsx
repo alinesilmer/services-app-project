@@ -105,7 +105,7 @@ export default function Register() {
               showsVerticalScrollIndicator={false}
             >
               <View style={styles.checkRow}>
-                {['cliente', 'profesional'].map((opt) => (
+                {['cliente', 'professional'].map((opt) => (
                   <Pressable
                     key={opt}
                     onPress={() => change('userType', opt)}

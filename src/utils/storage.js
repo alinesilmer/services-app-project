@@ -58,7 +58,7 @@ export const saveUserLogin = async (userData) => {
       address: userData.address || "",
       userType: userData.userType,
       birthdate: userData.birthdate || "",
-      avatar: userData.avatar || "",
+      avatar: userData.avatar || 'https://i.pinimg.com/736x/9f/16/72/9f1672710cba6bcb0dfd93201c6d4c00.jpg',
       descripcion: userData.descripcion || "",
       profesion: userData.profesion || "",
     });
