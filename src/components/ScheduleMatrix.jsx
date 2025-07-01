@@ -27,7 +27,7 @@ export default function ScheduleMatrix({ apptData, onSlotSelect, selectedAppt })
     if (selected) return '#fff';
     if (status === 'OCUPADO') return '#a40000';
     if (status === 'PENDIENTE') return '#e47755';
-    return '#000';
+    return Colors.textColor;
   };
 
   const handlePress = (cell) => {

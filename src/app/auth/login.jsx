@@ -20,7 +20,6 @@ import Logo from '../../components/Logo';
 import SlideUpCard from '../../components/SlideUpCard';
 import ModalCard from '../../components/ModalCard';
 import AnimationFeedback from '../../components/AnimationFeedback';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { Metrics } from '../../constants/Metrics';
 import { Colors } from '../../constants/Colors';
 import { useTogglePassword } from '../../hooks/useTogglePassword';
@@ -206,7 +205,6 @@ const styles = StyleSheet.create({
     fontSize: Metrics.fontS,
   },
   inputs: {
-    width: wp('90%'),
     fontSize: Metrics.fontXS,
   }
 })

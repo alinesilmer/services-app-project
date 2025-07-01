@@ -132,7 +132,7 @@ const MyAppointments = () => {
         >
           {currentAppointments.length === 0 ? (
             <View style={styles.emptyContainer}>
-              <Feather name="x" size={Metrics.iconXLarge} color="#ccc" />
+              <Feather name="x" size={Metrics.iconXLarge} color={Colors.disabledColor} />
               <Text style={styles.emptyText}>No tienes turnos programados</Text>
               <Text style={styles.emptySubtext}>Agenda tu primera cita con un profesional</Text>
             </View>
@@ -194,7 +194,7 @@ const MyAppointments = () => {
                     {selectedAppointment.isNew && <Text style={styles.newText}> (Nuevo)</Text>}
                   </Text>
                   <TouchableOpacity activeOpacity={0.7} onPress={() => setShowModal(false)}>
-                    <Feather name="x" size={Metrics.iconSmall} color="#666" />
+                    <Feather name="x" size={Metrics.iconSmall} color={Colors.text666} />
                   </TouchableOpacity>
                 </View>
 
@@ -303,7 +303,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: Colors.dark.tint,
     paddingTop: Metrics.marginS,
     paddingHorizontal: Metrics.marginS,
   },
@@ -324,24 +324,24 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: Metrics.fontS,
-    fontWeight: "600",
-    color: "#666",
+    fontWeight: "bold",
+    color: Colors.text666,
     marginTop: Metrics.marginS,
     textAlign: "center",
   },
   emptySubtext: {
     fontSize: Metrics.fontS,
-    color: "#999",
+    color: Colors.text666,
     marginTop: Metrics.marginS,
     textAlign: "center",
   },
   appointmentCard: {
     backgroundColor: Colors.whiteColor,
-    borderRadius: 10,
-    padding: 20,
-    marginBottom: 15,
+    borderRadius: Metrics.radiusS,
+    padding: Metrics.marginM,
+    marginBottom: Metrics.marginM,
     elevation: 2,
-    shadowColor: "#000",
+    shadowColor: Colors.textColor,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: Metrics.radiusS,
@@ -354,22 +354,22 @@ const styles = StyleSheet.create({
   },
   newIndicator: {
     position: "absolute",
-    top: 10,
-    right: 10,
-    width: 8,
-    height: 8,
+    top: Metrics.safeArea,
+    right: Metrics.marginS,
+    width: Metrics.marginS,
+    height: Metrics.marginS,
     borderRadius: Metrics.radiusM,
     backgroundColor: Colors.orangeColor,
   },
   appointmentHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 15,
+    marginBottom: Metrics.marginM,
   },
   appointmentTitle: {
     fontSize: Metrics.fontL,
     fontWeight: "bold",
-    color: "#333",
+    color: Metrics.textColor,
     marginLeft: 10,
   },
   newText: {
@@ -381,11 +381,11 @@ const styles = StyleSheet.create({
   },
   appointmentDetailText: {
     fontSize: Metrics.fontS,
-    color: "#666",
+    color: Colors.text666,
   },
   detailLabel: {
-    fontWeight: "600",
-    color: "#333",
+    fontWeight: "bold",
+    color: Colors.textColor,
   },
   statusContainer: {
     flexDirection: "row",
@@ -394,8 +394,8 @@ const styles = StyleSheet.create({
   },
   statusLabel: {
     fontSize: Metrics.fontS,
-    fontWeight: "600",
-    color: "#333",
+    fontWeight: "bold",
+    color: Colors.textColor,
     marginRight: Metrics.marginS,
   },
   statusBadge: {
@@ -407,7 +407,7 @@ const styles = StyleSheet.create({
   statusText: {
     color: Colors.whiteColor,
     fontSize: Metrics.fontS,
-    fontWeight: "600",
+    fontWeight: "bold",
   },
   adContainer: {
     marginVertical: Metrics.marginS,
@@ -420,9 +420,9 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     backgroundColor: Colors.whiteColor,
-    borderRadius: 10,
-    padding: 20,
-    margin: 20,
+    borderRadius: Metrics.marginM,
+    padding: Metrics.marginM,
+    margin: Metrics.marginM,
     width: Metrics.animationXL,
     maxHeight: Metrics.animationXXL,
   },
@@ -433,12 +433,12 @@ const styles = StyleSheet.create({
     marginBottom: Metrics.marginS,
     paddingBottom: Metrics.marginS,
     borderBottomWidth: Metrics.marginXS,
-    borderBottomColor: "#f0f0f0",
+    borderBottomColor: Colors.inputGray,
   },
   modalTitle: {
     fontSize: Metrics.fontM,
     fontWeight: "bold",
-    color: "#333",
+    color: Colors.textColor,
   },
   modalBody: {
     marginBottom: Metrics.marginS,
@@ -450,13 +450,13 @@ const styles = StyleSheet.create({
   },
   modalDetailText: {
     fontSize: Metrics.fontS,
-    color: "#666",
+    color: Colors.text666,
     marginLeft: Metrics.marginS,
     flex: 1,
   },
   modalDetailLabel: {
-    fontWeight: "600",
-    color: "#333",
+    fontWeight: "bold",
+    color: Colors.textColor
   },
   modalActions: {
     flexDirection: "row",
@@ -465,7 +465,7 @@ const styles = StyleSheet.create({
   },
   cancelButton: {
     flex: 1,
-    backgroundColor: "#000",
+    backgroundColor: Colors.textColor,
     borderRadius: Metrics.radiusS,
     paddingVertical: Metrics.marginS,
     alignItems: "center",
@@ -473,7 +473,7 @@ const styles = StyleSheet.create({
   cancelButtonText: {
     color: Colors.whiteColor,
     fontSize: Metrics.fontS,
-    fontWeight: "600",
+    fontWeight: "bold",
   },
   changeButton: {
     flex: 1,
@@ -485,7 +485,7 @@ const styles = StyleSheet.create({
   changeButtonText: {
     color: Colors.whiteColor,
     fontSize: Metrics.fontS,
-    fontWeight: "600",
+    fontWeight: "bold",
   },
   animationOverlay: {
     flex: 1,
@@ -495,25 +495,18 @@ const styles = StyleSheet.create({
   },
   animationContainer: {
     backgroundColor: Colors.whiteColor,
-    borderRadius: 10,
-    padding: 2,
+    borderRadius: Metrics.radiusS,
+    padding: Metrics.marginL,
     alignItems: "center",
     minWidth: Metrics.animationXL,
   },
   deleteTitle: {
     fontSize: Metrics.fontS,
     fontWeight: "bold",
-    color: "#333",
+    color: Colors.textColor,
     marginTop: Metrics.marginS,
     marginBottom: Metrics.marginL,
     textAlign: "center",
-  },
-  deleteMessage: {
-    fontSize: Metrics.fontS,
-    color: "#666",
-    marginTop: Metrics.marginS,
-    textAlign: "center",
-    lineHeight: Metrics.marginXS,
   },
 })
 

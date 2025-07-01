@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Image, Alert, Platform } from
 import * as ImagePicker from "expo-image-picker"
 import { Feather } from "@expo/vector-icons"
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
+import { Colors } from "@/src/constants/Colors"
 
 interface Props {
   onImageSelected?: (imageUri: string) => void
@@ -102,7 +103,7 @@ const Camera: React.FC<Props> = ({ onImageSelected, onClose }) => {
         <Text style={styles.title}>Capturar Imagen</Text>
         {onClose && (
           <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-            <Feather name="x" size={24} color="#666" />
+            <Feather name="x" size={24} color={Colors.text666} />
           </TouchableOpacity>
         )}
       </View>
@@ -112,28 +113,28 @@ const Camera: React.FC<Props> = ({ onImageSelected, onClose }) => {
           <Image source={{ uri: selectedImage }} style={styles.selectedImage} />
           <View style={styles.imageActions}>
             <TouchableOpacity style={styles.actionButton} onPress={showImagePickerOptions}>
-              <Feather name="edit-2" size={20} color="white" />
+              <Feather name="edit-2" size={20} color={Colors.light.background} />
               <Text style={styles.actionButtonText}>Cambiar</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.actionButton, styles.deleteButton]} onPress={removeImage}>
-              <Feather name="trash-2" size={20} color="white" />
+              <Feather name="trash-2" size={20} color={Colors.light.background} />
               <Text style={styles.actionButtonText}>Eliminar</Text>
             </TouchableOpacity>
           </View>
         </View>
       ) : (
         <View style={styles.placeholderContainer}>
-          <Feather name="image" size={80} color="#ccc" />
+          <Feather name="image" size={80} color={Colors.disabledColor} />
           <Text style={styles.placeholderText}>No hay imagen seleccionada</Text>
 
           <View style={styles.buttonContainer}>
             <TouchableOpacity style={styles.cameraButton} onPress={openCamera}>
-              <Feather name="camera" size={24} color="white" />
+              <Feather name="camera" size={24} color={Colors.light.background} />
               <Text style={styles.buttonText}>Abrir Cámara</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.galleryButton} onPress={openGallery}>
-              <Feather name="image" size={24} color="white" />
+              <Feather name="image" size={24} color={Colors.light.background} />
               <Text style={styles.buttonText}>Abrir Galería</Text>
             </TouchableOpacity>
           </View>
@@ -157,14 +158,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     padding: 20,
-    backgroundColor: "white",
+    backgroundColor: Colors.light.background,
     borderBottomWidth: 1,
     borderBottomColor: "#e9ecef",
   },
   title: {
     fontSize: wp("5%"),
     fontWeight: "bold",
-    color: "#333",
+    color: Colors.text333,
   },
   closeButton: {
     padding: 5,
@@ -199,9 +200,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#dc3545",
   },
   actionButtonText: {
-    color: "white",
+    color: Colors.light.background,
     fontSize: wp("4%"),
-    fontWeight: "600",
+    fontWeight: "bold",
   },
   placeholderContainer: {
     flex: 1,
@@ -211,7 +212,7 @@ const styles = StyleSheet.create({
   },
   placeholderText: {
     fontSize: wp("4%"),
-    color: "#666",
+    color: Colors.text666,
     marginTop: 20,
     marginBottom: 40,
     textAlign: "center",
@@ -240,9 +241,9 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   buttonText: {
-    color: "white",
+    color: Colors.light.background,
     fontSize: wp("4%"),
-    fontWeight: "600",
+    fontWeight: "bold",
   },
   optionsButton: {
     borderWidth: 2,
@@ -254,7 +255,7 @@ const styles = StyleSheet.create({
   optionsButtonText: {
     color: "#007bff",
     fontSize: wp("4%"),
-    fontWeight: "600",
+    fontWeight: "bold",
   },
 })
 

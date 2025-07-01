@@ -94,7 +94,7 @@ const AddComment = () => {
           <Text
             style={[
               styles.starText,
-              { color: i <= rating ? Colors.orangeColor : "#000" },
+              { color: i <= rating ? Colors.orangeColor : Colors.textColor },
             ]}
           >
             {i <= rating ? "★" : "☆"}
@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
     fontSize: Metrics.fontS,
     color: Colors.blueColor,
     marginBottom: Metrics.marginS,
-    fontWeight: "600",
+    fontWeight: "bold",
   },
   textInputContainer: {
     backgroundColor: Colors.whiteColor,
@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
     paddingVertical: Metrics.marginS,
     minHeight: "20%",
     elevation: 2,
-    shadowColor: "#000",
+    shadowColor: Colors.textColor,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: Metrics.radiusS,
@@ -268,7 +268,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     fontSize: Metrics.fontS,
-    color: "#333",
+    color: Colors.text333,
     textAlignVertical: "top",
     paddingLeft: Metrics.marginS,
     paddingTop: Metrics.marginS,
@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
   wordCount: {
     textAlign: "right",
     fontSize: Metrics.fontXS,
-    color: "#666",
+    color: Colors.text666,
     marginTop: Metrics.marginS,
   },
   ratingContainer: {
@@ -287,7 +287,7 @@ const styles = StyleSheet.create({
     fontSize: Metrics.fontS,
     color: Colors.blueColor,
     marginBottom: Metrics.marginS,
-    fontWeight: "600",
+    fontWeight: "bold",
   },
   starsContainer: {
     flexDirection: "row",
@@ -304,14 +304,14 @@ const styles = StyleSheet.create({
     paddingBottom: Metrics.marginS,
   },
   submitButton: {
-    backgroundColor: "#000",
+    backgroundColor: Colors,
     borderRadius: Metrics.radiusS,
     paddingVertical: Metrics.marginS,
     paddingHorizontal: Metrics.marginS,
     alignItems: "center",
     marginBottom: Metrics.marginS,
     elevation: 3,
-    shadowColor: "#000",
+    shadowColor: Colors.textColor,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: Metrics.radiusS,
@@ -322,7 +322,7 @@ const styles = StyleSheet.create({
   submitButtonText: {
     color: Colors.whiteColor,
     fontSize: Metrics.fontS,
-    fontWeight: "600",
+    fontWeight: "bold",
   },
   professionalInfo: {
     backgroundColor: Colors.whiteColor,
@@ -330,7 +330,7 @@ const styles = StyleSheet.create({
     padding: 15,
     marginBottom: Metrics.marginS,
     elevation: 1,
-    shadowColor: "#000",
+    shadowColor: Colors.textColor,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: Metrics.radiusS
@@ -356,7 +356,7 @@ const styles = StyleSheet.create({
     padding: 30,
     alignItems: "center",
     elevation: 10,
-    shadowColor: "#000",
+    shadowColor: Colors.textColor,
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 0.3,
     shadowRadius: Metrics.radiusS
@@ -364,8 +364,8 @@ const styles = StyleSheet.create({
   animationText: {
     marginTop: Metrics.marginS,
     fontSize: Metrics.fontS,
-    fontWeight: "600",
-    color: "#333",
+    fontWeight: "bold",
+    color: Colors.text333,
     textAlign: "center",
   },
 });

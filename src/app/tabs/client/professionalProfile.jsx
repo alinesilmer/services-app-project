@@ -132,7 +132,7 @@ const ProfessionalProfile = () => {
           style={styles.addCommentButton}
           onPress={handleAddComment}
         >
-          <Feather name="plus" size={Metrics.iconSmall} color="#666" />
+          <Feather name="plus" size={Metrics.iconSmall} color={Colors.text666} />
           <Text style={styles.addCommentText}>Agregar comentario</Text>
         </TouchableOpacity>
 
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
   profileName: {
     fontSize: Metrics.fontM,
     fontWeight: "bold",
-    color: "#000",
+    color: Colors.textColor,
     marginRight: Metrics.marginS,
   },
   verifiedIcon: {
@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
     borderRadius: Metrics.radiusS,
     marginBottom: Metrics.marginS,
     elevation: 3,
-    shadowColor: "#000",
+    shadowColor: Colors.textColor,
     shadowOffset: {
       width: 0,
       height: 0,
@@ -254,12 +254,12 @@ const styles = StyleSheet.create({
   },
   ratingText: {
     fontSize: Metrics.fontS,
-    color: "#000",
-    fontWeight: "600",
+    color: Colors.textColor,
+    fontWeight: "bold",
   },
   description: {
     fontSize: Metrics.fontS,
-    color: "#000",
+    color: Colors.textColor,
     textAlign: "center",
     lineHeight: Metrics.marginXS,
     marginBottom: Metrics.marginS,
@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#ccc",
+    backgroundColor: Colors.disabledColor,
     paddingVertical: Metrics.marginS,
     paddingHorizontal: Metrics.marginS,
     borderRadius: Metrics.radiusS,
@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
   },
   addCommentText: {
     fontSize: Metrics.fontS,
-    color: "#000",
+    color: Colors.textColor,
     marginLeft: Metrics.marginS,
     fontWeight: "500",
   },
@@ -288,7 +288,7 @@ const styles = StyleSheet.create({
   opinionsTitle: {
     fontSize: Metrics.fontS,
     fontWeight: "bold",
-    color: "#333",
+    color: Colors.text333,
     marginBottom: Metrics.marginS,
   },
   newBadge: {
@@ -343,7 +343,7 @@ const styles = StyleSheet.create({
   },
   opinionUserName: {
     fontSize: Metrics.fontS,
-    fontWeight: "600",
+    fontWeight: "bold",
     color: "#",
   },
   newText: {
@@ -355,7 +355,7 @@ const styles = StyleSheet.create({
   },
   opinionText: {
     fontSize: Metrics.fontS,
-    color: "#333",
+    color: Colors.text333,
     marginLeft: Metrics.marginS,
     fontStyle: "italic",
   },
@@ -365,7 +365,7 @@ const styles = StyleSheet.create({
   },
   noOpinionsText: {
     fontSize: Metrics.fontS,
-    color: "#666",
+    color: Colors.text666,
     marginBottom: Metrics.marginS,
   },
   noOpinionsSubtext: {

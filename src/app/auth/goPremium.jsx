@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Metrics.marginS,
   },
   optionLabel: {
-    fontWeight: "600",
+    fontWeight: "bold",
     fontSize: Metrics.fontS,
   },
   selected: {

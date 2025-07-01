@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   adContainer: {
     width: wp("90%"),
     height: Metrics.screenM,
-    backgroundColor: "black",
+    backgroundColor: Colors.textColor,
     borderRadius: Metrics.radiusS,
     overflow: "hidden",
   },
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   premiumText: {
-    color: "white",
+    color: Colors.light.background,
     fontSize: Metrics.fontXS,
     textAlign: "center",
     textDecorationLine: "underline",

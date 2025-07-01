@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.orangeColor
     },
     texto: {
-        color: '#000',
+        color: Colors.textColor,
         fontSize: Metrics.fontL,
     },
     ultimoAviso: {

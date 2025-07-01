@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: Metrics.fontM,
-    fontWeight: "600",
+    fontWeight: "bold",
     color: Colors.orangeColor,
     marginTop: Metrics.marginL,
     marginBottom: Metrics.marginS,

@@ -20,7 +20,6 @@ import SlideUpCard from '../../../components/SlideUpCard';
 import NavBar from '../../../components/NavBar';
 import Rate from '../../../components/Rate';
 import { Alert, ScrollView } from 'react-native';
-import { Feather, FontAwesome5 } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { getUserProfile } from '../../../utils/storage';
@@ -56,7 +55,7 @@ const pickerSelectStyles = {
         fontSize: Metrics.fontS,
         padding: Metrics.marginS,
         borderWidth: Metrics.marginXS,
-        borderColor: '#ccc',
+        borderColor: Colors.disabledColor,
         borderRadius: Metrics.radiusS,
         backgroundColor: '#fff',
         color: Colors.textColor,
@@ -66,7 +65,7 @@ const pickerSelectStyles = {
         fontSize: Metrics.fontS,
         padding: Metrics.marginS,
         borderWidth: Metrics.marginXS,
-        borderColor: '#ccc',
+        borderColor: Colors.disabledColor,
         borderRadius: Metrics.radiusS,
         backgroundColor: '#fff',
         color: Colors.textColor,
@@ -156,7 +155,7 @@ export default function HomeScreen() {
                                         height: 35,
                                         borderRadius: Metrics.radiusS,
                                         borderWidth: colorFondo === color ? 3 : 1,
-                                        borderColor: colorFondo === color ? 'black' : '#ccc',
+                                        borderColor: colorFondo === color ? Colors.textColor : Colors.disabledColor,
                                     }}
                                 />
                             ))}
@@ -328,7 +327,7 @@ const styles = StyleSheet.create({
     },
     input: {
         borderWidth: Metrics.marginXS,
-        borderColor: '#ccc',
+        borderColor: Colors.disabledColor,
         borderRadius: Metrics.radiusS,
         padding: Metrics.marginS,
         fontSize: Metrics.fontS,
