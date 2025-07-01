@@ -127,13 +127,13 @@ const styles = StyleSheet.create({
     borderLeftColor: Colors.redColor,
   },
   warningTitle: {
-    fontSize: Metrics.fontL,
+    fontSize: Metrics.fontM,
     fontWeight: "bold",
     marginBottom: Metrics.marginS,
     color: Colors.redColor,
   },
   warningItem: {
-    fontSize: Metrics.fontM,
+    fontSize: Metrics.fontS,
     marginBottom: Metrics.marginS,
     color: Colors.dark,
   },

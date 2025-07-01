@@ -63,10 +63,10 @@ export default function PausePremium() {
           style={styles.card}
         >
           <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={styles.infoBox}>
-              <Text style={styles.infoTitle}>Beneficios de pausar:</Text>
-              <Text style={styles.infoItem}>• No se cobra durante la pausa</Text>
-              <Text style={styles.infoItem}>• Mantienes tu configuración</Text>
+            <View style={styles.benefitsBox}>
+              <Text style={styles.benefitsTitle}>✨ Beneficios de pausar:</Text>
+              <Text style={styles.benefitItem}>• No se cobra durante la pausa</Text>
+              <Text style={styles.benefitItem}>• Mantienes tu configuración</Text>
             </View>
 
             <CustomButton
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   },
   card: { 
     flex: 1,
-    marginTop: 200,
+    marginTop: Metrics.screenXS,
     height: Metrics.screenM,
     alignItems: "stretch",
   },

@@ -15,9 +15,9 @@ export default function Terms() {
 		<>
 			<StatusBar barStyle="light-content" />
 			<SafeAreaView style={styles.safeArea}>
-				<BackButton />
-				<Logo />
-					<View style={styles.container}>
+				<View style={styles.container}>
+					<BackButton />
+					<Logo />
 						<SlideUpCard title="Términos y Condiciones" subtitle="Todos los derechos reservados" style={styles.card}>
 							<ScrollView contentContainerStyle={styles.scrollView}>
 							<Text style={styles.text}>
@@ -45,7 +45,7 @@ export default function Terms() {
 									- Publicar contenido falso{"\n"}
 									- Contactar a otros usuarios con fines no relacionados con los servicios{"\n"}
 									La infracción puede implicar la suspensión o eliminación de la cuenta.
-									</Text>
+							</Text>
 							</ScrollView>
 					</SlideUpCard>
 				</View>

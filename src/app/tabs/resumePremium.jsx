@@ -66,7 +66,7 @@ export default function ResumePremium() {
           style={styles.card}
         >
           <View style={styles.infoBox}>
-            <Text style={styles.infoTitle}>Días de pausa restantes:</Text>
+            <Text style={styles.infoTitle}>⏳ Días de pausa restantes:</Text>
             <Text style={styles.infoItem}>{daysLeft}</Text>
           </View>
 
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   },
   card: { 
     flex: 1,
-    marginTop: 200,
+    marginTop: Metrics.screenXS,
     height: Metrics.screenM,
     alignItems: "stretch",
   },
@@ -112,7 +112,8 @@ const styles = StyleSheet.create({
     fontWeight:'bold', 
     marginBottom: Metrics.marginS,
   },
-  infoText: { 
+  infoItem: { 
+    paddingLeft: Metrics.animationL,
     fontSize: Metrics.fontS
   },
 });

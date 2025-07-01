@@ -1,8 +1,8 @@
 
 "use client";
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet, StatusBar, SafeAreaView } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 
 import BackButton from '../../components/BackButton';
 import Logo from '../../components/Logo';
@@ -13,10 +13,23 @@ import { formatPrice } from '../../utils/pricingPlans';
 import { Colors } from '../../constants/Colors';
 import { Metrics } from '../../constants/Metrics';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { getUserProfile } from "../../utils/storage"
 
 export default function ManagePremium() {
   const router = useRouter();
   const { premium, daysRemaining } = usePremium();
+  const { type } = useLocalSearchParams()
+  const [userType, setUserType] = useState(null);
+  
+  const normalize = (t) =>
+    ["professional", "cliente"].includes(t) ? t : "cliente"
+  useEffect(() => {
+    getUserProfile().then((profile) =>
+      setUserType(normalize(type || profile?.userType))
+    )
+  }, [type])
+
+  const isProf = userType === "professional"
 
   const statusTextMap = {
     inactive: 'No tienes Premium activo',
@@ -119,11 +132,18 @@ export default function ManagePremium() {
                   </>
                 )}
                 {['cancelled', 'expired'].includes(premium.premiumStatus) && (
-                  <CustomButton
-                    text="Reactivar Premium"
-                    onPress={() => router.push(goRoute)}
-                    width={wp('90%')}
-                  />
+                  <>
+                    <CustomButton
+                      text="Reactivar Premium"
+                      onPress={() => router.push(goRoute)}
+                      width={wp('90%')}
+                    />
+                    <CustomButton
+                      text="Volver al Inicio"
+                      onPress={() => router.push(isProf ? '/tabs/professional/home' : '/tabs/client/home')}
+                      width={wp('90%')}
+                    />
+                  </>
                 )}
               </View>
             </ScrollView>

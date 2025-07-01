@@ -8,6 +8,7 @@ import { TouchableOpacity, StyleSheet } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { Metrics } from '../constants/Metrics';
+import { Colors } from '../constants/Colors';
 
 export default function BackButton({ onPress }) {
   const navigation = useNavigation();
@@ -28,7 +29,7 @@ export default function BackButton({ onPress }) {
       onPressIn={() => setIsPressed(true)}
       onPressOut={() => setIsPressed(false)}
     >
-      <Feather name="chevron-left" size={24} color="white" />
+      <Feather name="chevron-left" size={Metrics.iconSmall} color={Colors.whiteColor} />
     </TouchableOpacity>
   );
 }
