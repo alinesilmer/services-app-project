@@ -167,7 +167,7 @@ export default function ClientDashboard() {
                   style={styles.actionButton}
                 />
                 <CustomButton
-                  text={isUserPremium ? "Gestionar Premium" : "Obtener Premium"}
+                  text={isPremium ? "Gestionar Premium" : "Obtener Premium"}
                   onPress={handlePremiumNav}
                   style={styles.premiumButton}
                 />
@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    width: wp("100%"),
+    width: wp("95%"),
   },
   scrollContent: {
     flexGrow: 1,
@@ -285,19 +285,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     gap: Metrics.marginS,
-    marginBottom: Metrics.marginS,
+    marginBottom: Metrics.marginM,
     marginTop: Metrics.marginS,
   },
   actionButton: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: Metrics.marginS,
-    width: wp("100%"),
+    marginBottom: Metrics.marginM,
+    width: wp("90%"),
     textAlign: "center",
   },
   activitySection: {
     marginTop: Metrics.marginS,
+    width: wp("88%"),
   },
   sectionTitle: {
     fontSize: Metrics.fontS,

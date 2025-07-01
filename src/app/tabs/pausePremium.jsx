@@ -55,7 +55,7 @@ export default function PausePremium() {
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor={Colors.blueColor} />
       <SafeAreaView style={styles.safe}>
-        <BackButton onPress={() => router.back()} />
+        <BackButton />
         <Logo />
         <SlideUpCard
           title="Pausar Premium"

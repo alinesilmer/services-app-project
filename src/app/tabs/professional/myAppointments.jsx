@@ -87,8 +87,8 @@ export default function ScheduleScreen() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.mainContent}>
-        <StatusBar style="light" backgroundColor={Colors.primary} />
-        <BackButton style={styles.backButton} />
+        <StatusBar barStyle="light-content" />
+        <BackButton />
         <View style={styles.container}>
           <SlideUpCard title="Agenda" subtitle="<<<  06/04/25  -  13/04/25  >>>" style={styles.card}>
             <ScrollView

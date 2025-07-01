@@ -67,7 +67,7 @@ export default Home = () => {
         </Pressable>
     );
 
-    const Icono = ({nom='spa', size=Metrics.iconMedium}) => (
+    const Icono = ({nom='spa', size=Metrics.iconSmall}) => (
         <View style={styles.icoContainer}>
             <FontAwesome5 name={nom} size={size} color={Colors.disabledColor} />
         </View>
@@ -96,8 +96,8 @@ export default Home = () => {
                 <ProfilePic uri={userProfile?.avatar} size={Metrics.iconXLarge}/>
                 <View style={styles.titleRateContainer}>
                     <Text style={styles.title}>
-                        HOLA, {userProfile
-                                ? userProfile.fullName.toUpperCase() || 'Profesional'
+                        Hola, {userProfile
+                                ? userProfile.fullName || 'Profesional'
                                 : 'cargando...'
                         }
                     </Text>
@@ -117,7 +117,7 @@ export default Home = () => {
                     <Icono />
                     <Text style={styles.iconText}>Belleza</Text>
                 </View>
-                <Feather name='chevron-right' size={30} color={Colors.disabledColor}/>
+                <Feather name='chevron-right' size={Metrics.iconSmall} color={Colors.disabledColor}/>
                 <View style={styles.iconView}>
                     <Icono nom='cut'/>
                     <Text style={styles.iconText}>Peluquería</Text>
@@ -182,11 +182,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         alignItems: 'center',
-        marginVertical: Metrics.marginL,
+        marginVertical: Metrics.marginM,
         width: '100%',
     },
     iconView: {
-        gap: Metrics.marginS,
+        gap: Metrics.marginXS,
     },
     iconText: {
         textAlign: 'center',
@@ -199,8 +199,8 @@ const styles = StyleSheet.create({
         alignItems: "stretch",
     },
     buttonContainer: {
-        marginTop: Metrics.marginS,
-        width: wp('80%'),
+        marginTop: Metrics.marginXS,
+        width: wp('100%'),
         padding: Metrics.marginS,
         paddingLeft: Metrics.marginXL,
         gap: Metrics.marginS,
