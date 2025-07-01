@@ -4,7 +4,6 @@ import { View, Text, StyleSheet, TouchableOpacity, Modal, ScrollView, Alert } fr
 import { Feather } from "@expo/vector-icons"
 import { Colors } from "../constants/Colors"
 import { Metrics } from "../constants/Metrics"
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 import DatePickerAppointment from "./DatePickerAppointment"
 import AnimationFeedback from "./AnimationFeedback"
 import { generateTimeSlots } from "../utils/timeSlotGenerator"
@@ -414,7 +413,7 @@ const styles = StyleSheet.create({
   },
   cancelButtonText: {
     color: Colors.whiteColor,
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontS,
     fontWeight: "bold",
   },
   saveButton: {
@@ -429,7 +428,7 @@ const styles = StyleSheet.create({
   },
   saveButtonText: {
     color: Colors.whiteColor,
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontS,
     fontWeight: "bold",
   },
   saveButtonTextDisabled: {
@@ -447,7 +446,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 30,
     alignItems: "center",
-    minWidth: wp("70%"),
   },
   successTitle: {
     fontSize: Metrics.fontM,

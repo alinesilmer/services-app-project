@@ -61,7 +61,7 @@ cd services-app
 ### 2. Instalar las dependencias
 
 ```bash
-npm install
+npm install --legacy-peer-deps
 ```
 
 ### 3. Ejecutar la aplicación

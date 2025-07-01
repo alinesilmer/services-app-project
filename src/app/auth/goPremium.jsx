@@ -10,7 +10,6 @@ import CustomButton from "../../components/CustomButton"
 import PricingComparisonTable from "../../components/PricingComparisonTable"
 import { Colors } from "../../constants/Colors"
 import { Metrics } from "../../constants/Metrics"
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 import { getProfessionalPlans, getPricingPlans, getPlanDetails, } from "../../utils/pricingPlans"
 import { getUserProfile } from "../../utils/storage"
 import { usePremium } from "../../hooks/usePremium"
@@ -161,7 +160,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   tableContainer: {
-    width: wp("85%"),              
+    width: Metrics.animationXL,              
     marginBottom: Metrics.marginS,
     backgroundColor: Colors.lightGray,
     borderRadius: Metrics.radiusS,

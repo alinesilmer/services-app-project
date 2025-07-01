@@ -6,7 +6,6 @@ import { AntDesign } from "@expo/vector-icons"
 import { useLocalSearchParams } from "expo-router"
 import { Colors } from "../constants/Colors"
 import { Metrics } from "../constants/Metrics"
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 const SERVICES = [
   { label: "Plomería", icon: "tool", useFeather: true },
@@ -67,7 +66,7 @@ const Dropdown = ({ initialValue, onSelect }) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: wp("85%"),
+    width: Metrics.animationXL,
     marginHorizontal: 0,
     marginTop: Metrics.marginS,
     marginBottom: Metrics.marginS,
@@ -104,16 +103,17 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    maxHeight: 200,
+    maxHeight: Metrics.editPublicity,
   },
   scrollContainer: {
-    maxHeight: 200, 
+    maxHeight: Metrics.animationXXL, 
   },
   item: {
+    width: Metrics.animationXL,
     paddingVertical: Metrics.marginS,
     paddingHorizontal: Metrics.marginS,
     borderBottomWidth: Metrics.marginXS,
-    borderBottomColor: "#f0f0f0",
+    borderBottomColor: Colors.disabledColor,
   },
   itemText: {
     fontSize: Metrics.fontS,

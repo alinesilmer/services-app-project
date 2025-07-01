@@ -2,7 +2,6 @@ import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Colors } from "../constants/Colors";
 import { Metrics } from "../constants/Metrics";
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 const SubcategorySelector = ({
   selectedService,
@@ -41,7 +40,7 @@ const styles = StyleSheet.create({
     color: Colors.serviceLabel,
   },
   containerCheck: {
-    width: wp("70%"),
+    width: Metrics.publicityHome * 1.2,
     marginLeft: Metrics.marginXXL,
     flexDirection: "row",
     alignItems: "center",
@@ -73,7 +72,7 @@ const styles = StyleSheet.create({
     padding: Metrics.marginS,
     color: Colors.textColor,
     backgroundColor: Colors.whiteColor,
-    width: wp("70%"),
+    width: Metrics.publicityHome * 1.2,
     borderColor: Colors.inputGray,
     borderWidth: Metrics.marginXS,
   },

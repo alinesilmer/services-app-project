@@ -9,6 +9,8 @@ import {
   SafeAreaView,
   ScrollView,
   StatusBar,
+  KeyboardAvoidingView,
+  Platform
 } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 
@@ -26,7 +28,6 @@ import { getPlanDetails } from '../../utils/pricingPlans';
 import { paymentMethods } from '../../utils/paymentMethods';
 import { Colors } from '../../constants/Colors';
 import { Metrics } from '../../constants/Metrics';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 export default function SubscriptionFlow() {
   const router = useRouter();
@@ -106,6 +107,11 @@ export default function SubscriptionFlow() {
     <>
       <StatusBar barStyle="light-content" backgroundColor={Colors.blueColor} />
       <SafeAreaView style={styles.safe}>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'android' ? 'padding' : 'padding'}
+        keyboardVerticalOffset={Platform.OS === 'android' ? 0 : 0}
+      >
         <View style={styles.container}>
           <BackButton />
           <Logo />
@@ -140,6 +146,7 @@ export default function SubscriptionFlow() {
             </ScrollView>
           </SlideUpCard>
         </View>
+      </KeyboardAvoidingView>
 
         <ModalCard
           visible={success}
@@ -188,7 +195,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
     padding: Metrics.marginS,
     borderRadius: Metrics.radiusS,
-    width: wp('90%'),
+    width: Metrics.animationXL,
     alignSelf: 'center',
   },
   infoTitle: {

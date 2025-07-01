@@ -15,7 +15,7 @@ import CustomFlatList from "../../components/CustomFlatList"
 import LongCard from "../../components/LongCard"
 import ProfilePic from "../../components/ProfilePic"
 
-const currentUserPic = "https://randomuser.me/api/portraits/men/32.jpg"
+const currentUserPic = "https://randomuser.me/api/portraits/men/73.jpg"
 const mockChats = [
   {
     id: "1",
@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
   },
   chatWrapper: {
     flex: 1,
-    width: wp("100%"),
+    width: Metrics.animationXL * 1.2,
     bottom: 0,
     backgroundColor: Colors.whiteColor,
     overflow: "hidden",

@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
     marginBottom: Metrics.marginS,
   },
   fieldWrapper: {
-    width: wp("100%"),
+    width: Metrics.animationXL * 1.2,
     marginVertical: Metrics.marginS,
   },
   premiumStatusCard: {
@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
     marginTop: Metrics.marginS,
   },
   buttonsWrapper: {
-    width: wp("90%"),
+    width: Metrics.animationXL,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',

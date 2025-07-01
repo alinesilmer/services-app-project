@@ -44,7 +44,7 @@ export default PublicityProfessional;
 
 const styles = StyleSheet.create({
   container: {
-    width: wp("95%"),
+    width: Metrics.animationXL,
     height: Metrics.publicityHome,
     borderRadius: Metrics.radiusS,
     overflow: 'hidden',
@@ -53,12 +53,12 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   image: {
-    width: wp("100%"),
+    width: Metrics.animationXL * 1.2,
     height: Metrics.publicityHome
   },
   overlay: {
     position: 'absolute',
-    width: wp("95%"),
+    width: Metrics.animationXL,
     height: Metrics.publicityHome,
     flexDirection: 'row',
     justifyContent: 'space-between',

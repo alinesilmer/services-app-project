@@ -36,8 +36,8 @@ const Rate = ({ rating = 4.8, reviews = 20}) => {
         />
       ))}
 
-          <Text style={{ marginLeft: Metrics.marginXS, fontSize: Metrics.fontS }}>{rating.toFixed(1)}</Text>
-          <Text style={{marginLeft: Metrics.marginXS, fontSize: Metrics.fontXS, color: 'gray'}}>({reviews} reseñas)</Text>
+          <Text style={{marginLeft: Metrics.marginM, fontSize: Metrics.fontS, fontWeight: "bold", color: Colors.whiteColor}}>{rating.toFixed(1)}</Text>
+          <Text style={{marginLeft: Metrics.marginS, fontSize: Metrics.fontXS, color: Colors.whiteColor}}>({reviews} reseñas)</Text>
     </View>
   );
 };
