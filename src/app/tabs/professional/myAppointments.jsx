@@ -7,7 +7,6 @@ import SlideUpCard from '../../../components/SlideUpCard';
 import BackButton from '../../../components/BackButton';
 import { Colors } from '../../../constants/Colors';
 import { Metrics } from '../../../constants/Metrics';
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 import BottomNavBar from '../../../components/NavBar';
 import ScheduleMatrix from '../../../components/ScheduleMatrix';
 

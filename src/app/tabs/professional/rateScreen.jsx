@@ -4,7 +4,6 @@ import { useState, useCallback, useEffect } from "react";
 import { useLocalSearchParams, } from "expo-router";
 import { Colors } from "../../../constants/Colors";
 import { Metrics } from "../../../constants/Metrics";
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 import { Feather, MaterialIcons } from "@expo/vector-icons";
 import opinions from "../../../data/mockOpinions";
 import BackButton from "../../../components/BackButton";

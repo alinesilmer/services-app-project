@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
     marginTop: Metrics.marginS,
   },
   buttonsWrapper: {
-    width: wp("90%"),
+    width: Metrics.animationXL,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',

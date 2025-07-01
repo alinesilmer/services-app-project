@@ -191,7 +191,7 @@ export default function HomeScreen() {
                         <CustomButtom
                             text="Finalizar edición"
                             onPress={finalizarEdicion}
-                            width={wp('85%')}
+                            width={Metrics.animationXL}
                         />
                     </ScrollView>
                 </SlideUpCard>
@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
     titleRateContainer: {
         flex: 1,
         flexDirection: 'column',
-        width: wp('80%'),
+        width: Metrics.animationXL,
         alignItems: 'center',
         justifyContent: 'center',
         gap: Metrics.marginS,
@@ -247,7 +247,7 @@ const styles = StyleSheet.create({
         maxHeight: Metrics.screenM,
     },
     prevView: {
-        width: wp("85%"),
+        width: Metrics.animationXL,
         height: Metrics.editPublicity,
         zIndex: 1,
         flexDirection: 'row',
@@ -339,7 +339,7 @@ const styles = StyleSheet.create({
     },
     selectorContainer: {
         marginTop: Metrics.marginS,
-        width: wp('90%'),
+        width: Metrics.animationXL,
         alignSelf: 'center',
     },
     label: {

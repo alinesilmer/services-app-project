@@ -10,7 +10,6 @@ import Logo from '../../components/Logo';
 import ModalCard from '../../components/ModalCard';
 import SlideUpCard from '../../components/SlideUpCard';
 import AnimationFeedback from '../../components/AnimationFeedback';
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 //Constants
 import { Colors } from '../../constants/Colors';
@@ -115,7 +114,7 @@ export default function RecoveryPass() {
                   value={newPassword}
                   onChangeText={setNewPassword}
                   secureTextEntry
-                  width={wp("90%")}
+                  width={Metrics.animationXL}
                 />
                 <CustomButton text="Cambiar Contraseña" onPress={handleChangePassword} />
               </View>
@@ -170,7 +169,7 @@ const styles = StyleSheet.create({
     borderWidth: Metrics.marginXS,
     borderColor: 'gray',
     height: Metrics.screenS * 0.15,
-    width: wp('90%'),
+    width: Metrics.animationXL,
     borderRadius: Metrics.radiusS,
     marginBottom: Metrics.marginL,
   },

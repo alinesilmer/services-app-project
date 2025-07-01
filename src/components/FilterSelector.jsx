@@ -2,7 +2,6 @@ import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Colors } from "../constants/Colors";
 import { Metrics } from "../constants/Metrics";
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 export default function FilterSelector({ selectedFilter, setSelectedFilter }) {
   const radioOptions = [
@@ -35,7 +34,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Metrics.marginS,
     paddingVertical: Metrics.marginS,
     borderRadius: Metrics.radiusS,
-    width: wp("60%"),
+    width: Metrics.publicityHome,
     alignSelf: "center",
   },
   title: {
@@ -66,6 +65,6 @@ const styles = StyleSheet.create({
   },
   label: {
     color: Colors.whiteColor,
-    fontSize: wp("3.5%"),
+    fontSize: Metrics.fontXS,
   },
 });

@@ -19,7 +19,6 @@ import SlideUpCard from '../../components/SlideUpCard';
 import { usePremium } from '../../hooks/usePremium';
 import { Colors } from '../../constants/Colors';
 import { Metrics } from '../../constants/Metrics';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 export default function PausePremium() {
   const router = useRouter();
@@ -73,7 +72,7 @@ export default function PausePremium() {
               text={isLoading ? 'Pausando...' : 'Confirmar pausa'}
               onPress={handlePause}
               disabled={isLoading}
-              width={wp('90%')}
+              width={Metrics.animationXL}
               style={{ marginTop: Metrics.marginS }}
             />
           </ScrollView>
@@ -104,7 +103,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.lightGray, 
     padding: Metrics.marginS,
     borderRadius: Metrics.radiusS, 
-    width: wp('90%'),
+    width: Metrics.animationXL,
     alignSelf:'center' 
   },
   benefitsTitle: { 

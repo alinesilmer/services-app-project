@@ -16,7 +16,6 @@ import {
 import { useRouter } from 'expo-router';
 import CheckBox from 'expo-checkbox';
 import useAppDispatch from '../../hooks/useAppDispatch';
-import { loginSuccess } from '../../redux/slices/authSlice';
 import Logo from '../../components/Logo';
 import SlideUpCard from '../../components/SlideUpCard';
 import CustomInput from '../../components/CustomInput';
@@ -30,7 +29,6 @@ import useDatePicker from '../../hooks/useDatePicker';
 import { registerUser } from '../../utils/storage';
 import { Metrics } from '../../constants/Metrics';
 import { Colors } from '../../constants/Colors';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 export default function Register() {
   const router = useRouter();
@@ -279,7 +277,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingLeft: Metrics.marginL,
-    width: wp('80%'),
+    width: Metrics.animationXL,
     marginBottom: Metrics.marginS,
   },
   checkItem: { flexDirection: 'row', alignItems: 'center' },
@@ -299,7 +297,7 @@ const styles = StyleSheet.create({
     marginBottom: Metrics.marginS,
   },
   inputs: {
-    width: wp('90%'),
+    width: Metrics.animationXL,
     fontSize: Metrics.fontXS,
   },
 })

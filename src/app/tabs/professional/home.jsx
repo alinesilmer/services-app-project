@@ -13,7 +13,6 @@ import {
 import { Colors } from '../../../constants/Colors';
 import { Metrics } from '../../../constants/Metrics';
 import { widthPercentageToDP as wp } from "react-native-responsive-screen"
-import BackButton from '../../../components/BackButton';
 import ProfilePic from '../../../components/ProfilePic';
 import CustomButton from '../../../components/CustomButton';
 import SlideUpCard from '../../../components/SlideUpCard';
@@ -173,11 +172,6 @@ const styles = StyleSheet.create({
         fontSize: Metrics.fontL,
         fontWeight: 'bold'
     },
-    rateContainer: {
-        flex: 1,
-        alignItems: 'center',
-        backgroundColor: 'orange'
-    },
     iconsContainer: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
@@ -205,21 +199,12 @@ const styles = StyleSheet.create({
         paddingLeft: Metrics.marginXL,
         gap: Metrics.marginS,
     },
-    scroll: {
-        marginTop: Metrics.marginS,
-        width: wp('90%'),
-        marginBottom: Metrics.marginXS,
-    },
-    buttonInCard: {
-        width: '80%',
-        color: 'green'
-    },
     boton: {
         backgroundColor: '#aaa',
         paddingVertical: Metrics.marginS,
         borderRadius: Metrics.radiusS,
         alignItems: 'center',
-        width: wp('90%'),
+        width: Metrics.animationXL,
         zIndex: 1
     },
     botonPresionado: {
@@ -228,37 +213,6 @@ const styles = StyleSheet.create({
     texto: {
         color: Colors.textColor,
         fontSize: Metrics.fontL,
-    },
-    ultimoAviso: {
-        padding: Metrics.marginS,
-        width: wp('100%'),
-    },
-    cardToService: {
-        margin: Metrics.marginS,
-        padding: Metrics.marginS,
-        borderRadius:Metrics.radiusS,
-        borderWidth: Metrics.marginXS,
-        borderColor: '#888',
-        alignItems: 'center',
-        elevation: 5,
-        backgroundColor: '#dedede'
-    },
-    alertStyle: {
-        flex: 1,
-        flexDirection: 'row',
-        width: wp('70%'),
-        justifyContent: 'space-evenly',
-        marginVertical: Metrics.marginS,
-    },
-    alertText: {
-        color: Colors.orangeColor,
-        fontSize: Metrics.fontL,
-        fontWeight: 'bold'
-    },
-    cardText: {
-        marginVertical: Metrics.marginS,
-        fontSize: Metrics.fontM,
-        fontWeight: 'bold'
     },
     icoContainer: {
         width: Metrics.iconXXLarge,

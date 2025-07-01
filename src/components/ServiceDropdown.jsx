@@ -3,7 +3,6 @@ import { View, Text, StyleSheet } from "react-native";
 import Dropdown from "./Dropdown";
 import { Colors } from "../constants/Colors";
 import { Metrics } from "../constants/Metrics";
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 export default function ServiceDropdown({ onSelect }) {
   return (
@@ -16,7 +15,7 @@ export default function ServiceDropdown({ onSelect }) {
 
 const styles = StyleSheet.create({
   container: {
-    width: wp("90%"),
+    width: Metrics.animationXL,
     marginLeft: Metrics.marginL,
     alignItems: "center",
   },

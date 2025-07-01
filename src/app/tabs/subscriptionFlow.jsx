@@ -28,7 +28,6 @@ import { getPlanDetails } from '../../utils/pricingPlans';
 import { paymentMethods } from '../../utils/paymentMethods';
 import { Colors } from '../../constants/Colors';
 import { Metrics } from '../../constants/Metrics';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 export default function SubscriptionFlow() {
   const router = useRouter();
@@ -196,7 +195,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
     padding: Metrics.marginS,
     borderRadius: Metrics.radiusS,
-    width: wp('90%'),
+    width: Metrics.animationXL,
     alignSelf: 'center',
   },
   infoTitle: {

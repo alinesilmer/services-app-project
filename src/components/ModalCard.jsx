@@ -10,7 +10,6 @@ import React from 'react';
 import { Modal, View, Text, Pressable, StyleSheet } from 'react-native';
 import { Colors } from '../constants/Colors';
 import { Metrics } from '../constants/Metrics';
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 const ModalCard = ({ visible, onClose, title, children }) => {
   return (
@@ -40,7 +39,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.whiteColor,
     padding: Metrics.marginS,
     borderRadius: Metrics.radiusS,
-    width: wp("80%"),
+    width: Metrics.animationXL,
     alignItems: 'center',
   },
   title: {

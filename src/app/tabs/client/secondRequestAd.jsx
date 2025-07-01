@@ -6,7 +6,6 @@ import { Feather } from "@expo/vector-icons";
 import { Colors } from "../../../constants/Colors";
 import { Fonts } from "../../../constants/Fonts";
 import { Metrics } from "../../../constants/Metrics";
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 
 import AdsImage from "../../../components/AdsImage";
@@ -155,12 +154,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   buttonContainer: {
-    width: wp("90%"),
+    width: Metrics.animationXL,
     marginTop: Metrics.marginXS,
     marginBottom: Metrics.marginXS,
     alignItems: "center",
   },
   imageContainer: {
-    width: wp("90%"),
+    width: Metrics.animationXL,
   },
 });
