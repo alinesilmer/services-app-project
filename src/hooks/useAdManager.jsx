@@ -9,6 +9,8 @@ export const useAdManager = () => {
   const { canClose, timer } = useAdTimer(showAd)
   const timerRef = useRef(null)
 
+  const AD_DELAY_MS = 300000 // 5 minutos
+
   const isPremium = useMemo(() => {
     return (
       (premium.isPremium || premium.isPremiumProf) &&
@@ -22,7 +24,7 @@ export const useAdManager = () => {
 
     if (!user || isPremium) return
 
-    timerRef.current = setTimeout(() => setShowAd(true), 60000)
+    timerRef.current = setTimeout(() => setShowAd(true), AD_DELAY_MS)
     return () => clearTimeout(timerRef.current)
   }, [user, isPremium])
 
@@ -31,7 +33,7 @@ export const useAdManager = () => {
     setShowAd(false)
     clearTimeout(timerRef.current)
     if (user && !isPremium) {
-      timerRef.current = setTimeout(() => setShowAd(true), 60000)
+      timerRef.current = setTimeout(() => setShowAd(true), AD_DELAY_MS)
     }
   }, [canClose, isPremium, user])
 
