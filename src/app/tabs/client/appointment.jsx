@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
     padding: 20,
     marginBottom: Metrics.marginS,
     elevation: 2,
-    shadowColor: "Colors.textColor",
+    shadowColor: Colors.textColor,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: Metrics.radiusS
@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
     padding: 20,
     marginBottom: Metrics.marginS,
     elevation: 2,
-    shadowColor: "Colors.textColor",
+    shadowColor: Colors.textColor,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: Metrics.radiusS

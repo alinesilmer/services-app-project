@@ -332,7 +332,7 @@ const styles = StyleSheet.create({
     borderRadius: Metrics.radiusS,
     marginBottom: Metrics.marginS,
     elevation: 3,
-    shadowColor: "Colors.textColor",
+    shadowColor: Colors.textColor,
     shadowOffset: {
       width: 0,
       height: 0,
@@ -342,7 +342,7 @@ const styles = StyleSheet.create({
   },
   ratingText: {
     fontSize: Metrics.fontS,
-    color: "Colors.textColor",
+    color: Colors.textColor,
     fontWeight: "bold",
   },
   descriptionContainer: {
@@ -370,7 +370,7 @@ const styles = StyleSheet.create({
   },
   addCommentText: {
     fontSize: Metrics.fontS,
-    color: "Colors.textColor",
+    color: Colors.textColor,
     marginLeft: Metrics.marginS,
     fontWeight: "500",
   },

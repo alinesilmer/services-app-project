@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
     borderRadius: Metrics.radiusS,
     marginBottom: Metrics.marginS,
     elevation: 3,
-    shadowColor: "Colors.textColor",
+    shadowColor: Colors.textColor,
     shadowOffset: {
       width: 0,
       height: 0,
@@ -339,12 +339,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   messageButton: {
-    backgroundColor: "Colors.textColor",
+    backgroundColor: Colors.textColor,
     paddingVertical: Metrics.marginM,
     paddingHorizontal: Metrics.marginM,
     borderRadius: Metrics.radiusS,
     elevation: 3,
-    shadowColor: "Colors.textColor",
+    shadowColor: Colors.textColor,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -354,12 +354,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   appointmentButton: {
-    backgroundColor: "Colors.textColor",
+    backgroundColor: Colors.textColor,
     paddingVertical: Metrics.marginM,
     paddingHorizontal: Metrics.marginM,
     borderRadius: Metrics.radiusS,
     elevation: 3,
-    shadowColor: "Colors.textColor",
+    shadowColor: Colors.textColor,
     shadowOffset: {
       width: 0,
       height: 2,

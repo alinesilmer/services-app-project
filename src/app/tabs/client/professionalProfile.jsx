@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
   profileName: {
     fontSize: Metrics.fontM,
     fontWeight: "bold",
-    color: "Colors.textColor",
+    color: Colors.textColor,
     marginRight: Metrics.marginS,
   },
   verifiedIcon: {
@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
     borderRadius: Metrics.radiusS,
     marginBottom: Metrics.marginS,
     elevation: 3,
-    shadowColor: "Colors.textColor",
+    shadowColor: Colors.textColor,
     shadowOffset: {
       width: 0,
       height: 0,
@@ -254,12 +254,12 @@ const styles = StyleSheet.create({
   },
   ratingText: {
     fontSize: Metrics.fontS,
-    color: "Colors.textColor",
+    color: Colors.textColor,
     fontWeight: "bold",
   },
   description: {
     fontSize: Metrics.fontS,
-    color: "Colors.textColor",
+    color: Colors.textColor,
     textAlign: "center",
     lineHeight: Metrics.marginXS,
     marginBottom: Metrics.marginS,
@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
   },
   addCommentText: {
     fontSize: Metrics.fontS,
-    color: "Colors.textColor",
+    color: Colors.textColor,
     marginLeft: Metrics.marginS,
     fontWeight: "500",
   },
