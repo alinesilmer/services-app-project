@@ -12,7 +12,6 @@ import {
 } from "react-native";
 import { Colors } from '../../../constants/Colors';
 import { Metrics } from '../../../constants/Metrics';
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 import BackButton from '../../../components/BackButton';
 import CustomButtom from '../../../components/CustomButton';
 import ProfilePic from '../../../components/ProfilePic';
@@ -115,18 +114,19 @@ export default function HomeScreen() {
         router.replace('/tabs/professional/home?publicitado=true');
     }
 
-    return (<SafeAreaView style={styles.safeArea}>
-        <View style={styles.container}>
+    return (
+    <>
+        <SafeAreaView style={styles.safeArea}>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'android' ? 'padding' : 'padding'}
+                style={{ flex: 1 }}
+                keyboardVerticalOffset={Platform.OS === 'android' ? 0 : 0}
+            >
+            <View style={styles.container}>
             <StatusBar barStyle="light-content" />
             <BackButton />
-
-            <KeyboardAvoidingView
-                behavior={Platform.OS === 'android' ? 'padding' : 'height'}
-                style={{ flex: 1 }}
-                keyboardVerticalOffset={Metrics.navBarArea}
-            >
                 <View style={styles.profileContainer}>
-                    <ProfilePic uri={userProfile?.avatar} size="100" />
+                    <ProfilePic uri={userProfile?.avatar} size="80" />
                     <View style={styles.titleRateContainer}>
                         <Text style={styles.title}>
                             Hola, { userProfile
@@ -167,12 +167,12 @@ export default function HomeScreen() {
 
                         <View style={[styles.prevView, { backgroundColor: colorFondo }]}>
                             <View style={styles.leftView}>
-                                <Text style={styles.textToEdit}>{nombre || 'Martín Joaquín Gonzalez'}</Text>
+                                <Text style={styles.textToEdit}>{nombre || 'Martín Gonzalez'}</Text>
                                 <Text style={styles.textToEdit}>{profesion || 'Peluquería'}</Text>
                             </View>
                             <View style={styles.centerView}>
                                 <View style={styles.innerCenterView}>
-                                    <Text style={{textAlign: 'center'}}>{descripcion || 'Descripción...'}</Text>
+                                    <Text style={{textAlign: 'center'}}>{descripcion || 'Descripción'}</Text>
                                 </View>
                             </View>
                             <View style={styles.rightView}>
@@ -195,17 +195,19 @@ export default function HomeScreen() {
                         />
                     </ScrollView>
                 </SlideUpCard>
-            </KeyboardAvoidingView>
-        </View>
+            </View>
+        </KeyboardAvoidingView>
+
         <NavBar />
-    </SafeAreaView>);
+    </SafeAreaView>
+    </>
+);
 }
 
 const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
         backgroundColor: Colors.blueColor,
-        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     },
     container: {
         flex: 1,
@@ -244,7 +246,10 @@ const styles = StyleSheet.create({
         backgroundColor: 'orange'
     },
     slideUpCard: { 
-        maxHeight: Metrics.screenM,
+        position: 'absolute',
+        bottom: 0,
+        height: Metrics.screenM,
+        alignItems: 'stretch',
     },
     prevView: {
         width: Metrics.animationXL,
