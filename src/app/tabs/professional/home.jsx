@@ -1,6 +1,7 @@
 import { useLocalSearchParams } from 'expo-router';
 import {
     Alert,
+    Modal,
     Platform,
     Pressable,
     SafeAreaView,
@@ -13,12 +14,12 @@ import {
 import { Colors } from '../../../constants/Colors';
 import { Metrics } from '../../../constants/Metrics';
 import { widthPercentageToDP as wp } from "react-native-responsive-screen"
-import BackButton from '../../../components/BackButton';
 import ProfilePic from '../../../components/ProfilePic';
 import CustomButton from '../../../components/CustomButton';
 import SlideUpCard from '../../../components/SlideUpCard';
 import NavBar from '../../../components/NavBar';
 import Rate from '../../../components/Rate';
+import ModalWrapper from '../../../components/ModalWrapper';
 import { ClientRequest } from '../../../data/mockClientRequest';
 import { Feather, FontAwesome5 } from '@expo/vector-icons';
 import { router } from 'expo-router';
@@ -26,13 +27,16 @@ import { useEffect, useState } from 'react';
 import { getUserProfile } from '../../../utils/storage';
 import { FlatList } from 'react-native';
 import { ClientRequestCard } from '../../../components/ClientRequestCard';
+import { TextInput } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default Home = () => {
     const [userProfile, setUserProfile] = useState(null);
-
+    const [profesion, setProfesion] = useState('');
     const { publicitado } = useLocalSearchParams();
     const [isPublicitado, setIsPublicitado] = useState(publicitado === 'true');
+    const [isModalVisible, setIsModalVisible] = useState(false);
 
     useEffect(() => {
         const fetchUserProfile = async () => {
@@ -58,35 +62,83 @@ export default Home = () => {
         );
     }
 
-    const Boton = ({ texto, onPress }) => (
-        <Pressable onPress={onPress} style={({ pressed }) => [
-            styles.boton,
-            pressed && styles.botonPresionado
-        ]}>
-            <Text style={styles.texto}>{texto}</Text>
-        </Pressable>
-    );
+    const ModalProfesion = ({ visible, onClose, onConfirm }) => {
+        const [inputValue, setInputValue] = useState('');
+
+        const confirmar = () => {
+            if (inputValue.trim() !== '') {
+                onConfirm(inputValue.trim());
+            }
+        };
+        return(<Modal
+            visible={visible}
+			transparent={true}
+			animationType="slide"
+			onRequestClose={onClose}
+        >
+            <View style={styles.modalOverlay}>
+				<View style={styles.modalContent}>
+					<Text style={styles.invisibleModalText}>¿Cuál es tu profesión?</Text>
+					<TextInput
+						style={styles.input}
+						value={inputValue}
+						onChangeText={setInputValue}
+						placeholder="Ingresa tu profesión"
+					/>
+					<View style={styles.buttonRow}>
+						<CustomButton
+							text="Cancelar"
+							onPress={onClose}
+							width="40%"
+						/>
+						<CustomButton
+							text="Confirmar"
+							onPress={confirmar}
+							width="40%"
+						/>
+					</View>
+				</View>
+			</View>
+        </Modal>);
+    }
+
+    const actualizarProfesion = async (nuevaProfesion) => {
+		if (!userProfile) return;
+
+		const actualizado = { ...userProfile, profesion: nuevaProfesion };
+		setUserProfile(actualizado);
+
+		// Persistir en AsyncStorage
+		await AsyncStorage.setItem('user_profile', JSON.stringify(actualizado));
+
+		setIsModalVisible(false);
+	};
 
     const Icono = ({nom='spa', size=Metrics.iconSmall}) => (
         <View style={styles.icoContainer}>
             <FontAwesome5 name={nom} size={size} color={Colors.disabledColor} />
         </View>
     );
-
+    const updateProfesion = () => {};
+    const requests = prof => ClientRequest.filter(req => req.category === prof);
     const ClientRequestFlatList = () => {
-        const requests = ClientRequest.filter(req => {
-            return req.category === userProfile.profesion;
-        });
+        const coincidencias = requests(userProfile.profesion);
 
-        return (<FlatList
-            data={requests}
-            renderItem={({item}) => (
-                <ClientRequestCard
-                    item={item}
+        return <>
+            {coincidencias.length > 0 ? (
+                <FlatList
+                    data={coincidencias}
+                    renderItem={({item}) => (
+                        <ClientRequestCard
+                            item={item}
+                        />
+                    )}
+                    showsVerticalScrollIndicator={false}
                 />
-            )}
-            showsVerticalScrollIndicator={false}
-        />);
+            ) : (<Text>
+                No Hay aún solicitudes de clientes para tu profesión.
+            </Text>)}
+        </>
     }
 
     return (<SafeAreaView style={styles.safeArea}>
@@ -133,16 +185,37 @@ export default Home = () => {
             />
             )}
 
-            <SlideUpCard style={styles.slideUpCard}>
-                <View style={styles.buttonContainer}>
-                    <Text style={styles.simpleText}>Trabajos completados: 22</Text>
-                    <Text style={styles.simpleText}>Valoración de clientes: 95</Text>
-                    <Text style={styles.simpleText}>Solicitudes recibidas: 3</Text>
-                </View>
-                <ClientRequestFlatList />
+            <SlideUpCard
+                style={styles.slideUpCard}
+                title={'Solicitudes de clientes'}
+                subtitle={'Según tu profesión'}
+            >
+                {userProfile?.profesion ? (
+                    <ClientRequestFlatList />
+                ) : (
+                    <View style={styles.modalContainer}>
+                        {isModalVisible ? null : (
+                            <View style={styles.modalNoVisible}>
+                                <Text style={styles.invisibleModalText}>Aún no has indicado tu profesión.</Text>
+                                <Text style={styles.invisibleModalText}>Hazlo ahora y descubre quién necesita de tu talento.</Text>
+                                <CustomButton
+                                    text={'Añade tu profesión'}
+                                    onPress={() => setIsModalVisible(true)}
+                                    width={'60%'}
+                                />
+                            </View>
+                        )}
+
+                        <ModalProfesion
+                            visible={isModalVisible}
+                            onClose={() => setIsModalVisible(false)}
+                            onConfirm={actualizarProfesion}
+                        />
+                    </View>
+                )}
             </SlideUpCard>
         </View>
-            <NavBar />
+        <NavBar />
     </SafeAreaView>);
 }
 
@@ -273,4 +346,43 @@ const styles = StyleSheet.create({
     simpleText: {
         fontSize: Metrics.fontS
     },
+    modalContainer: {},
+    modalNoVisible: {
+        flex: 1,
+        justifyContent: 'center', 
+        alignItems: 'center',
+        minHeight: Metrics.editPublicity
+    },
+    modalOverlay: {
+        flex: 1,
+		backgroundColor: 'rgba(0,0,0,0.7)',
+		justifyContent: 'center',
+		alignItems: 'center',
+    },
+    modalContent: {
+        width: '80%',
+		backgroundColor: Colors.whiteColor,
+		padding: Metrics.marginM,
+		borderRadius: Metrics.radiusS,
+		elevation: 5,
+    },
+    input: {
+		borderWidth: 1,
+		borderColor: Colors.disabledColor,
+		paddingVertical: Metrics.marginS,
+        paddingHorizontal: Metrics.marginM,
+		marginVertical: Metrics.marginS,
+		borderRadius: Metrics.radiusS,
+    },
+    buttonRow: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		marginTop: Metrics.marginXS,
+    },
+    invisibleModalText: {
+        fontSize: Metrics.fontS,
+        fontWeight: 700,
+        color: Colors.blueColor,
+        textAlign: 'center',
+    }
 });

@@ -93,7 +93,7 @@ export default function ProfessionalServices() {
           />
         </View>
         <View style={styles.squareButtonsContainer}>
-          <TouchableOpacity activeOpacity={0.8} style={styles.squareButton}>
+          <TouchableOpacity activeOpacity={0.8} style={styles.squareButton} disabled>
             <Text style={styles.squareButtonIcon}>
               {categoriesIcons[usuario.profesion]}
             </Text>
@@ -107,7 +107,7 @@ export default function ProfessionalServices() {
               <TouchableOpacity
                 key={index}
                 style={styles.serviceItem}
-                onPress={() => console.log("Pressed")}
+                disabled
                 activeOpacity={0.7}
               >
                 <View style={styles.serviceContent}>

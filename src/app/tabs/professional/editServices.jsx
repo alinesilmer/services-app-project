@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
     profilePhoto: {
         borderColor: Colors.textColor,
         borderWidth: Metrics.marginXS,
-        borderRadius: Metrics.radiusM,
+        borderRadius: Metrics.radiusL,
     },
     userProfile: {
         fontSize: Metrics.fontL,

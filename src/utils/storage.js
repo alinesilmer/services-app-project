@@ -24,7 +24,7 @@ export const MOCK_USERS = [
     address: "Av Sarmiento 1249",
     availability: "Lunes a Viernes de 9 a 14hs",
     avatar: "https://randomuser.me/api/portraits/men/73.jpg",
-    descripcion: "Pulse el lápiz para agregar una descripción sobre usted.",
+    descripcion: "",
     profesion: "Belleza",
   },
 ];
