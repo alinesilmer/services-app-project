@@ -16,10 +16,12 @@ const AddComment = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showAnimation, setShowAnimation] = useState(false);
   const [animationType, setAnimationType] = useState("loadingComment");
+  const [isFocus, setIsFocus] = useState(false);
 
+  const shouldShowIcon = !isFocus && comment === "";
   const currentUser = {
     name: "Usuario Actual",
-    avatar: "https://randomuser.me/api/portraits/men/32.jpg",
+    avatar: params.professionalAvatar,
   };
 
   const handleStarPress = (selectedRating) => {
@@ -119,7 +121,6 @@ const AddComment = () => {
       >
         <View style={styles.header}>
           <View style={styles.headerContent}>
-            <Text style={styles.headerText}></Text>
             <Image
               source={{ uri: currentUser.avatar }}
               style={styles.userAvatar}
@@ -132,15 +133,17 @@ const AddComment = () => {
             Por favor, agregar un comentario:
           </Text>
           <View style={styles.textInputContainer}>
-            <Feather
-              name="search"
-              size={Metrics.iconSmall}
-              color="#999"
-              style={styles.searchIcon}
-            />
+            {shouldShowIcon && (
+              <Feather
+                name="search"
+                size={Metrics.iconXSmall}
+                color="#999"
+                style={styles.searchIcon}
+              />
+            )}
             <TextInput
               style={styles.textInput}
-              placeholder="El trabajo realizado sobre mi..."
+              placeholder="    El trabajo realizado sobre mi..."
               placeholderTextColor="#999"
               multiline
               numberOfLines={6}
@@ -148,6 +151,8 @@ const AddComment = () => {
               onChangeText={setComment}
               maxLength={maxWords}
               editable={!isSubmitting}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
             />
           </View>
           <Text style={styles.wordCount}>150 caracteres</Text>
@@ -214,6 +219,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: Metrics.marginS,
     paddingTop: Metrics.marginS,
+    marginTop: Metrics.marginL,
   },
   header: {
     marginBottom: Metrics.marginS,
@@ -221,8 +227,7 @@ const styles = StyleSheet.create({
   headerContent: {
     paddingTop: Metrics.marginS,
     flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: 'flex-end',
   },
   headerText: {
     fontSize: Metrics.fontM,
@@ -232,9 +237,9 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
   },
   userAvatar: {
-    width: Metrics.iconXLarge,
-    height: Metrics.iconXLarge,
-    borderRadius: Metrics.radiusS,
+    width: Metrics.iconXXLarge,
+    height: Metrics.iconXXLarge,
+    borderRadius: Metrics.radiusL,
     borderWidth: Metrics.marginXS,
     borderColor: Colors.textColor,
   },
@@ -253,8 +258,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: Colors.blueColor,
     paddingHorizontal: Metrics.marginS,
-    paddingVertical: Metrics.marginS,
-    minHeight: "20%",
+    paddingBottom: Metrics.marginS,
+    minHeight: "30%",
     elevation: 2,
     shadowColor: Colors.textColor,
     shadowOffset: { width: 0, height: 1 },
