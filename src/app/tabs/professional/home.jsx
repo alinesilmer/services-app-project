@@ -135,7 +135,7 @@ export default Home = () => {
                     )}
                     showsVerticalScrollIndicator={false}
                 />
-            ) : (<Text>
+            ) : (<Text style={styles.invisibleModalText}>
                 No Hay aún solicitudes de clientes para tu profesión.
             </Text>)}
         </>
@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         alignItems: 'center',
-        marginVertical: Metrics.marginM,
+        marginVertical: Metrics.marginS,
         width: '100%',
     },
     iconView: {
@@ -268,8 +268,16 @@ const styles = StyleSheet.create({
     slideUpCard: {
         position: "absolute",
         bottom: 0,
-        height: Metrics.screenSM,
+        height: Metrics.screenS,
         alignItems: "stretch",
+    },
+    editProfesion: {
+    },
+    editProfesionContainer: {
+        marginTop: -Metrics.marginXXL,
+        marginBottom: Metrics.marginM,
+        alignItems: 'flex-end',
+        width: '90%',
     },
     buttonContainer: {
         marginTop: Metrics.marginXS,
