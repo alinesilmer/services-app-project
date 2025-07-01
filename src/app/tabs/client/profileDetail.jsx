@@ -190,9 +190,9 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   profileImage: {
-    width: Metrics.iconMedium,
-    height: Metrics.iconMedium,
-    borderRadius: Metrics.radiusM,
+    width: Metrics.iconXXXLarge,
+    height: Metrics.iconXXXLarge,
+    borderRadius: Metrics.radiusL,
     borderWidth: Metrics.marginXS,
     borderColor: Colors.whiteColor,
     backgroundColor: Colors.blueColor,
@@ -202,7 +202,8 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     flex: 1,
-    width: wp("100%"),
+    width: "100%",
+    paddingTop: Metrics.marginS,
   },
   scrollContent: {
     paddingHorizontal: Metrics.marginS,
@@ -214,7 +215,8 @@ const styles = StyleSheet.create({
     color: Colors.whiteColor,
     textAlign: "center",
     letterSpacing: 1,
-    marginTop: Metrics.marginM,
+    marginTop: Metrics.marginXXL,
+    marginBottom: Metrics.marginS,
   },
   ratingSection: {
     alignItems: "center",
@@ -236,7 +238,7 @@ const styles = StyleSheet.create({
     marginBottom: Metrics.marginS,
   },
   starFilled: {
-    fontSize: Metrics.fontS,
+    fontSize: Metrics.fontL,
     color: Colors.orangeColor,
   },
   starFilledComment: {
@@ -244,7 +246,7 @@ const styles = StyleSheet.create({
     color: Colors.orangeColor,
   },
   starEmpty: {
-    fontSize: Metrics.fontS,
+    fontSize: Metrics.fontL,
     color: "#777",
   },
   ratingText: {
@@ -296,7 +298,6 @@ const styles = StyleSheet.create({
     fontSize: Metrics.fontS,
     color: "#666",
     fontStyle: "italic",
-    lineHeight: Metrics.marginXS,
   },
   allCommentsButton: {
     alignItems: "center",
@@ -315,8 +316,8 @@ const styles = StyleSheet.create({
   },
   squareButton: {
     backgroundColor: "#fff",
-    width: Metrics.iconMedium,
-    height: Metrics.iconMedium,
+    width: Metrics.iconXXXLarge,
+    height: Metrics.iconXXXLarge,
     borderRadius: Metrics.radiusS,
     justifyContent: "center",
     alignItems: "center",
@@ -339,8 +340,8 @@ const styles = StyleSheet.create({
   },
   messageButton: {
     backgroundColor: "#000",
-    paddingVertical: Metrics.marginS,
-    paddingHorizontal: Metrics.marginS,
+    paddingVertical: Metrics.marginM,
+    paddingHorizontal: Metrics.marginM,
     borderRadius: Metrics.radiusS,
     elevation: 3,
     shadowColor: "#000",
@@ -354,8 +355,8 @@ const styles = StyleSheet.create({
   },
   appointmentButton: {
     backgroundColor: "#000",
-    paddingVertical: Metrics.marginS,
-    paddingHorizontal: Metrics.marginS,
+    paddingVertical: Metrics.marginM,
+    paddingHorizontal: Metrics.marginM,
     borderRadius: Metrics.radiusS,
     elevation: 3,
     shadowColor: "#000",
