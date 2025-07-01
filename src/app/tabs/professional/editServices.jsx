@@ -134,12 +134,12 @@ const handleDeleteService = (id) => {
         <SlideUpCard style={styles.slideUpCard}>
             <View style={styles.profileContainer}>
                 <View style={styles.profilePhoto}>
-                    <ProfilePic uri={usuario?.avatar} size='130'/>
+                    <ProfilePic uri={usuario?.avatar} size={Metrics.iconXXXLarge}/>
                 </View>
                 <View>
                     <Text style={styles.userProfile}>
                         {usuario
-                            ? usuario.fullName.toUpperCase() || 'Profesional'
+                            ? usuario.fullName || 'Profesional'
                             : 'cargando...'
                         }
                     </Text>
@@ -250,8 +250,6 @@ const styles = StyleSheet.create({
         marginBottom: Metrics.marginXS,
     },
     profilePhoto: {
-        borderColor: Colors.textColor,
-        borderWidth: Metrics.marginXS,
         borderRadius: Metrics.radiusM,
     },
     userProfile: {

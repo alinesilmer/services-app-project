@@ -9,6 +9,8 @@ import {
   SafeAreaView,
   ScrollView,
   StatusBar,
+  KeyboardAvoidingView,
+  Platform
 } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 
@@ -106,6 +108,11 @@ export default function SubscriptionFlow() {
     <>
       <StatusBar barStyle="light-content" backgroundColor={Colors.blueColor} />
       <SafeAreaView style={styles.safe}>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'android' ? 'padding' : 'padding'}
+        keyboardVerticalOffset={Platform.OS === 'android' ? 0 : 0}
+      >
         <View style={styles.container}>
           <BackButton />
           <Logo />
@@ -140,6 +147,7 @@ export default function SubscriptionFlow() {
             </ScrollView>
           </SlideUpCard>
         </View>
+      </KeyboardAvoidingView>
 
         <ModalCard
           visible={success}

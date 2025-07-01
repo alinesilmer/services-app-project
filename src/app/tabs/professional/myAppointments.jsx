@@ -90,7 +90,7 @@ export default function ScheduleScreen() {
         <StatusBar barStyle="light-content" />
         <BackButton />
         <View style={styles.container}>
-          <SlideUpCard title="Agenda" subtitle="<<<  06/04/25  -  13/04/25  >>>" style={styles.card}>
+          <SlideUpCard title="Agenda" subtitle="<<<  30/06/25  -  06/07/25  >>>" style={styles.card}>
             <ScrollView
               contentContainerStyle={styles.scrollContent}
               keyboardShouldPersistTaps="handled"

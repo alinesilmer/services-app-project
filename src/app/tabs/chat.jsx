@@ -15,7 +15,7 @@ import CustomFlatList from "../../components/CustomFlatList"
 import LongCard from "../../components/LongCard"
 import ProfilePic from "../../components/ProfilePic"
 
-const currentUserPic = "https://randomuser.me/api/portraits/men/32.jpg"
+const currentUserPic = "https://randomuser.me/api/portraits/men/73.jpg"
 const mockChats = [
   {
     id: "1",
