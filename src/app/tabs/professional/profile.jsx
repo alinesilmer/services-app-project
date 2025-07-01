@@ -91,7 +91,7 @@ export default function ProfessionalProfileScreen() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar style="light" backgroundColor={Colors.blueColor} />
-      <BackButton onPress={() => router.back()} />
+      <BackButton />
 
       <View style={styles.container}>
         <SlideUpCard title="Mi Perfil Profesional" style={styles.card}>

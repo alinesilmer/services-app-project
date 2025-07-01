@@ -45,7 +45,7 @@ export default function ManagePremium() {
       <StatusBar barStyle="light-content" backgroundColor={Colors.blueColor} />
       <SafeAreaView style={styles.safe}>
         <View style={styles.container}>
-          <BackButton onPress={() => router.back()} />
+          <BackButton />
           <Logo />
           <SlideUpCard title={statusText} subtitle={subtitle} style={styles.card}>
             <ScrollView contentContainerStyle={styles.scroll}>

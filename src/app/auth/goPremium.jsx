@@ -61,7 +61,7 @@ export default function GoPremium() {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor={Colors.blueColor} />
-      <BackButton onPress={() => router.back()} />
+      <BackButton />
       <Logo />
 
         <SlideUpCard

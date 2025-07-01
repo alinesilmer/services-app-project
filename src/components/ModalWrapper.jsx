@@ -12,6 +12,7 @@ import { Modal, View, Text, Pressable, StyleSheet, ScrollView,
 
 import { Colors } from '../constants/Colors';
 import { Metrics } from '../constants/Metrics';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 const ModalWrapper = ({
   visible,
@@ -62,7 +63,8 @@ const styles = StyleSheet.create({
   overlay: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.5)',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignItems: "center"
   },
   keyboardView: {
     flex: 1,
@@ -74,25 +76,27 @@ const styles = StyleSheet.create({
     padding: Metrics.marginS,
   },
   title: {
-    fontSize: Metrics.fontM,
+    fontSize: Metrics.fontL,
     fontWeight: 'bold',
     marginBottom: Metrics.marginS,
   },
   content: {
-    paddingBottom: Metrics.marginS,
+    paddingBottom: Metrics.marginXS,
+    width: wp("90%")
   },
   scrollContent: {
-    paddingBottom: Metrics.marginS,
+    paddingBottom: Metrics.marginM,
+    width: wp("90%"),
   },
   actions: {
     flexDirection: 'row',
-    marginTop: Metrics.marginS,
+    marginTop: Metrics.marginM,
   },
   btn: {
     paddingVertical: Metrics.marginS,
-    paddingHorizontal: Metrics.marginS,
+    paddingHorizontal: Metrics.marginXL,
     borderRadius: Metrics.radiusS,
-    marginLeft: Metrics.marginS,
+    marginLeft: Metrics.marginXL,
   },
   cancel: {
     backgroundColor: Colors.inputGray,

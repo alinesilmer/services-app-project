@@ -130,8 +130,8 @@ export default function HomeScreen() {
                     <ProfilePic uri={userProfile?.avatar} size="100" />
                     <View style={styles.titleRateContainer}>
                         <Text style={styles.title}>
-                            HOLA, { userProfile
-                                    ? userProfile.fullName.toUpperCase() || 'Profesional'
+                            Hola, { userProfile
+                                    ? userProfile.fullName || 'Profesional'
                                     : 'cargando...'
                             }
                         </Text>
@@ -143,7 +143,7 @@ export default function HomeScreen() {
                 <SlideUpCard style={styles.slideUpCard} title="Publicidad" subtitle="Personalización">
                     <ScrollView
                         showsVerticalScrollIndicator={false}
-                        contentContainerStyle={{ flexGrow: 1 }}
+                        contentContainerStyle={styles.scroll}
                     >
                         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: Metrics.marginS, padding: Metrics.marginS, }}>
                             {coloresDisponibles.map((color) => (
@@ -192,7 +192,7 @@ export default function HomeScreen() {
                         <CustomButtom
                             text="Finalizar edición"
                             onPress={finalizarEdicion}
-                            width='90%'
+                            width={wp('85%')}
                         />
                     </ScrollView>
                 </SlideUpCard>
@@ -219,6 +219,13 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         marginTop: Metrics.marginTotal,
     },
+    scroll: {
+        width: wp("100%"),
+        paddingHorizontal: Metrics.marginS,  
+        paddingTop: Metrics.marginS,
+        paddingBottom: Metrics.marginL,
+        justifyContent: "center",
+    },
     titleRateContainer: {
         flex: 1,
         flexDirection: 'column',
@@ -237,9 +244,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'orange'
     },
-    slideUpCard: { maxHeight: Metrics.screenM},
+    slideUpCard: { 
+        maxHeight: Metrics.screenM,
+    },
     prevView: {
-        width: '90.7%',
+        width: wp("85%"),
         height: Metrics.editPublicity,
         zIndex: 1,
         flexDirection: 'row',
@@ -257,7 +266,7 @@ const styles = StyleSheet.create({
     encabezado: {
         fontWeight: 'bold',
         color: '#fff',
-        width: '20%',
+        width: wp('30%'),
         textAlign: 'center',
         borderRadius: Metrics.radiusS,
         borderWidth: Metrics.marginXS,
@@ -308,7 +317,7 @@ const styles = StyleSheet.create({
     },
     textToEdit: {
         textAlign: 'flex-start',
-        fontSize: Metrics.fontS,
+        fontSize: Metrics.fontXS,
     },
     contenedor: {
         marginTop: Metrics.marginS,

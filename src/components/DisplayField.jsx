@@ -17,7 +17,7 @@ export default function DisplayField({ label, value, editable = false, onChangeT
           placeholderTextColor="#ccc"
         />
       ) : (
-        <Text style={styles.value}>{value}</Text>
+        <Text style={styles.value}> {value}</Text>
       )}
       </View>
   );
@@ -25,25 +25,28 @@ export default function DisplayField({ label, value, editable = false, onChangeT
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: Metrics.marginS,
+    marginTop: Metrics.marginS,
+    width: wp("50%"),
+    alignItems: "center"
   },
   label: {
-    fontSize: Metrics.fontS,
+    fontSize: Metrics.fontM,
     color: Colors.textColor,
+    fontWeight: '700',
     marginBottom: Metrics.marginS,
   },
   valueContainer: {
     backgroundColor: Colors.inputGray,
-    width: wp("80%"),
-    height: Metrics.screenS,            
+    width: wp("90%"),
+    height: Metrics.marginXXL,            
     borderRadius: Metrics.radiusS,      
-    justifyContent: 'center', 
-    paddingHorizontal: Metrics.marginS, 
+    justifyContent: "space-between", 
+    paddingHorizontal: Metrics.marginXS, 
     fontSize: Metrics.fontM,
   },
   value: {
-    fontSize: Metrics.fontM,
-    color: Colors.textColor,
+    fontSize: Metrics.fontS,
+    color: Colors.blueColor,
     fontWeight: '500',
   },
 });

@@ -20,6 +20,7 @@ import * as ImagePicker from "expo-image-picker";
 import { Colors } from "../../../constants/Colors";
 import { Fonts } from "../../../constants/Fonts";
 import { Metrics } from "../../../constants/Metrics";
+import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 import AdsImage from "../../../components/AdsImage";
 import Logo from "../../../components/Logo";
 import BackButton from "../../../components/BackButton";
@@ -120,24 +121,24 @@ export default function request() {
 
   return (
     <>
-      <View style={styles.container}>
-        <StatusBar barStyle="light-content" />
-        <SafeAreaView style={styles.safeArea}>
-          <KeyboardAvoidingView
-            style={{ flex: 1 }}
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-          >
-            <BackButton />
-            <Logo />
+      <StatusBar barStyle="light-content" />
+      <SafeAreaView style={styles.safeArea}>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'android' ? 'padding' : 'padding'}
+        keyboardVerticalOffset={Platform.OS === 'android' ? 0 : 0}
+      >
+        <View style={styles.container}>
+          <BackButton />
+          <Logo />
             <SlideUpCard title="Solicitud personalizada" style={styles.card}>
               <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.descriptionContainer}>
                   <Text style={styles.description}>
-                    ¿No encontraste el servicio que necesitás? ¡No hay problema!
+                    ¿No encontraste el servicio que necesitás? {"\n"} ¡No hay problema!
                   </Text>
                   <Text style={styles.description}>
-                    Acá podés crear un pedido personalizado explicando lo que
-                    necesitás.
+                    Acá podés crear un pedido explicando lo que necesitás.
                   </Text>
                 </View>
 
@@ -162,7 +163,7 @@ export default function request() {
                       style={styles.removeImageButton}
                       onPress={removeImage}
                     >
-                      <Feather name="x" size={20} color="white" />
+                      <Feather name="x" size={Metrics.iconSmall} color="white" />
                     </TouchableOpacity>
                   </View>
                 )}
@@ -171,8 +172,7 @@ export default function request() {
                   <CustomButton
                     text={selectedImage ? "Cambiar foto" : "Adjuntar foto"}
                     onPress={() => setShowImageModal(true)}
-                    width={Metrics.animationXXXL}
-                    style={styles.customBotton}
+                    width={wp("90%")}
                   />
                 </View>
 
@@ -181,7 +181,7 @@ export default function request() {
                     text="Confirmar solicitud"
                     onPress={handleConfirmRequest}
                     backgroundColor="#e47755"
-                    width={Metrics.animationXXXL}
+                    width={wp("90%")}
                   />
                 </View>
 
@@ -190,9 +190,9 @@ export default function request() {
                 </View>
               </ScrollView>
             </SlideUpCard>
-          </KeyboardAvoidingView>
-        </SafeAreaView>
-      </View>
+          </View>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
 
       <Modal
         visible={showImageModal}
@@ -208,7 +208,7 @@ export default function request() {
                 onPress={() => setShowImageModal(false)}
                 activeOpacity={0.8}
               >
-                <Feather name="x" size={24} color="#666" />
+                <Feather name="x" size={Metrics.iconSmall} color="#666" />
               </TouchableOpacity>
             </View>
 
@@ -222,7 +222,7 @@ export default function request() {
               >
                 <View style={styles.optionContent}>
                   <View style={styles.optionIcon}>
-                    <Feather name="camera" size={24} color="#28a745" />
+                    <Feather name="camera" size={Metrics.iconSmall} color="#28a745" />
                   </View>
                   <View style={styles.optionText}>
                     <Text style={styles.optionTitle}>Tomar foto</Text>
@@ -230,7 +230,7 @@ export default function request() {
                       Usar la cámara del dispositivo
                     </Text>
                   </View>
-                  <Feather name="chevron-right" size={20} color="#ccc" />
+                  <Feather name="chevron-right" size={Metrics.iconSmall} color="#ccc" />
                 </View>
               </TouchableOpacity>
 
@@ -241,7 +241,7 @@ export default function request() {
               >
                 <View style={styles.optionContent}>
                   <View style={styles.optionIcon}>
-                    <Feather name="image" size={24} color="#6f42c1" />
+                    <Feather name="image" size={Metrics.iconSmall} color="#6f42c1" />
                   </View>
                   <View style={styles.optionText}>
                     <Text style={styles.optionTitle}>
@@ -251,7 +251,7 @@ export default function request() {
                       Elegir una foto existente
                     </Text>
                   </View>
-                  <Feather name="chevron-right" size={20} color="#ccc" />
+                  <Feather name="chevron-right" size={Metrics.iconSmall} color="#ccc" />
                 </View>
               </TouchableOpacity>
             </View>
@@ -260,7 +260,7 @@ export default function request() {
               <CustomButton
                 text="Cancelar"
                 onPress={() => setShowImageModal(false)}
-                width="90%"
+                width={wp("90%")}
               />
             </View>
           </View>
@@ -274,6 +274,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.blueColor,
+  },
+  mainContent: {
+    flex: 1,
+    justifyContent: 'center'
   },
   safeArea: {
     flex: 1,
@@ -305,15 +309,15 @@ const styles = StyleSheet.create({
     fontSize: Metrics.fontS,
     color: Colors.orangeColor,
     textAlign: "center",
-    width: Metrics.animationXXL,
+    width: wp("85%"),
   },
   rectangle: {
-    width: Metrics.animationXXXL,
+    width: wp("85%"),
     height: Metrics.animationL,
     backgroundColor: Colors.whiteColor,
     borderColor: Colors.blueColor,
-    borderWidth: 3,
-    borderRadius: 6,
+    borderWidth: Metrics.marginXS,
+    borderRadius: Metrics.radiusS,
     justifyContent: "flex-start",
     alignItems: "flex-start",
     marginTop: Metrics.marginS,
@@ -322,7 +326,7 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlignVertical: "top",
-    width: Metrics.animationXXL,
+    width: wp("90%"),
     height: Metrics.animationL,
     padding: 10,
     fontSize: Metrics.fontS,
@@ -333,9 +337,9 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   selectedImage: {
-    width: Metrics.animationXXL,
+    width: wp("90%"),
     height: Metrics.animationL,
-    borderRadius: 10,
+    borderRadius: Metrics.radiusS,
     resizeMode: "cover",
   },
   removeImageButton: {
@@ -343,20 +347,20 @@ const styles = StyleSheet.create({
     top: 10,
     right: Metrics.marginM,
     backgroundColor: "rgba(220, 53, 69, 0.8)",
-    borderRadius: 15,
+    borderRadius: Metrics.radiusS,
     width: 30,
     height: 30,
     justifyContent: "center",
     alignItems: "center",
   },
   buttonContainer: {
-    width: Metrics.animationXXXL,
+    width: wp("90%"),
     marginTop: Metrics.marginS,
     marginBottom: Metrics.marginS,
     alignItems: "center",
   },
   imageContainer: {
-    width: Metrics.animationXXXL,
+    width: wp("90%"),
   },
   modalOverlay: {
     flex: 1,
@@ -364,9 +368,9 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   modalContent: {
-    backgroundColor: "white",
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
+    backgroundColor: Colors.whiteColor,
+    borderTopLeftRadius: Metrics.radiusM,
+    borderTopRightRadius: Metrics.radiusM,
     paddingBottom: 30,
   },
   modalHeader: {
@@ -393,7 +397,7 @@ const styles = StyleSheet.create({
   },
   optionButton: {
     backgroundColor: "#f8f9fa",
-    borderRadius: 15,
+    borderRadius: Metrics.radiusS,
     marginBottom: 15,
     elevation: 2,
     shadowColor: "#000",
@@ -409,7 +413,7 @@ const styles = StyleSheet.create({
   optionIcon: {
     width: 50,
     height: 50,
-    borderRadius: 25,
+    borderRadius: Metrics.radiusM,
     backgroundColor: "#e9ecef",
     justifyContent: "center",
     alignItems: "center",
@@ -431,12 +435,12 @@ const styles = StyleSheet.create({
   cancelButton: {
     marginHorizontal: 20,
     backgroundColor: "#6c757d",
-    borderRadius: 25,
+    borderRadius: Metrics.radiusM,
     paddingVertical: 15,
     alignItems: "center",
   },
   cancelButtonText: {
-    color: "white",
+    color: Colors.whiteColor,
     fontSize: Metrics.fontS,
     fontWeight: "600",
   },
