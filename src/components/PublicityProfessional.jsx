@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   image: {
-    width: wp("100%"),
+    width: Metrics.animationXL * 1.2,
     height: Metrics.publicityHome
   },
   overlay: {

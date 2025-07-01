@@ -38,12 +38,12 @@ export default function AdsImage({ isPremium }) {
 
 const s = StyleSheet.create({
   wrap: { 
-    width: wp("100%"), 
+    width: Metrics.animationXL * 1.2,
     height: Metrics.publicityArea, 
     marginVertical: Metrics.marginS 
   },
   img: {
-    width: wp("100%"), 
+    width: Metrics.animationXL * 1.2,
     height: Metrics.publicityArea, 
   },
   tag: {

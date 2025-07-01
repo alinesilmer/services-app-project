@@ -213,13 +213,13 @@ const styles = StyleSheet.create({
     },
     profileContainer: {
         flexDirection: 'row',
-        width: '95%',
+        width: Metrics.animationXL * 1.2,
         padding: Metrics.marginS,
         justifyContent: 'space-between',
         marginTop: Metrics.marginTotal,
     },
     scroll: {
-        width: wp("100%"),
+        width: Metrics.animationXL * 1.2,
         paddingHorizontal: Metrics.marginS,  
         paddingTop: Metrics.marginS,
         paddingBottom: Metrics.marginL,
@@ -257,7 +257,7 @@ const styles = StyleSheet.create({
         position: 'relative'
     },
     encabezadoContainer: {
-        width: wp('100%'),
+        width: Metrics.animationXL * 1.2,
         paddingLeft: Metrics.marginL,
         marginBottom: -11,
         zIndex: 2,
@@ -265,7 +265,7 @@ const styles = StyleSheet.create({
     encabezado: {
         fontWeight: 'bold',
         color: '#fff',
-        width: wp('30%'),
+        width: Metrics.animationL,
         textAlign: 'center',
         borderRadius: Metrics.radiusS,
         borderWidth: Metrics.marginXS,

@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         marginTop: Metrics.marginXS,
-        width: wp('100%'),
+        width: Metrics.animationXL * 1.2,
         padding: Metrics.marginS,
         paddingLeft: Metrics.marginXL,
         gap: Metrics.marginS,

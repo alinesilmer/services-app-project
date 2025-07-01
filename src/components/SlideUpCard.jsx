@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   card: {
     display: "flex",
     alignItems: "center",
-    width: wp("100%"),
+    width: Metrics.animationXL * 1.2,
     backgroundColor: Colors.whiteColor,
     gap: Metrics.marginXS,
     padding: Metrics.marginM,

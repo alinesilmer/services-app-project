@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
   },
   chatWrapper: {
     flex: 1,
-    width: wp("100%"),
+    width: Metrics.animationXL * 1.2,
     bottom: 0,
     backgroundColor: Colors.whiteColor,
     overflow: "hidden",

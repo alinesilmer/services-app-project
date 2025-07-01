@@ -51,7 +51,7 @@ const DatePicker = ({ label, value, onChange, show, onPress }) => (
 const styles = StyleSheet.create({
   wrapper: { 
     marginBottom: Metrics.marginS, 
-    width: wp("100%"),
+    width: Metrics.animationXL * 1.2,
   },
   label  : { 
     fontSize: Metrics.fontS,

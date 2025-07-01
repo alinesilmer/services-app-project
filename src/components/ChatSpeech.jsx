@@ -28,7 +28,7 @@ export default ChatSpeech;
 
 const styles = StyleSheet.create({
   bubble: {
-    maxWidth: wp('70%'),
+    width: Metrics.animationXL,
     paddingVertical: Metrics.marginM,
     paddingHorizontal: Metrics.marginM,
     borderRadius: Metrics.radiusS,
