@@ -356,7 +356,6 @@ const styles = StyleSheet.create({
   opinionText: {
     fontSize: Metrics.fontS,
     color: "#333",
-    lineHeight: Metrics.marginXS,
     marginLeft: Metrics.marginS,
     fontStyle: "italic",
   },

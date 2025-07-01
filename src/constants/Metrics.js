@@ -27,6 +27,7 @@ export const Metrics = {
   iconLarge: scale(36),
   iconXLarge: scale(48),
   iconXXLarge: scale(60),
+  iconXXXLarge: scale(80),
 
   buttonHeight: verticalScale(48),
 
