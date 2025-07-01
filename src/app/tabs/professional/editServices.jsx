@@ -149,7 +149,7 @@ const handleDeleteService = (id) => {
             
 
             <Text style={[styles.userProfile, { textAlign: "center", top: Metrics.marginS }]}>Servicios que ofrezco{'\n'}</Text>
-            <ScrollView showsVerticalScrollIndicator={false} style={ styles.scroll}>
+            <ScrollView showsVerticalScrollIndicator={false} style={ styles.scroll} contentContainerStyle={{ paddingBottom: Metrics.iconXXLarge }}>
                 <View style={styles.servicesContainer}>
                     {professionalServices.map((serviceObj, index) => (
                         <TouchableOpacity
