@@ -3,7 +3,6 @@ import { View, Text, StyleSheet } from "react-native";
 import { Feather, FontAwesome5 } from "@expo/vector-icons";
 import { Colors } from "../constants/Colors";
 import { Metrics } from "../constants/Metrics";
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 export default function ServiceIconLabel({ label, icon, useFeather }) {
   const IconComponent = useFeather ? Feather : FontAwesome5;
@@ -52,7 +51,7 @@ const styles = StyleSheet.create({
     height: Metrics.marginXS,
     backgroundColor: Colors.whiteColor,
     marginVertical: Metrics.marginS,
-    width: wp("70%"),
+    width: Metrics.publicityHome * 1.2,
     alignSelf: "flex-start",
   },
 });

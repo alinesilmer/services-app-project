@@ -20,7 +20,6 @@ import * as ImagePicker from "expo-image-picker";
 import { Colors } from "../../../constants/Colors";
 import { Fonts } from "../../../constants/Fonts";
 import { Metrics } from "../../../constants/Metrics";
-import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 import AdsImage from "../../../components/AdsImage";
 import Logo from "../../../components/Logo";
 import BackButton from "../../../components/BackButton";
@@ -258,7 +257,7 @@ export default function request() {
               <CustomButton
                 text="Cancelar"
                 onPress={() => setShowImageModal(false)}
-                width={wp("90%")}
+                width={Metrics.animationXL}
               />
             </View>
           </View>
@@ -307,10 +306,10 @@ const styles = StyleSheet.create({
     fontSize: Metrics.fontS,
     color: Colors.orangeColor,
     textAlign: "center",
-    width: wp("85%"),
+    width: Metrics.animationXL,
   },
   rectangle: {
-    width: wp("85%"),
+    width: Metrics.animationXL,
     height: Metrics.animationL,
     backgroundColor: Colors.whiteColor,
     borderColor: Colors.blueColor,
@@ -324,7 +323,7 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlignVertical: "top",
-    width: wp("90%"),
+    width: Metrics.animationXL,
     height: Metrics.animationL,
     padding: Metrics.marginS,
     fontSize: Metrics.fontS,
@@ -335,7 +334,7 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   selectedImage: {
-    width: wp("90%"),
+    width: Metrics.animationXL,
     height: Metrics.animationL,
     borderRadius: Metrics.radiusS,
     resizeMode: "cover",
@@ -351,13 +350,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonContainer: {
-    width: wp("90%"),
+    width: Metrics.animationXL,
     marginTop: Metrics.marginS,
     marginBottom: Metrics.marginS,
     alignItems: "center",
   },
   imageContainer: {
-    width: wp("90%"),
+    width: Metrics.animationXL,
   },
   modalOverlay: {
     flex: 1,

@@ -17,7 +17,6 @@ import { useRouter } from "expo-router";
 import { useAd } from "../context/AdContext";
 import { Metrics } from "../constants/Metrics";
 import { Colors } from "../constants/Colors";
-import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 
 const adsList = [
   {
@@ -81,7 +80,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   adContainer: {
-    width: wp("90%"),
+    width: Metrics.animationXL,
     height: Metrics.screenM,
     backgroundColor: Colors.textColor,
     borderRadius: Metrics.radiusS,

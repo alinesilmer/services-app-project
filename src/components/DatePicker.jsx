@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     color: Colors.textColor 
   },
   input  : {
-    width: wp("90%"),
+    width: Metrics.animationXL,
     padding: Metrics.marginM,
     borderRadius: Metrics.radiusS,
     backgroundColor: Colors.inputGray

@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Colors } from '../constants/Colors';
 import { Metrics } from '../constants/Metrics';
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 const days = ['L', 'M', 'X', 'J', 'V'];
 const horarios = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00'];
@@ -91,7 +90,7 @@ export default function ScheduleMatrix({ apptData, onSlotSelect, selectedAppt })
 const styles = StyleSheet.create({
   table: {
     marginTop: Metrics.marginM,
-    width: wp("90%"),
+    width: Metrics.animationXL,
     minHeight: Metrics.screenS,
     borderColor: Colors.errorColor,
   },

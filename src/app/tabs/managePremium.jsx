@@ -12,7 +12,6 @@ import { usePremium } from '../../hooks/usePremium';
 import { formatPrice } from '../../utils/pricingPlans';
 import { Colors } from '../../constants/Colors';
 import { Metrics } from '../../constants/Metrics';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { getUserProfile } from "../../utils/storage"
 
 export default function ManagePremium() {
@@ -84,21 +83,21 @@ export default function ManagePremium() {
                 {premium.premiumStatus === 'inactive' && (
                   <CustomButton
                     text="Obtener Premium"
+                    width={Metrics.animationXL}
                     onPress={() => router.push(goRoute)}
-                    width={wp('90%')}
                   />
                 )}
                 {premium.premiumStatus === 'active' && (
                   <>
                     <CustomButton
                       text="Pausar Premium"
+                      width={Metrics.animationXL}
                       onPress={() => router.push('/tabs/pausePremium')}
-                      width={wp('90%')}
                     />
                     <CustomButton
                       text="Cancelar Premium"
+                      width={Metrics.animationXL}
                       onPress={() => router.push('/tabs/stopPremium')}
-                      width={wp('90%')}
                     />
                   </>
                 )}
@@ -107,13 +106,13 @@ export default function ManagePremium() {
                     <CustomButton
                     text="Actualizar a pago"
                     onPress={() => router.push(goRoute)}  
-                    width={wp('90%')}
+                    width={Metrics.animationXL}
                     style={{ backgroundColor: Colors.orangeColor }}
                   />
                     <CustomButton
                       text="Cancelar prueba"
+                      width={Metrics.animationXL}
                       onPress={() => router.push('/tabs/stopPremium')}
-                      width={wp('90%')}
                     />
                   </>
                 )}
@@ -121,13 +120,13 @@ export default function ManagePremium() {
                   <>
                     <CustomButton
                       text="Reanudar Premium"
+                      width={Metrics.animationXL}
                       onPress={() => router.push('/tabs/resumePremium')}
-                      width={wp('90%')}
                     />
                     <CustomButton
                       text="Cancelar definitivamente"
+                      width={Metrics.animationXL}
                       onPress={() => router.push('/tabs/stopPremium')}
-                      width={wp('90%')}
                     />
                   </>
                 )}
@@ -135,13 +134,13 @@ export default function ManagePremium() {
                   <>
                     <CustomButton
                       text="Reactivar Premium"
+                      width={Metrics.animationXL}
                       onPress={() => router.push(goRoute)}
-                      width={wp('90%')}
                     />
                     <CustomButton
                       text="Volver al Inicio"
+                      width={Metrics.animationXL}
                       onPress={() => router.push(isProf ? '/tabs/professional/home' : '/tabs/client/home')}
-                      width={wp('90%')}
                     />
                   </>
                 )}
@@ -181,7 +180,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.lightGray,
     padding: Metrics.marginS,
     borderRadius: Metrics.radiusS,
-    width: wp('90%'),
     alignSelf: 'center',
     marginBottom: Metrics.marginS,
   },

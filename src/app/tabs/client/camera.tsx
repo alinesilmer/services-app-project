@@ -5,6 +5,7 @@ import * as ImagePicker from "expo-image-picker"
 import { Feather } from "@expo/vector-icons"
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen"
 import { Colors } from "@/src/constants/Colors"
+import { Metrics } from "@/src/constants/Metrics"
 
 interface Props {
   onImageSelected?: (imageUri: string) => void
@@ -163,7 +164,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "#e9ecef",
   },
   title: {
-    fontSize: wp("5%"),
+    fontSize: Metrics.fontS,
     fontWeight: "bold",
     color: Colors.text333,
   },
@@ -201,7 +202,7 @@ const styles = StyleSheet.create({
   },
   actionButtonText: {
     color: Colors.light.background,
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontS,
     fontWeight: "bold",
   },
   placeholderContainer: {
@@ -211,7 +212,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   placeholderText: {
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontS,
     color: Colors.text666,
     marginTop: 20,
     marginBottom: 40,
@@ -242,7 +243,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: Colors.light.background,
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontS,
     fontWeight: "bold",
   },
   optionsButton: {
@@ -254,7 +255,7 @@ const styles = StyleSheet.create({
   },
   optionsButtonText: {
     color: "#007bff",
-    fontSize: wp("4%"),
+    fontSize: Metrics.fontS,
     fontWeight: "bold",
   },
 })
