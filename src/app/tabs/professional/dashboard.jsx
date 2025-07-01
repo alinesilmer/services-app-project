@@ -63,7 +63,7 @@ export default function ProfessionalDashboard() {
   }
 
   const handlePremiumNav = () => {
-    if (userIsPremium && premium.isPremiumProf) {
+    if (premium.isPremiumProf) {
       router.push("/tabs/managePremium")
     } else {
       router.push("/auth/goPremium?type=professional")
@@ -133,7 +133,7 @@ export default function ProfessionalDashboard() {
               />
             ))}
              <CustomButton
-              text={userIsPremium && premium.isPremiumProf ? "Gestionar Premium" : "Obtener Premium"}
+              text={premium.isPremiumProf ? "Gestionar Premium" : "Obtener Premium"}
               onPress={handlePremiumNav}
               style={styles.premiumButton}
             />
