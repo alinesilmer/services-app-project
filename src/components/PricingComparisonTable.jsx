@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.whiteColor,
     paddingVertical: Metrics.marginXS,
     paddingHorizontal: Metrics.marginXS,
-    shadowColor: '#000',
+    shadowColor: Colors.textColor,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     paddingVertical: Metrics.marginS,
   },
   headerText: {
-    fontWeight: '700',
+    fontWeight: 'bold',
     fontSize: Metrics.fontS,
     color: Colors.orangeColor,
     textAlign: 'center',
@@ -159,6 +159,6 @@ const styles = StyleSheet.create({
   },
   valueTextSelected: {
     color: Colors.orangeColor,
-    fontWeight: '700',
+    fontWeight: 'bold',
   },
 })

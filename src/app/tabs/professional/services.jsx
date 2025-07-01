@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
     borderRadius: Metrics.radiusS,
     marginBottom: Metrics.marginS,
     elevation: 2,
-    shadowColor: "#000",
+    shadowColor: Colors.textColor,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: Metrics.radiusS,
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
   },
   serviceName: {
     fontSize: Metrics.fontS,
-    fontWeight: "600",
+    fontWeight: "bold",
     color: "#333",
     marginBottom: Metrics.marginS,
   },

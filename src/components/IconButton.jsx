@@ -11,8 +11,9 @@ import React from 'react';
 import { Pressable, StyleSheet } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { Metrics } from '../constants/Metrics';
+import { Colors } from '../constants/Colors';
 
-const IconButton = ({ name, size = Metrics.iconSmall, color = '#000', onPress, style }) => {
+const IconButton = ({ name, size = Metrics.iconSmall, color = Colors.textColor, onPress, style }) => {
   return (
     <Pressable
       onPress={onPress}

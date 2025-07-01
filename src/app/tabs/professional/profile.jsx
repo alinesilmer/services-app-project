@@ -1,6 +1,6 @@
 // “use client”
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView, StyleSheet, SafeAreaView, StatusBar, } from "react-native";
+import { View, Text, ScrollView, StyleSheet, SafeAreaView, StatusBar } from "react-native";
 import { useRouter } from "expo-router";
 
 import ProfilePic    from "../../../components/ProfilePic";
@@ -14,7 +14,6 @@ import BottomNavBar  from "../../../components/NavBar";
 
 import { Colors }      from "../../../constants/Colors";
 import { Metrics } from "../../../constants/Metrics";
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 import { usePremium }  from "../../../hooks/usePremium";
 import { useProfile }  from "../../../hooks/useProfile";
 import { getUserData, logoutUser } from "../../../utils/storage";
@@ -263,7 +262,7 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: Metrics.fontL,
-    fontWeight: "700",
+    fontWeight: "bold",
     textAlign: "center",
     marginTop: Metrics.marginS,
   },
@@ -280,7 +279,7 @@ const styles = StyleSheet.create({
     marginTop: Metrics.marginS,
   },
   fieldWrapper: {
-    width: wp("90%"),
+    width: Metrics.animationXL,
     marginBottom: Metrics.marginS,
     paddingHorizontal: Metrics.marginS,
   },
@@ -288,9 +287,10 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.lightGray,
     padding: Metrics.marginS,
     borderRadius: Metrics.radiusS,
-    width: wp("90%"),
+    width: Metrics.animationXL,
     alignItems: "center",
     marginVertical: Metrics.marginS,
+    
   },
   premiumStatusTitle: {
     fontSize: Metrics.fontM,

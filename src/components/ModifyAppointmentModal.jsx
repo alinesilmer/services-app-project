@@ -165,7 +165,7 @@ const ModifyAppointmentModal = ({ visible, appointment, onClose, onSave }) => {
           <View style={styles.header}>
             <Text style={styles.title}>Modificar Turno</Text>
             <TouchableOpacity activeOpacity={0.7} onPress={handleClose}>
-              <Feather name="x" size={Metrics.iconSmall} color="#666" />
+              <Feather name="x" size={Metrics.iconSmall} color={Colors.text666} />
             </TouchableOpacity>
           </View>
 
@@ -215,7 +215,7 @@ const ModifyAppointmentModal = ({ visible, appointment, onClose, onSave }) => {
                       <Text style={styles.timeSlotTime}>{timeSlot.time}</Text>
                     </View>
                     <View style={[styles.checkbox, selectedTimes.includes(timeSlot.id) && styles.checkboxSelected]}>
-                      {selectedTimes.includes(timeSlot.id) && <Feather name="check" size={16} color="white" />}
+                      {selectedTimes.includes(timeSlot.id) && <Feather name="check" size={16} color={Colors.light.background} />}
                     </View>
                   </TouchableOpacity>
                 ))}
@@ -301,7 +301,7 @@ const styles = StyleSheet.create({
   },
   professionalInfoText: {
     fontSize: Metrics.fontS,
-    color: "#666",
+    color: Colors.text666,
     marginBottom: Metrics.marginS,
   },
   professionalName: {
@@ -309,7 +309,7 @@ const styles = StyleSheet.create({
     color: Colors.blueColor,
   },
   professionText: {
-    fontWeight: "600",
+    fontWeight: "bold",
     color: "#333",
   },
   section: {
@@ -329,12 +329,12 @@ const styles = StyleSheet.create({
   },
   currentLabel: {
     fontSize: Metrics.fontS,
-    color: "#666",
+    color: Colors.text666,
     marginBottom: Metrics.marginXS,
   },
   currentValue: {
     fontSize: Metrics.fontS,
-    fontWeight: "600",
+    fontWeight: "bold",
     color: "#333",
   },
   timeSelection: {
@@ -407,7 +407,7 @@ const styles = StyleSheet.create({
   },
   cancelButton: {
     flex: 1,
-    backgroundColor: "#000",
+    backgroundColor: Colors.textColor,
     borderRadius: Metrics.radiusS,
     paddingVertical: Metrics.marginS,
     alignItems: "center",
@@ -415,7 +415,7 @@ const styles = StyleSheet.create({
   cancelButtonText: {
     color: Colors.whiteColor,
     fontSize: wp("4%"),
-    fontWeight: "600",
+    fontWeight: "bold",
   },
   saveButton: {
     flex: 1,
@@ -430,7 +430,7 @@ const styles = StyleSheet.create({
   saveButtonText: {
     color: Colors.whiteColor,
     fontSize: wp("4%"),
-    fontWeight: "600",
+    fontWeight: "bold",
   },
   saveButtonTextDisabled: {
     color: "#6c757d",

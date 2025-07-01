@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, StyleSheet, TextInput } from 'react-native';
 import { Colors } from '../constants/Colors';
 import { Metrics } from '../constants/Metrics';
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 
 export default function DisplayField({ label, value, editable = false, onChangeText, placeholder }) {
   return (
@@ -14,7 +13,7 @@ export default function DisplayField({ label, value, editable = false, onChangeT
           value={value}
           onChangeText={onChangeText}
           placeholder={placeholder || label}
-          placeholderTextColor="#ccc"
+          placeholderTextColor={Colors.disabledColor}
         />
       ) : (
         <Text style={styles.value}> {value}</Text>

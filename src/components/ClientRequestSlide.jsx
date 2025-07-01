@@ -5,6 +5,7 @@ import { router } from 'expo-router';
 import { getUserProfile } from '../utils/storage';
 import { useEffect, useState } from 'react';
 import { Metrics } from '../constants/Metrics';
+import { Colors } from '../constants/Colors';
 
 export default ClientRequesSlide = ({ title, problems = [], details = [], images = [] }) => {
     const [userProfile, setUserProfile] = useState(null);
@@ -124,7 +125,7 @@ const styles = StyleSheet.create({
 	img: {
 		width: Metrics.screenS * 0.3,
 		height: Metrics.screenS * 0.3,
-		borderColor: '#000',
+		borderColor: Colors.textColor,
 		borderWidth: Metrics.marginXS,
 		borderRadius: Metrics.radiusS,
 		margin: Metrics.marginS,

@@ -314,7 +314,7 @@ const styles = StyleSheet.create({
   profileName: {
     fontSize: Metrics.fontS,
     fontWeight: "bold",
-    color: "#000",
+    color: Colors.textColor,
     marginRight: Metrics.marginS,
   },
   verifiedIcon: {
@@ -332,7 +332,7 @@ const styles = StyleSheet.create({
     borderRadius: Metrics.radiusS,
     marginBottom: Metrics.marginS,
     elevation: 3,
-    shadowColor: "#000",
+    shadowColor: "Colors.textColor",
     shadowOffset: {
       width: 0,
       height: 0,
@@ -342,8 +342,8 @@ const styles = StyleSheet.create({
   },
   ratingText: {
     fontSize: Metrics.fontS,
-    color: "#000",
-    fontWeight: "600",
+    color: "Colors.textColor",
+    fontWeight: "bold",
   },
   descriptionContainer: {
     flex: 1,
@@ -370,7 +370,7 @@ const styles = StyleSheet.create({
   },
   addCommentText: {
     fontSize: Metrics.fontS,
-    color: "#000",
+    color: "Colors.textColor",
     marginLeft: Metrics.marginS,
     fontWeight: "500",
   },
@@ -429,13 +429,13 @@ const styles = StyleSheet.create({
     marginRight: Metrics.marginS,
   },
   opinionAvatarText: {
-    color: "white",
+    color: Colors.light.background,
     fontSize: Metrics.fontS,
     fontWeight: "bold",
   },
   opinionUserName: {
     fontSize: Metrics.fontS,
-    fontWeight: "600",
+    fontWeight: "bold",
     color: "#",
   },
   newText: {
@@ -457,7 +457,7 @@ const styles = StyleSheet.create({
   },
   noOpinionsText: {
     fontSize: Metrics.fontS,
-    color: "#666",
+    color: Colors.text666,
     marginBottom: Metrics.marginS,
   },
   noOpinionsSubtext: {

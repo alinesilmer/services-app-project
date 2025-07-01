@@ -132,7 +132,7 @@ const MyAppointments = () => {
         >
           {currentAppointments.length === 0 ? (
             <View style={styles.emptyContainer}>
-              <Feather name="x" size={Metrics.iconXLarge} color="#ccc" />
+              <Feather name="x" size={Metrics.iconXLarge} color={Colors.disabledColor} />
               <Text style={styles.emptyText}>No tienes turnos programados</Text>
               <Text style={styles.emptySubtext}>Agenda tu primera cita con un profesional</Text>
             </View>
@@ -194,7 +194,7 @@ const MyAppointments = () => {
                     {selectedAppointment.isNew && <Text style={styles.newText}> (Nuevo)</Text>}
                   </Text>
                   <TouchableOpacity activeOpacity={0.7} onPress={() => setShowModal(false)}>
-                    <Feather name="x" size={Metrics.iconSmall} color="#666" />
+                    <Feather name="x" size={Metrics.iconSmall} color={Colors.text666} />
                   </TouchableOpacity>
                 </View>
 
@@ -325,13 +325,13 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: Metrics.fontS,
     fontWeight: "bold",
-    color: Colors.subtextColor,
+    color: Colors.text666,
     marginTop: Metrics.marginS,
     textAlign: "center",
   },
   emptySubtext: {
     fontSize: Metrics.fontS,
-    color: Colors.subtextColor,
+    color: Colors.text666,
     marginTop: Metrics.marginS,
     textAlign: "center",
   },
@@ -381,7 +381,7 @@ const styles = StyleSheet.create({
   },
   appointmentDetailText: {
     fontSize: Metrics.fontS,
-    color: Colors.subtextColor,
+    color: Colors.text666,
   },
   detailLabel: {
     fontWeight: "bold",
@@ -450,7 +450,7 @@ const styles = StyleSheet.create({
   },
   modalDetailText: {
     fontSize: Metrics.fontS,
-    color: Colors.subtextColor,
+    color: Colors.text666,
     marginLeft: Metrics.marginS,
     flex: 1,
   },

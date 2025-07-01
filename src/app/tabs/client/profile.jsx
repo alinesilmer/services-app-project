@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: Metrics.fontL,
-    fontWeight: '700',
+    fontWeight: 'bold',
     textAlign: 'center',
     marginTop: Metrics.marginS,
     marginBottom: Metrics.marginM,

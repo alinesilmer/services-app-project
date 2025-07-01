@@ -2,6 +2,7 @@ const tintColorLight = "#0a7ea4";
 const tintColorDark = "#fff";
 const blueColor = "#1a2f68";
 const textColor = "#000000";
+const text666 = "666";
 const serviceLabel = '#A9A9A9';
 const orangeColor = "#e47755";
 const whiteColor = "#f6f6f6";
@@ -36,6 +37,7 @@ export const Colors = {
   inputGray,
   subtextColor,
   starColor,
+  text666,
   disabledColor,
   errorColor,
 };

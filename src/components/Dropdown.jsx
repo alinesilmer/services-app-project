@@ -74,13 +74,13 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   dropdown: {
-    backgroundColor: "white",
+    backgroundColor: Colors.light.background,
     borderRadius: Metrics.radiusS,
     padding: Metrics.marginS,
     flexDirection: "row",
     justifyContent: "space-between",
     elevation: 3,
-    shadowColor: "#000",
+    shadowColor: Colors.textColor,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     borderRadius: Metrics.radiusS,
     marginTop: Metrics.marginS,
     elevation: 3,
-    shadowColor: "#000",
+    shadowColor: Colors.textColor,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   },
   itemText: {
     fontSize: Metrics.fontS,
-    color: "#000",
+    color: Colors.textColor,
   },
 })
 

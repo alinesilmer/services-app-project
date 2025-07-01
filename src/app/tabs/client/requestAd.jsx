@@ -163,7 +163,7 @@ export default function request() {
                       style={styles.removeImageButton}
                       onPress={removeImage}
                     >
-                      <Feather name="x" size={Metrics.iconSmall} color="white" />
+                      <Feather name="x" size={Metrics.iconSmall} color={Colors.light.background} />
                     </TouchableOpacity>
                   </View>
                 )}
@@ -172,7 +172,6 @@ export default function request() {
                   <CustomButton
                     text={selectedImage ? "Cambiar foto" : "Adjuntar foto"}
                     onPress={() => setShowImageModal(true)}
-                    width={wp("90%")}
                   />
                 </View>
 
@@ -180,8 +179,7 @@ export default function request() {
                   <CustomButton
                     text="Confirmar solicitud"
                     onPress={handleConfirmRequest}
-                    backgroundColor="#e47755"
-                    width={wp("90%")}
+                    backgroundColor={Colors.orangeColor}
                   />
                 </View>
 
@@ -208,7 +206,7 @@ export default function request() {
                 onPress={() => setShowImageModal(false)}
                 activeOpacity={0.8}
               >
-                <Feather name="x" size={Metrics.iconSmall} color="#666" />
+                <Feather name="x" size={Metrics.iconSmall} color={Colors.text666} />
               </TouchableOpacity>
             </View>
 
@@ -222,7 +220,7 @@ export default function request() {
               >
                 <View style={styles.optionContent}>
                   <View style={styles.optionIcon}>
-                    <Feather name="camera" size={Metrics.iconSmall} color="#28a745" />
+                    <Feather name="camera" size={Metrics.iconSmall} color={Colors.blueColor} />
                   </View>
                   <View style={styles.optionText}>
                     <Text style={styles.optionTitle}>Tomar foto</Text>
@@ -230,7 +228,7 @@ export default function request() {
                       Usar la cámara del dispositivo
                     </Text>
                   </View>
-                  <Feather name="chevron-right" size={Metrics.iconSmall} color="#ccc" />
+                  <Feather name="chevron-right" size={Metrics.iconSmall} color={Colors.disabledColor} />
                 </View>
               </TouchableOpacity>
 
@@ -241,7 +239,7 @@ export default function request() {
               >
                 <View style={styles.optionContent}>
                   <View style={styles.optionIcon}>
-                    <Feather name="image" size={Metrics.iconSmall} color="#6f42c1" />
+                    <Feather name="image" size={Metrics.iconSmall} color={Colors.blueColor} />
                   </View>
                   <View style={styles.optionText}>
                     <Text style={styles.optionTitle}>
@@ -251,7 +249,7 @@ export default function request() {
                       Elegir una foto existente
                     </Text>
                   </View>
-                  <Feather name="chevron-right" size={Metrics.iconSmall} color="#ccc" />
+                  <Feather name="chevron-right" size={Metrics.iconSmall} color={Colors.disabledColor} />
                 </View>
               </TouchableOpacity>
             </View>
@@ -328,7 +326,7 @@ const styles = StyleSheet.create({
     textAlignVertical: "top",
     width: wp("90%"),
     height: Metrics.animationL,
-    padding: 10,
+    padding: Metrics.marginS,
     fontSize: Metrics.fontS,
   },
   selectedImageContainer: {
@@ -344,7 +342,7 @@ const styles = StyleSheet.create({
   },
   removeImageButton: {
     position: "absolute",
-    top: 10,
+    top: Metrics.marginS,
     right: Metrics.marginM,
     backgroundColor: "rgba(220, 53, 69, 0.8)",
     borderRadius: Metrics.radiusS,
@@ -371,36 +369,36 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.whiteColor,
     borderTopLeftRadius: Metrics.radiusM,
     borderTopRightRadius: Metrics.radiusM,
-    paddingBottom: 30,
+    paddingBottom: Metrics.marginXL,
   },
   modalHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 20,
+    padding: Metrics.marginM,
     borderBottomWidth: 1,
-    borderBottomColor: "#f0f0f0",
+    borderBottomColor: Colors.whiteColor,
   },
   modalTitle: {
     fontSize: Metrics.marginS,
     fontWeight: "bold",
-    color: "#333",
+    color: Colors.whiteColor,
   },
   modalBody: {
-    padding: 20,
+    padding: Metrics.marginM,
   },
   modalSubtitle: {
     fontSize: Metrics.fontS,
-    color: "#666",
-    marginBottom: 20,
+    color: Colors.textColor,
+    marginBottom: Metrics.marginM,
     textAlign: "center",
   },
   optionButton: {
-    backgroundColor: "#f8f9fa",
+    backgroundColor: Colors.dark.tint,
     borderRadius: Metrics.radiusS,
-    marginBottom: 15,
+    marginBottom: Metrics.marginM,
     elevation: 2,
-    shadowColor: "#000",
+    shadowColor: Colors.textColor,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: 2,
@@ -408,44 +406,31 @@ const styles = StyleSheet.create({
   optionContent: {
     flexDirection: "row",
     alignItems: "center",
-    padding: 20,
+    padding: Metrics.marginM,
   },
   optionIcon: {
-    width: 50,
-    height: 50,
+    width: Metrics.iconLarge,
+    height: Metrics.iconLarge,
     borderRadius: Metrics.radiusM,
-    backgroundColor: "#e9ecef",
     justifyContent: "center",
     alignItems: "center",
-    marginRight: 15,
+    marginRight: Metrics.marginM,
   },
   optionText: {
     flex: 1,
   },
   optionTitle: {
     fontSize: Metrics.fontS,
-    fontWeight: "600",
-    color: "#333",
-    marginBottom: 3,
+    fontWeight: "bold",
+    color: Colors.textColor,
+    marginBottom: Metrics.marginXS,
   },
   optionDescription: {
     fontSize: Metrics.fontS,
-    color: "#666",
-  },
-  cancelButton: {
-    marginHorizontal: 20,
-    backgroundColor: "#6c757d",
-    borderRadius: Metrics.radiusM,
-    paddingVertical: 15,
-    alignItems: "center",
-  },
-  cancelButtonText: {
-    color: Colors.whiteColor,
-    fontSize: Metrics.fontS,
-    fontWeight: "600",
+    color: Colors.text666,
   },
   modalButtonContainer: {
     alignItems: "center",
-    marginTop: 10,
+    marginTop: Metrics.marginS,
   },
 });

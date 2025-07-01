@@ -116,7 +116,7 @@ const Appointment = () => {
               <Text style={styles.dateInputText}>
                 {selectedDate?.toLocaleDateString("es-ES") ?? "--/--/----"}
               </Text>
-              <Feather name="calendar" size={20} color="#666" />
+              <Feather name="calendar" size={20} color={Colors.text666} />
             </View>
           </View>
 
@@ -138,7 +138,7 @@ const Appointment = () => {
                   ]}
                 >
                   {selectedTimes.includes(slot.id) && (
-                    <Feather name="check" size={16} color="white" />
+                    <Feather name="check" size={16} color={Colors.light.background} />
                   )}
                 </View>
               </TouchableOpacity>
@@ -238,16 +238,16 @@ const styles = StyleSheet.create({
     padding: 20,
     marginBottom: Metrics.marginS,
     elevation: 2,
-    shadowColor: "#000",
+    shadowColor: "Colors.textColor",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: Metrics.radiusS
   },
   selectedDateLabel: {
     fontSize: Metrics.fontS,
-    color: "#666",
+    color: Colors.text666,
     marginBottom: Metrics.marginS,
-    fontWeight: "600",
+    fontWeight: "bold",
   },
   dateInputStyle: {
     flexDirection: "row",
@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
     padding: 20,
     marginBottom: Metrics.marginS,
     elevation: 2,
-    shadowColor: "#000",
+    shadowColor: "Colors.textColor",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: Metrics.radiusS
@@ -328,7 +328,7 @@ const styles = StyleSheet.create({
   },
   successMessage: {
     fontSize: Metrics.radiusS,
-    color: "#666",
+    color: Colors.text666,
     marginTop: Metrics.marginS,
     textAlign: "center",
     lineHeight: Metrics.marginXS,

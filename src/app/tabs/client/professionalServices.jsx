@@ -156,7 +156,7 @@ const ProfessionalServices = () => {
                   <Text style={styles.serviceName}>{serviceObj.servicio}</Text>
                   <Text style={styles.servicePrice}>{getServicePrice(serviceObj.servicio)}</Text>
                 </View>
-                <Feather name="chevron-right" size={Metrics.iconSmall} color="#ccc" />
+                <Feather name="chevron-right" size={Metrics.iconSmall} color={Colors.disabledColor} />
               </View>
             </TouchableOpacity>
           ))}
@@ -190,7 +190,7 @@ const ProfessionalServices = () => {
                 <View style={styles.modalHeader}>
                   <Text style={styles.modalTitle}>{selectedService.name}</Text>
                   <TouchableOpacity onPress={() => setShowServiceModal(false)}>
-                    <Feather name="x" size={Metrics.iconSmall} color="#666" />
+                    <Feather name="x" size={Metrics.iconSmall} color={Colors.text666} />
                   </TouchableOpacity>
                 </View>
 
@@ -268,8 +268,8 @@ const styles = StyleSheet.create({
   },
   servicesSubtitle: {
     fontSize: Metrics.fontM,
-    fontWeight: "600",
-    color: "#666",
+    fontWeight: "bold",
+    color: Colors.text666,
     textAlign: "center",
     marginTop: Metrics.marginS,
   },
@@ -288,7 +288,7 @@ const styles = StyleSheet.create({
     borderRadius: Metrics.radiusS,
     marginBottom: Metrics.marginS,
     elevation: 2,
-    shadowColor: "#000",
+    shadowColor: "Colors.textColor",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: Metrics.radiusS,
@@ -312,13 +312,13 @@ const styles = StyleSheet.create({
   },
   serviceName: {
     fontSize: Metrics.fontM,
-    fontWeight: "600",
+    fontWeight: "bold",
     color: "#333",
     marginBottom: Metrics.marginS,
   },
   servicePrice: {
     fontSize: Metrics.fontS,
-    color: "#666",
+    color: Colors.text666,
   },
   professionalInfo: {
     backgroundColor: "#f8f9fa",
@@ -335,7 +335,7 @@ const styles = StyleSheet.create({
   },
   professionalCategory: {
     fontSize: Metrics.fontS,
-    color: "#666",
+    color: Colors.text666,
     marginBottom: Metrics.marginS,
   },
   ratingContainer: {
@@ -349,7 +349,7 @@ const styles = StyleSheet.create({
   },
   location: {
     fontSize:Metrics.fontS,
-    color: "#666",
+    color: Colors.text666,
     marginLeft: Metrics.marginS,
   },
   actionButtons: {
@@ -397,7 +397,7 @@ const styles = StyleSheet.create({
   },
   modalPriceNote: {
     fontSize: Metrics.fontS,
-    color: "#666",
+    color: Colors.text666,
     marginTop: Metrics.marginS
   },
   modalDescriptionContainer: {
@@ -406,7 +406,7 @@ const styles = StyleSheet.create({
   modalDescription: {
     marginTop: Metrics.marginS,
     fontSize: Metrics.fontS,
-    color: "#666",
+    color: Colors.text666,
     lineHeight: Metrics.marginXS,
     textAlign: "center",
   },
@@ -434,7 +434,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     backgroundColor: "#f5f5f5",
     elevation: 2,
-    shadowColor: "#000",
+    shadowColor: "Colors.textColor",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: 3,
@@ -457,15 +457,15 @@ const styles = StyleSheet.create({
   modalAppointmentButtonText: {
     color: Colors.whiteColor,
     fontSize: Metrics.fontS,
-    fontWeight: "600",
+    fontWeight: "bold",
   },
   messageButton: {
-    backgroundColor: "#000",
+    backgroundColor: "Colors.textColor",
     paddingVertical: Metrics.marginS,
     paddingHorizontal: Metrics.marginS,
     borderRadius: Metrics.radiusS,
     elevation: 3,
-    shadowColor: "#000",
+    shadowColor: "Colors.textColor",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -474,12 +474,12 @@ const styles = StyleSheet.create({
     shadowRadius: Metrics.radiusS,
   },
   appointmentButton: {
-    backgroundColor: "#000",
+    backgroundColor: "Colors.textColor",
     paddingVertical: Metrics.marginS,
     paddingHorizontal: Metrics.marginS,
     borderRadius: Metrics.radiusS,
     elevation: 3,
-    shadowColor: "#000",
+    shadowColor: "Colors.textColor",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -490,7 +490,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: Colors.whiteColor,
     fontSize: Metrics.fontS,
-    fontWeight: "600",
+    fontWeight: "bold",
     textAlign: "center",
   },
 })

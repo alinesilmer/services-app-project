@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
     borderRadius: Metrics.radiusS,
     marginBottom: Metrics.marginS,
     elevation: 3,
-    shadowColor: "#000",
+    shadowColor: "Colors.textColor",
     shadowOffset: {
       width: 0,
       height: 0,
@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
   },
   ratingText: {
     fontSize: Metrics.fontS,
-    color: "#666",
+    color: Colors.text666,
   },
   infoSection: {
     marginBottom: Metrics.marginS,
@@ -268,13 +268,13 @@ const styles = StyleSheet.create({
   },
   infoLabel: {
     fontSize: Metrics.fontS,
-    fontWeight: "600",
+    fontWeight: "bold",
     color: "#333",
     marginRight: Metrics.marginS,
   },
   infoValue: {
     fontSize: Metrics.fontS,
-    color: "#666",
+    color: Colors.text666,
     flex: 1,
   },
   reviewSection: {
@@ -296,7 +296,7 @@ const styles = StyleSheet.create({
   },
   reviewText: {
     fontSize: Metrics.fontS,
-    color: "#666",
+    color: Colors.text666,
     fontStyle: "italic",
   },
   allCommentsButton: {
@@ -306,7 +306,7 @@ const styles = StyleSheet.create({
   allCommentsText: {
     fontSize: Metrics.fontM,
     color: Colors.blueColor,
-    fontWeight: "600",
+    fontWeight: "bold",
   },
   squareButtonsContainer: {
     flexDirection: "row",
@@ -331,7 +331,7 @@ const styles = StyleSheet.create({
   },
   squareButtonText: {
     fontSize: Metrics.fontS,
-    fontWeight: "600",
+    fontWeight: "bold",
     textAlign: "center",
   },
   mainButtonsContainer: {
@@ -339,12 +339,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   messageButton: {
-    backgroundColor: "#000",
+    backgroundColor: "Colors.textColor",
     paddingVertical: Metrics.marginM,
     paddingHorizontal: Metrics.marginM,
     borderRadius: Metrics.radiusS,
     elevation: 3,
-    shadowColor: "#000",
+    shadowColor: "Colors.textColor",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -354,12 +354,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   appointmentButton: {
-    backgroundColor: "#000",
+    backgroundColor: "Colors.textColor",
     paddingVertical: Metrics.marginM,
     paddingHorizontal: Metrics.marginM,
     borderRadius: Metrics.radiusS,
     elevation: 3,
-    shadowColor: "#000",
+    shadowColor: "Colors.textColor",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -371,7 +371,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: Colors.whiteColor,
     fontSize: Metrics.fontS,
-    fontWeight: "600",
+    fontWeight: "bold",
   },
 })
 
