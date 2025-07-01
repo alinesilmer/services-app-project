@@ -138,7 +138,7 @@ export default function ProfessionalServices() {
             </View>
             
 
-            <Text style={[styles.userProfile, { marginLeft: -Metrics.marginM}]}>Servicios que Ofrezco{'\n'}</Text>
+            <Text style={[styles.userProfile, { marginLeft: Metrics.marginM}]}>Servicios que Ofrezco{'\n'}</Text>
             <ScrollView showsVerticalScrollIndicator={false} style={ styles.scroll}>
                 <View style={styles.servicesContainer}>
                     {professionalServices.map((serviceObj, index) => (
@@ -150,18 +150,18 @@ export default function ProfessionalServices() {
                         >
                             <View style={styles.serviceContent}>
                                 <View style={styles.serviceIcon}>
-                                    <Feather name="image" size={Metrics.iconSmall} color={Colors.blueColor} />
+                                    <Feather name="image" size={Metrics.iconXSmall} color={Colors.blueColor} />
                                 </View>
                                 <View style={styles.serviceInfo}>
                                     <Text style={styles.serviceName}>{serviceObj.servicio}</Text>
                                     <Text style={styles.servicePrice}>{getServicePrice(serviceObj.servicio)}</Text>
                                 </View>
                                 <View style={styles.editIcons}>
-                                    <TouchableOpacity onPress={() => openServiceModal(serviceObj)}>
+                                    <TouchableOpacity activeOpacity={0.5} onPress={() => openServiceModal(serviceObj)}>
                                         <Feather name="edit-3" size={Metrics.iconSmall} color={Colors.textColor} />
                                     </TouchableOpacity>
-                                    <TouchableOpacity onPress={() => handleDeleteService(serviceObj.id)}>
-                                        <Feather name="trash-2" size={Metrics.iconSmall} color={Colors.errorColor} />
+                                    <TouchableOpacity activeOpacity={0.5} onPress={() => handleDeleteService(serviceObj.id)}>
+                                        <Feather name="trash-2" size={Metrics.iconSmall} color={Colors.orangeColor} />
                                     </TouchableOpacity>
                                 </View>
                             </View>
@@ -214,38 +214,42 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: Colors.blueColor,
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "flex-end",
     },
     editTitle: {
         marginTop: Metrics.marginS,
         marginHorizontal: 'auto',
         fontSize: Metrics.fontM,
-        fontWeight: 900,
+        fontWeight: "bold",
         color: Colors.whiteColor
     },
     profileContainer: {
         flexDirection: 'row',
-        width: wp('100%'),
+        width: Metrics.animationXL,
         justifyContent: 'space-evenly',
-        marginBottom: Metrics.marginS,
+        marginBottom: Metrics.marginXS,
     },
     profilePhoto: {
-        borderColor: '#000',
+        borderColor: Colors.textColor,
         borderWidth: Metrics.marginXS,
         borderRadius: Metrics.radiusM,
     },
     userProfile: {
-        fontSize: Metrics.fontM,
-        fontWeight: 700,
+        fontSize: Metrics.fontL,
+        fontWeight: "bold",
         marginVertical: 'auto',
+        marginLeft: Metrics.marginM,
+        
     },
     userAddress: {
-        fontSize: Metrics.fontS
+        fontSize: Metrics.fontXS,
+        textAlign: "center"
+        
     },
     slideUpCard: {
         position: "absolute",
         bottom: 0,
-        height: Metrics.screenM,
+        height: Metrics.screenL,
         alignItems: "stretch",
     },
     servicesContainer: {
@@ -280,18 +284,18 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     editIcons: {
-        width: Metrics.iconMedium,
+        width: Metrics.iconXXXLarge,
         flexDirection: 'row',
-        justifyContent: 'space-around',
+        justifyContent: "space-between"
     },
     serviceName: {
-        fontSize: Metrics.fontL,
-        fontWeight: "600",
-        color: "#333",
+        fontSize: Metrics.fontS,
+        fontWeight: "bold",
+        color: Colors.textColor,
         marginBottom: Metrics.marginS,
     },
     servicePrice: {
-        fontSize: Metrics.fontM,
+        fontSize: Metrics.fontXS,
         color: "#666",
     },
     scroll: { 
