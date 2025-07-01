@@ -12,7 +12,6 @@ import { Modal, View, Text, Pressable, StyleSheet, ScrollView,
 
 import { Colors } from '../constants/Colors';
 import { Metrics } from '../constants/Metrics';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 const ModalWrapper = ({
   visible,
@@ -63,17 +62,18 @@ const styles = StyleSheet.create({
   overlay: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.5)',
-    justifyContent: 'center',
     alignItems: "center"
   },
   keyboardView: {
     flex: 1,
+    justifyContent: 'center',
+
   },
   container: {
     backgroundColor: Colors.whiteColor,
     borderRadius: Metrics.radiusS,
     maxHeight: Metrics.screenM,
-    padding: Metrics.marginS,
+    padding: Metrics.marginM,
   },
   title: {
     fontSize: Metrics.fontL,
@@ -82,21 +82,24 @@ const styles = StyleSheet.create({
   },
   content: {
     paddingBottom: Metrics.marginXS,
-    width: wp("90%")
+    
   },
   scrollContent: {
     paddingBottom: Metrics.marginM,
-    width: wp("90%"),
   },
   actions: {
     flexDirection: 'row',
     marginTop: Metrics.marginM,
+    alignItems: 'center'
+      
   },
   btn: {
     paddingVertical: Metrics.marginS,
     paddingHorizontal: Metrics.marginXL,
     borderRadius: Metrics.radiusS,
-    marginLeft: Metrics.marginXL,
+    marginRight: Metrics.marginM,
+    marginLeft: Metrics.marginM
+
   },
   cancel: {
     backgroundColor: Colors.inputGray,
@@ -106,10 +109,10 @@ const styles = StyleSheet.create({
   },
   cancelText: {
     color: Colors.textColor,
-    fontWeight: '500',
+    fontWeight: "bold",
   },
   submitText: {
     color: Colors.whiteColor,
-    fontWeight: '500',
+    fontWeight: "bold",
   },
 });

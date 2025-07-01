@@ -85,7 +85,7 @@ export default function ProfessionalProfileScreen() {
 
   const handleLogout = async () => {
     await logoutUser();
-    router.replace("/login");
+    router.replace("/auth/login");
   };
 
   return (
@@ -128,7 +128,7 @@ export default function ProfessionalProfileScreen() {
             <Text style={styles.profession}>
               {userData?.profesion || data.profesion || "Profesional"}
             </Text>
-
+            <View style={styles.information}>
             {[
               ["Email", userData?.email || data.email],
               ["Profesión", userData?.profesion || data.profesion],
@@ -142,6 +142,7 @@ export default function ProfessionalProfileScreen() {
                 <DisplayField label={label} value={value || "No especificado"} style={styles.fieldValue} />
               </View>
             ))}
+            </View>
 
             {getPremiumStatusText() && (
               <View style={styles.premiumStatusCard}>
@@ -234,6 +235,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  information:{
+    left: Metrics.navBarArea,
+  },
   card: {
     position: "absolute",
     bottom: 0,
@@ -299,7 +303,7 @@ const styles = StyleSheet.create({
     color: Colors.grayColor
   },
   buttonContainer: {
-    width: wp("85%"),
+    width: Metrics.animationXL,
     alignItems: "center",
     marginVertical: Metrics.marginS,
   },
