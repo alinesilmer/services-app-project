@@ -26,23 +26,22 @@ export default function DisplayField({ label, value, editable = false, onChangeT
 const styles = StyleSheet.create({
   container: {
     marginTop: Metrics.marginS,
-    width: wp("50%"),
     alignItems: "center"
   },
   label: {
     fontSize: Metrics.fontM,
     color: Colors.textColor,
-    fontWeight: '700',
+    fontWeight: 'bold',
     marginBottom: Metrics.marginS,
   },
   valueContainer: {
     backgroundColor: Colors.inputGray,
-    width: wp("90%"),
+    width: Metrics.publicityHome,
     height: Metrics.marginXXL,            
     borderRadius: Metrics.radiusS,      
     justifyContent: "space-between", 
-    paddingHorizontal: Metrics.marginXS, 
-    fontSize: Metrics.fontM,
+    paddingHorizontal: Metrics.marginS, 
+    fontSize: Metrics.fontS,
   },
   value: {
     fontSize: Metrics.fontS,

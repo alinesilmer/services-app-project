@@ -197,6 +197,7 @@ export default function ProfessionalProfileScreen() {
         submitLabel="Guardar"
       >
         <ScrollView contentContainerStyle={styles.modalScroll}>
+          <View style={styles.editText}>
           {[
             ["Nombre completo", formData.fullName, "fullName"],
             ["Email", formData.email, "email"],
@@ -215,6 +216,7 @@ export default function ProfessionalProfileScreen() {
               onChangeText={(txt) => updateFormData(key, txt)}
             />
           ))}
+          </View>
         </ScrollView>
       </ModalWrapper>
 
@@ -236,7 +238,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   information:{
-    left: Metrics.navBarArea,
+    textAlign: "center"
   },
   card: {
     position: "absolute",
@@ -311,11 +313,17 @@ const styles = StyleSheet.create({
   },
   editButton: {
     position: "absolute",
-    top: Metrics.marginS,
-    right: Metrics.marginS,
+    top: Metrics.marginXL,
+    right: Metrics.marginM,
   },
   modalScroll: {
+    fontSize: Metrics.fontS,
     paddingBottom: Metrics.marginS,
     paddingHorizontal: Metrics.marginS,
+  },
+  editText:{
+    justifyContent: "center",
+    alignItems: "center",
+
   },
 });

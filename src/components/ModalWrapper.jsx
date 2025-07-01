@@ -76,6 +76,7 @@ const styles = StyleSheet.create({
     padding: Metrics.marginM,
   },
   title: {
+    textAlign: "center",
     fontSize: Metrics.fontL,
     fontWeight: 'bold',
     marginBottom: Metrics.marginS,

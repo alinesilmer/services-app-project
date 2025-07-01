@@ -220,7 +220,7 @@ const handleDeleteService = (id) => {
     <View style={styles.animationContainer}>
       <AnimationFeedback type="delete" />
       <Text style={styles.deleteTitle}>
-        {`Servicio "${deletedServiceName}" eliminado`}
+        {`Servicio eliminado`}
       </Text>
     </View>
   </View>
