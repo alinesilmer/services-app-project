@@ -12,9 +12,9 @@ export default function TermsProf() {
     <>
       <StatusBar barStyle="light-content" />
       <SafeAreaView style={styles.safeArea}>
-      <BackButton />
-      <Logo />
         <View style={styles.container}>
+          <BackButton />
+          <Logo />
           <SlideUpCard title="Términos y Condiciones de Uso" subtitle="Última actualización: 13/04/2025" style={styles.card}>
             <ScrollView contentContainerStyle={styles.scrollView}>
               <Text style={styles.text}>

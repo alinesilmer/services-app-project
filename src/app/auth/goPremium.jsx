@@ -61,7 +61,7 @@ export default function GoPremium() {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor={Colors.blueColor} />
-      <BackButton />
+      <BackButton onPress={() => router.navigate('/tabs/managePremium')} />
       <Logo />
 
         <SlideUpCard
@@ -110,9 +110,10 @@ export default function GoPremium() {
                 }
                 tintColors={{ true: Colors.orangeColor }}
               />
-              <Text style={styles.linkText}>
-                Acepto Términos y Condiciones
-              </Text>
+              <Text style={styles.checkboxText}>   Acepto los </Text>
+                <Pressable onPress={() => router.push(isProf ? 'auth/termsProf' : 'auth/termsClient')}>
+                  <Text style={styles.linkText}>Términos y Condiciones</Text>
+                </Pressable>
             </View>
             {errors.acceptTerms && (
               <Text style={styles.error}>{errors.acceptTerms}</Text>
@@ -187,11 +188,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
     alignItems: "center",
-    marginTop: Metrics.marginS,
-    marginBottom: Metrics.marginS,
+    marginTop: Metrics.marginM,
+    marginBottom: Metrics.marginS
+  },
+  checkboxText: { 
+    color: Colors.textColor, 
+    fontSize: Metrics.fontS 
   },
   linkText: {
-    marginLeft: Metrics.marginS,
+    fontSize: Metrics.fontS,
     color: Colors.blueColor,
   },
   subscribeBtnWrapper: {
