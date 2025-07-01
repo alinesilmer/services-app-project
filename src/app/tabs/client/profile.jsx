@@ -94,60 +94,62 @@ export default function ProfileScreen() {
     <>
       <SafeAreaView style={styles.safeArea} />
       <StatusBar style="light" backgroundColor={Colors.blueColor} />
-      <BackButton onPress={() => router.back()} />
+      <View style={styles.container}>
+        <BackButton />
 
-      <SlideUpCard title="Mi Perfil" style={styles.card}>
-        <IconButton
-          name="edit"
-          size={Metrics.iconSmall}
-          color={Colors.textColor}
-          style={styles.editButton}
-          onPress={openModal}
-        />
-
-        <ScrollView contentContainerStyle={styles.scrollView}>
-          <ProfilePic
-            uri={profile.avatar || 'https://i.pinimg.com/736x/9f/16/72/9f1672710cba6bcb0dfd93201c6d4c00.jpg'}
-            size={Metrics.iconXLarge}
-            style={styles.avatar}
+        <SlideUpCard title="Mi Perfil" style={styles.card}>
+          <IconButton
+            name="edit"
+            size={Metrics.iconSmall}
+            color={Colors.textColor}
+            style={styles.editButton}
+            onPress={openModal}
           />
 
-          <Text style={styles.name}>
-            {profile.fullName || 'Usuario'}
-            {isPremiumActive && (<Text style={styles.premiumBadge}> {getPremiumStatusText()}</Text>)}
-          </Text>
+          <ScrollView contentContainerStyle={styles.scrollView}>
+            <ProfilePic
+              uri={profile.avatar || 'https://i.pinimg.com/736x/9f/16/72/9f1672710cba6bcb0dfd93201c6d4c00.jpg'}
+              size={Metrics.iconXXLarge}
+              style={styles.avatar}
+            />
 
-          {userType === 'cliente' && premium.premiumStatus === 'trial' && (
-            <Text style={styles.trialInfo}>¡Actualiza antes de que termine la prueba!</Text>
-          )}
+            <Text style={styles.name}>
+              {profile.fullName || 'Usuario'} {"\n"}
+              {isPremiumActive && (<Text style={styles.premiumBadge}> {getPremiumStatusText()}</Text>)}
+            </Text>
 
-          {[['Email', profile.email], ['Provincia', profile.province], ['Ciudad', profile.department], ['Dirección', profile.address]].map(([label, value]) => (
-            <DisplayField key={label} label={label} value={value || 'No especificado'} style={styles.fieldWrapper} />
-          ))}
-
-          {userType === 'cliente' && (<View style={styles.premiumStatusCard}><Text style={styles.premiumStatusText}>{getPremiumStatusText()}</Text></View>)}
-
-          <View style={styles.buttonsWrapper}>
-            {!isValidUser ? (
-              <CustomButton
-                text="Registrarse"
-                onPress={() => router.push('/auth/register')}
-                style={[styles.button, { backgroundColor: Colors.orangeColor }]}
-              />
-            ) : userType === 'cliente' ? (
-              <>
-                <CustomButton text={getPremiumButtonText()} onPress={handlePremiumAction} style={[styles.button, { backgroundColor: ['inactive','expired'].includes(premium.premiumStatus) ? Colors.orangeColor : Colors.blueColor }]} />
-                <CustomButton text="Cerrar Sesión" onPress={handleLogout} style={[styles.button, { backgroundColor: '#DC3545' }]} />
-              </>
-            ) : (
-              <>
-                <CustomButton text="Mis Servicios" onPress={() => router.push('/tabs/professional/services')} style={[styles.button, { backgroundColor: Colors.blueColor }]} />
-                <CustomButton text="Cerrar Sesión" onPress={handleLogout} style={[styles.button, { backgroundColor: '#DC3545' }]} />
-              </>
+            {userType === 'cliente' && premium.premiumStatus === 'trial' && (
+              <Text style={styles.trialInfo}>¡Actualiza antes de que termine la prueba!</Text>
             )}
-          </View>
-        </ScrollView>
-      </SlideUpCard>
+
+            {[['Email', profile.email], ['Provincia', profile.province], ['Ciudad', profile.department], ['Dirección', profile.address]].map(([label, value]) => (
+              <DisplayField key={label} label={label} value={value || 'No especificado'} />
+            ))}
+
+            {userType === 'cliente' && (<View style={styles.premiumStatusCard}><Text style={styles.premiumStatusText}>{getPremiumStatusText()}</Text></View>)}
+
+            <View style={styles.buttonsWrapper}>
+              {!isValidUser ? (
+                <CustomButton
+                  text="Registrarse"
+                  onPress={() => router.push('/auth/register')}
+                  style={[styles.button, { backgroundColor: Colors.orangeColor }]}
+                />
+              ) : userType === 'cliente' ? (
+                <>
+                  <CustomButton text={getPremiumButtonText()} onPress={handlePremiumAction} style={[styles.button, { backgroundColor: ['inactive','expired'].includes(premium.premiumStatus) ? Colors.orangeColor : Colors.blueColor }]} />
+                  <CustomButton text="Cerrar Sesión" onPress={handleLogout} style={[styles.button, { backgroundColor: '#DC3545' }]} />
+                </>
+              ) : (
+                <>
+                  <CustomButton text="Mis Servicios" onPress={() => router.push('/tabs/professional/services')} style={[styles.button, { backgroundColor: Colors.blueColor }]} />
+                  <CustomButton text="Cerrar Sesión" onPress={handleLogout} style={[styles.button, { backgroundColor: '#DC3545' }]} />
+                </>
+              )}
+            </View>
+          </ScrollView>
+        </SlideUpCard>
+      </View>
 
       <ModalWrapper visible={isModalVisible} title="Editar Perfil" onCancel={closeModal} onSubmit={saveForm}>
         <ScrollView contentContainerStyle={styles.modalScroll}>
@@ -181,8 +183,7 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
   },
   scrollView: {
-    flex: 1,
-        alignItems: 'center',
+    alignItems: 'center',
     paddingBottom: Metrics.marginM,
     flexGrow: 1,
   },
@@ -205,7 +206,7 @@ const styles = StyleSheet.create({
     marginBottom: Metrics.marginM,
   },
   premiumBadge: {
-    fontSize: Metrics.fontM,
+    fontSize: Metrics.fontS,
     color: Colors.orangeColor,
   },
   trialInfo: {
@@ -214,11 +215,11 @@ const styles = StyleSheet.create({
     marginBottom: Metrics.marginS,
   },
   fieldWrapper: {
-    width: '100%',
+    width: wp("100%"),
     marginVertical: Metrics.marginS,
   },
   premiumStatusCard: {
-    padding: Metrics.marginS,
+    padding: Metrics.marginM,
     marginVertical: Metrics.marginS,
   },
   premiumStatusText: {
@@ -230,16 +231,17 @@ const styles = StyleSheet.create({
     marginTop: Metrics.marginS,
   },
   buttonsWrapper: {
+    width: wp("90%"),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: Metrics.marginS,
+    gap: Metrics.marginXS,
   },
   editButton: {
     position: 'absolute',
-    top: Metrics.marginS,
-    right: Metrics.marginS,
+    top: Metrics.marginL,
+    right: Metrics.marginL,
   },
   modalScroll: {
     paddingBottom: Metrics.marginS,

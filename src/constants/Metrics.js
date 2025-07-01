@@ -13,6 +13,7 @@ export const Metrics = {
   fontS: moderateScale(16),
   fontM: moderateScale(18),
   fontL: moderateScale(24),
+  fontLL: moderateScale(30),
   fontXL: moderateScale(38),
   fontXXL: moderateScale(50),
 
@@ -43,6 +44,7 @@ export const Metrics = {
   screenS: verticalScale(400),
   screenMM: verticalScale(450),
   screenM: verticalScale(500),
+  screenML: verticalScale(550),
   screenL: verticalScale(600),
 
   animationS: scale(24),

@@ -9,7 +9,7 @@
       "enabled": false
     },
     "splash": {
-      "image": "./src/assets/images/splash-icon.png",
+      "image": "./src/assets/images/icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#1a2f68"
     },

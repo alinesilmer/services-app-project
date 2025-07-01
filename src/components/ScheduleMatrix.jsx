@@ -75,7 +75,7 @@ export default function ScheduleMatrix({ apptData, onSlotSelect, selectedAppt })
                   ]}
                   onPress={() => handlePress(cell)}
                 >
-                  <Text style={{ color: getTextColor(status, isSelected), fontWeight: 'bold', fontSize: Metrics.fontS }}>
+                  <Text style={{ color: getTextColor(status, isSelected), fontWeight: 'bold', fontSize: Metrics.fontXS }}>
                     {hour}
                   </Text>
                 </TouchableOpacity>
