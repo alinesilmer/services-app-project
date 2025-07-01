@@ -1,6 +1,7 @@
 import { View, Text } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'; 
 import { Metrics } from '../constants/Metrics';
+import { Colors } from '../constants/Colors';
 
 const Rate = ({ rating = 4.8, reviews = 20}) => {
   const fullStars = Math.floor(rating);
@@ -31,7 +32,7 @@ const Rate = ({ rating = 4.8, reviews = 20}) => {
           key={`empty-${index}`}
           name="star-border"
           size={Metrics.iconXSmall}
-          color="#ccc" 
+          color={Colors.disabledColor}
         />
       ))}
 

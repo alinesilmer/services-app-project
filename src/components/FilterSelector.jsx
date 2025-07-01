@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   title: {
-    color: "#ccc",
+    color: Colors.disabledColor,
     fontSize: Metrics.fontS,
     marginBottom: Metrics.marginS,
   },

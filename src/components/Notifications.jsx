@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     padding: Metrics.marginS,
     borderRadius: Metrics.radiusS,
     width: Metrics.screenXS,
-    shadowColor: "#000",
+    shadowColor: Colors.textColor,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: Metrics.radiusS,

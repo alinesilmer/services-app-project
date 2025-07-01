@@ -1,37 +1,45 @@
-"use client"
-import { View, Text, StyleSheet, StatusBar, Platform, Image, ScrollView, TouchableOpacity } from "react-native"
-import { useLocalSearchParams, router } from "expo-router"
-import { Colors } from "../../../constants/Colors"
-import { Metrics } from "../../../constants/Metrics"
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
-import NavBar from "../../../components/NavBar"
-import BackButton from "../../../components/BackButton"
-import SlideUpCard from "../../../components/SlideUpCard"
+"use client";
+import {
+  View,
+  Text,
+  StyleSheet,
+  StatusBar,
+  Platform,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
+import { useLocalSearchParams, router } from "expo-router";
+import { Colors } from "../../../constants/Colors";
+import { Metrics } from "../../../constants/Metrics";
+import NavBar from "../../../components/NavBar";
+import BackButton from "../../../components/BackButton";
+import SlideUpCard from "../../../components/SlideUpCard";
 
 const ProfileDetail = () => {
-  const params = useLocalSearchParams()
+  const params = useLocalSearchParams();
 
   const renderStars = (rating) => {
-    const stars = []
-    const fullStars = Math.floor(rating)
+    const stars = [];
+    const fullStars = Math.floor(rating);
 
     for (let i = 0; i < 5; i++) {
       if (i < fullStars) {
         stars.push(
           <Text key={i} style={styles.starFilled}>
             ★
-          </Text>,
-        )
+          </Text>
+        );
       } else {
         stars.push(
           <Text key={i} style={styles.starEmpty}>
             ★
-          </Text>,
-        )
+          </Text>
+        );
       }
     }
-    return stars
-  }
+    return stars;
+  };
 
   const handleRatingsPress = () => {
     router.push({
@@ -40,8 +48,8 @@ const ProfileDetail = () => {
         profileId: params.profileId,
         professionalName: params.nombre,
       },
-    })
-  }
+    });
+  };
 
   const handleServicesPress = () => {
     router.push({
@@ -51,8 +59,8 @@ const ProfileDetail = () => {
         professionalName: params.nombre,
         profession: params.profesion,
       },
-    })
-  }
+    });
+  };
 
   const handleMessagePress = () => {
     router.push({
@@ -63,8 +71,8 @@ const ProfileDetail = () => {
         professionalAvatar: params.avatar,
         profession: params.profesion,
       },
-    })
-  }
+    });
+  };
 
   const handleAppointmentPress = () => {
     router.push({
@@ -75,12 +83,12 @@ const ProfileDetail = () => {
         profession: params.profesion,
         availability: params.disponibilidad,
       },
-    })
-  }
+    });
+  };
 
   return (
     <View style={styles.safeArea}>
-      <BackButton/>
+      <BackButton />
       <View style={styles.header}>
         <Text style={styles.headerText}>{params.profesion?.toUpperCase()}</Text>
       </View>
@@ -90,7 +98,7 @@ const ProfileDetail = () => {
       </View>
       <Text style={styles.profileName}>{params.nombre?.toUpperCase()}</Text>
 
-      <SlideUpCard showHeader={false}  style={styles.customCard}>
+      <SlideUpCard showHeader={false} style={styles.customCard}>
         <ScrollView
           style={styles.scrollContainer}
           contentContainerStyle={styles.scrollContent}
@@ -98,7 +106,9 @@ const ProfileDetail = () => {
         >
           <TouchableOpacity activeOpacity={0.8} onPress={handleRatingsPress}>
             <View style={styles.ratingSection}>
-              <View style={styles.starsContainer}>{renderStars(Number.parseFloat(params.calificaciones))}</View>
+              <View style={styles.starsContainer}>
+                {renderStars(Number.parseFloat(params.calificaciones))}
+              </View>
               <Text style={styles.ratingText}>(Basado en 95 opiniones)</Text>
             </View>
           </TouchableOpacity>
@@ -131,27 +141,47 @@ const ProfileDetail = () => {
                   <Text style={styles.starFilledComment}>★★★★</Text>
                 </View>
               </View>
-              <Text style={styles.reviewText}>"{params.nombre} entendió exactamente lo que quería.</Text>
+              <Text style={styles.reviewText}>
+                "{params.nombre} entendió exactamente lo que quería.
+              </Text>
             </View>
           </View>
 
-          <TouchableOpacity activeOpacity={0.5} style={styles.allCommentsButton} onPress={handleRatingsPress}>
-            <Text style={styles.allCommentsText}>Ver todos los comentarios +</Text>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            style={styles.allCommentsButton}
+            onPress={handleRatingsPress}
+          >
+            <Text style={styles.allCommentsText}>
+              Ver todos los comentarios +
+            </Text>
           </TouchableOpacity>
 
           <View style={styles.squareButtonsContainer}>
-            <TouchableOpacity activeOpacity={0.8} style={styles.squareButton} onPress={handleServicesPress}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.squareButton}
+              onPress={handleServicesPress}
+            >
               <Text style={styles.squareButtonIcon}>🔧</Text>
               <Text style={styles.squareButtonText}>Servicios</Text>
             </TouchableOpacity>
           </View>
 
           <View style={styles.mainButtonsContainer}>
-            <TouchableOpacity activeOpacity={0.7} style={styles.messageButton} onPress={handleMessagePress}>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              style={styles.messageButton}
+              onPress={handleMessagePress}
+            >
               <Text style={styles.buttonText}>Enviar mensaje</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity activeOpacity={0.7} style={styles.appointmentButton} onPress={handleAppointmentPress}>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              style={styles.appointmentButton}
+              onPress={handleAppointmentPress}
+            >
               <Text style={styles.buttonText}>Solicitar turno</Text>
             </TouchableOpacity>
           </View>
@@ -159,8 +189,8 @@ const ProfileDetail = () => {
       </SlideUpCard>
       <NavBar />
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -225,13 +255,13 @@ const styles = StyleSheet.create({
     borderRadius: Metrics.radiusS,
     marginBottom: Metrics.marginS,
     elevation: 3,
-    shadowColor: "#000",
+    shadowColor: Colors.textColor,
     shadowOffset: {
       width: 0,
       height: 0,
     },
     shadowOpacity: 0.1,
-    shadowRadius: Metrics.radiusS
+    shadowRadius: Metrics.radiusS,
   },
   starsContainer: {
     flexDirection: "row",
@@ -251,7 +281,7 @@ const styles = StyleSheet.create({
   },
   ratingText: {
     fontSize: Metrics.fontS,
-    color: "#666",
+    color: Colors.text666,
   },
   infoSection: {
     marginBottom: Metrics.marginS,
@@ -268,13 +298,13 @@ const styles = StyleSheet.create({
   },
   infoLabel: {
     fontSize: Metrics.fontS,
-    fontWeight: "600",
-    color: "#333",
+    fontWeight: "bold",
+    color: Colors.text333,
     marginRight: Metrics.marginS,
   },
   infoValue: {
-    fontSize: Metrics.fontS,
-    color: "#666",
+    fontSize: Metrics.fontXS,
+    color: Colors.text666,
     flex: 1,
   },
   reviewSection: {
@@ -288,16 +318,19 @@ const styles = StyleSheet.create({
   reviewerName: {
     fontSize: Metrics.fontS,
     fontWeight: "bold",
-    color: "#333",
+    color: Colors.text333,
     marginRight: Metrics.marginS,
+    padding: Metrics.marginS,
   },
   reviewStars: {
     flexDirection: "row",
+    padding: Metrics.marginS,
   },
   reviewText: {
-    fontSize: Metrics.fontS,
-    color: "#666",
+    fontSize: Metrics.fontXS,
+    color: Colors.text666,
     fontStyle: "italic",
+    padding: Metrics.marginS,
   },
   allCommentsButton: {
     alignItems: "center",
@@ -306,7 +339,8 @@ const styles = StyleSheet.create({
   allCommentsText: {
     fontSize: Metrics.fontM,
     color: Colors.blueColor,
-    fontWeight: "600",
+    fontWeight: "bold",
+    padding: Metrics.marginM
   },
   squareButtonsContainer: {
     flexDirection: "row",
@@ -331,7 +365,7 @@ const styles = StyleSheet.create({
   },
   squareButtonText: {
     fontSize: Metrics.fontS,
-    fontWeight: "600",
+    fontWeight: "bold",
     textAlign: "center",
   },
   mainButtonsContainer: {
@@ -339,12 +373,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   messageButton: {
-    backgroundColor: "#000",
+    backgroundColor: Colors.textColor,
     paddingVertical: Metrics.marginM,
     paddingHorizontal: Metrics.marginM,
     borderRadius: Metrics.radiusS,
     elevation: 3,
-    shadowColor: "#000",
+    shadowColor: Colors.textColor,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -354,12 +388,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   appointmentButton: {
-    backgroundColor: "#000",
+    backgroundColor: Colors.textColor,
     paddingVertical: Metrics.marginM,
     paddingHorizontal: Metrics.marginM,
     borderRadius: Metrics.radiusS,
     elevation: 3,
-    shadowColor: "#000",
+    shadowColor: Colors.textColor,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -371,8 +405,8 @@ const styles = StyleSheet.create({
   buttonText: {
     color: Colors.whiteColor,
     fontSize: Metrics.fontS,
-    fontWeight: "600",
+    fontWeight: "bold",
   },
-})
+});
 
-export default ProfileDetail
+export default ProfileDetail;

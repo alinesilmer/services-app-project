@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: Metrics.fontL,
-    fontWeight: "700",
+    fontWeight: "bold",
     color: Colors.whiteColor,
     textAlign: "center",
     marginBottom: Metrics.marginS,
@@ -262,7 +262,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   unreadBadgeText: {
-    color: "white",
+    color: Colors.light.background,
     fontSize: Metrics.fontXS,
     fontWeight: "bold",
   },
@@ -277,12 +277,12 @@ const styles = StyleSheet.create({
   },
   chatName: {
     fontSize: Metrics.fontM,
-    fontWeight: "600",
+    fontWeight: "bold",
     color: Colors.whiteColor
   },
   chatSpecialty: {
     fontSize: Metrics.fontS,
-    color: "#ccc",
+    color: Colors.disabledColor,
   },
   statusDot: {
     width: Metrics.marginM,
@@ -314,14 +314,14 @@ const styles = StyleSheet.create({
   },
   emptyStateText: {
     fontSize: Metrics.fontS,
-    fontWeight: "600",
+    fontWeight: "bold",
     color: Colors.blueColor,
     textAlign: "center",
     marginBottom: Metrics.marginS,
   },
   emptyStateSubtext: {
     fontSize: Metrics.fontS,
-    color: "#666",
+    color: Colors.text666,
     textAlign: "center",
   },
   messageRow: {
@@ -341,7 +341,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: Metrics.marginS,
     borderTopWidth: Metrics.marginXS,
-    borderColor: "#ccc",
+    borderColor: Colors.disabledColor,
     backgroundColor: Colors.whiteColor,
   },
   input: {

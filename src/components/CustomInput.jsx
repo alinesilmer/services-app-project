@@ -31,7 +31,8 @@ const CustomInput = ({
   isPassword = false,
   onIconPress,
   icon,
-  style
+  style,
+  keyboardType
 }) => {
   return (
     <View style={[styles.container, style]}>
@@ -40,14 +41,15 @@ const CustomInput = ({
         <TextInput
           style={[styles.input, style, error && styles.errorInput]}
           placeholder={placeholder}
-          placeholderTextColor="#666"
+          placeholderTextColor={Colors.text666}
           value={value}
           onChangeText={onChangeText}
           secureTextEntry={secureTextEntry}
+          keyboardType={keyboardType}
         />
         {isPassword && (
           <TouchableOpacity onPress={onIconPress} style={styles.icon}>
-            <Feather name={icon} size={Metrics.fontM} color="#666" />
+            <Feather name={icon} size={Metrics.fontM} color={Colors.text666} />
           </TouchableOpacity>
         )}
       </View>

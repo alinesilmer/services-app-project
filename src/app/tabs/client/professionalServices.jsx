@@ -8,9 +8,11 @@ import {
   Platform,
   ScrollView,
   Modal,
+  BackHandler,
   Image,
 } from "react-native"
 import { useState, useEffect } from "react"
+
 import { useLocalSearchParams, router } from "expo-router"
 import { Colors } from "../../../constants/Colors"
 import { Metrics } from "../../../constants/Metrics"
@@ -50,9 +52,9 @@ const ProfessionalServices = () => {
 
   const generateServicePhotos = (serviceName) => {
     const basePhotos = [
-      "https://https://media.istockphoto.com/id/1049775258/es/foto/sonriendo-a-apuesto-electricista-reparaci%C3%B3n-caja-el%C3%A9ctrica-con-alicates-en-corredor-y-mirando.jpg?s=612x612&w=0&k=20&c=z9-BkHlmyIyleDNSrZj3nx65WizQy8YeYluaPdyRV5k=.me/api/portraits/men/1.jpg",
-      "https://img.freepik.com/foto-gratis/manitas-sitio-construccion-proceso-perforacion-pared-perforador_169016-12114.jpg?semt=ais_items_boosted&w=740/api/portraits/women/1.jpg",
-      "https://img.freepik.com/fotos-premium/carpinteria-carpinteria-fabricacion-muebles-carpintero-profesional-cortando-madera-carpinteria-concepto-industrial_310913-414.jpg/2.jpg",
+      "https://laextra.mx/wp-content/uploads/2024/01/Pintor.png",
+      "https://img.freepik.com/foto-gratis/manitas-sitio-construccion-proceso-perforacion-pared-perforador_169016-12114.jpg",
+      "https://img.freepik.com/fotos-premium/carpinteria-carpinteria-fabricacion-muebles-carpintero-profesional-cortando-madera-carpinteria-concepto-industrial_310913-414.jpg",
       "https://wallpapers.com/images/hd/service-plumber-plumbing-system-maintenance-x0tn63qvfcup31a7.jpg",
       "https://cdn.computerhoy.com/sites/navi.axelspringer.es/public/media/image/2020/02/programador-1869619.jpg?tf=3840x",
       "https://i.pinimg.com/564x/17/de/74/17de74b9a0064dc323112e37413b243b.jpg",
@@ -77,6 +79,22 @@ const ProfessionalServices = () => {
     return selectedPhotos
   }
 
+  useEffect(() => {
+  const backAction = () => {
+    if (showServiceModal) {
+      setShowServiceModal(false)
+      return true // Intercepta y evita que cierre la pantalla
+    }
+    return false // Deja que siga con el comportamiento normal
+  }
+
+  const backHandler = BackHandler.addEventListener(
+    "hardwareBackPress",
+    backAction
+  )
+
+  return () => backHandler.remove()
+}, [showServiceModal])
 
   const getServicePrice = (serviceName) => {
     const service = mockServices.find(
@@ -132,7 +150,6 @@ const ProfessionalServices = () => {
 
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Servicios</Text>
-        <View style={styles.placeholder} />
       </View>
 
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
@@ -156,7 +173,7 @@ const ProfessionalServices = () => {
                   <Text style={styles.serviceName}>{serviceObj.servicio}</Text>
                   <Text style={styles.servicePrice}>{getServicePrice(serviceObj.servicio)}</Text>
                 </View>
-                <Feather name="chevron-right" size={Metrics.iconSmall} color="#ccc" />
+                <Feather name="chevron-right" size={Metrics.iconSmall} color={Colors.disabledColor} />
               </View>
             </TouchableOpacity>
           ))}
@@ -182,7 +199,8 @@ const ProfessionalServices = () => {
         <AdsImage onPress isPremium={userIsPremium} />
       </ScrollView>
 
-      <Modal visible={showServiceModal} transparent={true} animationType="slide">
+      <Modal visible={showServiceModal} transparent={true} animationType="slide" 
+  onRequestClose={() => setShowServiceModal(false)}>
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             {selectedService && (
@@ -190,7 +208,7 @@ const ProfessionalServices = () => {
                 <View style={styles.modalHeader}>
                   <Text style={styles.modalTitle}>{selectedService.name}</Text>
                   <TouchableOpacity onPress={() => setShowServiceModal(false)}>
-                    <Feather name="x" size={Metrics.iconSmall} color="#666" />
+                    <Feather name="x" size={Metrics.iconSmall} color={Colors.text666} />
                   </TouchableOpacity>
                 </View>
 
@@ -248,34 +266,30 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     color: Colors.whiteColor,
-    fontSize: Metrics.fontM,
+    fontSize: Metrics.fontXL,
     fontWeight: "bold",
   },
-  placeholder: {
-    width: 40,
-  },
   content: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: Colors.whiteColor,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingTop: 30,
-    paddingHorizontal: Metrics.mar,
+    paddingHorizontal: Metrics.marginL,
   },
   servicesHeader: {
     alignItems: "center",
-    marginBottom: Metrics.marginS,
   },
   servicesSubtitle: {
-    fontSize: Metrics.fontM,
-    fontWeight: "600",
-    color: "#666",
+    fontSize: Metrics.fontL,
+    fontWeight: "bold",
+    color: Colors.text666,
     textAlign: "center",
     marginTop: Metrics.marginS,
   },
   priceNote: {
     fontSize: Metrics.fontS,
-    color: "#ff6b6b",
+    color: Colors.orangeColor,
     textAlign: "center",
     marginTop: Metrics.marginS,
     fontStyle: "italic",
@@ -288,7 +302,7 @@ const styles = StyleSheet.create({
     borderRadius: Metrics.radiusS,
     marginBottom: Metrics.marginS,
     elevation: 2,
-    shadowColor: "#000",
+    shadowColor: Colors.textColor,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: Metrics.radiusS,
@@ -312,13 +326,13 @@ const styles = StyleSheet.create({
   },
   serviceName: {
     fontSize: Metrics.fontM,
-    fontWeight: "600",
-    color: "#333",
+    fontWeight: "bold",
+    color: Colors.text333,
     marginBottom: Metrics.marginS,
   },
   servicePrice: {
     fontSize: Metrics.fontS,
-    color: "#666",
+    color: Colors.text666,
   },
   professionalInfo: {
     backgroundColor: "#f8f9fa",
@@ -330,12 +344,12 @@ const styles = StyleSheet.create({
   professionalName: {
     fontSize: Metrics.fontM,
     fontWeight: "bold",
-    color: "#333",
+    color: Colors.text333,
     marginBottom: Metrics.marginS,
   },
   professionalCategory: {
     fontSize: Metrics.fontS,
-    color: "#666",
+    color: Colors.text666,
     marginBottom: Metrics.marginS,
   },
   ratingContainer: {
@@ -344,12 +358,12 @@ const styles = StyleSheet.create({
   },
   rating: {
     fontSize:Metrics.fontS,
-    color: "#333",
+    color: Colors.text333,
     marginLeft: Metrics.marginS,
   },
   location: {
     fontSize:Metrics.fontS,
-    color: "#666",
+    color: Colors.text666,
     marginLeft: Metrics.marginS,
   },
   actionButtons: {
@@ -364,10 +378,10 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     backgroundColor: Colors.whiteColor,
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
-    maxHeight: Metrics.ionXXL,
-    paddingBottom: 20,
+    borderTopLeftRadius: Metrics.marginL,
+    borderTopRightRadius: Metrics.marginL,
+    height: Metrics.screenM,
+    paddingBottom: Metrics.marginM,
   },
   modalHeader: {
     flexDirection: "row",
@@ -375,19 +389,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: Metrics.marginS,
     borderBottomWidth: 1,
-    borderBottomColor: "#f0f0f0",
+    borderBottomColor: Colors.dark.tint,
   },
   modalTitle: {
+    flexDirection: "row",
     fontSize: Metrics.fontM,
     fontWeight: "bold",
-    color: "#333",
+    color: Colors.text333,
     flex: 1,
+    textAlign: "center",
+    left: Metrics.marginM,
   },
   modalPriceContainer: {
     alignItems: "center",
     paddingVertical: Metrics.marginS,
     borderBottomWidth: 1,
-    borderBottomColor: "#f0f0f0",
+    borderBottomColor: Colors.inputGray,
     marginHorizontal: Metrics.marginM,
   },
   modalPrice: {
@@ -397,7 +414,7 @@ const styles = StyleSheet.create({
   },
   modalPriceNote: {
     fontSize: Metrics.fontS,
-    color: "#666",
+    color: Colors.text666,
     marginTop: Metrics.marginS
   },
   modalDescriptionContainer: {
@@ -406,7 +423,7 @@ const styles = StyleSheet.create({
   modalDescription: {
     marginTop: Metrics.marginS,
     fontSize: Metrics.fontS,
-    color: "#666",
+    color: Colors.text666,
     lineHeight: Metrics.marginXS,
     textAlign: "center",
   },
@@ -417,8 +434,9 @@ const styles = StyleSheet.create({
   galleryTitle: {
     fontSize: Metrics.fontM,
     fontWeight: "bold",
-    color: "#333",
-    marginBottom: Metrics.marginS,
+    color: Colors.text333,
+    marginBottom: Metrics.marginM,
+    marginTop: Metrics.marginM,
     textAlign: "center",
   },
   photosGrid: {
@@ -434,7 +452,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     backgroundColor: "#f5f5f5",
     elevation: 2,
-    shadowColor: "#000",
+    shadowColor: Colors.textColor,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: 3,
@@ -457,15 +475,15 @@ const styles = StyleSheet.create({
   modalAppointmentButtonText: {
     color: Colors.whiteColor,
     fontSize: Metrics.fontS,
-    fontWeight: "600",
+    fontWeight: "bold",
   },
   messageButton: {
-    backgroundColor: "#000",
+    backgroundColor: Colors.textColor,
     paddingVertical: Metrics.marginS,
     paddingHorizontal: Metrics.marginS,
     borderRadius: Metrics.radiusS,
     elevation: 3,
-    shadowColor: "#000",
+    shadowColor: Colors.textColor,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -474,12 +492,12 @@ const styles = StyleSheet.create({
     shadowRadius: Metrics.radiusS,
   },
   appointmentButton: {
-    backgroundColor: "#000",
+    backgroundColor: Colors.textColor,
     paddingVertical: Metrics.marginS,
     paddingHorizontal: Metrics.marginS,
     borderRadius: Metrics.radiusS,
     elevation: 3,
-    shadowColor: "#000",
+    shadowColor: Colors.textColor,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -490,7 +508,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: Colors.whiteColor,
     fontSize: Metrics.fontS,
-    fontWeight: "600",
+    fontWeight: "bold",
     textAlign: "center",
   },
 })

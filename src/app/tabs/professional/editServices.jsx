@@ -1,8 +1,7 @@
-import { FlatList, SafeAreaView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {  SafeAreaView, Modal,StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useState, useEffect } from "react";
 import { Colors } from "../../../constants/Colors";
 import { Metrics } from "../../../constants/Metrics";
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 import NavBar from "../../../components/NavBar";
 import SlideUpCard from "../../../components/SlideUpCard";
 import Services from "../../../data/mockServices";
@@ -10,6 +9,7 @@ import mockServices from "../../../data/mockServices";
 import { getCompleteUserData } from "../../../utils/storage"; 
 import ProfilePic from "../../../components/ProfilePic";
 import BackButton from "../../../components/BackButton";
+import AnimationFeedback from "../../../components/AnimationFeedback"
 import ModalWrapper from "../../../components/ModalWrapper";
 import { Feather } from "@expo/vector-icons";
 import { ScrollView } from "react-native";
@@ -17,6 +17,8 @@ import { ScrollView } from "react-native";
 
 export default function ProfessionalServices() {
     const [usuario, setUsuario] = useState(null);
+    const [showDeleteAnimation, setShowDeleteAnimation] = useState(false)
+const [deletedServiceName, setDeletedServiceName] = useState('')
     const [modalVisible, setModalVisible] = useState(false);
     const [editingService, setEditingService] = useState(null);
     const [serviceName, setServiceName] = useState('');
@@ -62,17 +64,16 @@ export default function ProfessionalServices() {
     
     
 
-    const getServicePrice = (serviceName) => {
-        const service = mockServices.find(
-            (s) => s.servicio === serviceName && s.idProfesional === Number.parseInt(usuario.id),
-        )
+const getServicePrice = (serviceName) => {
+  const service = services.find(
+    (s) => s.servicio === serviceName && s.idProfesional === Number.parseInt(usuario.id),
+  )
 
-        if (service) {
-            return service.precio === 0 ? "Gratis" : `Desde $${service.precio.toLocaleString()}`
-        }
+  if (service) {
+    return service.precio === 0 ? "Gratis" : `Desde $${service.precio.toLocaleString()}`
+  }
 
-        return "Consultar precio"
-    }
+  return "Consultar precio"}
     
     const openServiceModal = (service = null) => {
         setEditingService(service);
@@ -111,9 +112,18 @@ export default function ProfessionalServices() {
         setServicePrice('');
     };
 
-    const handleDeleteService = (id) => {
-        setServices( prev => prev.filter(s => s.id !== id))
-    }
+const handleDeleteService = (id) => {
+  const servicio = services.find(s => s.id === id)
+  setDeletedServiceName(servicio?.servicio || '')
+  setShowDeleteAnimation(true)
+
+  setTimeout(() => {
+    setServices(prev => prev.filter(s => s.id !== id))
+    setProfessionalServices(prev => prev.filter(s => s.id !== id))
+    setShowDeleteAnimation(false)
+    setDeletedServiceName('')
+  }, 1500)
+}
 
     const SERVICES = Services.filter(serv => serv.idProfesional === usuario.id);
     return(<View style={styles.container}>
@@ -138,8 +148,8 @@ export default function ProfessionalServices() {
             </View>
             
 
-            <Text style={[styles.userProfile, { marginLeft: -Metrics.marginM}]}>Servicios que Ofrezco{'\n'}</Text>
-            <ScrollView showsVerticalScrollIndicator={false} style={ styles.scroll}>
+            <Text style={[styles.userProfile, { textAlign: "center", top: Metrics.marginS }]}>Servicios que ofrezco{'\n'}</Text>
+            <ScrollView showsVerticalScrollIndicator={false} style={ styles.scroll} contentContainerStyle={{ paddingBottom: Metrics.iconXXLarge }}>
                 <View style={styles.servicesContainer}>
                     {professionalServices.map((serviceObj, index) => (
                         <TouchableOpacity
@@ -150,18 +160,18 @@ export default function ProfessionalServices() {
                         >
                             <View style={styles.serviceContent}>
                                 <View style={styles.serviceIcon}>
-                                    <Feather name="image" size={Metrics.iconSmall} color={Colors.blueColor} />
+                                    <Feather name="image" size={Metrics.iconXSmall} color={Colors.blueColor} />
                                 </View>
                                 <View style={styles.serviceInfo}>
                                     <Text style={styles.serviceName}>{serviceObj.servicio}</Text>
                                     <Text style={styles.servicePrice}>{getServicePrice(serviceObj.servicio)}</Text>
                                 </View>
                                 <View style={styles.editIcons}>
-                                    <TouchableOpacity onPress={() => openServiceModal(serviceObj)}>
+                                    <TouchableOpacity activeOpacity={0.5} onPress={() => openServiceModal(serviceObj)}>
                                         <Feather name="edit-3" size={Metrics.iconSmall} color={Colors.textColor} />
                                     </TouchableOpacity>
-                                    <TouchableOpacity onPress={() => handleDeleteService(serviceObj.id)}>
-                                        <Feather name="trash-2" size={Metrics.iconSmall} color={Colors.errorColor} />
+                                    <TouchableOpacity activeOpacity={0.5} onPress={() => handleDeleteService(serviceObj.id)}>
+                                        <Feather name="trash-2" size={Metrics.iconSmall} color={Colors.orangeColor} />
                                     </TouchableOpacity>
                                 </View>
                             </View>
@@ -205,6 +215,16 @@ export default function ProfessionalServices() {
                 style= {{ borderBottomWidth: Metrics.marginXS, marginBottom: Metrics.marginS }}
             />
         </ModalWrapper>
+            <Modal visible={showDeleteAnimation} transparent animationType="fade">
+  <View style={styles.animationOverlay}>
+    <View style={styles.animationContainer}>
+      <AnimationFeedback type="delete" />
+      <Text style={styles.deleteTitle}>
+        {`Servicio eliminado`}
+      </Text>
+    </View>
+  </View>
+</Modal>
         <NavBar />
     </View>);
 }
@@ -214,49 +234,54 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: Colors.blueColor,
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "flex-end",
     },
     editTitle: {
         marginTop: Metrics.marginS,
         marginHorizontal: 'auto',
         fontSize: Metrics.fontM,
-        fontWeight: 900,
+        fontWeight: "bold",
         color: Colors.whiteColor
     },
     profileContainer: {
         flexDirection: 'row',
-        width: wp('100%'),
+        width: Metrics.animationXL,
         justifyContent: 'space-evenly',
-        marginBottom: Metrics.marginS,
+        marginBottom: Metrics.marginXS,
     },
     profilePhoto: {
-        borderColor: '#000',
+        borderColor: Colors.textColor,
         borderWidth: Metrics.marginXS,
         borderRadius: Metrics.radiusM,
     },
     userProfile: {
-        fontSize: Metrics.fontM,
-        fontWeight: 700,
+        fontSize: Metrics.fontL,
+        fontWeight: "bold",
         marginVertical: 'auto',
+        marginLeft: Metrics.marginM,
+        
     },
     userAddress: {
-        fontSize: Metrics.fontS
+        top: -Metrics.marginL,
+        fontSize: Metrics.fontXS,
+        textAlign: "center"
+        
     },
     slideUpCard: {
         position: "absolute",
         bottom: 0,
-        height: Metrics.screenM,
+        height: Metrics.screenL,
         alignItems: "stretch",
     },
     servicesContainer: {
         marginBottom: Metrics.marginXS,
     },
     serviceItem: {
-        backgroundColor: "#f8f9fa",
+        backgroundColor: Colors.whiteColor,
         borderRadius: Metrics.radiusS,
         marginBottom: Metrics.marginS,
         elevation: 2,
-        shadowColor: "#000",
+        shadowColor: Metrics.textColor,
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.1,
         shadowRadius: Metrics.radiusS
@@ -265,13 +290,10 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         padding: Metrics.marginS,
-        minWidth: '65%',
     },
     serviceIcon: {
-        width: 40,
-        height: 40,
         borderRadius: Metrics.radiusS,
-        backgroundColor: "#e3f2fd",
+        backgroundColor: Colors.whiteColor,
         justifyContent: "center",
         alignItems: "center",
         marginRight: Metrics.marginS,
@@ -280,22 +302,44 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     editIcons: {
-        width: Metrics.iconMedium,
+        width: Metrics.iconXXXLarge,
         flexDirection: 'row',
-        justifyContent: 'space-around',
+        justifyContent: "space-between"
     },
     serviceName: {
-        fontSize: Metrics.fontL,
-        fontWeight: "600",
-        color: "#333",
-        marginBottom: Metrics.marginS,
+        fontSize: Metrics.fontS,
+        fontWeight: "bold",
+        color: Colors.textColor,
+        marginBottom: Metrics.marginXS,
+        marginTop: Metrics.marginXS,
     },
     servicePrice: {
-        fontSize: Metrics.fontM,
-        color: "#666",
+        fontSize: Metrics.fontXS,
+        color: Colors.tintColorLight,
     },
     scroll: { 
         paddingHorizontal: Metrics.marginS,
-        width: wp('85%'),
-    }
+        width: "100%"
+    },
+      animationOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  animationContainer: {
+    backgroundColor: Colors.whiteColor,
+    borderRadius: Metrics.radiusS,
+    padding: Metrics.marginL,
+    alignItems: "center",
+    minWidth: Metrics.animationXL,
+  },
+  deleteTitle: {
+    fontSize: Metrics.fontS,
+    fontWeight: "bold",
+    color: Colors.textColor,
+    marginTop: Metrics.marginS,
+    marginBottom: Metrics.marginL,
+    textAlign: "center",
+  },
 });
