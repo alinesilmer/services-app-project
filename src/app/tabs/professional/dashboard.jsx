@@ -91,7 +91,7 @@ export default function ProfessionalDashboard() {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollContent}
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-        >
+        > 
 
           <View style={styles.userInfoSection}>
             <ProfilePic
