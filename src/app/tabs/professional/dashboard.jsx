@@ -88,14 +88,15 @@ export default function ProfessionalDashboard() {
       <SlideUpCard title={greeting} subtitle={subtitle} style={styles.card}>
         <ScrollView
           style={styles.scrollView}
+          showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollContent}
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-        >
+        > 
 
           <View style={styles.userInfoSection}>
             <ProfilePic
               uri={userData?.avatar || "https://randomuser.me/api/portraits/men/73.jpg"}
-              size={Metrics.marginL}
+              size={Metrics.marginTotal}
               style={styles.avatar}
             />
             <View style={styles.userTextInfo}>
@@ -157,14 +158,13 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.blueColor
   },
   card: {
-    position: "absolute",
-    bottom: 0,
-    height: Metrics.screenM,
+    marginTop: Metrics.topSpace,
+    height: Metrics.screenL,
     alignItems: "stretch",
   },
   scrollView: {
     flex: 1,
-    width: wp("100%"),
+    width: "100%",
   },
   scrollContent: {
     flexGrow: 1,
@@ -181,21 +181,23 @@ const styles = StyleSheet.create({
 
   userInfoSection: {
     flexDirection: "row",
-    alignItems: "center",
-    marginBottom: Metrics.marginS,
+    alignItems: 'center',
+    gap: Metrics.marginL,
+    marginBottom: Metrics.marginXL,
   },
   avatar: {
-    marginRight: Metrics.marginS,
+    margin: Metrics.marginS,
   },
   userTextInfo: {
-    flex: 1
+    flex: 1,
+    alignItems: 'center',
   },
   userName: {
-    fontSize: Metrics.fontXS,
+    fontSize: Metrics.fontL,
     fontWeight: "bold"
   },
   userProfession: {
-    fontSize: Metrics.fontXS,
+    fontSize: Metrics.fontS,
     color: Colors.grayColor,
     marginBottom: Metrics.marginS,
   },
