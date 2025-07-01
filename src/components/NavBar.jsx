@@ -8,7 +8,6 @@ import { Feather } from "@expo/vector-icons"
 import { useRouter, usePathname } from "expo-router"
 import { Colors } from "../constants/Colors"
 import { Metrics } from "../constants/Metrics"
-import { widthPercentageToDP as wp } from "react-native-responsive-screen"
 import { getUserProfile, isUserLoggedIn } from "../utils/storage"
 
 const NavBar = () => {
@@ -96,7 +95,7 @@ const NavBar = () => {
 
 const styles = StyleSheet.create({
   container: {
-    width: wp("100%"),
+    width: Metrics.animationXXXL,
     height: Metrics.navBarArea,
     flexDirection: "row",
     backgroundColor: Colors.blueColor,
