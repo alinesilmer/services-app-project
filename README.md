@@ -7,7 +7,7 @@ Aplicación móvil desarrollada con **React Native + Expo** para gestionar turno
 ## 🚀 Características principales
 
 - ✅ 📅 Reserva de turnos con calendario y selección de horarios.
-- ⏱ 👩‍💼 Navegación por perfiles de profesionales.
+- ✅ 👩‍💼 Navegación por perfiles de profesionales.
 - ✅ 💬 Sistema de comentarios y valoraciones.
 - ✅ 📢 Usuarios básicos y premium.
 - ✅ 🎥 Animaciones Lottie para feedback visual.
